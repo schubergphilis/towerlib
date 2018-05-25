@@ -1,0 +1,61 @@
+# Packages
+*.egg
+*.egg-info
+/dist/
+/build/
+/eggs/
+/parts/
+/var/
+/sdist/
+/develop-eggs/
+.installed.cfg
+/lib/
+/lib64/
+/_build
+
+*.py[cod]
+
+# C extensions
+*.so
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+htmlcov
+test-output
+
+# Translations
+*.mo
+
+# Mr Developer
+.mr.developer.cfg
+.project
+.pydevproject
+
+# Complexity
+output/*.html
+output/*/index.html
+
+# Sphinx
+docs/_build
+
+# pyCharm
+.idea
+
+# VirtualEnv
+env
+env*
+.venv
+
+# Mac
+.DS_Store
+
+#Visual Studio Code
+.vscode
+
+# python env file
+.env

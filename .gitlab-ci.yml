@@ -1,0 +1,39 @@
+stages:
+  - lint
+  - test
+  - build
+  - upload
+
+lint:
+  tags:
+    - docker
+  stage: lint
+  image: # docker with python 2.7 and pipenv installed
+  script:
+    - _CI/scripts/lint
+
+test:
+  tags:
+    - docker
+  stage: test
+  image: # docker with python 2.7 and pipenv installed
+  script:
+    - _CI/scripts/test
+
+build:
+  tags:
+    - docker
+  stage: build
+  image: # docker with python 2.7 and pipenv installed
+  script:
+    - _CI/scripts/build
+
+upload:
+  tags:
+    - docker
+  stage: upload
+  image: # docker with python 2.7 and pipenv installed
+  only:
+    - tags
+  script:
+    - _CI/scripts/upload

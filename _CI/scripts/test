@@ -1,0 +1,31 @@
+#!/bin/bash --login
+cd $(dirname $0)/../..
+
+. ./_CI/scripts/bootstrap
+
+# cleaning up the directory
+rm -rf test-output
+mkdir -p test-output
+
+# make sure that no test is executable so it is not skipped
+chmod -x tests/*.py
+
+# locking dependencies
+echo "Locking pipenv dependencies"
+pipenv lock
+
+echo "Creating requirements.txt"
+./_CI/bin/create_requirements.py default
+
+echo "Creating dev-requirements.txt"
+./_CI/bin/create_requirements.py develop
+
+# we run tox
+pipenv run tox
+
+EXIT_CODE=$?
+open test-output/coverage/index.html 2> /dev/null|| xdg-open test-output/coverage/index.html &
+sleep 1
+open test-output/nosetests.html 2> /dev/null|| xdg-open test-output/nosetests.html &
+
+exit "${EXIT_CODE}"
