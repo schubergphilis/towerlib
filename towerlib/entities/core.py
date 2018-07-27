@@ -282,3 +282,49 @@ class Entity(object):
         """
         response = self._tower.session.delete(self.url)
         return response.ok
+
+
+class EntityManager(object):
+    """Manages entities by making them act like iterables but also implements contains and other useful stuff."""
+
+    def __init__(self, tower_instance, entity_object, primary_match_field, entity_name=None, url=None):  # pylint: disable=too-many-arguments
+        if not any([entity_name, url]):
+            raise ValueError('Either entity_name or url needs to be provided, received none.')
+        self._tower = tower_instance
+        self._object_type = entity_object
+        self._primary_match_field = primary_match_field
+        self._name = entity_name
+        self._next_state = None
+        if entity_name:
+            self._url = '{api}/{entity_name}'.format(api=self._tower.api, entity_name=entity_name)
+        else:
+            self._url = '{host}{url}'.format(host=self._tower.host, url=url)
+
+    @property
+    def _objects(self):
+        return self._get_entity_objects()
+
+    def _get_entity_objects(self, params=None):
+        module = __import__('towerlib.entities')
+        entity_object = getattr(module, self._object_type)
+        for data in self._tower._get_paginated_response(self._url, params=params):  # pylint: disable=protected-access
+            yield entity_object(self._tower, data)
+
+    def __iter__(self):
+        return self._objects
+
+    def __contains__(self, value):
+        return next(self.filter({self._primary_match_field: value}), False)
+
+    def filter(self, params):
+        """Implements filtering based on the filtering capabilities of tower
+
+        Args:
+            params: Dictionary of filters to be passed to the api
+
+        Returns:
+              Generator of the objects retrieved based on the filtering
+        https://docs.ansible.com/ansible-tower/latest/html/towerapi/filtering.html
+
+        """
+        return self._get_entity_objects(params)

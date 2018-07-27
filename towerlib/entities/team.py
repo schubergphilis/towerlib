@@ -40,7 +40,7 @@ from towerlib.towerlibexceptions import (InvalidUser,
                                          InvalidJobTemplate,
                                          InvalidInventory,
                                          InvalidCredential)
-from .core import Entity
+from .core import Entity, EntityManager
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -100,23 +100,26 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         """The roles
 
         Returns:
-            list: A list of Role objects supported
+            EntityManager: EntityManager of the roles
 
         """
         url = self._data.get('related', {}).get('roles')
-        return self._tower._get_object_list_by_url('Role', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='Role', primary_match_field='name', url=url)
 
     @property
     def object_roles(self):
         """The object roles
 
         Returns:
-            dict: The object roles supported
+            EntityManager: EntityManager of the object roles supported
 
         """
         if not self._object_roles:
             url = self._data.get('related', {}).get('object_roles')
-            self._object_roles = self._tower._get_object_list_by_url('ObjectRole', url)  # pylint: disable=protected-access
+            self._object_roles = EntityManager(self._tower,
+                                               entity_object='ObjectRole',
+                                               primary_match_field='name',
+                                               url=url)
         return self._object_roles
 
     @property
@@ -127,40 +130,40 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
             list: A list of strings for the object_roles
 
         """
-        return [object_role.name for object_role in self.object_roles]
+        return (object_role.name for object_role in self.object_roles)
 
     @property
     def users(self):
         """The users of the team
 
         Returns:
-            list: A list of User objects for the users of the team
+            EntityManager: EntityManager of the users
 
         """
         url = self._data.get('related', {}).get('users')
-        return self._tower._get_object_list_by_url('User', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='User', primary_match_field='username', url=url)
 
     @property
     def credentials(self):
         """The credentials of the team
 
         Returns:
-            list: A list of Credential objects for the credentials of the team
+            EntityManager: EntityManager of the credentials
 
         """
         url = self._data.get('related', {}).get('credentials')
-        return self._tower._get_object_list_by_url('Credential', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='Credential', primary_match_field='name', url=url)
 
     @property
     def projects(self):
         """The projects of the team
 
         Returns:
-            list: A list of Project objects for the projects of the team
+            EntityManager: EntityManager of the projects
 
         """
         url = self._data.get('related', {}).get('projects')
-        return self._tower._get_object_list_by_url('Project', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='Project', primary_match_field='name', url=url)
 
     def add_user_as_member(self, username):
         """Adds a user as a member of the team

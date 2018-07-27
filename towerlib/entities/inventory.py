@@ -39,7 +39,7 @@ from dateutil.parser import parse
 from towerlib.towerlibexceptions import InvalidVariables, InvalidHost, InvalidGroup
 from .host import Host
 from .group import Group
-from .core import Entity
+from .core import Entity, EntityManager
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -79,11 +79,11 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         """The object roles
 
         Returns:
-            dict: The object roles supported
+            EntityManager: EntityManager of the object roles supported
 
         """
         url = self._data.get('related', {}).get('object_roles')
-        return self._tower._get_object_list_by_url('ObjectRole', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='ObjectRole', primary_match_field='name', url=url)
 
     @property
     def object_role_names(self):
@@ -263,8 +263,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
             list of Host: The hosts of the inventory
 
         """
-        return [host for host in self._tower.hosts
-                if host.inventory.id == self.id]
+        return self._tower.hosts.filter({'inventory': self.id})
 
     @property
     def groups(self):
@@ -274,8 +273,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
             list of Group: The groups of the inventory
 
         """
-        return [group for group in self._tower.groups
-                if group.inventory.id == self.id]
+        return self._tower.groups.filter({'inventory': self.id})
 
     def create_group(self, name, description, variables='{}'):
         """Creates a group
@@ -318,8 +316,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
             InvalidGroup: The group provided as argument does not exist.
 
         """
-        group = next((group for group in self.groups
-                      if group.name.lower() == name.lower()), None)
+        group = self._tower.get_group_by_name(name)
         if not group:
             raise InvalidGroup(name)
         return group.delete()
@@ -367,8 +364,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
             InvalidHost: The host provided as argument does not exist.
 
         """
-        host = next((host for host in self._tower.hosts
-                     if host.name.lower() == name.lower()), None)
+        host = self._tower.get_host_by_name(name)
         if not host:
             raise InvalidHost(name)
         return host.delete()

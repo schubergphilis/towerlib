@@ -40,7 +40,7 @@ import concurrent.futures
 from requests import Session
 from cachetools import TTLCache, cached
 
-from .entities import (Config,
+from .entities import (Config,  # pylint: disable=unused-import  # NOQA
                        LicenseInfo,
                        LicenseFeatures,
                        Organization,
@@ -50,17 +50,15 @@ from .entities import (Config,
                        Group,
                        Inventory,
                        Host,
-                       Instance,
-                       InstanceGroup,
                        CredentialType,
                        Credential,
                        JobTemplate,
-                       Role,
                        CERTIFICATE_TYPE_KINDS,
                        JOB_TYPES,
                        VERBOSITY_LEVELS,
                        Cluster,
-                       ClusterInstance)
+                       ClusterInstance,
+                       EntityManager)
 from .towerlibexceptions import (AuthFailed,
                                  InvalidOrganization,
                                  InvalidInventory,
@@ -185,12 +183,13 @@ class Tower(object):  # pylint: disable=too-many-public-methods
         """The organizations configured in tower
 
         Returns:
-            list of Organizations: The organizations configured in tower
+            EntityManager: The manager object for organizations
 
         """
-        url = '{api}/organizations'.format(api=self.api)
-        results = self._get_paginated_response(url)
-        return [Organization(self, data) for data in results]
+        return EntityManager(self,
+                             entity_name='organizations',
+                             entity_object='Organization',
+                             primary_match_field='name')
 
     def get_organization_by_name(self, name):
         """Retrieves an organization by name
@@ -202,8 +201,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             Organization: The organization if a match is found else None
 
         """
-        return next((organization for organization in self.organizations
-                     if organization.name.lower() == name.lower()), None)
+        return next(self.organizations.filter({'name__iexact': name}), None)
 
     def get_organization_by_id(self, id_):
         """Retrieves an organization by id
@@ -215,8 +213,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             Organization: The organization if a match is found else None
 
         """
-        return next((organization for organization in self.organizations
-                     if organization.id == id_), None)
+        return next(self.organizations.filter({'id': id_}), None)
 
     def create_organization(self, name, description):
         """Creates an organization in tower
@@ -258,8 +255,14 @@ class Tower(object):  # pylint: disable=too-many-public-methods
         """Adds a final slash to a url if there is not any"""
         return url + '/' if not url.endswith('/') else url
 
-    def _get_paginated_response(self, url):
+    def _get_paginated_response(self, url, params=None):
         url = '{url}?page_size={limit}'.format(url=self.add_slash(url), limit=PAGINATION_LIMIT)
+        if isinstance(params, dict):
+            url = url + ''.join(['&{}={}'.format(key, value) for key, value in params.items()])
+        elif params:
+            self._logger.warning('Argument "params" should be a dictionary, value provided was :%s', params)
+        else:
+            pass
         try:
             response = self.session.get(url)
             response_data = response.json()
@@ -295,7 +298,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             list: Users created by external system in tower
 
         """
-        return [user for user in self.users if user.external_account == 'social']
+        return (user for user in self.users if user.external_account == 'social')
 
     def get_local_users(self):
         """Retrieves only users created locally in tower
@@ -304,18 +307,17 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             list: Users created locally in tower
 
         """
-        return [user for user in self.users if not user.external_account]
+        return (user for user in self.users if not user.external_account)
 
     @property
     def users(self):
-        """The users configured in tower
+        """A manager object for the users in tower
 
         Returns:
-            list of User: The users configured in tower
+            EntityManager: The manager object for users
 
         """
-        url = '{api}/users'.format(api=self.api)
-        return [User(self, data) for data in self._get_paginated_response(url)]
+        return EntityManager(self, entity_name='users', entity_object='User', primary_match_field='username')
 
     def get_user_by_username(self, name):
         """Retrieves a user by name
@@ -327,8 +329,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             User: The user if a match is found else None
 
         """
-        return next((user for user in self.users
-                     if user.username.lower() == name.lower()), None)
+        return next(self.users.filter({'username__iexact': name}), None)
 
     def get_user_by_id(self, id_):
         """Retrieves a user by id
@@ -340,8 +341,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             User: The user if a match is found else None
 
         """
-        return next((user for user in self.users
-                     if user.id == id_), None)
+        return next(self.users.filter({'id': id_}), None)
 
     def delete_user(self, username):
         """Deletes a user from tower
@@ -356,8 +356,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             InvalidUser: The user provided as argument does not exist.
 
         """
-        user = next((user for user in self.users
-                     if user.username.lower() == username.lower()), None)
+        user = self.get_user_by_username(username)
         if not user:
             raise InvalidUser(username)
         return user.delete()
@@ -398,11 +397,10 @@ class Tower(object):  # pylint: disable=too-many-public-methods
         """The projects configured in tower
 
         Returns:
-            list of Projects: The projects configured in tower
+            EntityManager: The manager object for projects
 
         """
-        url = '{api}/projects'.format(api=self.api)
-        return [Project(self, data) for data in self._get_paginated_response(url)]
+        return EntityManager(self, entity_name='projects', entity_object='Project', primary_match_field='name')
 
     def get_project_by_name(self, name):
         """Retrieves a project by name
@@ -414,8 +412,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             Project: The project if a match is found else None
 
         """
-        return next((project for project in self.projects
-                     if project.name.lower() == name.lower()), None)
+        return next(self.projects.filter({'name__iexact': name}), None)
 
     def get_project_by_id(self, id_):
         """Retrieves a project by id
@@ -427,8 +424,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             Project: The project if a match is found else None
 
         """
-        return next((project for project in self.projects
-                     if project.id == id_), None)
+        return next(self.projects.filter({'id': id_}), None)
 
     def create_project_in_organization(self,  # pylint: disable=too-many-arguments
                                        organization,
@@ -507,11 +503,10 @@ class Tower(object):  # pylint: disable=too-many-public-methods
         """The teams configured in tower
 
         Returns:
-            list of Team: The teams configured in tower
+            EntityManager: The manager object for teams
 
         """
-        url = '{api}/teams'.format(api=self.api)
-        return [Team(self, data) for data in self._get_paginated_response(url)]
+        return EntityManager(self, entity_name='teams', entity_object='Team', primary_match_field='name')
 
     def get_team_by_name(self, name):
         """Retrieves a team by name
@@ -523,8 +518,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             Team: The team if a match is found else None
 
         """
-        return next((team for team in self.teams
-                     if team.name.lower() == name.lower()), None)
+        return next(self.teams.filter({'name__iexact': name}), None)
 
     def get_team_by_id(self, id_):
         """Retrieves a team by id
@@ -536,8 +530,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             Team: The team if a match is found else None
 
         """
-        return next((team for team in self.teams
-                     if team.id == id_), None)
+        return next(self.teams.filter({'id': id_}), None)
 
     def create_team_in_organization(self, organization, team_name, description):
         """Creates a team under an organization
@@ -582,12 +575,10 @@ class Tower(object):  # pylint: disable=too-many-public-methods
         """The groups configured in tower
 
         Returns:
-            list of Group: The groups configured in tower
+            EntityManager: The manager object for groups
 
         """
-        # TODO This needs optimization by caching the results and only getting newer entries if they exist. # pylint: disable=fixme
-        url = '{api}/groups'.format(api=self.api)
-        return [Group(self, data) for data in self._get_paginated_response(url)]
+        return EntityManager(self, entity_name='groups', entity_object='Group', primary_match_field='name')
 
     def get_group_by_name(self, name):
         """Retrieves a group by name
@@ -599,8 +590,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             Group: The group if a match is found else None
 
         """
-        return next((group for group in self.groups
-                     if group.name.lower() == name.lower()), None)
+        return next(self.groups.filter({'name__iexact': name}), None)
 
     def get_group_by_id(self, id_):
         """Retrieves a group by id
@@ -612,8 +602,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             Group: The group if a match is found else None
 
         """
-        return next((group for group in self.groups
-                     if group.id == id_), None)
+        return next(self.groups.filter({'id': id_}), None)
 
     def delete_group(self, name):
         """Deletes a group from tower
@@ -641,8 +630,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             list of Inventory: The inventories configured in tower
 
         """
-        url = '{api}/inventories'.format(api=self.api)
-        return [Inventory(self, data) for data in self._get_paginated_response(url)]
+        return EntityManager(self, entity_name='inventories', entity_object='Inventory', primary_match_field='name')
 
     def get_inventory_by_name(self, name):
         """Retrieves an inventory by name
@@ -654,8 +642,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             Inventory: The inventory if a match is found else None
 
         """
-        return next((inventory for inventory in self.inventories
-                     if inventory.name.lower() == name.lower()), None)
+        return next(self.inventories.filter({'name__iexact': name}), None)
 
     def get_inventory_by_id(self, id_):
         """Retrieves an inventory by id
@@ -667,8 +654,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             Inventory: The inventory if a match is found else None
 
         """
-        return next((inventory for inventory in self.inventories
-                     if inventory.id == id_), None)
+        return next(self.inventories.filter({'id': id_}), None)
 
     def create_inventory_in_organization(self,  # pylint: disable=invalid-name
                                          organization,
@@ -718,11 +704,10 @@ class Tower(object):  # pylint: disable=too-many-public-methods
         """The hosts configured in tower
 
         Returns:
-            list of Host: The hosts configured in tower
+            EntityManager: The manager object for hosts
 
         """
-        url = '{api}/hosts'.format(api=self.api)
-        return [Host(self, data) for data in self._get_paginated_response(url)]
+        return EntityManager(self, entity_name='hosts', entity_object='Host', primary_match_field='name')
 
     def get_host_by_name(self, name):
         """Retrieves a host by name
@@ -734,8 +719,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             Host: The host if a match is found else None
 
         """
-        return next((host for host in self.hosts
-                     if host.name.lower() == name.lower()), None)
+        return next(self.hosts.filter({'name__iexact': name}), None)
 
     def get_host_by_id(self, id_):
         """Retrieves a host by id
@@ -747,8 +731,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             Host: The host if a match is found else None
 
         """
-        return next((host for host in self.hosts
-                     if host.id == id_), None)
+        return next(self.hosts.filter({'id': id_}), None)
 
     def create_host_in_inventory(self, inventory, name, description, variables='{}'):
         """Creates a host under an inventory
@@ -832,57 +815,62 @@ class Tower(object):  # pylint: disable=too-many-public-methods
         """The instances configured in tower
 
         Returns:
-            list of Instance: The instances configured in tower
+            EntityManager: The manager object for instances
 
         """
-        url = '{api}/instances'.format(api=self.api)
-        return [Instance(self, data) for data in self._get_paginated_response(url)]
+        return EntityManager(self, entity_name='instances', entity_object='Instance', primary_match_field='name')
 
     @property
     def instance_groups(self):
         """The instance_groups configured in tower
 
         Returns:
-            list of InstanceGroup: The instance_groups configured in tower
+            EntityManager: The manager object for instance groups
 
         """
-        url = '{api}/instance_groups'.format(api=self.api)
-        return [InstanceGroup(self, data) for data in self._get_paginated_response(url)]
+        return EntityManager(self,
+                             entity_name='instance_groups',
+                             entity_object='InstanceGroup',
+                             primary_match_field='name')
 
     @property
     def credential_types(self):
         """The credential_types configured in tower
 
         Returns:
-            list of CredentialType: The credential_types configured in tower
+            EntityManager: The manager object for credentials type
 
         """
-        url = '{api}/credential_types'.format(api=self.api)
-        return [CredentialType(self, data) for data in self._get_paginated_response(url)]
+        return EntityManager(self,
+                             entity_name='credential_types',
+                             entity_object='CredentialType',
+                             primary_match_field='name')
 
     @property
     def tower_credential_types(self):
         """The default credential_types configured in tower
 
         Returns:
-            list of CredentialType: The default credential_types configured in tower
+            EntityManager: The manager object for internal credential types
 
         """
-        url = '{api}/credential_types'.format(api=self.api)
-        return [CredentialType(self, data) for data in self._get_paginated_response(url)
-                if data.get('managed_by_tower')]
+        return EntityManager(self,
+                             entity_name='credential_types',
+                             entity_object='CredentialType',
+                             primary_match_field='name').filter({'managed_by_tower': 'true'})
 
     @property
     def custom_credential_types(self):
         """The custom credential_types configured in tower
 
         Returns:
-            list of CredentialType: The custom credential_types configured in tower
+            EntityManager: The manager object for external credential types
 
         """
-        url = '{api}/credential_types'.format(api=self.api)
-        return [CredentialType(self, data) for data in self._get_paginated_response(url)
-                if not data.get('managed_by_tower')]
+        return EntityManager(self,
+                             entity_name='credential_types',
+                             entity_object='CredentialType',
+                             primary_match_field='name').filter({'managed_by_tower': 'false'})
 
     def get_credential_type_by_name(self, name):
         """Retrieves a credential_type by name
@@ -894,8 +882,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             Host: The credential_type if a match is found else None
 
         """
-        return next((credential for credential in self.credential_types
-                     if credential.name.lower() == name.lower()), None)
+        return next(self.credential_types.filter({'name__iexact': name}), None)
 
     def get_credential_type_by_id(self, id_):
         """Retrieves a credential_type by id
@@ -907,8 +894,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             Host: The credential_type if a match is found else None
 
         """
-        return next((credential for credential in self.credential_types
-                     if credential.id == id_), None)
+        return next(self.credential_types.filter({'id': id_}), None)
 
     def create_credential_type(self,  # pylint: disable=too-many-arguments
                                name,
@@ -962,8 +948,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             InvalidCredential: The credential provided as argument does not exist.
 
         """
-        credential = next((credential for credential in self.credential_types
-                           if credential.name.lower() == name.lower()), None)
+        credential = self.get_credential_type_by_name(name)
         if not credential:
             raise InvalidCredential(name)
         return credential.delete()
@@ -973,11 +958,10 @@ class Tower(object):  # pylint: disable=too-many-public-methods
         """The credentials configured in tower
 
         Returns:
-            list of Credential: The credentials configured in tower
+            EntityManager: The manager object for credentials
 
         """
-        url = '{api}/credentials'.format(api=self.api)
-        return [Credential(self, data) for data in self._get_paginated_response(url)]
+        return EntityManager(self, entity_name='credentials', entity_object='Credential', primary_match_field='name')
 
     def get_credential_by_name(self, name):
         """Retrieves a credential by name
@@ -989,8 +973,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             Host: The credential if a match is found else None
 
         """
-        return next((credential for credential in self.credentials
-                     if credential.name.lower() == name.lower()), None)
+        return next(self.credentials.filter({'name__iexact': name}), None)
 
     def get_credential_by_id(self, id_):
         """Retrieves a credential by id
@@ -1002,8 +985,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             Host: The credential if a match is found else None
 
         """
-        return next((credential for credential in self.credentials
-                     if credential.id == id_), None)
+        return next(self.credentials.filter({'id': id_}), None)
 
     def create_credential_in_organization(self,  # pylint: disable=too-many-arguments,invalid-name
                                           organization,
@@ -1074,8 +1056,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             InvalidCredential: The credentials provided as argument does not exist.
 
         """
-        credential = next((credential for credential in self.credentials
-                           if credential.name.lower() == name.lower()), None)
+        credential = self.get_credential_by_name(name)
         if not credential:
             raise InvalidCredential(name)
         return credential.delete()
@@ -1085,12 +1066,10 @@ class Tower(object):  # pylint: disable=too-many-public-methods
         """The job templates configured in tower
 
         Returns:
-            list of JobTemplate: The job templates configured in tower
+            EntityManager: The manager object for job templates
 
         """
-        url = '{api}/job_templates'.format(api=self.api)
-        results = self._get_paginated_response(url)
-        return [JobTemplate(self, data) for data in results]
+        return EntityManager(self, entity_name='job_templates', entity_object='JobTemplate', primary_match_field='name')
 
     def get_job_template_by_name(self, name):
         """Retrieves a job template by name
@@ -1102,8 +1081,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             JobTemplate: The job template if a match is found else None
 
         """
-        return next((job_template for job_template in self.job_templates
-                     if job_template.name.lower() == name.lower()), None)
+        return next(self.job_templates.filter({'name__iexact': name}), None)
 
     def get_job_template_by_id(self, id_):
         """Retrieves a job template by id
@@ -1115,8 +1093,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             Host: The job template if a match is found else None
 
         """
-        return next((job_template for job_template in self.job_templates
-                     if job_template.id == id_), None)
+        return next(self.job_templates.filter({'id': id_}), None)
 
     def delete_job_template(self, name):
         """Deletes a job template from tower
@@ -1131,8 +1108,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             InvalidJobTemplate: The job template provided as argument does not exist.
 
         """
-        job_template = next((job_template for job_template in self.job_templates
-                             if job_template.name.lower() == name.lower()), None)
+        job_template = self.get_job_template_by_name(name)
         if not job_template:
             raise InvalidJobTemplate(name)
         return job_template.delete()
@@ -1235,7 +1211,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
         if instance_groups:
             if not isinstance(instance_groups, (list, tuple)):
                 instance_groups = [instance_groups]
-            tower_instance_groups = self.instance_groups[:]
+            tower_instance_groups = [group_ for group_ in self.instance_groups]
             tower_instance_groups_names = [group.name for group in tower_instance_groups]
             invalid = set(instance_groups) - set(tower_instance_groups_names)
             if invalid:
@@ -1290,18 +1266,10 @@ class Tower(object):  # pylint: disable=too-many-public-methods
         """The roles configured in tower
 
         Returns:
-            list: The roles configured in tower
+            EntityManager: The manager object for roles
 
         """
-        url = '{api}/roles'.format(api=self.api)
-        results = self._get_paginated_response(url)
-        return [Role(self, data) for data in results]
-
-    def _get_object_list_by_url(self, object_type, url):
-        url = '{host}{url}'.format(host=self.host, url=url)
-        entities = sys.modules['towerlib.entities']
-        obj = getattr(entities, object_type)
-        return [obj(self, data) for data in self._get_paginated_response(url)]
+        return EntityManager(self, entity_name='roles', entity_object='Role', primary_match_field='name')
 
     def _get_object_by_url(self, object_type, url):
         url = '{host}{url}'.format(host=self.host, url=url)

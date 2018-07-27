@@ -33,7 +33,7 @@ Main code for user
 
 import logging
 
-from .core import Entity
+from .core import Entity, EntityManager
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -160,52 +160,52 @@ class User(Entity):
         """The organizations that the user is part of
 
         Returns:
-            list: The organizations that the user is part of
+            EntityManager: EntityManager of the organizations
 
         """
         url = self._data.get('related', {}).get('organizations')
-        return self._tower._get_object_list_by_url('Organization', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='Organization', primary_match_field='name', url=url)
 
     @property
     def roles(self):
         """The roles that the user has
 
         Returns:
-            list: The roles that the user has
+            EntityManager: EntityManager of the roles
 
         """
         url = self._data.get('related', {}).get('roles')
-        return self._tower._get_object_list_by_url('Role', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='Role', primary_match_field='name', url=url)
 
     @property
     def teams(self):
         """The teams that the user is part of
 
         Returns:
-            list: The teams that the user is part of
+            EntityManager: EntityManager of the teams
 
         """
         url = self._data.get('related', {}).get('teams')
-        return self._tower._get_object_list_by_url('Team', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='Team', primary_match_field='name', url=url)
 
     @property
     def projects(self):
         """The projects that the user is part of
 
         Returns:
-            list: The projects that the user is part of
+            EntityManager: EntityManager of the projects
 
         """
         url = self._data.get('related', {}).get('projects')
-        return self._tower._get_object_list_by_url('Project', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='Project', primary_match_field='name', url=url)
 
     @property
     def credentials(self):
         """The credentials that the user has
 
         Returns:
-            list: The credentials that the user has
+            EntityManager: EntityManager of the credentials
 
         """
         url = self._data.get('related', {}).get('credentials')
-        return self._tower._get_object_list_by_url('Credential', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='Credential', primary_match_field='name', url=url)

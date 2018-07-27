@@ -33,7 +33,7 @@ Main code for role
 
 import logging
 
-from .core import Entity
+from .core import Entity, EntityManager
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -92,33 +92,33 @@ class Role(Entity):
         """The users of the team
 
         Returns:
-            list: A list of User objects for the users of the team
+            EntityManager: EntityManager of the users
 
         """
         url = self._data.get('related', {}).get('users')
-        return self._tower._get_object_list_by_url('User', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='User', primary_match_field='username', url=url)
 
     @property
     def teams(self):
         """The teams that have the role assigned
 
         Returns:
-            list: A list of Team objects for the role
+            EntityManager: EntityManager of the teams
 
         """
         url = self._data.get('related', {}).get('teams')
-        return self._tower._get_object_list_by_url('Team', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='Team', primary_match_field='name', url=url)
 
     @property
     def projects(self):
         """The projects of the team
 
         Returns:
-            list: A list of Project objects for the projects of the team
+            EntityManager: EntityManager of the projects
 
         """
         url = self._data.get('related', {}).get('projects')
-        return self._tower._get_object_list_by_url('Project', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='Project', primary_match_field='name', url=url)
 
 
 class ObjectRole(Role):

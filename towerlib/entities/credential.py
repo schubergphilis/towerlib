@@ -35,7 +35,7 @@ import json
 import logging
 
 from towerlib.towerlibexceptions import InvalidOrganization
-from .core import Entity
+from .core import Entity, EntityManager
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -196,12 +196,15 @@ class GenericCredential(Entity):
         """The object roles
 
         Returns:
-            ObjectRole: The object roles supported
+            EntityManager: EntityManager of the object roles supported
 
         """
         if not self._object_roles:
             url = self._data.get('related', {}).get('object_roles')
-            self._object_roles = self._tower._get_object_list_by_url('ObjectRole', url)  # pylint: disable=protected-access
+            self._object_roles = EntityManager(self._tower,
+                                               entity_object='ObjectRole',
+                                               primary_match_field='name',
+                                               url=url)
         return self._object_roles
 
     @property
@@ -209,22 +212,22 @@ class GenericCredential(Entity):
         """The owners of the credential
 
         Returns:
-            list of User: The owners of the credential
+            EntityManager: EntityManager of the users that are owners
 
         """
         url = self._data.get('related', {}).get('owner_users')
-        return self._tower._get_object_list_by_url('User', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='User', primary_match_field='username', url=url)
 
     @property
     def owner_teams(self):
         """The owner teams of the credential
 
         Returns:
-            list of Team: The owner teams of the credential
+            EntityManager: EntityManager of the teams that are owners
 
         """
         url = self._data.get('related', {}).get('owner_teams')
-        return self._tower._get_object_list_by_url('Team', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='Team', primary_match_field='name', url=url)
 
     @property
     def name(self):
