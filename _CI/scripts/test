@@ -10,15 +10,16 @@ mkdir -p test-output
 # make sure that no test is executable so it is not skipped
 chmod -x tests/*.py
 
+# as long as the locking is broken for 2.7 this should not run
 # locking dependencies
-echo "Locking pipenv dependencies"
-pipenv lock
-
-echo "Creating requirements.txt"
-./_CI/bin/create_requirements.py default
-
-echo "Creating dev-requirements.txt"
-./_CI/bin/create_requirements.py develop
+#echo "Locking pipenv dependencies"
+#pipenv lock
+#
+#echo "Creating requirements.txt"
+#./_CI/bin/create_requirements.py default
+#
+#echo "Creating dev-requirements.txt"
+#./_CI/bin/create_requirements.py develop
 
 # we run tox
 pipenv run tox

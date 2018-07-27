@@ -54,7 +54,7 @@ from .towerlibexceptions import (AuthFailed,
                                  PermissionNotFound)
 
 from .towerlib import Tower
-from .entities import (Organization,
+from .entities import (Organization,  # NOQA
                        User,
                        Team,
                        Project,
@@ -64,7 +64,16 @@ from .entities import (Organization,
                        Instance,
                        InstanceGroup,
                        CredentialType,
-                       Credential)
+                       Credential,
+                       JobTemplate,
+                       Job,
+                       JobSummary,
+                       JobRun,
+                       JobEvent,
+                       SystemJob,
+                       AdHocCommandJob,
+                       ProjectUpdateJob,
+                       ObjectRole)
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''

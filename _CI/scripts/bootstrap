@@ -24,5 +24,6 @@ pipenv --venv
 if [ $? != 0 ]
 then
   echo "Creating virtualenv for towerlib"
-  pipenv install --dev
+  pipenv install --dev --skip-lock  # --skip-lock is required since as of 25th of July prospector tool is broken for p2.7
+  # and the calculation of the lock file breaks the workflow
 fi

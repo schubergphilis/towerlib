@@ -6,7 +6,6 @@ include LICENSE
 include README.rst
 include USAGE.rst
 include Pipfile
-include Pipfile.lock
 include requirements.txt
 include dev-requirements.txt
 include towerlib/.VERSION

@@ -37,7 +37,7 @@ import json
 from dateutil.parser import parse
 from bs4 import BeautifulSoup as Bfs
 
-from .core import Entity
+from .core import Entity, EntityManager
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -456,11 +456,11 @@ class JobRun(Entity):
         """The extra credentials of the job
 
         Returns:
-            list: A list of credentials for the job
+            EntityManager: EntityManager of the extra credentials
 
         """
         url = self._data.get('related', {}).get('extra_credentials')
-        return self._tower._get_object_list_by_url('Credential', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='Credential', primary_match_field='name', url=url)
 
     @property
     def unified_job_template(self):
@@ -508,22 +508,22 @@ class JobRun(Entity):
         """The job summaries of the runs of this job
 
         Returns:
-            list: The job summaries of the runs of this job
+            EntityManager: EntityManager of the job host summaries
 
         """
         url = self._data.get('related', {}).get('job_host_summaries')
-        return self._tower._get_object_list_by_url('JobSummary', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='JobSummary', primary_match_field='name', url=url)
 
     @property
     def job_events(self):
         """The job events of the runs of this job
 
         Returns:
-            list: The job events of the runs of this job
+            EntityManager: EntityManager of the job events
 
         """
         url = self._data.get('related', {}).get('job_events')
-        return self._tower._get_object_list_by_url('JobEvent', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='JobEvent', primary_match_field='name', url=url)
 
     # TODO model activity streams and implement them here  # pylint:disable=fixme
 
@@ -721,11 +721,11 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         """The extra_credentials that the job template uses
 
         Returns:
-            list of Credential: The extra_credentials that the job template uses
+            EntityManager: EntityManager of the extra credentials
 
         """
         url = self._data.get('related', {}).get('extra_credentials')
-        return self._tower._get_object_list_by_url('Credential', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='Credential', primary_match_field='name', url=url)
 
     def add_extra_credentials(self, credentials):
         """Adds credentials by name
@@ -757,7 +757,10 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         """
         if not self._object_roles:
             url = self._data.get('related', {}).get('object_roles')
-            self._object_roles = self._tower._get_object_list_by_url('ObjectRole', url)  # pylint: disable=protected-access
+            self._object_roles = EntityManager(self._tower,
+                                               entity_object='ObjectRole',
+                                               primary_match_field='name',
+                                               url=url)
         return self._object_roles
 
     @property

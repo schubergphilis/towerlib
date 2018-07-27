@@ -1,6 +1,6 @@
 #!/bin/bash --login
 # we want all these files to exist in the actual package
-required_files=(".VERSION" "LICENSE" "AUTHORS.rst" "CONTRIBUTING.rst" "HISTORY.rst" "README.rst" "USAGE.rst" "Pipfile" "Pipfile.lock" "requirements.txt" "dev-requirements.txt")
+required_files=(".VERSION" "LICENSE" "AUTHORS.rst" "CONTRIBUTING.rst" "HISTORY.rst" "README.rst" "USAGE.rst" "Pipfile" "requirements.txt" "dev-requirements.txt")
 
 cd $(dirname $0)/../..
 
@@ -10,15 +10,16 @@ set -e
 # cleaning up directories if exist
 rm -rf build dist
 
-# locking dependencies
-echo "Locking pipenv dependencies"
-pipenv lock
-
-echo "Creating requirements.txt"
-./_CI/bin/create_requirements.py default
-
-echo "Creating dev-requirements.txt"
-./_CI/bin/create_requirements.py develop
+# as long as the locking is broken for 2.7 this should not run
+## locking dependencies
+#echo "Locking pipenv dependencies"
+#pipenv lock
+#
+#echo "Creating requirements.txt"
+#./_CI/bin/create_requirements.py default
+#
+#echo "Creating dev-requirements.txt"
+#./_CI/bin/create_requirements.py develop
 
 
 # copy files in the structure

@@ -34,7 +34,7 @@ Main code for instances
 
 import logging
 
-from .core import Entity
+from .core import Entity, EntityManager
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -133,11 +133,11 @@ class Instance(Entity):
         """The jobs of the instance
 
         Returns:
-            list: The jobs of the instance
+            EntityManager: EntityManager of the jobs of the instance
 
         """
         url = self._data.get('related', {}).get('jobs')
-        return self._tower._get_object_list_by_url('Job', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='Job', primary_match_field='name', url=url)
 
 
 class InstanceGroup(Entity):

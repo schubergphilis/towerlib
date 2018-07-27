@@ -35,7 +35,7 @@ import logging
 
 from dateutil.parser import parse
 
-from .core import Entity
+from .core import Entity, EntityManager
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -109,12 +109,15 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         """The object roles
 
         Returns:
-            list: The object roles supported
+            EntityManager: EntityManager of the object roles supported
 
         """
         if not self._object_roles:
             url = self._data.get('related', {}).get('object_roles')
-            self._object_roles = self._tower._get_object_list_by_url('ObjectRole', url)  # pylint: disable=protected-access
+            self._object_roles = EntityManager(self._tower,
+                                               entity_object='ObjectRole',
+                                               primary_match_field='name',
+                                               url=url)
         return self._object_roles
 
     @property

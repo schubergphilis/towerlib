@@ -34,7 +34,7 @@ Main code for host
 import logging
 
 from towerlib.towerlibexceptions import InvalidGroup
-from .core import Entity
+from .core import Entity, EntityManager
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -195,11 +195,11 @@ class Host(Entity):
         """The groups that the host is part of
 
         Returns:
-            list of Group: The groups that the host is part of
+            EntityManager: EntityManager of the groups of the host
 
         """
         url = self._data.get('related', {}).get('groups')
-        return self._tower._get_object_list_by_url('Group', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='Group', primary_match_field='name', url=url)
 
     @property
     def recent_jobs(self):

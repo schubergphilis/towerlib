@@ -55,7 +55,8 @@ from towerlib.entities.core import (Entity,
                                     JOB_TYPES,
                                     VERBOSITY_LEVELS,
                                     Cluster,
-                                    ClusterInstance)
+                                    ClusterInstance,
+                                    EntityManager)
 from towerlib.entities.organization import Organization
 from towerlib.entities.project import Project
 from towerlib.entities.team import Team
@@ -102,3 +103,4 @@ assert AdHocCommandJob
 assert Job
 assert Cluster
 assert ClusterInstance
+assert EntityManager

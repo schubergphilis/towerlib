@@ -35,7 +35,7 @@ import json
 import logging
 
 from towerlib.towerlibexceptions import InvalidHost
-from .core import Entity
+from .core import Entity, EntityManager
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -175,11 +175,11 @@ class Group(Entity):
         """The object roles
 
         Returns:
-            dict: The object roles supported
+            EntityManager: EntityManager of the object roles supported
 
         """
         url = self._data.get('related', {}).get('object_roles')
-        return self._tower._get_object_list_by_url('ObjectRole', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='ObjectRole', primary_match_field='name', url=url)
 
     def _add_host_by_id(self, id_):
         payload = {'id': id_}
@@ -236,8 +236,8 @@ class Group(Entity):
         """The hosts of the group
 
         Returns:
-            list: The hosts of the group
+            EntityManager: EntityManager of the hosts of the group
 
         """
         url = self._data.get('related', {}).get('hosts')
-        return self._tower._get_object_list_by_url('Host', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='Host', primary_match_field='name', url=url)

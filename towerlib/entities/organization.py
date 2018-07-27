@@ -43,10 +43,9 @@ from towerlib.towerlibexceptions import (InvalidUserLevel,
                                          InvalidProject)
 from .user import User
 from .inventory import Inventory
-from .core import Entity, USER_LEVELS
+from .core import Entity, USER_LEVELS, EntityManager
 from .team import Team
 from .project import Project
-from .credential import Credential
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -85,7 +84,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         """The description of the Organization
 
         Returns:
-            string: The descrption of the Organization
+            string: The description of the Organization
 
         """
         return self._data.get('description')
@@ -117,11 +116,11 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         """The object roles
 
         Returns:
-            ObjectRole: The object roles supported
+            EntityManager: EntityManager of the roles supported
 
         """
         url = self._data.get('related', {}).get('object_roles')
-        return self._tower._get_object_list_by_url('ObjectRole', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='ObjectRole', primary_match_field='name', url=url)
 
     @property
     def object_role_names(self):
@@ -198,11 +197,11 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         """The projects of the organization
 
         Returns:
-            list: A list of Projects for the organization
+            EntityManager: EntityManager of the projects
 
         """
         url = self._data.get('related', {}).get('projects')
-        return self._tower._get_object_list_by_url('Project', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='Project', primary_match_field='name', url=url)
 
     def create_project(self,  # pylint: disable=too-many-arguments
                        name,
@@ -272,8 +271,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             InvalidProject: The project provided as argument does not exist.
 
         """
-        project = next((project for project in self._tower.project
-                        if project.name.lower() == name.lower()), None)
+        project = self._tower.get_project_by_name(name)
         if not project:
             raise InvalidProject(name)
         return project.delete()
@@ -283,12 +281,11 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         """The users of the organization
 
         Returns:
-            list of User: A list of User objects for the users of the organization
+            EntityManager: EntityManager of the users of the organization
 
         """
         url = '{organization}users/'.format(organization=self.url)
-        results = self._tower._get_paginated_response(url)  # pylint: disable=protected-access
-        return [User(self._tower, data) for data in results]
+        return EntityManager(self._tower, entity_object='User', primary_match_field='username', url=url)
 
     def create_user(self,  # pylint: disable=too-many-arguments
                     first_name,
@@ -352,8 +349,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             InvalidUser: The username provided as argument does not exist.
 
         """
-        user = next((user for user in self._tower.users
-                     if user.username.lower() == username.lower()), None)
+        user = self._tower.get_user_by_username(username)
         if not user:
             raise InvalidUser(username)
         return user.delete()
@@ -363,12 +359,11 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         """The teams of the organization
 
         Returns:
-            list of Team: A list of Team objects for the teams of the organization
+            EntityManager: EntityManager of the teams of the organization
 
         """
         url = '{organization}teams/'.format(organization=self.url)
-        results = self._tower._get_paginated_response(url)  # pylint: disable=protected-access
-        return [Team(self._tower, data) for data in results]
+        return EntityManager(self._tower, entity_object='Team', primary_match_field='name', url=url)
 
     def create_team(self, name, description):
         """Creates a team
@@ -401,8 +396,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             InvalidTeam: The team provided as argument does not exist.
 
         """
-        team = next((team for team in self._tower.teams
-                     if team.name.lower() == name.lower()), None)
+        team = self._tower.get_team_by_name(name)
         if not team:
             raise InvalidTeam(name)
         return team.delete()
@@ -412,12 +406,11 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         """The inventories of the organization
 
         Returns:
-            list of Inventory: A list of Inventory objects for the inventories of the organization
+            EntityManager: EntityManager of the inventories of the organization
 
         """
         url = '{organization}inventories/'.format(organization=self.url)
-        results = self._tower._get_paginated_response(url)  # pylint: disable=protected-access
-        return [Inventory(self._tower, data) for data in results]
+        return EntityManager(self._tower, entity_object='Inventory', primary_match_field='name', url=url)
 
     def create_inventory(self, name, description, variables='{}'):
         """Creates an inventory
@@ -459,8 +452,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             InvalidHInventory: The inventory provided as argument does not exist.
 
         """
-        inventory = next((inventory for inventory in self._tower.inventories
-                          if inventory.name.lower() == name.lower()), None)
+        inventory = self._tower.get_inventory_by_name(name)
         if not inventory:
             raise InvalidInventory(name)
         return inventory.delete()
@@ -470,12 +462,11 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         """The credentials of the organization
 
         Returns:
-            list: A list of Credential objects for the credentials of the organization
+            EntityManager: EntityManager of the credentials of the organization
 
         """
         url = '{organization}credentials/'.format(organization=self.url)
-        results = self._tower._get_paginated_response(url)  # pylint: disable=protected-access
-        return [Credential(self._tower, data) for data in results]
+        return EntityManager(self._tower, entity_object='Credential', primary_match_field='name', url=url)
 
     def get_credential_by_name(self, name):
         """Retrieves a credential by name
@@ -487,8 +478,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             Host: The credential if a match is found else None
 
         """
-        return next((credential for credential in self.credentials
-                     if credential.name.lower() == name.lower()), None)
+        return next(self.credentials.filter({'name__iexact': name}), None)
 
     def get_credential_by_id(self, id_):
         """Retrieves a credential by id
@@ -500,5 +490,4 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             Host: The credential if a match is found else None
 
         """
-        return next((credential for credential in self.credentials
-                     if credential.id == id_), None)
+        return next(self.credentials.filter({'id': id_}), None)
