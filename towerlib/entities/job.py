@@ -1091,7 +1091,12 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         payload = {key: value for key, value in locals().items() if value and key != 'self'}
         url = '{url}launch/'.format(url=self.url)
         response = self._tower.session.post(url, data=json.dumps(payload))
-        return Job(self._tower, response.json()) if response.ok else None
+        if response.ok:
+            result = Job(self._tower, response.json())
+        else:
+            self._logger.error('Error launching job %s, response was :%s', self.name, response.text)
+            result = None
+        return result
 
 
 class SystemJob(Entity):
