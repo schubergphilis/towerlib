@@ -227,7 +227,7 @@ class Host(Entity):
         """
         if not isinstance(groups, (list, tuple)):
             groups = [groups]
-        inventory_groups = self.inventory.groups
+        inventory_groups = [group_ for group_ in self.inventory.groups]
         inventory_group_names = [group.name for group in inventory_groups]
         for group_name in groups:
             if group_name not in inventory_group_names:

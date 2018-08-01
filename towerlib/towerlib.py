@@ -1185,7 +1185,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             allow_simultaneous:
 
         Returns:
-            JobTemplate: The created job template if succesful, None otherwise
+            JobTemplate: The created job template if successful, None otherwise
 
         Raises:
             InvalidInventory: The inventory provided as argument does not exist.
