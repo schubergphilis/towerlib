@@ -16,3 +16,9 @@ History
   filtering
 
 * Removed pipenv locking mechanism as this is broken for python 2.7 completely
+
+
+0.3.0 (2018-08-01)
+------------------
+
+* Added capability to launch job template job
