@@ -1079,10 +1079,10 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._data.get('allow_simultaneous')
 
-    def launch(self, extra_vars=None, job_tags=None, limit=None, inventory=None, credential=None):
+    def launch(self, extra_vars=None, job_tags=None, limit=None, inventory=None, credential=None):  # pylint: disable=unused-argument,too-many-arguments
         """Launches the job template
 
-        # https://docs.ansible.com/ansible-tower/latest/html/towerapi/launch_jobtemplate.html
+        https://docs.ansible.com/ansible-tower/latest/html/towerapi/launch_jobtemplate.html
 
         Returns:
             Job: Job object of the running job on success, None otherwise
