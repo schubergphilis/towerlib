@@ -1079,6 +1079,20 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._data.get('allow_simultaneous')
 
+    def launch(self, extra_vars=None, job_tags=None, limit=None, inventory=None, credential=None):
+        """Launches the job template
+
+        # https://docs.ansible.com/ansible-tower/latest/html/towerapi/launch_jobtemplate.html
+
+        Returns:
+            Job: Job object of the running job on success, None otherwise
+
+        """
+        payload = {key: value for key, value in locals().items() if value and key != 'self'}
+        url = '{url}launch/'.format(url=self.url)
+        response = self._tower.session.post(url, data=json.dumps(payload))
+        return Job(self._tower, response.json()) if response.ok else None
+
 
 class SystemJob(Entity):
     """Models the Job entity of ansible tower"""
