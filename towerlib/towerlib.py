@@ -268,7 +268,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             response_data = response.json()
             response.close()
         except (ValueError, AttributeError, TypeError):
-            self._logger.exception('Could not retrieve first page')
+            self._logger.exception('Could not retrieve first page, response was %s', response.text)
             response_data = {}
         count = response_data.get('count', 0)
         page_count = int(math.ceil(float(count) / PAGINATION_LIMIT))
