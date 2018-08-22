@@ -32,6 +32,7 @@ Main code for host
 """
 
 import logging
+import json
 
 from towerlib.towerlibexceptions import InvalidGroup
 from .core import Entity, EntityManager
@@ -117,6 +118,26 @@ class Host(Entity):
 
         """
         return self._data.get('variables')
+
+    @variables.setter
+    def variables(self, value):
+        """Update the variables on the host"
+
+        Returns:
+            None:
+
+        """
+        url = '{api}/hosts/{id}/'.format(api=self._tower.api, id=self.id)
+        payload = {"name": self.name,
+                   "description": self.description,
+                   "enabled": self.enabled,
+                   "instance_id": self.instance_id,
+                   "variables": json.dumps(value)}
+        response = self._tower.session.put(url, data=json.dumps(payload))
+        if response.ok:
+            self._data.update(response.json())
+        else:
+            self._logger.error('Error updating variables, response was: %s', response.text)
 
     @property
     def has_active_failures(self):
