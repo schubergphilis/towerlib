@@ -280,7 +280,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             with concurrent.futures.ThreadPoolExecutor(max_workers=30) as executor:
                 futures = [executor.submit(self.session.get, '{url}&page={page_index}'.format(url=url,
                                                                                               page_index=index))
-                           for index in xrange(page_count, 1, -1)]
+                           for index in range(page_count, 1, -1)]
                 for future in concurrent.futures.as_completed(futures):
                     try:
                         response = future.result()
