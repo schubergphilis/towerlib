@@ -7,3 +7,4 @@ pipenv run twine upload dist/* \
                         -u "${PYPI_UPLOAD_USER}" \
                         --skip-existing \
                         --repository-url https://upload.pypi.org/legacy/
+

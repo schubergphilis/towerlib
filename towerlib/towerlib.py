@@ -160,7 +160,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
             """Getting an instance nametuple from an instance list"""
             node = next((instance for instance in instance_list
                          if instance.get('node') == name), None)
-            data = [node.get(key_) for key_ in 'node', 'heartbeat']
+            data = [node.get(key_) for key_ in ('node', 'heartbeat')]
             return ClusterInstance(self, *data)
 
         url = '{api}/ping/'.format(api=self.api)
