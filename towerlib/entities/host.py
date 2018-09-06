@@ -281,6 +281,5 @@ class Host(Entity):
                 raise InvalidGroup(group_name)
         inventory_groups = [group for group in self.inventory.groups
                             if group.name.lower() in groups]
-        print([group.name for group in inventory_groups])
         return all([group._remove_host_by_id(self.id)  # pylint: disable=protected-access
                     for group in inventory_groups])
