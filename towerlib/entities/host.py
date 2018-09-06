@@ -274,7 +274,7 @@ class Host(Entity):
         """
         if not isinstance(groups, (list, tuple)):
             groups = [groups]
-        groups = [group.lower() for group in groups]
+        groups = [group.name.lower() for group in groups]
         host_group_names = [group.name.lower() for group in self.groups]
         for group_name in groups:
             if group_name.lower() not in host_group_names:
