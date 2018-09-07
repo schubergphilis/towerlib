@@ -262,7 +262,7 @@ class Host(Entity):
         """Disassociate the host from the provided groups
 
         Args:
-            groups: The groups to disassociate the host from.
+            groups: The group name(s) to disassociate the host from.
             Accepts a single group string or a list or tuple of groups
 
         Returns:
@@ -281,6 +281,6 @@ class Host(Entity):
                 raise InvalidGroup(group_name)
         inventory_groups = [group for group in self.inventory.groups
                             if group.name.lower() in groups]
-        print([group.name for group in inventory_groups])
+
         return all([group._remove_host_by_id(self.id)  # pylint: disable=protected-access
                     for group in inventory_groups])
