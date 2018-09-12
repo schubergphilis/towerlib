@@ -108,10 +108,10 @@ class Tower(object):  # pylint: disable=too-many-public-methods
         self._logger = logging.getLogger(logger_name)
         self.secure = secure
         if self.secure is True:
-            protocol = 'https'
+            self.protocol = 'https'
         elif self.secure is False:
-            protocol = 'http'
-        self.host = '{protocol}://{host}'.format(protocol=protocol, host=host)
+            self.protocol = 'http'
+        self.host = '{protocol}://{host}'.format(protocol=self.protocol, host=host)
         self.api = '{protocol}://{host}/api/v2'.format(protocol=protocol, host=host)
         self.ssl_verify = ssl_verify
         self.username = username
