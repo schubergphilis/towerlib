@@ -120,7 +120,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
 
     def _setup_session(self):
         session = Session()
-        if self.secure is True):
+        if self.secure is True:
             session.verify = self.ssl_verify
         session.get(self.host)
         session.auth = (self.username, self.password)
