@@ -40,7 +40,15 @@ To use towerlib in a project:
 .. code-block:: python
 
     from towerlib import Tower
+
+    # using http (pick one)
     tower = Tower('hostname', 'username', 'password')
+
+    # using https with a valid cert (pick one)
+    tower = Tower('hostname', 'username', 'password', 'https')
+
+    # using https with an invalid cert (pick one)
+    tower = Tower('hostname', 'username', 'password', 'https', False)
 
     # access hosts
     for host in tower.hosts:
