@@ -102,18 +102,26 @@ CONFIGURATION_STATE_CACHE = TTLCache(maxsize=1, ttl=CONFIGURATION_STATE_CACHING_
 class Tower(object):  # pylint: disable=too-many-public-methods
     """Models the api of ansible tower"""
 
-    def __init__(self, host, username, password):
+    def __init__(self, host, username, password, secure=False, ssl_verify=True):
         logger_name = u'{base}.{suffix}'.format(base=LOGGER_BASENAME,
                                                 suffix=self.__class__.__name__)
         self._logger = logging.getLogger(logger_name)
-        self.host = host
-        self.api = '{host}/api/v2'.format(host=host)
+        self.secure = secure
+        if self.secure is True:
+            self.host = 'https://{host}'.format(host=host)
+            self.api = 'https://{host}/api/v2'.format(host=host)
+        elif self.secure is False:
+            self.host = 'http://{host}'.format(host=host)
+            self.api = 'http://{host}/api/v2'.format(host=host)
+        self.ssl_verify = ssl_verify
         self.username = username
         self.password = password
         self.session = self._setup_session()
 
     def _setup_session(self):
         session = Session()
+        if self.secure is True:
+            session.verify = self.ssl_verify
         session.get(self.host)
         session.auth = (self.username, self.password)
         session.headers.update({'content-type': 'application/json'})
