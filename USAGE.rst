@@ -45,10 +45,10 @@ To use towerlib in a project:
     tower = Tower('hostname', 'username', 'password')
 
     # using https with a valid cert (pick one)
-    tower = Tower('hostname', 'username', 'password', 'https')
+    tower = Tower('hostname', 'username', 'password', True)
 
     # using https with an invalid cert (pick one)
-    tower = Tower('hostname', 'username', 'password', 'https', False)
+    tower = Tower('hostname', 'username', 'password', True, False)
 
     # access hosts
     for host in tower.hosts:
