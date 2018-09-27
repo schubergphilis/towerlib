@@ -22,3 +22,10 @@ History
 ------------------
 
 * Added capability to launch job template job
+
+
+1.0.0 (2018-09-27)
+------------------
+
+* Added support for specifying http or https and certificate verifications options
+* Extented the editing capabilities of hosts to name, description and enabled status

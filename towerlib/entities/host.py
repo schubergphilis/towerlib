@@ -58,6 +58,11 @@ class Host(Entity):
 
     def __init__(self, tower_instance, data):
         Entity.__init__(self, tower_instance, data)
+        self._payload = ['name',
+                         'description',
+                         'enabled',
+                         'instance_id',
+                         'variables']
 
     @property
     def name(self):
@@ -69,6 +74,16 @@ class Host(Entity):
         """
         return self._data.get('name')
 
+    @name.setter
+    def name(self, value):
+        """Update the name on the host"
+
+        Returns:
+            None:
+
+        """
+        self._update_values('name', value)
+
     @property
     def description(self):
         """The description of the host
@@ -78,6 +93,16 @@ class Host(Entity):
 
         """
         return self._data.get('description')
+
+    @description.setter
+    def description(self, value):
+        """Update the description on the host"
+
+        Returns:
+            None:
+
+        """
+        self._update_values('description', value)
 
     @property
     def inventory(self):
@@ -98,6 +123,16 @@ class Host(Entity):
 
         """
         return self._data.get('enabled')
+
+    @enabled.setter
+    def enabled(self, value):
+        """Update the enabled status of the host"
+
+        Returns:
+            None:
+
+        """
+        self._update_values('enabled', value)
 
     @property
     def instance_id(self):
@@ -127,12 +162,13 @@ class Host(Entity):
             None:
 
         """
+        self._update_values('variables', value)
+
+    def _update_values(self, attribute, value):
         url = '{api}/hosts/{id}/'.format(api=self._tower.api, id=self.id)
-        payload = {"name": self.name,
-                   "description": self.description,
-                   "enabled": self.enabled,
-                   "instance_id": self.instance_id,
-                   "variables": json.dumps(value)}
+        payload = {attribute: self._data.get(attribute)
+                   for attribute in self._payload}
+        payload[attribute] = json.dumps(value)
         response = self._tower.session.put(url, data=json.dumps(payload))
         if response.ok:
             self._data.update(response.json())

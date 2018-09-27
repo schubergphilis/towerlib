@@ -42,13 +42,13 @@ To use towerlib in a project:
     from towerlib import Tower
 
     # using http (pick one)
-    tower = Tower('hostname', 'username', 'password')
+    tower = Tower('ansible.domain.com', 'username', 'password')
 
     # using https with a valid cert (pick one)
-    tower = Tower('hostname', 'username', 'password', True)
+    tower = Tower('ansible.domain.com', 'username', 'password', secure=True)
 
     # using https with an invalid cert (pick one)
-    tower = Tower('hostname', 'username', 'password', True, False)
+    tower = Tower('ansible.domain.com', 'username', 'password', secure=True, ssl_verify=False)
 
     # access hosts
     for host in tower.hosts:
