@@ -122,7 +122,7 @@ class CredentialType(Entity):
         return self._data.get('injectors')
 
 
-class Credential(object):  # pylint: disable=too-few-public-methods
+class Credential:  # pylint: disable=too-few-public-methods
     """Credential factory to handle the different credential types returned"""
 
     def __new__(cls, tower_instance, data):

@@ -99,7 +99,7 @@ CLUSTER_STATE_CACHE = TTLCache(maxsize=1, ttl=CLUSTER_STATE_CACHING_SECONDS)
 CONFIGURATION_STATE_CACHE = TTLCache(maxsize=1, ttl=CONFIGURATION_STATE_CACHING_SECONDS)
 
 
-class Tower(object):  # pylint: disable=too-many-public-methods
+class Tower:  # pylint: disable=too-many-public-methods
     """Models the api of ansible tower"""
 
     def __init__(self, host, username, password, secure=False, ssl_verify=True):  # pylint: disable=too-many-arguments
@@ -659,7 +659,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
         """
         return next(self.inventories.filter({'id': id_}), None)
 
-    def create_inventory_in_organization(self,  # pylint: disable=invalid-name
+    def create_inventory_in_organization(self,
                                          organization,
                                          name,
                                          description,
@@ -990,7 +990,7 @@ class Tower(object):  # pylint: disable=too-many-public-methods
         """
         return next(self.credentials.filter({'id': id_}), None)
 
-    def create_credential_in_organization(self,  # pylint: disable=too-many-arguments,invalid-name
+    def create_credential_in_organization(self,  # pylint: disable=too-many-arguments,too-many-locals
                                           organization,
                                           name,
                                           description,

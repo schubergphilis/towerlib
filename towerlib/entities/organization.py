@@ -203,7 +203,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         url = self._data.get('related', {}).get('projects')
         return EntityManager(self._tower, entity_object='Project', primary_match_field='name', url=url)
 
-    def create_project(self,  # pylint: disable=too-many-arguments
+    def create_project(self,  # pylint: disable=too-many-arguments, too-many-locals
                        name,
                        description,
                        credential,

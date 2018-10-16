@@ -120,7 +120,7 @@ class Group(Entity):
         return self._data.get('total_hosts')
 
     @property
-    def hosts_with_active_failures_count(self):  # pylint: disable=invalid-name
+    def hosts_with_active_failures_count(self):
         """The number of hosts with active failures
 
         Returns:
@@ -140,7 +140,7 @@ class Group(Entity):
         return self._data.get('total_groups')
 
     @property
-    def groups_with_active_failures_count(self):  # pylint: disable=invalid-name
+    def groups_with_active_failures_count(self):
         """The number of groups with active failures
 
         Returns:

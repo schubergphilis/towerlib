@@ -176,7 +176,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         return self._data.get('total_hosts')
 
     @property
-    def hosts_with_active_failures_count(self):  # pylint: disable=invalid-name
+    def hosts_with_active_failures_count(self):
         """The number of hosts with active failures
 
         Returns:
@@ -196,7 +196,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         return self._data.get('total_groups')
 
     @property
-    def groups_with_active_failures_count(self):  # pylint: disable=invalid-name
+    def groups_with_active_failures_count(self):
         """The number of groups with active failures
 
         Returns:
@@ -226,7 +226,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         return self._data.get('total_inventory_sources')
 
     @property
-    def inventory_sources_with_failures_count(self):  # pylint: disable=invalid-name
+    def inventory_sources_with_failures_count(self):
         """The number of sources with failures
 
         Returns:

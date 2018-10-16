@@ -106,7 +106,7 @@ INSTANCE_STATE_CACHING_SECONDS = 60
 INSTANCE_STATE_CACHE = TTLCache(maxsize=1, ttl=INSTANCE_STATE_CACHING_SECONDS)
 
 
-class ClusterInstance(object):
+class ClusterInstance:
     """Models the instance of a node as part of the cluster"""
 
     def __init__(self, tower_instance, name, hearbeat):
@@ -203,7 +203,7 @@ class ClusterInstance(object):
         return date_
 
 
-class Entity(object):
+class Entity:
     """The basic object that holds common responses across all entities"""
 
     def __init__(self, tower_instance, data):
@@ -284,7 +284,7 @@ class Entity(object):
         return response.ok
 
 
-class EntityManager(object):
+class EntityManager:
     """Manages entities by making them act like iterables but also implements contains and other useful stuff."""
 
     def __init__(self, tower_instance, entity_object, primary_match_field, entity_name=None, url=None):  # pylint: disable=too-many-arguments

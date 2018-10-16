@@ -61,7 +61,7 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         self._object_roles = None
 
     @property
-    def last_job(self):  # TODO model the job and return an object instead of dictionary  # pylint:disable=fixme
+    def last_job(self):  # TOFIX model the job and return an object instead of dictionary
         """The last job run on the project
 
         Returns:
@@ -71,7 +71,7 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         return self._data.get('summary_fields', {}).get('last_job')
 
     @property
-    def last_update(self):  # TODO model the job and return an object instead of dictionary  # pylint:disable=fixme
+    def last_update(self):  # TOFIX model the job and return an object instead of dictionary
         """The last update of the project
 
         Returns:

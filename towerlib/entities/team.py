@@ -286,7 +286,7 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._post_project_permission(project_name, 'admin', remove=True)
 
-    def remove_project_permission_update(self, project_name):  # pylint: disable=invalid-name
+    def remove_project_permission_update(self, project_name):
         """Removes a project with update permissions
 
         Args:
@@ -310,7 +310,7 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._post_project_permission(project_name, 'use', remove=True)
 
-    def add_job_template_permission_admin(self, job_template_name):  # pylint: disable=invalid-name
+    def add_job_template_permission_admin(self, job_template_name):
         """Adds a job template with admin permissions
 
         Args:
@@ -322,7 +322,7 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._post_job_template_permission(job_template_name, 'admin')
 
-    def add_job_template_permission_execute(self, job_template_name):  # pylint: disable=invalid-name
+    def add_job_template_permission_execute(self, job_template_name):
         """Adds a job template with execute permissions
 
         Args:
@@ -334,7 +334,7 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._post_job_template_permission(job_template_name, 'execute')
 
-    def remove_job_template_permission_admin(self, job_template_name):  # pylint: disable=invalid-name
+    def remove_job_template_permission_admin(self, job_template_name):
         """Removes a job template with admin permissions
 
         Args:
@@ -346,7 +346,7 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._post_job_template_permission(job_template_name, 'admin', remove=True)
 
-    def remove_job_template_permission_execute(self, job_template_name):  # pylint: disable=invalid-name
+    def remove_job_template_permission_execute(self, job_template_name):
         """Removes a job template with execute permissions
 
         Args:
@@ -406,7 +406,7 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._post_inventory_permission(inventory_name, 'ad hoc')
 
-    def remove_inventory_permission_admin(self, inventory_name):  # pylint: disable=invalid-name
+    def remove_inventory_permission_admin(self, inventory_name):
         """Removes an inventory with admin permissions
 
         Args:
@@ -430,7 +430,7 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._post_inventory_permission(inventory_name, 'use', remove=True)
 
-    def remove_inventory_permission_update(self, inventory_name):  # pylint: disable=invalid-name
+    def remove_inventory_permission_update(self, inventory_name):
         """Removes an inventory with update permissions
 
         Args:
@@ -442,7 +442,7 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._post_inventory_permission(inventory_name, 'update', remove=True)
 
-    def remove_inventory_permission_ad_hoc(self, inventory_name):  # pylint: disable=invalid-name
+    def remove_inventory_permission_ad_hoc(self, inventory_name):
         """Removes an inventory with ad hoc permissions
 
         Args:
@@ -478,7 +478,7 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._post_credential_permission(credential_name, 'use')
 
-    def remove_credential_permission_admin(self, credential_name):  # pylint: disable=invalid-name
+    def remove_credential_permission_admin(self, credential_name):
         """Removes a credential with admin permissions
 
         Args:
@@ -490,7 +490,7 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._post_credential_permission(credential_name, 'admin', remove=True)
 
-    def remove_credential_permission_use(self, credential_name):  # pylint: disable=invalid-name
+    def remove_credential_permission_use(self, credential_name):
         """Removes a credential with use permissions
 
         Args:

@@ -55,22 +55,24 @@ LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
 
 
-class Job(object):  # pylint: disable=too-few-public-methods
+class Job:  # pylint: disable=too-few-public-methods
     """Job factory to handle the different jod types returned"""
 
-    def __new__(cls, tower_instance, data):  # pylint: disable=inconsistent-return-statements
+    def __new__(cls, tower_instance, data):
         entity_type = data.get('type')
         if entity_type == 'job':
-            return JobRun(tower_instance, data)
+            obj = JobRun(tower_instance, data)
         elif entity_type == 'project_update':
-            return ProjectUpdateJob(tower_instance, data)
+            obj = ProjectUpdateJob(tower_instance, data)
         elif entity_type == 'system_job':
-            return SystemJob(tower_instance, data)
+            obj = SystemJob(tower_instance, data)
         elif entity_type == 'ad_hoc_command':
-            return AdHocCommandJob(tower_instance, data)
+            obj = AdHocCommandJob(tower_instance, data)
         else:
             LOGGER.error('Unknown entity type {}'.format(entity_type))
             LOGGER.debug(data)
+            return None
+        return obj
             # raise ValueError('Unknown entity type {}'.format(entity_type))
 
 
@@ -399,7 +401,7 @@ class JobSummary(Entity):
         return self._data.get('failed')
 
 
-class JobRun(Entity):
+class JobRun(Entity):  # pylint: disable=too-many-public-methods
     """Models the Job entity of ansible tower"""
 
     def __init__(self, tower_instance, data):
@@ -416,15 +418,21 @@ class JobRun(Entity):
         url = self._data.get('related', {}).get('created_by')
         return self._tower._get_object_by_url('User', url)  # pylint: disable=protected-access
 
-    # TODO add labels, model them and implement them here  # pylint:disable=fixme
+    # TOFIX add labels, model them and implement them here
 
     def _get_dynamic_value(self, variable):
-        url = '{api}/jobs/{id}'.format(api=self._tower.api, id=self.id)  # pylint: disable=protected-access
+        url = '{api}/jobs/{id}'.format(api=self._tower.api, id=self.id)
         response = self._tower.session.get(url)
         return response.json().get(variable) if response.ok else None
 
     def cancel(self):
-        url = '{api}/jobs/{id}/cancel/'.format(api=self._tower.api, id=self.id)  # pylint: disable=protected-access
+        """Cancels the running or pending job
+
+        Returns:
+            True on success, False otherwise.
+
+        """
+        url = '{api}/jobs/{id}/cancel/'.format(api=self._tower.api, id=self.id)
         response = self._tower.session.post(url)
         return response.ok
 
@@ -562,7 +570,7 @@ class JobRun(Entity):
         div.find('style').extract()
         return div.text
 
-    # TODO use, model and implement notifications  # pylint:disable=fixme
+    # TOFIX use, model and implement notifications
 
     @property
     def host(self):
@@ -596,7 +604,7 @@ class JobRun(Entity):
         url = self._data.get('related', {}).get('job_events')
         return EntityManager(self._tower, entity_object='JobEvent', primary_match_field='name', url=url)
 
-    # TODO model activity streams and implement them here  # pylint:disable=fixme
+    # TOFIX model activity streams and implement them here
 
     @property
     def job_template(self):
@@ -609,9 +617,9 @@ class JobRun(Entity):
         url = self._data.get('related', {}).get('job_template')
         return self._tower._get_object_by_url('JobTemplate', url)  # pylint: disable=protected-access
 
-    # TODO model cancel event and implement it here  # pylint:disable=fixme
+    # TOFIX model cancel event and implement it here
 
-    # TODO model relaunch event and implement it here  # pylint:disable=fixme
+    # TOFIX model relaunch event and implement it here
 
     @property
     def summary_fields(self):
@@ -1176,13 +1184,13 @@ class SystemJob(Entity):
     def __init__(self, tower_instance, data):
         Entity.__init__(self, tower_instance, data)
 
-    # TODO use, model and implement cancel  # pylint:disable=fixme
+    # TOFIX use, model and implement cancel
 
-    # TODO use, model and implement notifications  # pylint:disable=fixme
+    # TOFIX use, model and implement notifications
 
-    # TODO use, model and implement system_job_template  # pylint:disable=fixme
+    # TOFIX use, model and implement system_job_template
 
-    # TODO use, model and implement unified_job_template  # pylint:disable=fixme
+    # TOFIX use, model and implement unified_job_template
 
     @property
     def started_at(self):
@@ -1410,11 +1418,11 @@ class ProjectUpdateJob(Entity):  # pylint: disable=too-many-public-methods
         div.find('style').extract()
         return div.text
 
-    # TODO model and use cancel  # pylint:disable=fixme
+    # TOFIX model and use cancel
 
-    # TODO use, model and implement notifications  # pylint:disable=fixme
+    # TOFIX use, model and implement notifications
 
-    # TODO use, model and implement scm_inventory_updates  # pylint:disable=fixme
+    # TOFIX use, model and implement scm_inventory_updates
 
     @property
     def project(self):
