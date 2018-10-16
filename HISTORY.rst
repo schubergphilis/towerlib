@@ -29,3 +29,12 @@ History
 
 * Added support for specifying http or https and certificate verifications options
 * Extented the editing capabilities of hosts to name, description and enabled status
+
+
+2.0.0 (2018-10-16)
+------------------
+
+* Implemented dynamic attributes in running jobs.
+* Implemented cancel capabilities for running jobs.
+* Updated the template to python 3.7
+* Officially dropped support for python 2.7
