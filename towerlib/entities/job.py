@@ -423,6 +423,11 @@ class JobRun(Entity):
         response = self._tower.session.get(url)
         return response.json().get(variable) if response.ok else None
 
+    def cancel(self):
+        url = '{api}/jobs/{id}/cancel/'.format(api=self._tower.api, id=self.id)  # pylint: disable=protected-access
+        response = self._tower.session.post(url)
+        return response.ok
+
     @property
     def modified_at(self):
         """The modification datetime of the job
