@@ -418,6 +418,72 @@ class JobRun(Entity):
 
     # TODO add labels, model them and implement them here  # pylint:disable=fixme
 
+    def _get_dynamic_value(self, variable):
+        url = '{api}/jobs/{id}'.format(api=self._tower.api, id=self.id)  # pylint: disable=protected-access
+        response = self._tower.session.get(url)
+        return response.json().get(variable) if response.ok else None
+
+    @property
+    def modified_at(self):
+        """The modification datetime of the job
+
+        Returns:
+            modification_datetime: The datetime of the modification
+
+        """
+        return self._get_dynamic_value('modified')
+
+    @property
+    def finished(self):
+        """The finished datetime of the job
+
+        Returns:
+            finished_datetime: The datetime of the end of the job
+
+        """
+        return self._get_dynamic_value('finished')
+
+    @property
+    def elapsed_time(self):
+        """The elpsed time of the job
+
+        Returns:
+            elapsed: The seconds elapsed since the start of the job
+
+        """
+        return self._get_dynamic_value('elapsed')
+
+    @property
+    def status(self):
+        """The status of the job
+
+        Returns:
+            status: The status of the job
+
+        """
+        return self._get_dynamic_value('status')
+
+    @property
+    def result_stdout(self):
+        """The result stdout of the job
+
+        Returns:
+            result_stdout: The result stdout of the job
+
+        """
+        return self._get_dynamic_value('result_stdout')
+
+    @property
+    def result_traceback(self):
+        """The result traceback of the job
+
+        Returns:
+            result_traceback: The result traceback of the job
+
+        """
+        return self._get_dynamic_value('result_traceback')
+
+
     @property
     def inventory(self):
         """The inventory this job belongs to
