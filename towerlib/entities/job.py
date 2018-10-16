@@ -482,7 +482,7 @@ class JobRun(Entity):
 
         """
         stdout_url = self._data.get('related', {}).get('stdout')
-        url = '{host}{url}'.format(host=self.host, url=stdout_url)
+        url = '{host}{url}'.format(host=self._tower.host, url=stdout_url)
         response = self._tower.session.get(url)
         soup = Bfs(response.text, 'html.parser')
         # get stdout div tag
