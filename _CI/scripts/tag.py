@@ -51,7 +51,7 @@ def push():
         current_version = version_file.read()
         version_file.close()
     git.commit('Set version to {}'.format(current_version), '.VERSION')
-    git.tag(current_version)
+    git.add_tag(current_version)
     git.push()
     git.push('origin', current_version)
 
