@@ -29,6 +29,7 @@ from bootstrap import bootstrap
 from gitwrapperlib import Git
 from library import bump
 from configuration import BRANCHES_SUPPORTED_FOR_TAG
+from datetime import datetime
 
 # This is the main prefix used for logging
 LOGGER_BASENAME = '''_CI.tag'''
@@ -45,15 +46,43 @@ def check_branch():
         raise SystemExit(1)
 
 
-def push():
+def push(current_version):
     git = Git()
-    with open('.VERSION', 'r') as version_file:
-        current_version = version_file.read()
-        version_file.close()
+    git.commit('Updated history file with changelog', 'HISTORY.rst')
     git.commit('Set version to {}'.format(current_version), '.VERSION')
     git.add_tag(current_version)
     git.push()
     git.push('origin', current_version)
+    print(current_version)
+
+
+def _get_user_input(version):
+    print(f'Enter/Paste your history changelog for version {version}. \n'
+          f'Each comment can be a different line. \n\n'
+          f'Ctrl-D ( Mac | Linux ) or Ctrl-Z ( windows ) to save it.\n')
+    contents = []
+    while True:
+        try:
+            line = input()
+        except EOFError:
+            break
+        contents.append(line)
+    return contents
+
+
+def _get_changelog(contents, version):
+    header = f'{version} ({datetime.today().strftime("%d-%m-%Y")})'
+    underline = '-' * len(header)
+    return (f'\n\n{header}\n'
+            f'{underline}\n\n* ' + '\n* '.join([line for line in contents if line]) + '\n')
+
+
+def update_history_file(version):
+    comments = _get_user_input(version)
+    update_text = _get_changelog(comments, version)
+    with open('HISTORY.rst', 'a') as history_file:
+        history_file.write(update_text)
+        history_file.close()
 
 
 def get_arguments():
@@ -71,15 +100,18 @@ def tag():
     args = get_arguments()
     check_branch()
     if args.major:
-        bump('major')
+        version = bump('major')
+        update_history_file(version)
     elif args.minor:
-        bump('minor')
+        version = bump('minor')
+        update_history_file(version)
     elif args.patch:
-        bump('patch')
+        version = bump('patch')
+        update_history_file(version)
     else:
         bump()
         raise SystemExit(0)
-    push()
+    push(version)
 
 
 if __name__ == '__main__':
