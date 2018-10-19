@@ -47,9 +47,12 @@ def test():
     save_requirements()
     exit_code = execute_command('tox')
     success = not exit_code
-    open_file(os.path.join('test-output', 'coverage', 'index.html'))
-    sleep(0.5)
-    open_file(os.path.join('test-output', 'nosetests.html'))
+    try:
+        open_file(os.path.join('test-output', 'coverage', 'index.html'))
+        sleep(0.5)
+        open_file(os.path.join('test-output', 'nosetests.html'))
+    except Exception:
+        LOGGER.warning('Could not execute UI portion. Maybe running headless?')
     if success:
         LOGGER.info('%s No testing errors found! %s',
                     emojize(':white_heavy_check_mark:'),
