@@ -8,32 +8,32 @@ lint:
   tags:
     - docker
   stage: lint
-  image: # docker with python 2.7 and pipenv installed
+  image: # docker with python 3.7 and pipenv installed
   script:
-    - _CI/scripts/lint
+    - _CI/scripts/lint.py
 
 test:
   tags:
     - docker
   stage: test
-  image: # docker with python 2.7 and pipenv installed
+  image: # docker with python 3.7 and pipenv installed
   script:
-    - _CI/scripts/test
+    - _CI/scripts/test.py
 
 build:
   tags:
     - docker
   stage: build
-  image: # docker with python 2.7 and pipenv installed
+  image: # docker with python 3.7 and pipenv installed
   script:
-    - _CI/scripts/build
+    - _CI/scripts/build.py
 
 upload:
   tags:
     - docker
   stage: upload
-  image: # docker with python 2.7 and pipenv installed
+  image: # docker with python 3.7 and pipenv installed
   only:
     - tags
   script:
-    - _CI/scripts/upload
+    - _CI/scripts/upload.py
