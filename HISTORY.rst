@@ -38,3 +38,9 @@ History
 * Implemented cancel capabilities for running jobs.
 * Updated the template to python 3.7
 * Officially dropped support for python 2.7
+
+
+2.0.1 (25-10-2018)
+------------------
+
+* Update template and dependencies
