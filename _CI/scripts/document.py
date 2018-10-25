@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# File: document.py
 #
 # Copyright 2018 Costas Tyfoxylos
 #
@@ -45,8 +46,10 @@ def document():
     success = not exit_code
     if success:
         shutil.move(os.path.join('docs', '_build'), '_build')
-        path = os.path.join('_build', 'html', 'index.html')
-        open_file(path)
+        try:
+            open_file(os.path.join('_build', 'html', 'index.html'))
+        except Exception:
+            LOGGER.warning('Could not execute UI portion. Maybe running headless?')
         LOGGER.info('%s Successfully built documentation %s',
                     emojize(':white_heavy_check_mark:'),
                     emojize(':thumbs_up:'))

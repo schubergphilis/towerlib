@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# File: bootstrap.py
 #
 # Copyright 2018 Costas Tyfoxylos
 #
@@ -62,7 +63,8 @@ def bootstrap():
         raise SystemExit(1)
     if not is_venv_created():
         LOGGER.debug('Trying to create virtual environment.')
-        exit_code = execute_command('pipenv install --dev --ignore-pipfile')
+        skip_lock = '--skip-lock' if os.environ.get('PIPENV_SKIP_LOCK') else ''
+        exit_code = execute_command(f'pipenv install --dev --ignore-pipfile {skip_lock}')
         success = not exit_code
         if success:
             activate_virtual_environment()

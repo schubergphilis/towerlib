@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# File: upload.py
 #
 # Copyright 2018 Costas Tyfoxylos
 #
@@ -22,10 +23,12 @@
 #  DEALINGS IN THE SOFTWARE.
 #
 
-import os
+
 import logging
+import os
 from build import build
-from library import execute_command
+from library import execute_command, validate_environment_variable_prerequisites
+from configuration import PREREQUISITES
 
 # This is the main prefix used for logging
 LOGGER_BASENAME = '''_CI.upload'''
@@ -34,17 +37,18 @@ LOGGER.addHandler(logging.NullHandler())
 
 
 def upload():
+    if not validate_environment_variable_prerequisites(PREREQUISITES.get('upload_environment_variables', [])):
+        LOGGER.error('Prerequisite environment variable for upload missing, cannot continue.')
+        raise SystemExit(1)
     emojize = build()
     if not emojize:
         LOGGER.error('Errors caught on building the artifact, bailing out...')
         raise SystemExit(1)
-    username = os.environ.get('PYPI_UPLOAD_USER')
-    password = os.environ.get('PYPI_UPLOAD_PASSWORD')
     upload_command = ('twine upload dist/* '
-                      f'-u {username} '
-                      f'-p {password} '
+                      f'-u {os.environ.get("PYPI_UPLOAD_USERNAME")} '
+                      f'-p {os.environ.get("PYPI_UPLOAD_PASSWORD")} '
                       '--skip-existing '
-                      '--repository-url https://upload.pypi.org/legacy/')
+                      f'--repository-url {os.environ.get("PYPI_URL")}')
     LOGGER.info('Trying to upload built artifact...')
     exit_code = execute_command(upload_command)
     success = not exit_code

@@ -20,9 +20,22 @@ except ImportError:
                          open('dev-requirements.txt').readlines()
                          if line.strip() and not line.startswith('#')]
 
+BUILD_REQUIRED_FILES = ('.VERSION',
+                        'LICENSE',
+                        'AUTHORS.rst',
+                        'CONTRIBUTING.rst',
+                        'HISTORY.rst',
+                        'README.rst',
+                        'USAGE.rst',
+                        'Pipfile',
+                        'Pipfile.lock',
+                        'requirements.txt',
+                        'dev-requirements.txt')
+
 readme = open('README.rst').read()
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 version = open('.VERSION').read()
+
 
 
 setup(
@@ -47,19 +60,9 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
         'Programming Language :: Python :: 3.7',
-        ],
+    ],
     test_suite='tests',
     tests_require=test_requirements,
-    data_files=[('', ['.VERSION',
-                      'LICENSE',
-                      'AUTHORS.rst',
-                      'CONTRIBUTING.rst',
-                      'HISTORY.rst',
-                      'README.rst',
-                      'USAGE.rst',
-                      'Pipfile',
-                      'Pipfile.lock',
-                      'requirements.txt',
-                      'dev-requirements.txt']),
+    data_files=[('', BUILD_REQUIRED_FILES),
                 ]
 )

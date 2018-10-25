@@ -35,5 +35,7 @@ upload:
   image: # docker with python 3.7 and pipenv installed
   only:
     - tags
+  except:
+    - branches
   script:
     - _CI/scripts/upload.py

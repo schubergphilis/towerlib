@@ -1,4 +1,4 @@
-$commands = $("bootstrap", "lint", "test", "build", "tag", "upload", "document", "graph")
+$commands = $("bootstrap", "lint", "test", "build", "tag", "upload", "document", "graph", "update")
 
 function New-Alias{
     param (

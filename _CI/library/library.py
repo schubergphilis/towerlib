@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# File: library.py
 #
 # Copyright 2018 Costas Tyfoxylos
 #
@@ -27,6 +28,9 @@ import os
 import shlex
 import shutil
 import sys
+import stat
+import tempfile
+from contextlib import contextmanager
 from collections import namedtuple
 from subprocess import Popen, PIPE
 
@@ -35,16 +39,21 @@ from configuration import LOGGERS_TO_DISABLE, ENVIRONMENT_VARIABLES, LOGGING_LEV
 
 logging_level = os.environ.get('LOGGING_LEVEL', '').upper() or LOGGING_LEVEL
 if logging_level == 'DEBUG':
-    print('Current executing python version is {}'.format(sys.version_info))
+    print(f'Current executing python version is {sys.version_info}')
 
 # needed to support alternate .venv path if PIPENV_PIPFILE is set
+# Loading PIPENV related variables early, but not overriding if already loaded.
 for name, value in ENVIRONMENT_VARIABLES.items():
     if name.startswith('PIPENV_'):
-        if logging_level == 'DEBUG':
-            print('Loading PIPENV related variable {} : {} '.format(name, value))
-        os.environ[name] = value
+        if not os.environ.get(name):
+            if logging_level == 'DEBUG':
+                print(f'Loading PIPENV related variable {name} : {value}')
+            os.environ[name] = value
+        else:
+            if logging_level == 'DEBUG':
+                print(f'Variable {name} already loaded, not overwriting...')
 
-# Provides possible python2.7 compatibility
+# Provides possible python2.7 compatibility, not really a goal
 try:
     FileNotFoundError
 except NameError:
@@ -123,7 +132,13 @@ if is_venv_active():
 
 
 def get_emojize():
-    from emoji import emojize
+    try:
+        from emoji import emojize
+    except ImportError:
+        print('Unable to import emojize from created virtual environment.\n'
+              'Please make sure that the python version is 3.7 and that the virtual environment is properly created.\n'
+              'If not please remove the .venv directory and try again. Exiting...')
+        raise SystemExit(1)
     return emojize
 
 
@@ -210,10 +225,22 @@ def validate_environment_variable_prerequisites(variable_list):
     return success
 
 
+def interpolate_executable(command):
+    command_list = command.split()
+    try:
+        LOGGER.debug(f'Getting executable path for {command_list[0]}')
+        command_list[0] = get_binary_path(command_list[0])
+        command = ' '.join(command_list)
+    except IndexError:
+        pass
+    return command
+
+
 def execute_command(command):
     LOGGER.debug('Executing command "%s"', command)
+    command = interpolate_executable(command)
     if sys.platform == 'win32':
-        process = Popen(command, shell=True,  bufsize=1)
+        process = Popen(command, shell=True, bufsize=1)
     else:
         command = shlex.split(command)
         LOGGER.debug('Command split to %s for posix shell', command)
@@ -293,8 +320,9 @@ def get_version_file_path():
                                         '.VERSION'))
 
 
-def bump(segment=None):
-    version_file = get_version_file_path()
+def bump(segment=None, version_file=None):
+    if not version_file:
+        version_file = get_version_file_path()
     try:
         version_text = open(version_file).read().strip()
         _ = semver.parse(version_text)
@@ -313,5 +341,87 @@ def bump(segment=None):
             vfile.write(new_version)
             return new_version
     else:
-        print(version_text)
         return version_text
+
+
+@contextmanager
+def cd(new_directory, clean_up=lambda: True):  # pylint: disable=invalid-name
+    """Changes into a given directory and cleans up after it is done
+
+    Args:
+        new_directory: The directory to change to
+        clean_up: A method to clean up the working directory once done
+
+    """
+    previous_directory = os.getcwd()
+    os.chdir(os.path.expanduser(new_directory))
+    try:
+        yield
+    finally:
+        os.chdir(previous_directory)
+        clean_up()
+
+
+@contextmanager
+def tempdir():
+    """Creates a temporary directory"""
+    directory_path = tempfile.mkdtemp()
+
+    def clean_up():  # pylint: disable=missing-docstring
+        shutil.rmtree(directory_path, onerror=on_error)
+
+    with cd(directory_path, clean_up):
+        yield directory_path
+
+
+def on_error(func, path, exc_info):  # pylint: disable=unused-argument
+    """
+    Error handler for ``shutil.rmtree``.
+
+    If the error is due to an access error (read only file)
+    it attempts to add write permission and then retries.
+
+    If the error is for another reason it re-raises the error.
+
+    Usage : ``shutil.rmtree(path, onerror=onerror)``
+
+    # 2007/11/08
+    # Version 0.2.6
+    # pathutils.py
+    # Functions useful for working with files and paths.
+    # http://www.voidspace.org.uk/python/recipebook.shtml#utils
+
+    # Copyright Michael Foord 2004
+    # Released subject to the BSD License
+    # Please see http://www.voidspace.org.uk/python/license.shtml
+
+    # For information about bugfixes, updates and support, please join the Pythonutils mailing list.
+    # http://groups.google.com/group/pythonutils/
+    # Comments, suggestions and bug reports welcome.
+    # Scripts maintained at http://www.voidspace.org.uk/python/index.shtml
+    # E-mail fuzzyman@voidspace.org.uk
+    """
+    if not os.access(path, os.W_OK):
+        # Is the error an access error ?
+        os.chmod(path, stat.S_IWUSR)
+        func(path)
+    else:
+        raise  # pylint: disable=misplaced-bare-raise
+
+
+class Pushd(object):
+    """Implements bash pushd capabilities"""
+
+    cwd = None
+    original_dir = None
+
+    def __init__(self, directory_name):
+        self.cwd = os.path.realpath(directory_name)
+
+    def __enter__(self):
+        self.original_dir = os.getcwd()
+        os.chdir(self.cwd)
+        return self
+
+    def __exit__(self, exception_type, exception_value, traceback):
+        os.chdir(self.original_dir)

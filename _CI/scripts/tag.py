@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# File: tag.py
 #
 # Copyright 2018 Costas Tyfoxylos
 #
@@ -53,12 +54,12 @@ def push(current_version):
     git.add_tag(current_version)
     git.push()
     git.push('origin', current_version)
-    print(current_version)
+    return current_version
 
 
 def _get_user_input(version):
-    print(f'Enter/Paste your history changelog for version {version}. \n'
-          f'Each comment can be a different line. \n\n'
+    print(f'Enter/Paste your history changelog for version {version}.\n'
+          f'Each comment can be a different line.\n\n'
           f'Ctrl-D ( Mac | Linux ) or Ctrl-Z ( windows ) to save it.\n')
     contents = []
     while True:
@@ -109,9 +110,11 @@ def tag():
         version = bump('patch')
         update_history_file(version)
     else:
-        bump()
+        version = bump()
+        print(version)
         raise SystemExit(0)
-    push(version)
+    version = push(version)
+    print(version)
 
 
 if __name__ == '__main__':
