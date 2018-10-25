@@ -44,3 +44,9 @@ History
 ------------------
 
 * Update template and dependencies
+
+
+2.0.2 (25-10-2018)
+------------------
+
+* Reverted breaking change for upload script
