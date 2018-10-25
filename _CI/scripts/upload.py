@@ -37,12 +37,12 @@ LOGGER.addHandler(logging.NullHandler())
 
 
 def upload():
-    if not validate_environment_variable_prerequisites(PREREQUISITES.get('upload_environment_variables', [])):
-        LOGGER.error('Prerequisite environment variable for upload missing, cannot continue.')
-        raise SystemExit(1)
     emojize = build()
     if not emojize:
         LOGGER.error('Errors caught on building the artifact, bailing out...')
+        raise SystemExit(1)
+    if not validate_environment_variable_prerequisites(PREREQUISITES.get('upload_environment_variables', [])):
+        LOGGER.error('Prerequisite environment variable for upload missing, cannot continue.')
         raise SystemExit(1)
     upload_command = ('twine upload dist/* '
                       f'-u {os.environ.get("PYPI_UPLOAD_USERNAME")} '
