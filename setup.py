@@ -45,7 +45,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author='''Costas Tyfoxylos''',
     author_email='''ctyfoxylos@schubergphilis.com''',
-    url='''https://github.com/costastf/towerlib.git''',
+    url='''https://github.com/schubergphilis/towerlib.git''',
     packages=find_packages(where='.', exclude=('tests', 'hooks')),
     package_dir={'''towerlib''':
                  '''towerlib'''},
