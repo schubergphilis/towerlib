@@ -50,3 +50,9 @@ History
 ------------------
 
 * Reverted breaking change for upload script
+
+
+2.0.3 (29-11-2018)
+------------------
+
+* Fixed reference in the package for the right github repo
