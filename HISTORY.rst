@@ -56,3 +56,9 @@ History
 ------------------
 
 * Fixed reference in the package for the right github repo
+
+
+2.1.0 (29-11-2018)
+------------------
+
+* Fixed issue https://github.com/schubergphilis/towerlib/issues/11 with some organization entities
