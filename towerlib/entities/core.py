@@ -244,6 +244,17 @@ class Entity:
         return self._tower.host + self._data.get('url')
 
     @property
+    def api_url(self):
+        """The api url of the object
+
+        Returns:
+            string: The relative url of the representation of the object in tower
+
+        """
+        return self._data.get('url')
+
+
+    @property
     def created_at(self):
         """The date and time the entity was created in tower
 

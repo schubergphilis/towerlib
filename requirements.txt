@@ -10,4 +10,4 @@
 beautifulsoup4~=4.6.3
 cachetools~=2.0.1
 dateutils~=0.6.6
-requests~=2.19.1
+requests~=2.20.1

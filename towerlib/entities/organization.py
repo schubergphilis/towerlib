@@ -284,7 +284,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             EntityManager: EntityManager of the users of the organization
 
         """
-        url = '{organization}users/'.format(organization=self.url)
+        url = '{organization}users/'.format(organization=self.api_url)
         return EntityManager(self._tower, entity_object='User', primary_match_field='username', url=url)
 
     def create_user(self,  # pylint: disable=too-many-arguments
@@ -362,7 +362,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             EntityManager: EntityManager of the teams of the organization
 
         """
-        url = '{organization}teams/'.format(organization=self.url)
+        url = '{organization}teams/'.format(organization=self.api_url)
         return EntityManager(self._tower, entity_object='Team', primary_match_field='name', url=url)
 
     def create_team(self, name, description):
@@ -409,7 +409,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             EntityManager: EntityManager of the inventories of the organization
 
         """
-        url = '{organization}inventories/'.format(organization=self.url)
+        url = '{organization}inventories/'.format(organization=self.api_url)
         return EntityManager(self._tower, entity_object='Inventory', primary_match_field='name', url=url)
 
     def create_inventory(self, name, description, variables='{}'):
@@ -465,7 +465,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             EntityManager: EntityManager of the credentials of the organization
 
         """
-        url = '{organization}credentials/'.format(organization=self.url)
+        url = '{organization}credentials/'.format(organization=self.api_url)
         return EntityManager(self._tower, entity_object='Credential', primary_match_field='name', url=url)
 
     def get_credential_by_name(self, name):
