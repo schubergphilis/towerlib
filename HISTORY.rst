@@ -62,3 +62,9 @@ History
 ------------------
 
 * Fixed issue https://github.com/schubergphilis/towerlib/issues/11 with some organization entities
+
+
+2.2.0 (03-12-2018)
+------------------
+
+* Implemented group association retrieval (contribution by <aopgenoort@schubergphilis.com>)
