@@ -241,3 +241,14 @@ class Group(Entity):
         """
         url = self._data.get('related', {}).get('hosts')
         return EntityManager(self._tower, entity_object='Host', primary_match_field='name', url=url)
+
+    @property
+    def groups(self):
+        """The associated groups of the group
+
+        Returns:
+            EntityManager: EntityManager of the groups of the group
+
+        """
+        url = self._data.get('related', {}).get('children')
+        return EntityManager(self._tower, entity_object='Group', primary_match_field='name', url=url)
