@@ -11,3 +11,4 @@ Contributors
 ------------
 
 * Michael Wiley <michaeltwiley@gmail.com>
+* Anton Opgenoort <aopgenoort@schubergphilis.com>
