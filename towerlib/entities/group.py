@@ -195,6 +195,20 @@ class Group(Entity):
         response = self._tower.session.post(url, data=json.dumps(payload))
         return response.ok
 
+    def _associate_group_by_id(self, id_):
+        payload = {'id': id_}
+        return self._post_group(payload)
+
+    def _disassociate_group_by_id(self, id_):
+        payload = {'id': id_,
+                   'disassociate': 1}
+        return self._post_group(payload)
+
+    def _post_group(self, payload):
+        url = '{api}/groups/{id}/children/'.format(api=self._tower.api, id=self.id)
+        response = self._tower.session.post(url, data=json.dumps(payload))
+        return response.ok
+
     def add_host_by_name(self, name):
         """Add a host to the group by name
 
@@ -230,6 +244,42 @@ class Group(Entity):
         if not host:
             raise InvalidHost(name)
         return self._remove_host_by_id(host.id)
+
+    def associate_group_by_name(self, name):
+        """Associate a group to the group by name
+
+        Args:
+            name: The name of the group to associate with the group
+
+        Returns:
+            bool: True on success, False otherwise
+
+        Raises:
+            InvalidGroup: The group provided as argument does not exist.
+
+        """
+        group = self._tower.get_group_by_name(name)
+        if not group:
+            raise InvalidGroup(name)
+        return self._associate_group_by_id(group.id)
+
+    def disassociate_group_by_name(self, name):
+        """Disassociate a group from the group
+
+        Args:
+            name: The name of the group to disassociate
+
+        Returns:
+            bool: True on success, False otherwise
+
+        Raises:
+            InvalidGroup: The group provided as argument does not exist.
+
+        """
+        group = self._tower.get_group_by_name(name)
+        if not group:
+            raise InvalidGroup(name)
+        return self._disassociate_group_by_id(group.id)
 
     @property
     def hosts(self):
