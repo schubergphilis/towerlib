@@ -34,7 +34,7 @@ Main code for group
 import json
 import logging
 
-from towerlib.towerlibexceptions import InvalidHost
+from towerlib.towerlibexceptions import InvalidHost, InvalidGroup
 from .core import Entity, EntityManager
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
