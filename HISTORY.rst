@@ -68,3 +68,9 @@ History
 ------------------
 
 * Implemented group association retrieval (contribution by <aopgenoort@schubergphilis.com>)
+
+
+2.3.0 (05-12-2018)
+------------------
+
+* Added group association and disassociation
