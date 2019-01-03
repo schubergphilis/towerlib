@@ -33,7 +33,7 @@ emoji = "~=0.5.1"
 
 [packages]
 
-requests = "~=2.20.1"
+requests = "~=2.21.0"
 dateutils = "~=0.6.6"
 beautifulsoup4 = "~=4.6.0"
 cachetools = "~=2.0.1"
