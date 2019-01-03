@@ -74,3 +74,9 @@ History
 ------------------
 
 * Added group association and disassociation
+
+
+2.3.1 (03-01-2019)
+------------------
+
+* Bumped Requests
