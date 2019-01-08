@@ -273,8 +273,8 @@ def clean_up(items):
 
 
 def get_top_level_dependencies():
-    packages = Project().parsed_pipfile.get('packages', {}).keys()
-    dev_packages = Project().parsed_pipfile.get('dev-packages', {}).keys()
+    packages = list(Project().parsed_pipfile.get('packages', {}).keys())
+    dev_packages = list(Project().parsed_pipfile.get('dev-packages', {}).keys())
     return packages, dev_packages
 
 
