@@ -80,3 +80,9 @@ History
 ------------------
 
 * Bumped Requests
+
+
+2.3.2 (09-01-2019)
+------------------
+
+* Changed library.py 
