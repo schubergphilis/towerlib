@@ -56,6 +56,7 @@ from .towerlibexceptions import (AuthFailed,
 from .towerlib import Tower
 from .entities import (Organization,  # NOQA
                        User,
+                       Role,
                        Team,
                        Project,
                        Group,
@@ -112,6 +113,7 @@ assert PermissionNotFound
 assert Tower
 assert Organization
 assert User
+assert Role
 assert Team
 assert Project
 assert Group
