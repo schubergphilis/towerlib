@@ -92,3 +92,9 @@ History
 ------------------
 
 * update setup.py 
+
+
+2.3.4 (04-04-2019)
+------------------
+
+* Added missing import of object that caused a bug in the EntityManager crashing, not being able to load it.
