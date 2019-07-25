@@ -98,3 +98,9 @@ History
 ------------------
 
 * Added missing import of object that caused a bug in the EntityManager crashing, not being able to load it.
+
+
+2.3.5 (25-07-2019)
+------------------
+
+* fix for https://github.com/schubergphilis/towerlib/pull/22
