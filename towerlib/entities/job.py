@@ -527,7 +527,7 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
             Credential: The credential this job belongs to
 
         """
-        url = self._data.get('related', {}).get('credential')
+        url = self._data.get('related', {}).get('credentials')
         return self._tower._get_object_by_url('Credential', url)  # pylint: disable=protected-access
 
     @property
@@ -792,7 +792,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
             Credential: The credential that the job template uses
 
         """
-        url = self._data.get('related', {}).get('credential')
+        url = self._data.get('related', {}).get('credentials')
         return self._tower._get_object_by_url('Credential', url)  # pylint: disable=protected-access
 
     @property
@@ -1397,7 +1397,7 @@ class ProjectUpdateJob(Entity):  # pylint: disable=too-many-public-methods
             Credential: The credential of the project
 
         """
-        url = self._data.get('related', {}).get('credential')
+        url = self._data.get('related', {}).get('credentials')
         return self._tower._get_object_by_url('Credential', url)  # pylint: disable=protected-access
 
     @property
