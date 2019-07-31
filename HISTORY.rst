@@ -104,3 +104,9 @@ History
 ------------------
 
 * fix for https://github.com/schubergphilis/towerlib/pull/22
+
+
+2.3.6 (31-07-2019)
+------------------
+
+* Fixed inventory host deletion.
