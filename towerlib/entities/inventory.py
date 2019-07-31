@@ -364,7 +364,8 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
             InvalidHost: The host provided as argument does not exist.
 
         """
-        host = self._tower.get_host_by_name(name)
+        host = next((host for host in self.hosts
+                     if host.name.lower() == name.lower()), None)
         if not host:
             raise InvalidHost(name)
         return host.delete()
