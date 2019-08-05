@@ -316,7 +316,8 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
             InvalidGroup: The group provided as argument does not exist.
 
         """
-        group = self._tower.get_group_by_name(name)
+        group = next((group for group in self.groups
+                      if group.name.lower() == name.lower()), None)
         if not group:
             raise InvalidGroup(name)
         return group.delete()
