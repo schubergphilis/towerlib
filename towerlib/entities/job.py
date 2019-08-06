@@ -524,7 +524,7 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
         """The credentials of this job
 
         Returns:
-            Credentials: The credentials this job belongs has
+            Credentials: The credentials this job has
 
         """
         url = self._data.get('related', {}).get('credentials')
