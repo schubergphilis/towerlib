@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# File: bootstrap.py
+# File: reset.py
 #
 # Copyright 2018 Costas Tyfoxylos
 #
@@ -24,23 +24,28 @@
 #
 
 import os
+import sys
+import shutil
+import stat
 import logging
 
 # this sets up everything and MUST be included before any third party module in every step
 import _initialize_template
 
-from configuration import LOGGING_LEVEL
-from library import setup_logging
+from configuration import ENVIRONMENT_VARIABLES
+from library import clean_up, get_project_root_path
 
 # This is the main prefix used for logging
-LOGGER_BASENAME = '''_CI.bootstrap'''
+LOGGER_BASENAME = '''_CI.reset'''
 LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
 
 
-def bootstrap():
-    setup_logging(os.environ.get("LOGGING_LEVEL") or LOGGING_LEVEL)
+def reset(environment_variables):
+    pipfile_path = environment_variables.get('PIPENV_PIPFILE', 'Pipfile')
+    venv = os.path.join(get_project_root_path(), os.path.dirname(pipfile_path), '.venv')
+    clean_up(venv)
 
 
 if __name__ == '__main__':
-    bootstrap()
+    reset(ENVIRONMENT_VARIABLES)

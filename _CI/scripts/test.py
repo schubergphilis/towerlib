@@ -23,12 +23,14 @@
 #  DEALINGS IN THE SOFTWARE.
 #
 
-
 import logging
 import os
 from time import sleep
 
-# this needs to be imported first as it manipulates the path
+# this sets up everything and MUST be included before any third party module in every step
+import _initialize_template
+
+from emoji import emojize
 from bootstrap import bootstrap
 from library import (open_file,
                      clean_up,
@@ -42,12 +44,11 @@ LOGGER.addHandler(logging.NullHandler())
 
 
 def test():
-    emojize = bootstrap()
+    bootstrap()
     clean_up('test-output')
     os.mkdir('test-output')
     save_requirements()
-    exit_code = execute_command('tox')
-    success = not exit_code
+    success = execute_command('tox')
     try:
         open_file(os.path.join('test-output', 'coverage', 'index.html'))
         sleep(0.5)
@@ -62,7 +63,7 @@ def test():
         LOGGER.error('%s Testing errors found! %s',
                      emojize(':cross_mark:'),
                      emojize(':crying_face:'))
-    raise SystemExit(exit_code)
+    raise SystemExit(0 if success else 1)
 
 
 if __name__ == '__main__':

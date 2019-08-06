@@ -23,17 +23,19 @@
 #  DEALINGS IN THE SOFTWARE.
 #
 
-from .library import (execute_command,
-                      setup_logging,
-                      get_project_root_path,
-                      validate_binary_prerequisites,
-                      validate_environment_variable_prerequisites,
-                      is_venv_created,
-                      load_environment_variables,
-                      load_dot_env_file,
-                      clean_up,
-                      save_requirements,
-                      open_file,
-                      bump,
-                      activate_virtual_environment,
-                      get_emojize)
+from .core_library import (activate_template,
+                           execute_command,
+                           setup_logging,
+                           get_project_root_path,
+                           validate_binary_prerequisites,
+                           validate_environment_variable_prerequisites,
+                           is_venv_created,
+                           load_environment_variables,
+                           load_dot_env_file,
+                           clean_up,
+                           save_requirements,
+                           open_file,
+                           bump,
+                           activate_virtual_environment,
+                           tempdir,
+                           update_pipfile)

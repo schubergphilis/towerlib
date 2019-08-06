@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+# File: __init__.py
 #
 # Copyright 2018 Costas Tyfoxylos
 #
@@ -26,4 +27,5 @@ from .configuration import (LOGGING_LEVEL,
                             PREREQUISITES,
                             BUILD_REQUIRED_FILES,
                             LOGGERS_TO_DISABLE,
-                            BRANCHES_SUPPORTED_FOR_TAG)
+                            BRANCHES_SUPPORTED_FOR_TAG,
+                            PROJECT_SLUG)

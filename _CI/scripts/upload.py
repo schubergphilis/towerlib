@@ -23,9 +23,13 @@
 #  DEALINGS IN THE SOFTWARE.
 #
 
-
 import logging
 import os
+
+# this sets up everything and MUST be included before any third party module in every step
+import _initialize_template
+
+from emoji import emojize
 from build import build
 from library import execute_command, validate_environment_variable_prerequisites
 from configuration import PREREQUISITES
@@ -37,8 +41,8 @@ LOGGER.addHandler(logging.NullHandler())
 
 
 def upload():
-    emojize = build()
-    if not emojize:
+    success = build()
+    if not success:
         LOGGER.error('Errors caught on building the artifact, bailing out...')
         raise SystemExit(1)
     if not validate_environment_variable_prerequisites(PREREQUISITES.get('upload_environment_variables', [])):
@@ -50,8 +54,7 @@ def upload():
                       '--skip-existing '
                       f'--repository-url {os.environ.get("PYPI_URL")}')
     LOGGER.info('Trying to upload built artifact...')
-    exit_code = execute_command(upload_command)
-    success = not exit_code
+    success = execute_command(upload_command)
     if success:
         LOGGER.info('%s Successfully uploaded artifact! %s',
                     emojize(':white_heavy_check_mark:'),
@@ -60,7 +63,7 @@ def upload():
         LOGGER.error('%s Errors found in uploading artifact! %s',
                      emojize(':cross_mark:'),
                      emojize(':crying_face:'))
-    raise SystemExit(exit_code)
+    raise SystemExit(0 if success else 1)
 
 
 if __name__ == '__main__':
