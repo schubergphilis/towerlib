@@ -718,7 +718,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return EntityManager(self, entity_name='hosts', entity_object='Host', primary_match_field='name')
 
-    def get_inventory_host_by_name(self, name, inventory):
+    def get_inventory_host_by_name(self, inventory, name):
         """Retrieves a host by name from an inventory
 
         Args:
@@ -768,7 +768,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             raise InvalidInventory(inventory)
         return inventory_.create_host(name, description, variables)
 
-    def add_groups_to_host(self, hostname, groups, inventory):
+    def add_groups_to_inventory_host(self, inventory, hostname, groups):
         """Adds groups to a host
 
         Args:
@@ -783,7 +783,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidHost: The host provided as argument does not exist.
 
         """
-        host = self.get_inventory_host_by_name(hostname, inventory)
+        host = self.get_inventory_host_by_name(inventory, hostname)
         if not host:
             raise InvalidHost(hostname)
         return host.associate_with_groups(groups)
@@ -803,7 +803,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidHost: The host provided as argument does not exist.
 
         """
-        host = self.get_inventory_host_by_name(hostname, inventory)
+        host = self.get_inventory_host_by_name(inventory, hostname)
         if not host:
             raise InvalidHost(hostname)
         return host.disassociate_with_groups(groups)
@@ -822,7 +822,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidHost: The host provided as argument does not exist.
 
         """
-        host = self.get_inventory_host_by_name(name, inventory)
+        host = self.get_inventory_host_by_name(inventory, name)
         if not host:
             raise InvalidHost(name)
         return host.delete()

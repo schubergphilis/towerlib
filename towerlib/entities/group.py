@@ -222,7 +222,7 @@ class Group(Entity):
             InvalidHost: The host provided as argument does not exist.
 
         """
-        host = self._tower.get_inventory_host_by_name(name, self.inventory.name)
+        host = self._tower.get_inventory_host_by_name(self.inventory.name, name)
         if not host:
             raise InvalidHost(name)
         return self._add_host_by_id(host.id)
@@ -258,7 +258,7 @@ class Group(Entity):
             InvalidGroup: The group provided as argument does not exist.
 
         """
-        group = self._tower.get_inventory_group_by_name(name, self.inventory.name)
+        group = self._tower.get_inventory_group_by_name(self.inventory.name, name)
         if not group:
             raise InvalidGroup(name)
         return self._associate_group_by_id(group.id)
@@ -276,7 +276,7 @@ class Group(Entity):
             InvalidGroup: The group provided as argument does not exist.
 
         """
-        group = self._tower.get_inventory_group_by_name(name, self.inventory.name)
+        group = self._tower.get_inventory_group_by_name(self.inventory.name, name)
         if not group:
             raise InvalidGroup(name)
         return self._disassociate_group_by_id(group.id)
