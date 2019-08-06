@@ -370,3 +370,41 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         if not host:
             raise InvalidHost(name)
         return host.delete()
+
+    def get_group_by_name(self, name):
+        """Retrieves the group.
+
+        Args:
+            name: The name of the group to retrieve.
+
+        Returns:
+            bool: True on success, False otherwise.
+
+        Raises:
+            InvalidGroup: The group provided as argument does not exist.
+
+        """
+        group = next((group for group in self.groups
+                      if group.name.lower() == name.lower()), None)
+        if not group:
+            raise InvalidGroup(name)
+        return group
+
+    def get_host_by_name(self, name):
+        """Retrieves a host.
+
+        Args:
+            name: The name of the host to retrieve.
+
+        Returns:
+            bool: True on success, False otherwise.
+
+        Raises:
+            InvalidHost: The host provided as argument does not exist.
+
+        """
+        host = next((host for host in self.hosts
+                     if host.name.lower() == name.lower()), None)
+        if not host:
+            raise InvalidHost(name)
+        return host
