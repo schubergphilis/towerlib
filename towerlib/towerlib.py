@@ -729,8 +729,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         inventory_ = self.get_inventory_by_name(inventory)
         if not inventory_:
             raise InvalidInventory(inventory)
-        return next((host for host in inventory_.hosts
-                     if host.name.lower() == name.lower()), None)
+        return inventory_.get_host_by_name(name)
 
     def get_host_by_id(self, id_):
         """Retrieves a host by id
