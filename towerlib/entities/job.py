@@ -520,15 +520,15 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
         return self._tower._get_object_by_url('Project', url)  # pylint: disable=protected-access
 
     @property
-    def credential(self):
-        """The credential this job belongs to
+    def credentials(self):
+        """The credentials of this job
 
         Returns:
-            Credential: The credential this job belongs to
+            Credentials: The credentials this job has
 
         """
         url = self._data.get('related', {}).get('credentials')
-        return self._tower._get_object_by_url('Credential', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='Credential', primary_match_field='name', url=url)
 
     @property
     def extra_credentials(self):
@@ -785,15 +785,15 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         return self._data.get('playbook')
 
     @property
-    def credential(self):
-        """The credential that the job template uses
+    def credentials(self):
+        """The credentials that the job template uses
 
         Returns:
-            Credential: The credential that the job template uses
+            Credentials: The credentials that the job template uses
 
         """
         url = self._data.get('related', {}).get('credentials')
-        return self._tower._get_object_by_url('Credential', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='Credential', primary_match_field='name', url=url)
 
     @property
     def extra_credentials(self):
@@ -1390,15 +1390,15 @@ class ProjectUpdateJob(Entity):  # pylint: disable=too-many-public-methods
         Entity.__init__(self, tower_instance, data)
 
     @property
-    def credential(self):
-        """The credential of the project
+    def credentials(self):
+        """The credentials of the project
 
         Returns:
-            Credential: The credential of the project
+            Credentials: The credentials of the project
 
         """
         url = self._data.get('related', {}).get('credentials')
-        return self._tower._get_object_by_url('Credential', url)  # pylint: disable=protected-access
+        return EntityManager(self._tower, entity_object='Credential', primary_match_field='name', url=url)
 
     @property
     def stdout(self):
