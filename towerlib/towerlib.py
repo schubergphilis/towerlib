@@ -595,10 +595,7 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         """
         inventory_ = self.get_inventory_by_name(inventory)
-        if not inventory_:
-            raise InvalidInventory(inventory)
-        return next((group for group in inventory_.groups
-                     if group.name.lower() == name.lower()), None)
+        return inventory_.get_group_by_name(name)
 
     def get_group_by_id(self, id_):
         """Retrieves a group by id
