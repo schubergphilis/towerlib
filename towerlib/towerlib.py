@@ -129,10 +129,10 @@ class Tower:  # pylint: disable=too-many-public-methods
     @property
     @cached(CONFIGURATION_STATE_CACHE)
     def configuration(self):
-        """The configuration of the tower instance
+        """The configuration of the tower instance.
 
         Returns:
-            Config: The configuration of the tower instance
+            Config: The configuration of the tower instance.
 
         """
         url = '{api}/config/'.format(api=self.api)
@@ -153,10 +153,10 @@ class Tower:  # pylint: disable=too-many-public-methods
     @property
     @cached(CLUSTER_STATE_CACHE)
     def cluster(self):
-        """The cluster status of tower
+        """The cluster status of tower.
 
         Returns:
-            Cluster: The information about the state of the cluster
+            Cluster: The information about the state of the cluster.
 
         """
         def get_instance(name, instance_list):
@@ -183,10 +183,10 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     @property
     def organizations(self):
-        """The organizations configured in tower
+        """The organizations configured in tower.
 
         Returns:
-            EntityManager: The manager object for organizations
+            EntityManager: The manager object for organizations.
 
         """
         return EntityManager(self,
@@ -195,38 +195,38 @@ class Tower:  # pylint: disable=too-many-public-methods
                              primary_match_field='name')
 
     def get_organization_by_name(self, name):
-        """Retrieves an organization by name
+        """Retrieves an organization by name.
 
         Args:
-            name: The name of the organization to retrieve
+            name: The name of the organization to retrieve.
 
         Returns:
-            Organization: The organization if a match is found else None
+            Organization: The organization if a match is found else None.
 
         """
         return next(self.organizations.filter({'name__iexact': name}), None)
 
     def get_organization_by_id(self, id_):
-        """Retrieves an organization by id
+        """Retrieves an organization by id.
 
         Args:
-            id_: The id of the organization to retrieve
+            id_: The id of the organization to retrieve.
 
         Returns:
-            Organization: The organization if a match is found else None
+            Organization: The organization if a match is found else None.
 
         """
         return next(self.organizations.filter({'id': id_}), None)
 
     def create_organization(self, name, description):
-        """Creates an organization in tower
+        """Creates an organization in tower.
 
         Args:
-            name: The name of the organization to create
-            description: The description of the organization to create
+            name: The name of the organization to create.
+            description: The description of the organization to create.
 
         Returns:
-            Organization: The organization on success, None otherwise
+            Organization: The organization on success, None otherwise.
 
         """
         url = '{api}/organizations/'.format(api=self.api)
@@ -236,13 +236,13 @@ class Tower:  # pylint: disable=too-many-public-methods
         return Organization(self, response.json()) if response.ok else None
 
     def delete_organization(self, name):
-        """Deletes an organization from tower
+        """Deletes an organization from tower.
 
         Args:
-            name: The name of the organization to delete
+            name: The name of the organization to delete.
 
         Returns:
-            bool: True on success, False otherwise
+            bool: True on success, False otherwise.
 
         Raises:
             InvalidOrganization: The organization provided as argument does not exist.
@@ -295,65 +295,65 @@ class Tower:  # pylint: disable=too-many-public-methods
                         self._logger.exception('Future failed...')
 
     def get_external_users(self):
-        """Retrieves only users created by an external system
+        """Retrieves only users created by an external system.
 
         Returns:
-            list: Users created by external system in tower
+            list: Users created by external system in tower.
 
         """
         return (user for user in self.users if user.external_account == 'social')
 
     def get_local_users(self):
-        """Retrieves only users created locally in tower
+        """Retrieves only users created locally in tower.
 
         Returns:
-            list: Users created locally in tower
+            list: Users created locally in tower.
 
         """
         return (user for user in self.users if not user.external_account)
 
     @property
     def users(self):
-        """A manager object for the users in tower
+        """A manager object for the users in tower.
 
         Returns:
-            EntityManager: The manager object for users
+            EntityManager: The manager object for users.
 
         """
         return EntityManager(self, entity_name='users', entity_object='User', primary_match_field='username')
 
     def get_user_by_username(self, name):
-        """Retrieves a user by name
+        """Retrieves a user by name.
 
         Args:
-            name: The name of the user to retrieve
+            name: The name of the user to retrieve.
 
         Returns:
-            User: The user if a match is found else None
+            User: The user if a match is found else None.
 
         """
         return next(self.users.filter({'username__iexact': name}), None)
 
     def get_user_by_id(self, id_):
-        """Retrieves a user by id
+        """Retrieves a user by id.
 
         Args:
-            id_: The id of the user to retrieve
+            id_: The id of the user to retrieve.
 
         Returns:
-            User: The user if a match is found else None
+            User: The user if a match is found else None.
 
         """
         return next(self.users.filter({'id': id_}), None)
 
     def delete_user(self, username):
-        """Deletes a user from tower
+        """Deletes a user from tower.
 
         Args:
-            username: The username of the user to delete
+            username: The username of the user to delete.
 
         Returns:
-            bool: True on success, False otherwise
+            bool: True on success, False otherwise.
 
         Raises:
             InvalidUser: The user provided as argument does not exist.
@@ -372,19 +372,19 @@ class Tower:  # pylint: disable=too-many-public-methods
                                     username,
                                     password,
                                     level='standard'):
-        """Creates a user in an organization
+        """Creates a user in an organization.
 
         Args:
-            organization: The name of the organization to create the user under
-            first_name: The user's first name
-            last_name: The user's last name
-            email: The user's email
-            username: The user's username
-            password: The user's password
-            level: The user's level. Accepted values are ('standard', 'system_auditor', 'system_administrator')
+            organization: The name of the organization to create the user under.
+            first_name: The user's first name.
+            last_name: The user's last name.
+            email: The user's email.
+            username: The user's username.
+            password: The user's password.
+            level: The user's level. Accepted values are ('standard', 'system_auditor', 'system_administrator').
 
         Returns:
-            User: The user on success, None otherwise
+            User: The user on success, None otherwise.
 
         Raises:
             InvalidOrganization: The organization provided as argument does not exist.
@@ -397,22 +397,22 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     @property
     def projects(self):
-        """The projects configured in tower
+        """The projects configured in tower.
 
         Returns:
-            EntityManager: The manager object for projects
+            EntityManager: The manager object for projects.
 
         """
         return EntityManager(self, entity_name='projects', entity_object='Project', primary_match_field='name')
 
     def get_project_by_name(self, name):
-        """Retrieves a project by name
+        """Retrieves a project by name.
 
         Args:
-            name: The name of the project to retrieve
+            name: The name of the project to retrieve.
 
         Returns:
-            Project: The project if a match is found else None
+            Project: The project if a match is found else None.
 
         """
         return next(self.projects.filter({'name__iexact': name}), None)
@@ -421,10 +421,10 @@ class Tower:  # pylint: disable=too-many-public-methods
         """Retrieves a project by id
 
         Args:
-            id_: The id of the project to retrieve
+            id_: The id of the project to retrieve.
 
         Returns:
-            Project: The project if a match is found else None
+            Project: The project if a match is found else None.
 
         """
         return next(self.projects.filter({'id': id_}), None)
@@ -444,20 +444,20 @@ class Tower:  # pylint: disable=too-many-public-methods
         """Creates a project in an organization
 
         Args:
-            organization: The name of the organization to create the project under
-            name: The name of the project
-            description: The description of the project
-            credential: The name of the credential to use for the project
-            scm_url: The url of the scm
-            scm_branch: The default branch of the scm
-            scm_type: The type of the scm
-            scm_clean: Clean scm or not Boolean
-            scm_delete_on_update: Delete scm on update Boolean
-            scm_update_on_launch: Update scm on launch Boolean
-            scm_update_cache_timeout: Scm cache update integer
+            organization: The name of the organization to create the project under.
+            name: The name of the project.
+            description: The description of the project.
+            credential: The name of the credential to use for the project.
+            scm_url: The url of the scm.
+            scm_branch: The default branch of the scm.
+            scm_type: The type of the scm.
+            scm_clean: Clean scm or not Boolean.
+            scm_delete_on_update: Delete scm on update Boolean.
+            scm_update_on_launch: Update scm on launch Boolean.
+            scm_update_cache_timeout: Scm cache update integer.
 
         Returns:
-            Project: The created project on success, None otherwise
+            Project: The created project on success, None otherwise.
 
         Raises:
             InvalidOrganization: The organization provided as argument does not exist.
@@ -487,10 +487,10 @@ class Tower:  # pylint: disable=too-many-public-methods
         """Deletes a project from tower
 
         Args:
-            name: The name of the project to delete
+            name: The name of the project to delete.
 
         Returns:
-            bool: True on success, False otherwise
+            bool: True on success, False otherwise.
 
         Raises:
             InvalidProject: The project provided as argument does not exist.
@@ -503,48 +503,48 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     @property
     def teams(self):
-        """The teams configured in tower
+        """The teams configured in tower.
 
         Returns:
-            EntityManager: The manager object for teams
+            EntityManager: The manager object for teams.
 
         """
         return EntityManager(self, entity_name='teams', entity_object='Team', primary_match_field='name')
 
     def get_team_by_name(self, name):
-        """Retrieves a team by name
+        """Retrieves a team by name.
 
         Args:
-            name: The name of the team to retrieve
+            name: The name of the team to retrieve.
 
         Returns:
-            Team: The team if a match is found else None
+            Team: The team if a match is found else None.
 
         """
         return next(self.teams.filter({'name__iexact': name}), None)
 
     def get_team_by_id(self, id_):
-        """Retrieves a team by id
+        """Retrieves a team by id.
 
         Args:
-            id_: The id of the team to retrieve
+            id_: The id of the team to retrieve.
 
         Returns:
-            Team: The team if a match is found else None
+            Team: The team if a match is found else None.
 
         """
         return next(self.teams.filter({'id': id_}), None)
 
     def create_team_in_organization(self, organization, team_name, description):
-        """Creates a team under an organization
+        """Creates a team under an organization.
 
         Args:
-            organization: The name of the organization to create the team under
-            team_name: The name of the team to create
-            description: The description of the team to create
+            organization: The name of the organization to create the team under.
+            team_name: The name of the team to create.
+            description: The description of the team to create.
 
         Returns:
-            Team: The created team on success, None otherwise
+            Team: The created team on success, None otherwise.
 
         Raises:
             InvalidOrganization: The organization provided as argument does not exist.
@@ -559,10 +559,10 @@ class Tower:  # pylint: disable=too-many-public-methods
         """Deletes a team from tower
 
         Args:
-            name: The name of the team to delete
+            name: The name of the team to delete.
 
         Returns:
-            bool: True on success, False otherwise
+            bool: True on success, False otherwise.
 
         Raises:
             InvalidTeam: The team provided as argument does not exist.
@@ -575,16 +575,16 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     @property
     def groups(self):
-        """The groups configured in tower
+        """The groups configured in tower.
 
         Returns:
-            EntityManager: The manager object for groups
+            EntityManager: The manager object for groups.
 
         """
         return EntityManager(self, entity_name='groups', entity_object='Group', primary_match_field='name')
 
     def get_inventory_group_by_name(self, name, inventory):
-        """Retrieves a group by name
+        """Retrieves a group by name.
 
         Args:
             name: The name of the group to retrieve.
@@ -598,13 +598,13 @@ class Tower:  # pylint: disable=too-many-public-methods
         return inventory_.get_group_by_name(name)
 
     def get_group_by_id(self, id_):
-        """Retrieves a group by id
+        """Retrieves a group by id.
 
         Args:
-            id_: The id of the group to retrieve
+            id_: The id of the group to retrieve.
 
         Returns:
-            Group: The group if a match is found else None
+            Group: The group if a match is found else None.
 
         """
         return next(self.groups.filter({'id': id_}), None)
@@ -617,7 +617,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             inventory: The name of the inventory to retrieve the group from.
 
         Returns:
-            bool: True on success, False otherwise
+            bool: True on success, False otherwise.
 
         Raises:
             InvalidGroup: The group provided as argument does not exist.
@@ -639,25 +639,25 @@ class Tower:  # pylint: disable=too-many-public-methods
         return EntityManager(self, entity_name='inventories', entity_object='Inventory', primary_match_field='name')
 
     def get_inventory_by_name(self, name):
-        """Retrieves an inventory by name
+        """Retrieves an inventory by name.
 
         Args:
-            name: The name of the inventory to retrieve
+            name: The name of the inventory to retrieve.
 
         Returns:
-            Inventory: The inventory if a match is found else None
+            Inventory: The inventory if a match is found else None.
 
         """
         return next(self.inventories.filter({'name__iexact': name}), None)
 
     def get_inventory_by_id(self, id_):
-        """Retrieves an inventory by id
+        """Retrieves an inventory by id.
 
         Args:
-            id_: The id of the inventory to retrieve
+            id_: The id of the inventory to retrieve.
 
         Returns:
-            Inventory: The inventory if a match is found else None
+            Inventory: The inventory if a match is found else None.
 
         """
         return next(self.inventories.filter({'id': id_}), None)
