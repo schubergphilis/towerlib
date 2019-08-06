@@ -384,8 +384,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
             InvalidGroup: The group provided as argument does not exist.
 
         """
-        group = next((group for group in self.groups
-                      if group.name.lower() == name.lower()), None)
+        group = next(self._tower.groups.filter({'inventory': self.id, 'name': name}), None)
         if not group:
             raise InvalidGroup(name)
         return group
@@ -403,8 +402,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
             InvalidHost: The host provided as argument does not exist.
 
         """
-        host = next((host for host in self.hosts
-                     if host.name.lower() == name.lower()), None)
+        host = next(self._tower.hosts.filter({'inventory': self.id, 'name': name}), None)
         if not host:
             raise InvalidHost(name)
         return host
