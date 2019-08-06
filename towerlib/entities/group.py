@@ -24,7 +24,7 @@
 #
 
 """
-Main code for group
+Main code for group.
 
 .. _Google Python Style Guide:
    http://google.github.io/styleguide/pyguide.html
@@ -47,51 +47,51 @@ __maintainer__ = '''Costas Tyfoxylos'''
 __email__ = '''<ctyfoxylos@schubergphilis.com>'''
 __status__ = '''Development'''  # "Prototype", "Development", "Production".
 
-# This is the main prefix used for logging
+# This is the main prefix used for logging.
 LOGGER_BASENAME = '''group'''
 LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
 
 
 class Group(Entity):
-    """Models the group entity of ansible tower"""
+    """Models the group entity of ansible tower."""
 
     def __init__(self, tower_instance, data):
         Entity.__init__(self, tower_instance, data)
 
     @property
     def name(self):
-        """The name of the group
+        """The name of the group.
 
         Returns:
-            string: The name of the group
+            string: The name of the group.
 
         """
         return self._data.get('name')
 
     @property
     def description(self):
-        """The description of the group
+        """The description of the group.
 
         Returns:
-            string: The description of the group
+            string: The description of the group.
 
         """
         return self._data.get('description')
 
     @property
     def inventory(self):
-        """The inventory that the group is part of
+        """The inventory that the group is part of.
 
         Returns:
-            Inventory: The inventory that the group is part of
+            Inventory: The inventory that the group is part of.
 
         """
         return self._tower.get_inventory_by_id(self._data.get('inventory'))
 
     @property
     def variables(self):
-        """The variables set on the group
+        """The variables set on the group.
 
         Returns:
             string: A string of the variables set on the group usually in yaml format.
@@ -101,70 +101,70 @@ class Group(Entity):
 
     @property
     def has_active_failures(self):
-        """A flag on whether the group has active failures
+        """A flag on whether the group has active failures.
 
         Returns:
-            bool: True if there are active failures, False if not
+            bool: True if there are active failures, False if not.
 
         """
         return self._data.get('has_active_failures')
 
     @property
     def total_hosts_count(self):
-        """The total number of hosts in the group
+        """The total number of hosts in the group.
 
         Returns:
-            integer: The number of group hosts
+            integer: The number of group hosts.
 
         """
         return self._data.get('total_hosts')
 
     @property
     def hosts_with_active_failures_count(self):
-        """The number of hosts with active failures
+        """The number of hosts with active failures.
 
         Returns:
-            integer: The number of hosts with active failures
+            integer: The number of hosts with active failures.
 
         """
         return self._data.get('hosts_with_active_failures')
 
     @property
     def total_groups_count(self):
-        """The number of groups
+        """The number of groups.
 
         Returns:
-            integer: The number of groups
+            integer: The number of groups.
 
         """
         return self._data.get('total_groups')
 
     @property
     def groups_with_active_failures_count(self):
-        """The number of groups with active failures
+        """The number of groups with active failures.
 
         Returns:
-            integer: The number of groups with active failures
+            integer: The number of groups with active failures.
 
         """
         return self._data.get('groups_with_active_failures')
 
     @property
     def has_inventory_sources(self):
-        """A flag of whether there are
+        """A flag of whether there are.
 
         Returns:
-            bool: True if set, False otherwise
+            bool: True if set, False otherwise.
 
         """
         return self._data.get('has_inventory_sources')
 
     @property
     def created_by(self):
-        """The user that created the group
+        """The user that created the group.
 
         Returns:
-            User: The user that created the group
+            User: The user that created the group.
 
         """
         url = self._data.get('related', {}).get('created_by')
@@ -172,10 +172,10 @@ class Group(Entity):
 
     @property
     def object_roles(self):
-        """The object roles
+        """The object roles.
 
         Returns:
-            EntityManager: EntityManager of the object roles supported
+            EntityManager: EntityManager of the object roles supported.
 
         """
         url = self._data.get('related', {}).get('object_roles')
@@ -210,13 +210,13 @@ class Group(Entity):
         return response.ok
 
     def add_host_by_name(self, name):
-        """Add a host to the group by name
+        """Add a host to the group by name.
 
         Args:
             name: The name of the host to add to the group.
 
         Returns:
-            bool: True on success, False otherwise
+            bool: True on success, False otherwise.
 
         Raises:
             InvalidHost: The host provided as argument does not exist.
@@ -283,10 +283,10 @@ class Group(Entity):
 
     @property
     def hosts(self):
-        """The hosts of the group
+        """The hosts of the group.
 
         Returns:
-            EntityManager: EntityManager of the hosts of the group
+            EntityManager: EntityManager of the hosts of the group.
 
         """
         url = self._data.get('related', {}).get('hosts')
@@ -294,10 +294,10 @@ class Group(Entity):
 
     @property
     def groups(self):
-        """The associated groups of the group
+        """The associated groups of the group.
 
         Returns:
-            EntityManager: EntityManager of the groups of the group
+            EntityManager: EntityManager of the groups of the group.
 
         """
         url = self._data.get('related', {}).get('children')

@@ -24,7 +24,7 @@
 #
 
 """
-Main code for host
+Main code for host.
 
 .. _Google Python Style Guide:
    http://google.github.io/styleguide/pyguide.html
@@ -54,7 +54,7 @@ LOGGER.addHandler(logging.NullHandler())
 
 
 class Host(Entity):
-    """Models the host entity of ansible tower"""
+    """Models the host entity of ansible tower."""
 
     def __init__(self, tower_instance, data):
         Entity.__init__(self, tower_instance, data)
@@ -66,17 +66,17 @@ class Host(Entity):
 
     @property
     def name(self):
-        """The name of the host
+        """The name of the host.
 
         Returns:
-            string: The name of the host
+            string: The name of the host.
 
         """
         return self._data.get('name')
 
     @name.setter
     def name(self, value):
-        """Update the name on the host"
+        """Update the name on the host.
 
         Returns:
             None:
@@ -86,17 +86,17 @@ class Host(Entity):
 
     @property
     def description(self):
-        """The description of the host
+        """The description of the host.
 
         Returns:
-            string: The description of the host
+            string: The description of the host.
 
         """
         return self._data.get('description')
 
     @description.setter
     def description(self, value):
-        """Update the description on the host"
+        """Update the description on the host.
 
         Returns:
             None:
@@ -106,27 +106,27 @@ class Host(Entity):
 
     @property
     def inventory(self):
-        """The inventory that the host is part of
+        """The inventory that the host is part of.
 
         Returns:
-            Inventory: The inventory that the host is part of
+            Inventory: The inventory that the host is part of.
 
         """
         return self._tower.get_inventory_by_id(self._data.get('inventory'))
 
     @property
     def enabled(self):
-        """Flag about whether the host is enabled in tower
+        """Flag about whether the host is enabled in tower.
 
         Returns:
-            bool: True if the host is enabled, False otherwise
+            bool: True if the host is enabled, False otherwise.
 
         """
         return self._data.get('enabled')
 
     @enabled.setter
     def enabled(self, value):
-        """Update the enabled status of the host"
+        """Update the enabled status of the host.
 
         Returns:
             None:
@@ -136,7 +136,7 @@ class Host(Entity):
 
     @property
     def instance_id(self):
-        """Not sure what this is
+        """Not sure what this is.
 
         Returns:
             string:
@@ -146,7 +146,7 @@ class Host(Entity):
 
     @property
     def variables(self):
-        """The variables set on the host
+        """The variables set on the host.
 
         Returns:
             string: A string of the variables set on the host usually in yaml format.
@@ -156,7 +156,7 @@ class Host(Entity):
 
     @variables.setter
     def variables(self, value):
-        """Update the variables on the host"
+        """Update the variables on the host.
 
         Returns:
             None:
@@ -177,60 +177,60 @@ class Host(Entity):
 
     @property
     def has_active_failures(self):
-        """Flag about whether the host has active failures
+        """Flag about whether the host has active failures.
 
         Returns:
-            bool: True if the host has active failures, False otherwise
+            bool: True if the host has active failures, False otherwise.
 
         """
         return self._data.get('has_active_failures')
 
     @property
     def has_inventory_sources(self):
-        """Flag about whether the host has inventory sources
+        """Flag about whether the host has inventory sources.
 
         Returns:
-            bool: True if the host has inventory sources, False otherwise
+            bool: True if the host has inventory sources, False otherwise.
 
         """
         return self._data.get('has_inventory_sources')
 
     @property
     def last_job(self):
-        """The id of the last job
+        """The id of the last job.
 
         Returns:
-            integer: The id of the last job
+            integer: The id of the last job.
 
         """
         return self._data.get('last_job')
 
     @property
     def last_job_host_summary(self):
-        """The id of the last job summary
+        """The id of the last job summary.
 
         Returns:
-            integer: The id of the last job summary
+            integer: The id of the last job summary..
 
         """
         return self._data.get('last_job_host_summary')
 
     @property
     def insights_system_id(self):
-        """Not sure what this is
+        """Not sure what this is.
 
         Returns:
-            None
+            None.
 
         """
         return self._data.get('insights_system_id')
 
     @property
     def created_by(self):
-        """The user that created the host
+        """The user that created the host.
 
         Returns:
-            User: The user that created the host
+            User: The user that created the host.
 
         """
         url = self._data.get('related', {}).get('created_by')
@@ -238,10 +238,10 @@ class Host(Entity):
 
     @property
     def modified_by(self):
-        """The person that modified the host last
+        """The person that modified the host last.
 
         Returns:
-            User: The user that modified the host in tower last
+            User: The user that modified the host in tower last.
 
         """
         url = self._data.get('related', {}).get('modified_by')
@@ -249,10 +249,10 @@ class Host(Entity):
 
     @property
     def groups(self):
-        """The groups that the host is part of
+        """The groups that the host is part of.
 
         Returns:
-            EntityManager: EntityManager of the groups of the host
+            EntityManager: EntityManager of the groups of the host.
 
         """
         url = self._data.get('related', {}).get('groups')
@@ -260,23 +260,23 @@ class Host(Entity):
 
     @property
     def recent_jobs(self):
-        """The most recent jobs run on the host
+        """The most recent jobs run on the host.
 
         Returns:
-            list if dict: The most recent jobs run on the host
+            list if dict: The most recent jobs run on the host.
 
         """
         return self._data.get('summary_fields', {}).get('recent_jobs')
 
     def associate_with_groups(self, groups):
-        """Associate the host with the provided groups
+        """Associate the host with the provided groups.
 
         Args:
             groups: The groups to associate the host with.
-            Accepts a single group string or a list or tuple of groups
+            Accepts a single group string or a list or tuple of groups.
 
         Returns:
-            bool: True on complete success, False otherwise
+            bool: True on complete success, False otherwise.
 
         Raises:
             InvalidGroup: The group provided as argument does not exist.
@@ -295,14 +295,14 @@ class Host(Entity):
                     for group in final_groups])
 
     def disassociate_with_groups(self, groups):
-        """Disassociate the host from the provided groups
+        """Disassociate the host from the provided groups.
 
         Args:
             groups: The group name(s) to disassociate the host from.
-            Accepts a single group string or a list or tuple of groups
+            Accepts a single group string or a list or tuple of groups.
 
         Returns:
-            bool: True on complete success, False otherwise
+            bool: True on complete success, False otherwise.
 
         Raises:
             InvalidGroup: The group provided as argument does not exist.

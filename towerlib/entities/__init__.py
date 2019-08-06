@@ -24,9 +24,9 @@
 #
 
 """
-towerlib package
+towerlib package.
 
-Import all parts from entities here
+Import all parts from entities here.
 
 .. _Google Python Style Guide:
    http://google.github.io/styleguide/pyguide.html

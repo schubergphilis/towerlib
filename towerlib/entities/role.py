@@ -24,7 +24,7 @@
 #
 
 """
-Main code for role
+Main code for role.
 
 .. _Google Python Style Guide:
    http://google.github.io/styleguide/pyguide.html
@@ -52,47 +52,47 @@ LOGGER.addHandler(logging.NullHandler())
 
 
 class Role(Entity):
-    """Models the role entity of ansible tower"""
+    """Models the role entity of ansible tower."""
 
     def __init__(self, tower_instance, data):
         Entity.__init__(self, tower_instance, data)
 
     @property
     def name(self):
-        """The name of the role
+        """The name of the role.
 
         Returns:
-            string: The name of the role
+            string: The name of the role.
 
         """
         return self._data.get('name')
 
     @property
     def description(self):
-        """The description of the role
+        """The description of the role.
 
         Returns:
-            string: The description of the role
+            string: The description of the role.
 
         """
         return self._data.get('description')
 
     @property
     def summary_fields(self):
-        """The summary fields of the role
+        """The summary fields of the role.
 
         Returns:
-            Organization: The summary fields of the role
+            Organization: The summary fields of the role.
 
         """
         return self._data.get('summary_fields')
 
     @property
     def users(self):
-        """The users of the team
+        """The users of the team.
 
         Returns:
-            EntityManager: EntityManager of the users
+            EntityManager: EntityManager of the users.
 
         """
         url = self._data.get('related', {}).get('users')
@@ -100,10 +100,10 @@ class Role(Entity):
 
     @property
     def teams(self):
-        """The teams that have the role assigned
+        """The teams that have the role assigned.
 
         Returns:
-            EntityManager: EntityManager of the teams
+            EntityManager: EntityManager of the teams.
 
         """
         url = self._data.get('related', {}).get('teams')
@@ -111,10 +111,10 @@ class Role(Entity):
 
     @property
     def projects(self):
-        """The projects of the team
+        """The projects of the team.
 
         Returns:
-            EntityManager: EntityManager of the projects
+            EntityManager: EntityManager of the projects.
 
         """
         url = self._data.get('related', {}).get('projects')
@@ -122,17 +122,17 @@ class Role(Entity):
 
 
 class ObjectRole(Role):
-    """Models the object role entity of ansible tower"""
+    """Models the object role entity of ansible tower."""
 
     def __init__(self, tower_instance, data):
         Role.__init__(self, tower_instance, data)
 
     @property
     def team(self):
-        """The team that has the object role assigned
+        """The team that has the object role assigned.
 
         Returns:
-            Team: The team that has the object role assigned
+            Team: The team that has the object role assigned.
 
         """
         url = self._data.get('related', {}).get('team')

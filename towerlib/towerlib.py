@@ -24,7 +24,7 @@
 #
 # pylint: disable=too-many-lines
 """
-Main code for towerlib
+Main code for towerlib.
 
 .. _Google Python Style Guide:
    http://google.github.io/styleguide/pyguide.html
@@ -100,7 +100,7 @@ CONFIGURATION_STATE_CACHE = TTLCache(maxsize=1, ttl=CONFIGURATION_STATE_CACHING_
 
 
 class Tower:  # pylint: disable=too-many-public-methods
-    """Models the api of ansible tower"""
+    """Models the api of ansible tower."""
 
     def __init__(self, host, username, password, secure=False, ssl_verify=True):  # pylint: disable=too-many-arguments
         logger_name = u'{base}.{suffix}'.format(base=LOGGER_BASENAME,
@@ -160,7 +160,7 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         """
         def get_instance(name, instance_list):
-            """Getting an instance nametuple from an instance list"""
+            """Getting an instance nametuple from an instance list."""
             node = next((instance for instance in instance_list
                          if instance.get('node') == name), None)
             data = [node.get(key_) for key_ in ('node', 'heartbeat')]
@@ -255,7 +255,7 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     @staticmethod
     def add_slash(url):
-        """Adds a final slash to a url if there is not any"""
+        """Adds a final slash to a url if there is not any."""
         return url + '/' if not url.endswith('/') else url
 
     def _get_paginated_response(self, url, params=None):
@@ -418,7 +418,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         return next(self.projects.filter({'name__iexact': name}), None)
 
     def get_project_by_id(self, id_):
-        """Retrieves a project by id
+        """Retrieves a project by id.
 
         Args:
             id_: The id of the project to retrieve.
@@ -441,7 +441,7 @@ class Tower:  # pylint: disable=too-many-public-methods
                                        scm_delete_on_update=False,
                                        scm_update_on_launch=True,
                                        scm_update_cache_timeout=0):
-        """Creates a project in an organization
+        """Creates a project in an organization.
 
         Args:
             organization: The name of the organization to create the project under.
@@ -484,7 +484,7 @@ class Tower:  # pylint: disable=too-many-public-methods
                                             scm_update_cache_timeout)
 
     def delete_project(self, name):
-        """Deletes a project from tower
+        """Deletes a project from tower.
 
         Args:
             name: The name of the project to delete.
@@ -556,7 +556,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         return organization.create_team(team_name, description)
 
     def delete_team(self, name):
-        """Deletes a team from tower
+        """Deletes a team from tower.
 
         Args:
             name: The name of the team to delete.
@@ -667,7 +667,7 @@ class Tower:  # pylint: disable=too-many-public-methods
                                          name,
                                          description,
                                          variables='{}'):
-        """Creates an inventory under an organization
+        """Creates an inventory under an organization.
 
         Args:
             organization: The name of the organization to create the inventory under
@@ -688,7 +688,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         return organization.create_inventory(name, description, variables)
 
     def delete_inventory(self, name):
-        """Deletes an inventory from tower
+        """Deletes an inventory from tower.
 
         Args:
             name: The name of the inventory to delete
@@ -707,7 +707,7 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     @property
     def hosts(self):
-        """The hosts configured in tower
+        """The hosts configured in tower.
 
         Returns:
             EntityManager: The manager object for hosts
@@ -716,7 +716,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         return EntityManager(self, entity_name='hosts', entity_object='Host', primary_match_field='name')
 
     def get_inventory_host_by_name(self, inventory, name):
-        """Retrieves a host by name from an inventory
+        """Retrieves a host by name from an inventory.
 
         Args:
             name: The name of the host to retrieve
@@ -732,28 +732,28 @@ class Tower:  # pylint: disable=too-many-public-methods
         return inventory_.get_host_by_name(name)
 
     def get_host_by_id(self, id_):
-        """Retrieves a host by id
+        """Retrieves a host by id.
 
         Args:
-            id_: The id of the host to retrieve
+            id_: The id of the host to retrieve.
 
         Returns:
-            Host: The host if a match is found else None
+            Host: The host if a match is found else None.
 
         """
         return next(self.hosts.filter({'id': id_}), None)
 
     def create_host_in_inventory(self, inventory, name, description, variables='{}'):
-        """Creates a host under an inventory
+        """Creates a host under an inventory.
 
         Args:
-            inventory: The name of the inventory to create the host under
-            name: The name of the host
-            description: The description of the host
-            variables: A json of the variables to be set on the host
+            inventory: The name of the inventory to create the host under.
+            name: The name of the host.
+            description: The description of the host.
+            variables: A json of the variables to be set on the host.
 
         Returns:
-            Host: The created host on success, None otherwise
+            Host: The created host on success, None otherwise.
 
         Raises:
             InvalidInventory: The inventory provided as argument does not exist.
@@ -765,7 +765,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         return inventory_.create_host(name, description, variables)
 
     def add_groups_to_inventory_host(self, inventory, hostname, groups):
-        """Adds groups to a host
+        """Adds groups to a host.
 
         Args:
             hostname: The name of the host to add the groups to.
@@ -773,7 +773,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             inventory: The inventory to retrieve the host from.
 
         Returns:
-            bool: True on complete success, False otherwise
+            bool: True on complete success, False otherwise.
 
         Raises:
             InvalidHost: The host provided as argument does not exist.
@@ -785,7 +785,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         return host.associate_with_groups(groups)
 
     def remove_groups_from_host(self, hostname, groups, inventory):
-        """Removes groups from a host
+        """Removes groups from a host.
 
         Args:
             hostname: The name of the host to remove the groups from.
@@ -805,14 +805,14 @@ class Tower:  # pylint: disable=too-many-public-methods
         return host.disassociate_with_groups(groups)
 
     def delete_inventory_host(self, name, inventory):
-        """Deletes an host from tower
+        """Deletes an host from tower.
 
         Args:
             name: The name of the host to delete.
             inventory: The name of the inventory to delete the host from.
 
         Returns:
-            bool: True on success, False otherwise
+            bool: True on success, False otherwise.
 
         Raises:
             InvalidHost: The host provided as argument does not exist.
@@ -825,20 +825,20 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     @property
     def instances(self):
-        """The instances configured in tower
+        """The instances configured in tower.
 
         Returns:
-            EntityManager: The manager object for instances
+            EntityManager: The manager object for instances.
 
         """
         return EntityManager(self, entity_name='instances', entity_object='Instance', primary_match_field='name')
 
     @property
     def instance_groups(self):
-        """The instance_groups configured in tower
+        """The instance_groups configured in tower.
 
         Returns:
-            EntityManager: The manager object for instance groups
+            EntityManager: The manager object for instance groups.
 
         """
         return EntityManager(self,
@@ -848,10 +848,10 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     @property
     def credential_types(self):
-        """The credential_types configured in tower
+        """The credential_types configured in tower.
 
         Returns:
-            EntityManager: The manager object for credentials type
+            EntityManager: The manager object for credentials type.
 
         """
         return EntityManager(self,
@@ -861,10 +861,10 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     @property
     def tower_credential_types(self):
-        """The default credential_types configured in tower
+        """The default credential_types configured in tower.
 
         Returns:
-            EntityManager: The manager object for internal credential types
+            EntityManager: The manager object for internal credential types.
 
         """
         return EntityManager(self,
@@ -874,10 +874,10 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     @property
     def custom_credential_types(self):
-        """The custom credential_types configured in tower
+        """The custom credential_types configured in tower.
 
         Returns:
-            EntityManager: The manager object for external credential types
+            EntityManager: The manager object for external credential types.
 
         """
         return EntityManager(self,
@@ -886,25 +886,25 @@ class Tower:  # pylint: disable=too-many-public-methods
                              primary_match_field='name').filter({'managed_by_tower': 'false'})
 
     def get_credential_type_by_name(self, name):
-        """Retrieves a credential_type by name
+        """Retrieves a credential_type by name.
 
         Args:
-            name: The name of the credential_type to retrieve
+            name: The name of the credential_type to retrieve.
 
         Returns:
-            Host: The credential_type if a match is found else None
+            Host: The credential_type if a match is found else None.
 
         """
         return next(self.credential_types.filter({'name__iexact': name}), None)
 
     def get_credential_type_by_id(self, id_):
-        """Retrieves a credential_type by id
+        """Retrieves a credential_type by id.
 
         Args:
-            id_: The id of the credential_type to retrieve
+            id_: The id of the credential_type to retrieve.
 
         Returns:
-            Host: The credential_type if a match is found else None
+            Host: The credential_type if a match is found else None.
 
         """
         return next(self.credential_types.filter({'id': id_}), None)
@@ -915,17 +915,17 @@ class Tower:  # pylint: disable=too-many-public-methods
                                kind,
                                inputs_='{}',
                                injectors='{}'):
-        """Creates a credential type in tower
+        """Creates a credential type in tower.
 
         Args:
-            name: The name of the credential type
-            description: The description of the credential type
-            kind: The kind of the credential type.Valid values (u'scm', u'ssh', u'vault', u'net', u'cloud', u'insights')
-            inputs_: A dictionary of the inputs to set to the credential type
-            injectors: A dictionary of the injectors to set to the credential type
+            name: The name of the credential type.
+            description: The description of the credential type.
+            kind: The kind of credential type.Valid values (u'scm', u'ssh', u'vault', u'net', u'cloud', u'insights').
+            inputs_: A dictionary of the inputs to set to the credential type.
+            injectors: A dictionary of the injectors to set to the credential type.
 
         Returns:
-            CredentialType on success, None otherwise
+            CredentialType on success, None otherwise.
 
         Raises:
             InvalidCredentialTypeKind: The credential type kind provided as argument does not exist.
@@ -949,13 +949,13 @@ class Tower:  # pylint: disable=too-many-public-methods
         return CredentialType(self, response.json()) if response.ok else None
 
     def delete_credential_type(self, name):
-        """Deletes a credential_type from tower
+        """Deletes a credential_type from tower.
 
         Args:
-            name: The name of the credential_type to delete
+            name: The name of the credential_type to delete.
 
         Returns:
-            bool: True on success, False otherwise
+            bool: True on success, False otherwise.
 
         Raises:
             InvalidCredential: The credential provided as argument does not exist.
@@ -968,34 +968,34 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     @property
     def credentials(self):
-        """The credentials configured in tower
+        """The credentials configured in tower.
 
         Returns:
-            EntityManager: The manager object for credentials
+            EntityManager: The manager object for credentials.
 
         """
         return EntityManager(self, entity_name='credentials', entity_object='Credential', primary_match_field='name')
 
     def get_credential_by_name(self, name):
-        """Retrieves a credential by name
+        """Retrieves a credential by name.
 
         Args:
-            name: The name of the credential to retrieve
+            name: The name of the credential to retrieve.
 
         Returns:
-            Host: The credential if a match is found else None
+            Host: The credential if a match is found else None.
 
         """
         return next(self.credentials.filter({'name__iexact': name}), None)
 
     def get_credential_by_id(self, id_):
-        """Retrieves a credential by id
+        """Retrieves a credential by id.
 
         Args:
-            id_: The id of the credential to retrieve
+            id_: The id of the credential to retrieve.
 
         Returns:
-            Host: The credential if a match is found else None
+            Host: The credential if a match is found else None.
 
         """
         return next(self.credentials.filter({'id': id_}), None)
@@ -1008,19 +1008,19 @@ class Tower:  # pylint: disable=too-many-public-methods
                                           team,
                                           credential_type,
                                           inputs_='{}'):
-        """Creates a credential under an organization
+        """Creates a credential under an organization.
 
         Args:
-            organization: The name of the organization to create a credential under
-            name: The name of the credential to create
-            description: The description of the credential to create
-            user: The username of the user to assign to the credential
-            team: The name of the team to assign to the credential
-            credential_type: The name of the type of the credential
-            inputs_: A json with the values to set to the credential according to what is required by its type
+            organization: The name of the organization to create a credential under.
+            name: The name of the credential to create.
+            description: The description of the credential to create.
+            user: The username of the user to assign to the credential.
+            team: The name of the team to assign to the credential.
+            credential_type: The name of the type of the credential.
+            inputs_: A json with the values to set to the credential according to what is required by its type.
 
         Returns:
-            Credential: The created credential upon success, None otherwise
+            Credential: The created credential upon success, None otherwise.
 
         Raises:
             InvalidOrganization: The organization provided as argument does not exist.
@@ -1057,13 +1057,13 @@ class Tower:  # pylint: disable=too-many-public-methods
         return Credential(self, response.json()) if response.ok else None
 
     def delete_credential(self, name):
-        """Deletes a credential from tower
+        """Deletes a credential from tower.
 
         Args:
-            name: The name of the credential to delete
+            name: The name of the credential to delete.
 
         Returns:
-            bool: True on success, False otherwise
+            bool: True on success, False otherwise.
 
         Raises:
             InvalidCredential: The credentials provided as argument does not exist.
@@ -1076,46 +1076,46 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     @property
     def job_templates(self):
-        """The job templates configured in tower
+        """The job templates configured in tower.
 
         Returns:
-            EntityManager: The manager object for job templates
+            EntityManager: The manager object for job templates.
 
         """
         return EntityManager(self, entity_name='job_templates', entity_object='JobTemplate', primary_match_field='name')
 
     def get_job_template_by_name(self, name):
-        """Retrieves a job template by name
+        """Retrieves a job template by name.
 
         Args:
-            name: The name of the job template to retrieve
+            name: The name of the job template to retrieve.
 
         Returns:
-            JobTemplate: The job template if a match is found else None
+            JobTemplate: The job template if a match is found else None.
 
         """
         return next(self.job_templates.filter({'name__iexact': name}), None)
 
     def get_job_template_by_id(self, id_):
-        """Retrieves a job template by id
+        """Retrieves a job template by id.
 
         Args:
-            id_: The id of the job template to retrieve
+            id_: The id of the job template to retrieve.
 
         Returns:
-            Host: The job template if a match is found else None
+            Host: The job template if a match is found else None.
 
         """
         return next(self.job_templates.filter({'id': id_}), None)
 
     def delete_job_template(self, name):
-        """Deletes a job template from tower
+        """Deletes a job template from tower.
 
         Args:
-            name: The name of the job template to delete
+            name: The name of the job template to delete.
 
         Returns:
-            bool: True on success, False otherwise
+            bool: True on success, False otherwise.
 
         Raises:
             InvalidJobTemplate: The job template provided as argument does not exist.
@@ -1160,26 +1160,26 @@ class Tower:  # pylint: disable=too-many-public-methods
                             become_enabled=False,
                             diff_mode=False,
                             allow_simultaneous=False):
-        """Creates a job template
+        """Creates a job template.
 
         Args:
-            name: The name of the job template to create
-            description: The description of the job template to create
-            inventory: The inventory to use for the template
-            project: The project to use for the template
-            playbook: The playbook to run for the template
-            credential: The credential to use for the template
-            instance_groups: The instance groups to associate to the template
-            host_config_key: A host config key
-            job_type: The job type. Valid values are 'run' and 'check'
-            vault_credential: A vault credential
-            forks: The number of parallel or simultaneous processes to use while executing the playbook
+            name: The name of the job template to create.
+            description: The description of the job template to create.
+            inventory: The inventory to use for the template.
+            project: The project to use for the template.
+            playbook: The playbook to run for the template.
+            credential: The credential to use for the template.
+            instance_groups: The instance groups to associate to the template.
+            host_config_key: A host config key.
+            job_type: The job type. Valid values are 'run' and 'check'.
+            vault_credential: A vault credential.
+            forks: The number of parallel or simultaneous processes to use while executing the playbook.
             limit: A host pattern to constrain the list of hosts that will be managed or affected by the playbook.
-            verbosity: The level of output ansible will produce as the playbook executes. Values [0-4]
+            verbosity: The level of output ansible will produce as the playbook executes. Values [0-4].
             extra_vars: Pass extra command line variables to the playbook.
-            job_tags: Tags to identify the template
+            job_tags: Tags to identify the template.
             force_handlers:
-            skip_tags: Skip specific parts of a play or task with tags
+            skip_tags: Skip specific parts of a play or task with tags.
             start_at_task:
             timeout:
             use_fact_cache:
@@ -1198,7 +1198,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             allow_simultaneous:
 
         Returns:
-            JobTemplate: The created job template if successful, None otherwise
+            JobTemplate: The created job template if successful, None otherwise.
 
         Raises:
             InvalidInventory: The inventory provided as argument does not exist.
@@ -1276,10 +1276,10 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     @property
     def roles(self):
-        """The roles configured in tower
+        """The roles configured in tower.
 
         Returns:
-            EntityManager: The manager object for roles
+            EntityManager: The manager object for roles.
 
         """
         return EntityManager(self, entity_name='roles', entity_object='Role', primary_match_field='name')

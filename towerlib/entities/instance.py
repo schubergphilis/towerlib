@@ -24,7 +24,7 @@
 #
 
 """
-Main code for instances
+Main code for instances.
 
 .. _Google Python Style Guide:
    http://google.github.io/styleguide/pyguide.html
@@ -53,44 +53,44 @@ LOGGER.addHandler(logging.NullHandler())
 
 
 class Instance(Entity):
-    """Models the instance entity of ansible tower"""
+    """Models the instance entity of ansible tower."""
 
     def __init__(self, tower_instance, data):
         Entity.__init__(self, tower_instance, data)
 
     @property
     def uuid(self):
-        """The uuid of the instance
+        """The uuid of the instance.
 
         Returns:
-            string: The uuid of the instance
+            string: The uuid of the instance.
 
         """
         return self._data.get('uuid')
 
     @property
     def hostname(self):
-        """The hostname of the instance
+        """The hostname of the instance.
 
         Returns:
-            string: The hostname of the instance
+            string: The hostname of the instance.
 
         """
         return self._data.get('hostname')
 
     @property
     def version(self):
-        """The version of the instance
+        """The version of the instance.
 
         Returns:
-            string: The version of the instance
+            string: The version of the instance.
 
         """
         return self._data.get('version')
 
     @property
     def capacity(self):
-        """Not really sure what this is
+        """Not really sure what this is.
 
         Returns:
             integer:
@@ -100,7 +100,7 @@ class Instance(Entity):
 
     @property
     def consumed_capacity(self):
-        """Not really sure what this is
+        """Not really sure what this is.
 
         Returns:
             integer:
@@ -110,7 +110,7 @@ class Instance(Entity):
 
     @property
     def percent_capacity_remaining(self):
-        """Not really sure what this is
+        """Not really sure what this is.
 
         Returns:
             integer:
@@ -120,20 +120,20 @@ class Instance(Entity):
 
     @property
     def jobs_running_count(self):
-        """The number of running jobs
+        """The number of running jobs.
 
         Returns:
-            integer: The number of running jobs
+            integer: The number of running jobs.
 
         """
         return self._data.get('jobs_running')
 
     @property
     def jobs(self):
-        """The jobs of the instance
+        """The jobs of the instance.
 
         Returns:
-            EntityManager: EntityManager of the jobs of the instance
+            EntityManager: EntityManager of the jobs of the instance.
 
         """
         url = self._data.get('related', {}).get('jobs')
@@ -141,24 +141,24 @@ class Instance(Entity):
 
 
 class InstanceGroup(Entity):
-    """Models the instance_group entity of ansible tower"""
+    """Models the instance_group entity of ansible tower."""
 
     def __init__(self, tower_instance, data):
         Entity.__init__(self, tower_instance, data)
 
     @property
     def name(self):
-        """The name of the instance group
+        """The name of the instance group.
 
         Returns:
-            string: The name of the instance group
+            string: The name of the instance group.
 
         """
         return self._data.get('name')
 
     @property
     def capacity(self):
-        """Not really sure what this is
+        """Not really sure what this is.
 
         Returns:
             integer:
@@ -168,7 +168,7 @@ class InstanceGroup(Entity):
 
     @property
     def consumed_capacity(self):
-        """Not really sure what this is
+        """Not really sure what this is.
 
         Returns:
             integer:
@@ -178,7 +178,7 @@ class InstanceGroup(Entity):
 
     @property
     def percent_capacity_remaining(self):
-        """Not really sure what this is
+        """Not really sure what this is.
 
         Returns:
             integer:
@@ -188,30 +188,30 @@ class InstanceGroup(Entity):
 
     @property
     def jobs_running_count(self):
-        """The number of running jobs
+        """The number of running jobs.
 
         Returns:
-            integer: The number of running jobs
+            integer: The number of running jobs.
 
         """
         return self._data.get('jobs_running')
 
     @property
     def instances_count(self):
-        """The number of instances
+        """The number of instances.
 
         Returns:
-            integer: The number of instances
+            integer: The number of instances.
 
         """
         return self._data.get('instances')
 
     @property
     def instances(self):
-        """The instances of the instance group
+        """The instances of the instance group.
 
         Returns:
-            list of Instances: The instances of the instance group
+            list of Instances: The instances of the instance group.
 
         """
         url = self._data.get('related', {}).get('instances')
@@ -219,10 +219,10 @@ class InstanceGroup(Entity):
 
     @property
     def controller(self):
-        """Not really sure what this is
+        """Not really sure what this is.
 
         Returns:
-            None
+            None.
 
         """
         return self._data.get('controller')

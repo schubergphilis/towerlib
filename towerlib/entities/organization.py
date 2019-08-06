@@ -24,7 +24,7 @@
 #
 
 """
-Main code for organization
+Main code for organization.
 
 .. _Google Python Style Guide:
    http://google.github.io/styleguide/pyguide.html
@@ -64,37 +64,37 @@ LOGGER.addHandler(logging.NullHandler())
 
 
 class Organization(Entity):  # pylint: disable=too-many-public-methods
-    """Models the organization entity of ansible tower"""
+    """Models the organization entity of ansible tower."""
 
     def __init__(self, tower_instance, data):
         Entity.__init__(self, tower_instance, data)
 
     @property
     def name(self):
-        """The name of the Organization
+        """The name of the Organization.
 
         Returns:
-            string: The name of the organization
+            string: The name of the organization.
 
         """
         return self._data.get('name')
 
     @property
     def description(self):
-        """The description of the Organization
+        """The description of the Organization.
 
         Returns:
-            string: The description of the Organization
+            string: The description of the Organization.
 
         """
         return self._data.get('description')
 
     @property
     def created_by(self):
-        """The User that created the organization
+        """The User that created the organization.
 
         Returns:
-            User: The user that created the organization in tower
+            User: The user that created the organization in tower.
 
         """
         url = self._data.get('related', {}).get('created_by')
@@ -102,10 +102,10 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
 
     @property
     def modified_by(self):
-        """The User that modified the organization last
+        """The User that modified the organization last.
 
         Returns:
-            User: The user that modified the organization in tower last
+            User: The user that modified the organization in tower last.
 
         """
         url = self._data.get('related', {}).get('modified_by')
@@ -113,10 +113,10 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
 
     @property
     def object_roles(self):
-        """The object roles
+        """The object roles.
 
         Returns:
-            EntityManager: EntityManager of the roles supported
+            EntityManager: EntityManager of the roles supported.
 
         """
         url = self._data.get('related', {}).get('object_roles')
@@ -124,80 +124,80 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
 
     @property
     def object_role_names(self):
-        """The names of the object roles
+        """The names of the object roles.
 
         Returns:
-            list: A list of strings for the object_roles
+            list: A list of strings for the object_roles.
 
         """
         return [object_role.name for object_role in self.object_roles]
 
     @property
     def job_templates_count(self):
-        """The number of job templates of the organization
+        """The number of job templates of the organization.
 
         Returns:
-            integer: The count of the job templates on the organization
+            integer: The count of the job templates on the organization.
 
         """
         return self._data.get('related_field_counts', {}).get('job_templates', 0)
 
     @property
     def users_count(self):
-        """The number of user of the organization
+        """The number of user of the organization.
 
         Returns:
-            integer: The count of the users on the organization
+            integer: The count of the users on the organization.
 
         """
         return self._data.get('related_field_counts', {}).get('users', 0)
 
     @property
     def teams_count(self):
-        """The number of teams of the organization
+        """The number of teams of the organization.
 
         Returns:
-            integer: The count of the teams on the organization
+            integer: The count of the teams on the organization.
 
         """
         return self._data.get('related_field_counts', {}).get('teams', 0)
 
     @property
     def admins_count(self):
-        """The number of administrators of the organization
+        """The number of administrators of the organization.
 
         Returns:
-            integer: The count of the administrators on the organization
+            integer: The count of the administrators on the organization.
 
         """
         return self._data.get('related_field_counts', {}).get('admins', 0)
 
     @property
     def inventories_count(self):
-        """The number of inventories of the organization
+        """The number of inventories of the organization.
 
         Returns:
-            integer: The count of the inventories on the organization
+            integer: The count of the inventories on the organization.
 
         """
         return self._data.get('related_field_counts', {}).get('inventories', 0)
 
     @property
     def projects_count(self):
-        """The number of projects of the organization
+        """The number of projects of the organization.
 
         Returns:
-            integer: The count of the projects on the organization
+            integer: The count of the projects on the organization.
 
         """
         return self._data.get('related_field_counts', {}).get('projects', 0)
 
     @property
     def projects(self):
-        """The projects of the organization
+        """The projects of the organization.
 
         Returns:
-            EntityManager: EntityManager of the projects
+            EntityManager: EntityManager of the projects.
 
         """
         url = self._data.get('related', {}).get('projects')
@@ -214,22 +214,22 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                        scm_delete_on_update=False,
                        scm_update_on_launch=True,
                        scm_update_cache_timeout=0):
-        """Creates a project in the organization
+        """Creates a project in the organization.
 
         Args:
-            name: The name of the project
-            description: The description of the project
-            credential: The name of the credential to use for the project
-            scm_url: The url of the scm
-            scm_branch: The default branch of the scm
-            scm_type: The type of the scm
-            scm_clean: Clean scm or not Boolean
-            scm_delete_on_update: Delete scm on update Boolean
-            scm_update_on_launch: Update scm on launch Boolean
-            scm_update_cache_timeout: Scm cache update integer
+            name: The name of the project.
+            description: The description of the project.
+            credential: The name of the credential to use for the project.
+            scm_url: The url of the scm.
+            scm_branch: The default branch of the scm.
+            scm_type: The type of the scm.
+            scm_clean: Clean scm or not Boolean.
+            scm_delete_on_update: Delete scm on update Boolean.
+            scm_update_on_launch: Update scm on launch Boolean.
+            scm_update_cache_timeout: Scm cache update integer.
 
         Returns:
-            Project: The created project on success, None otherwise
+            Project: The created project on success, None otherwise.
 
         Raises:
             InvalidOrganization: The organization provided as argument does not exist.
@@ -259,13 +259,13 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         return Project(self._tower, response.json()) if response.ok else None
 
     def delete_project(self, name):
-        """Deletes a project by username
+        """Deletes a project by username.
 
         Args:
-            name: The name of the project to delete
+            name: The name of the project to delete.
 
         Returns:
-            bool: True on success, False otherwise
+            bool: True on success, False otherwise.
 
         Raises:
             InvalidProject: The project provided as argument does not exist.
@@ -278,10 +278,10 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
 
     @property
     def users(self):
-        """The users of the organization
+        """The users of the organization.
 
         Returns:
-            EntityManager: EntityManager of the users of the organization
+            EntityManager: EntityManager of the users of the organization.
 
         """
         url = '{organization}users/'.format(organization=self.api_url)
@@ -294,18 +294,18 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                     username,
                     password,
                     level='standard'):
-        """Creates a user under the organization
+        """Creates a user under the organization.
 
         Args:
-            first_name: The first name of the user
-            last_name: The last name of the user
-            email: The email of the user
-            username: The username to create for the user
-            password: The password to set for the user
-            level: The type of the account (standard|system_auditor|system_administrator)
+            first_name: The first name of the user.
+            last_name: The last name of the user.
+            email: The email of the user.
+            username: The username to create for the user.
+            password: The password to set for the user.
+            level: The type of the account (standard|system_auditor|system_administrator).
 
         Returns:
-            User: The created User object on success, None otherwise
+            User: The created User object on success, None otherwise.
 
         Raises:
             InvalidHost: The host provided as argument does not exist.
@@ -337,13 +337,13 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         return User(self._tower, response.json()) if response.ok else None
 
     def delete_user(self, username):
-        """Deletes a user by username
+        """Deletes a user by username.
 
         Args:
-            username: The username of the user to delete
+            username: The username of the user to delete.
 
         Returns:
-            bool: True on success, False otherwise
+            bool: True on success, False otherwise.
 
         Raises:
             InvalidUser: The username provided as argument does not exist.
@@ -356,24 +356,24 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
 
     @property
     def teams(self):
-        """The teams of the organization
+        """The teams of the organization.
 
         Returns:
-            EntityManager: EntityManager of the teams of the organization
+            EntityManager: EntityManager of the teams of the organization.
 
         """
         url = '{organization}teams/'.format(organization=self.api_url)
         return EntityManager(self._tower, entity_object='Team', primary_match_field='name', url=url)
 
     def create_team(self, name, description):
-        """Creates a team
+        """Creates a team.
 
         Args:
-            name: The name of the team to create
-            description: The description of the team
+            name: The name of the team to create.
+            description: The description of the team.
 
         Returns:
-            Team: The created Team object on success, None otherwise
+            Team: The created Team object on success, None otherwise.
 
         """
         payload = {'name': name,
@@ -384,13 +384,13 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         return Team(self._tower, response.json()) if response.ok else None
 
     def delete_team(self, name):
-        """Deletes a team by name
+        """Deletes a team by name.
 
         Args:
-            name: The name of the team to delete
+            name: The name of the team to delete.
 
         Returns:
-            bool: True on success, False otherwise
+            bool: True on success, False otherwise.
 
         Raises:
             InvalidTeam: The team provided as argument does not exist.
@@ -403,25 +403,25 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
 
     @property
     def inventories(self):
-        """The inventories of the organization
+        """The inventories of the organization.
 
         Returns:
-            EntityManager: EntityManager of the inventories of the organization
+            EntityManager: EntityManager of the inventories of the organization.
 
         """
         url = '{organization}inventories/'.format(organization=self.api_url)
         return EntityManager(self._tower, entity_object='Inventory', primary_match_field='name', url=url)
 
     def create_inventory(self, name, description, variables='{}'):
-        """Creates an inventory
+        """Creates an inventory.
 
         Args:
-            name: The name of the inventory to create
-            description: The description of the inventory
-            variables: A json with the initial variables set on the inventory
+            name: The name of the inventory to create.
+            description: The description of the inventory.
+            variables: A json with the initial variables set on the inventory.
 
         Returns:
-            Inventory: The created Inventory object on success, None otherwise
+            Inventory: The created Inventory object on success, None otherwise.
 
         Raises:
             InvalidVariables: The variables provided as argument is not valid json.
@@ -440,13 +440,13 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         return Inventory(self._tower, response.json()) if response.ok else None
 
     def delete_inventory(self, name):
-        """Deletes an inventory by name
+        """Deletes an inventory by name.
 
         Args:
-            name: The name of the inventory to delete
+            name: The name of the inventory to delete.
 
         Returns:
-            bool: True on success, False otherwise
+            bool: True on success, False otherwise.
 
         Raises:
             InvalidHInventory: The inventory provided as argument does not exist.
@@ -459,35 +459,35 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
 
     @property
     def credentials(self):
-        """The credentials of the organization
+        """The credentials of the organization.
 
         Returns:
-            EntityManager: EntityManager of the credentials of the organization
+            EntityManager: EntityManager of the credentials of the organization.
 
         """
         url = '{organization}credentials/'.format(organization=self.api_url)
         return EntityManager(self._tower, entity_object='Credential', primary_match_field='name', url=url)
 
     def get_credential_by_name(self, name):
-        """Retrieves a credential by name
+        """Retrieves a credential by name.
 
         Args:
-            name: The name of the credential to retrieve
+            name: The name of the credential to retrieve.
 
         Returns:
-            Host: The credential if a match is found else None
+            Host: The credential if a match is found else None.
 
         """
         return next(self.credentials.filter({'name__iexact': name}), None)
 
     def get_credential_by_id(self, id_):
-        """Retrieves a credential by id
+        """Retrieves a credential by id.
 
         Args:
-            id_: The id of the credential to retrieve
+            id_: The id of the credential to retrieve.
 
         Returns:
-            Host: The credential if a match is found else None
+            Host: The credential if a match is found else None.
 
         """
         return next(self.credentials.filter({'id': id_}), None)

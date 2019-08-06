@@ -24,7 +24,7 @@
 #
 
 """
-Main code for user
+Main code for user.
 
 .. _Google Python Style Guide:
    http://google.github.io/styleguide/pyguide.html
@@ -52,7 +52,7 @@ LOGGER.addHandler(logging.NullHandler())
 
 
 class User(Entity):
-    """Models the user entity of ansible tower"""
+    """Models the user entity of ansible tower."""
 
     def __init__(self, tower_instance, data):
         Entity.__init__(self, tower_instance, data)
@@ -66,101 +66,101 @@ class User(Entity):
 
     @property
     def username(self):
-        """The username of the user
+        """The username of the user.
 
         Returns:
-            string: The username of the user
+            string: The username of the user.
 
         """
         return self._data.get('username')
 
     @property
     def first_name(self):
-        """The first name of the user
+        """The first name of the user.
 
         Returns:
-            string: The first name of the user
+            string: The first name of the user.
 
         """
         return self._data.get('first_name')
 
     @property
     def last_name(self):
-        """The last name of the user
+        """The last name of the user.
 
         Returns:
-            string: The last name of the user
+            string: The last name of the user.
 
         """
         return self._data.get('last_name')
 
     @property
     def email(self):
-        """The email of the user
+        """The email of the user.
 
         Returns:
-            string: The email of the user
+            string: The email of the user.
 
         """
         return self._data.get('email')
 
     @property
     def is_superuser(self):
-        """The superuser status of the user
+        """The superuser status of the user.
 
         Returns:
-            bool: True if the user is a superuser, False otherwise
+            bool: True if the user is a superuser, False otherwise.
 
         """
         return self._data.get('is_superuser')
 
     @property
     def is_system_auditor(self):
-        """The system auditor status of the user
+        """The system auditor status of the user.
 
         Returns:
-            bool: True if the user is a system auditor, False otherwise
+            bool: True if the user is a system auditor, False otherwise.
 
         """
         return self._data.get('is_system_auditor')
 
     @property
     def ldap_dn(self):
-        """The ldap dn setting for the user
+        """The ldap dn setting for the user.
 
         Returns:
-            string: The ldap dn entry for the user
+            string: The ldap dn entry for the user.
 
         """
         return self._data.get('ldap_dn')
 
     @property
     def external_account(self):
-        """The external account entry for the user
+        """The external account entry for the user.
 
         Returns:
-            string: The external account entry for the user if it exists
-            None: If no entry exists
+            string: The external account entry for the user if it exists.
+            None: If no entry exists.
 
         """
         return self._data.get('external_account')
 
     @property
     def auth(self):
-        """The authentication setting for the user
+        """The authentication setting for the user.
 
         Returns:
-            list: Used authentication methods set for the user
+            list: Used authentication methods set for the user.
 
         """
         return self._data.get('auth')
 
     @property
     def organizations(self):
-        """The organizations that the user is part of
+        """The organizations that the user is part of.
 
         Returns:
-            EntityManager: EntityManager of the organizations
+            EntityManager: EntityManager of the organizations.
 
         """
         url = self._data.get('related', {}).get('organizations')
@@ -168,10 +168,10 @@ class User(Entity):
 
     @property
     def roles(self):
-        """The roles that the user has
+        """The roles that the user has.
 
         Returns:
-            EntityManager: EntityManager of the roles
+            EntityManager: EntityManager of the roles.
 
         """
         url = self._data.get('related', {}).get('roles')
@@ -179,10 +179,10 @@ class User(Entity):
 
     @property
     def teams(self):
-        """The teams that the user is part of
+        """The teams that the user is part of.
 
         Returns:
-            EntityManager: EntityManager of the teams
+            EntityManager: EntityManager of the teams.
 
         """
         url = self._data.get('related', {}).get('teams')
@@ -190,10 +190,10 @@ class User(Entity):
 
     @property
     def projects(self):
-        """The projects that the user is part of
+        """The projects that the user is part of.
 
         Returns:
-            EntityManager: EntityManager of the projects
+            EntityManager: EntityManager of the projects.
 
         """
         url = self._data.get('related', {}).get('projects')
@@ -201,10 +201,10 @@ class User(Entity):
 
     @property
     def credentials(self):
-        """The credentials that the user has
+        """The credentials that the user has.
 
         Returns:
-            EntityManager: EntityManager of the credentials
+            EntityManager: EntityManager of the credentials.
 
         """
         url = self._data.get('related', {}).get('credentials')

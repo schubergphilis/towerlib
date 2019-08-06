@@ -24,7 +24,7 @@
 #
 
 """
-Custom exception code for towerlib
+Custom exception code for towerlib.
 
 .. _Google Python Style Guide:
    http://google.github.io/styleguide/pyguide.html
@@ -43,7 +43,7 @@ __status__ = '''Development'''  # "Prototype", "Development", "Production".
 
 
 class AuthFailed(Exception):
-    """The token retirieval failed"""
+    """The token retrieval failed."""
 
 
 class InvalidUserLevel(Exception):
@@ -54,15 +54,15 @@ class InvalidUserLevel(Exception):
 
 
 class InvalidOrganization(Exception):
-    """The organization provided is not a valid organization"""
+    """The organization provided is not a valid organization."""
 
 
 class InvalidVariables(Exception):
-    """The variables are not valid json"""
+    """The variables are not valid json."""
 
 
 class InvalidInventory(Exception):
-    """The inventory provided is invalid"""
+    """The inventory provided is invalid."""
 
 
 class InvalidCredentialType(Exception):
@@ -77,11 +77,11 @@ class InvalidCredentialTypeKind(Exception):
 
 
 class InvalidUser(Exception):
-    """The user provided is invalid"""
+    """The user provided is invalid."""
 
 
 class InvalidTeam(Exception):
-    """The team provided is invalid"""
+    """The team provided is invalid."""
 
 
 class InvalidCredential(Exception):
@@ -97,23 +97,23 @@ class InvalidHost(Exception):
 
 
 class InvalidProject(Exception):
-    """The project provided is not valid"""
+    """The project provided is not valid."""
 
 
 class InvalidJobType(Exception):
-    """The job type provided is not valid. Valid values (u'run', u'check')"""
+    """The job type provided is not valid. Valid values (u'run', u'check')."""
 
 
 class InvalidPlaybook(Exception):
-    """The playbook specified does not exist in the project"""
+    """The playbook specified does not exist in the project."""
 
 
 class InvalidInstanceGroup(Exception):
-    """The instance group provided does not exist"""
+    """The instance group provided does not exist."""
 
 
 class InvalidVerbosity(Exception):
-    """The verbosity level provided is not valid. Valid values (0, 1, 2, 3, 4)"""
+    """The verbosity level provided is not valid. Valid values (0, 1, 2, 3, 4)."""
 
 
 class InvalidJobTemplate(Exception):
@@ -121,4 +121,4 @@ class InvalidJobTemplate(Exception):
 
 
 class PermissionNotFound(Exception):
-    """The premission was not found in the entity"""
+    """The premission was not found in the entity."""
