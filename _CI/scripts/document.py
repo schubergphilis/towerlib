@@ -23,11 +23,15 @@
 #  DEALINGS IN THE SOFTWARE.
 #
 
-
 import os
 import logging
 import shutil
+
+# this sets up everything and MUST be included before any third party module in every step
+import _initialize_template
+
 from bootstrap import bootstrap
+from emoji import emojize
 from library import open_file, clean_up, execute_command
 
 # This is the main prefix used for logging
@@ -37,13 +41,12 @@ LOGGER.addHandler(logging.NullHandler())
 
 
 def document():
-    emojize = bootstrap()
+    bootstrap()
     clean_up(('_build',
               os.path.join('docs', '_build'),
               os.path.join('docs', 'test_docs.rst'),
               os.path.join('docs', 'modules.rst')))
-    exit_code = execute_command('make -C docs html')
-    success = not exit_code
+    success = execute_command('make -C docs html')
     if success:
         shutil.move(os.path.join('docs', '_build'), '_build')
         try:
@@ -57,7 +60,7 @@ def document():
         LOGGER.error('%s Documentation creation errors found! %s',
                      emojize(':cross_mark:'),
                      emojize(':crying_face:'))
-    raise SystemExit(exit_code)
+    raise SystemExit(0 if success else 1)
 
 
 if __name__ == '__main__':

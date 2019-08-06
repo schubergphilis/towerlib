@@ -27,10 +27,20 @@ import os
 import sys
 import tempfile
 from glob import glob
-from collections import namedtuple
+from dataclasses import dataclass
+
+# this sets up everything and MUST be included before any third party module in every step
+import _initialize_template
+
+from library import clean_up
+from patch import fromfile, setdebug
 
 
-Project = namedtuple('Project', 'name, full_path, parent_directory_full_path')
+@dataclass()
+class Project:
+    name: str
+    full_path: str
+    parent_directory_full_path: str
 
 
 class PatchFailure(Exception):
@@ -62,7 +72,7 @@ def get_patches_to_apply(current_version):
 def get_interpolated_temp_patch_file(patch_file, project_name):
     patch_diff = open(patch_file, 'r').read()
     temp_file = tempfile.NamedTemporaryFile(mode='w', delete=False)
-    temp_file.write(patch_diff.replace('towerlib', project_name))
+    temp_file.write(patch_diff.replace('{{cookiecutter.project_slug}}', project_name))
     temp_file.close()
     return temp_file.name
 
@@ -73,7 +83,6 @@ def initialize():
     project_parent_path, _, parent_directory_name = project_root.rpartition(os.path.sep)
     os.chdir(project_root)
     sys.path.append(os.path.join(project_root, '_CI/library'))
-    from patch import fromfile, setdebug
     setdebug()
     return Project(parent_directory_name, project_root, project_parent_path)
 
@@ -84,7 +93,7 @@ def apply_patches(patches, project):
         patch_file = get_interpolated_temp_patch_file(diff_patch, project.name)
         success = apply_patch(patch_file, project.parent_directory_full_path)
         print(f'Removing temporary file "{patch_file}"')
-        os.unlink(patch_file)
+        clean_up(patch_file)
         if success:
             print(f'Successfully applied patch {diff_patch}')
         else:
