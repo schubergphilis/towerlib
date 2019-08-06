@@ -583,17 +583,22 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return EntityManager(self, entity_name='groups', entity_object='Group', primary_match_field='name')
 
-    def get_group_by_name(self, name):
+    def get_inventory_group_by_name(self, name, inventory):
         """Retrieves a group by name
 
         Args:
-            name: The name of the group to retrieve
+            name: The name of the group to retrieve.
+            inventory: The inventory to retrieve the group from.
 
         Returns:
-            Group: The group if a match is found else None
+            Group: The group if a match is found else None.
 
         """
-        return next(self.groups.filter({'name__iexact': name}), None)
+        inventory_ = self.get_inventory_by_name(inventory)
+        if not inventory_:
+            raise InvalidInventory(inventory)
+        return next((group for group in inventory_.groups
+                     if group.name.lower() == name.lower()), None)
 
     def get_group_by_id(self, id_):
         """Retrieves a group by id
@@ -607,11 +612,12 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.groups.filter({'id': id_}), None)
 
-    def delete_group(self, name):
-        """Deletes a group from tower
+    def delete_inventory_group(self, name, inventory):
+        """Deletes a group from tower.
 
         Args:
-            name: The name of the group to delete
+            name: The name of the group to delete.
+            inventory: The name of the inventory to retrieve the group from.
 
         Returns:
             bool: True on success, False otherwise
@@ -620,17 +626,17 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidGroup: The group provided as argument does not exist.
 
         """
-        group = self.get_group_by_name(name)
+        group = self.get_inventory_group_by_name(name, inventory)
         if not group:
             raise InvalidGroup(name)
         return group.delete()
 
     @property
     def inventories(self):
-        """The inventories configured in tower
+        """The inventories configured in tower.
 
         Returns:
-            list of Inventory: The inventories configured in tower
+            list of Inventory: The inventories configured in tower.`
 
         """
         return EntityManager(self, entity_name='inventories', entity_object='Inventory', primary_match_field='name')
@@ -712,17 +718,22 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return EntityManager(self, entity_name='hosts', entity_object='Host', primary_match_field='name')
 
-    def get_host_by_name(self, name):
-        """Retrieves a host by name
+    def get_inventory_host_by_name(self, name, inventory):
+        """Retrieves a host by name from an inventory
 
         Args:
             name: The name of the host to retrieve
+            inventory: The name of the inventory to search for a host
 
         Returns:
             Host: The host if a match is found else None
 
         """
-        return next(self.hosts.filter({'name__iexact': name}), None)
+        inventory_ = self.get_inventory_by_name(inventory)
+        if not inventory_:
+            raise InvalidInventory(inventory)
+        return next((host for host in inventory_.hosts
+                     if host.name.lower() == name.lower()), None)
 
     def get_host_by_id(self, id_):
         """Retrieves a host by id
@@ -757,12 +768,13 @@ class Tower:  # pylint: disable=too-many-public-methods
             raise InvalidInventory(inventory)
         return inventory_.create_host(name, description, variables)
 
-    def add_groups_to_host(self, hostname, groups):
+    def add_groups_to_host(self, hostname, groups, inventory):
         """Adds groups to a host
 
         Args:
-            hostname: The name of the host to add the groups to
-            groups: A string of a single group or a list or tuple of group names to add to host
+            hostname: The name of the host to add the groups to.
+            groups: A string of a single group or a list or tuple of group names to add to host.
+            inventory: The inventory to retrieve the host from.
 
         Returns:
             bool: True on complete success, False otherwise
@@ -771,35 +783,37 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidHost: The host provided as argument does not exist.
 
         """
-        host = self.get_host_by_name(hostname)
+        host = self.get_inventory_host_by_name(hostname, inventory)
         if not host:
             raise InvalidHost(hostname)
         return host.associate_with_groups(groups)
 
-    def remove_groups_from_host(self, hostname, groups):
+    def remove_groups_from_host(self, hostname, groups, inventory):
         """Removes groups from a host
 
         Args:
-            hostname: The name of the host to remove the groups from
-            groups: A string of a single group or a list or tuple of group names to remove from a host
+            hostname: The name of the host to remove the groups from.
+            groups: A string of a single group or a list or tuple of group names to remove from a host.
+            inventory: The inventory which contains the host to affect.
 
         Returns:
-            bool: True on complete success, False otherwise
+            bool: True on complete success, False otherwise.
 
         Raises:
             InvalidHost: The host provided as argument does not exist.
 
         """
-        host = self.get_host_by_name(hostname)
+        host = self.get_inventory_host_by_name(hostname, inventory)
         if not host:
             raise InvalidHost(hostname)
         return host.disassociate_with_groups(groups)
 
-    def delete_host(self, name):
+    def delete_inventory_host(self, name, inventory):
         """Deletes an host from tower
 
         Args:
-            name: The name of the host to delete
+            name: The name of the host to delete.
+            inventory: The name of the inventory to delete the host from.
 
         Returns:
             bool: True on success, False otherwise
@@ -808,7 +822,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidHost: The host provided as argument does not exist.
 
         """
-        host = self.get_host_by_name(name)
+        host = self.get_inventory_host_by_name(name, inventory)
         if not host:
             raise InvalidHost(name)
         return host.delete()

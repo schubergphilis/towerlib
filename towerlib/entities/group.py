@@ -213,7 +213,7 @@ class Group(Entity):
         """Add a host to the group by name
 
         Args:
-            name: The name of the host to add to the group
+            name: The name of the host to add to the group.
 
         Returns:
             bool: True on success, False otherwise
@@ -222,61 +222,61 @@ class Group(Entity):
             InvalidHost: The host provided as argument does not exist.
 
         """
-        host = self._tower.get_host_by_name(name)
+        host = self._tower.get_inventory_host_by_name(name, self.inventory.name)
         if not host:
             raise InvalidHost(name)
         return self._add_host_by_id(host.id)
 
     def remove_host_by_name(self, name):
-        """Removes a host from the group
+        """Removes a host from the group.
 
         Args:
-            name: The name of the host to remove
+            name: The name of the host to remove.
 
         Returns:
-            bool: True on success, False otherwise
+            bool: True on success, False otherwise.
 
         Raises:
             InvalidHost: The host provided as argument does not exist.
 
         """
-        host = self._tower.get_host_by_name(name)
+        host = self._tower.get_inventory_host_by_name(name, self.inventory.name)
         if not host:
             raise InvalidHost(name)
         return self._remove_host_by_id(host.id)
 
     def associate_group_by_name(self, name):
-        """Associate a group to the group by name
+        """Associate a group to the group by name.
 
         Args:
-            name: The name of the group to associate with the group
+            name: The name of the group to associate with the group.
 
         Returns:
-            bool: True on success, False otherwise
+            bool: True on success, False otherwise.
 
         Raises:
             InvalidGroup: The group provided as argument does not exist.
 
         """
-        group = self._tower.get_group_by_name(name)
+        group = self._tower.get_inventory_group_by_name(name, self.inventory.name)
         if not group:
             raise InvalidGroup(name)
         return self._associate_group_by_id(group.id)
 
     def disassociate_group_by_name(self, name):
-        """Disassociate a group from the group
+        """Disassociate a group from the group.
 
         Args:
-            name: The name of the group to disassociate
+            name: The name of the group to disassociate.
 
         Returns:
-            bool: True on success, False otherwise
+            bool: True on success, False otherwise.
 
         Raises:
             InvalidGroup: The group provided as argument does not exist.
 
         """
-        group = self._tower.get_group_by_name(name)
+        group = self._tower.get_inventory_group_by_name(name, self.inventory.name)
         if not group:
             raise InvalidGroup(name)
         return self._disassociate_group_by_id(group.id)
