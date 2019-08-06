@@ -23,13 +23,16 @@
 #  DEALINGS IN THE SOFTWARE.
 #
 
-
 import logging
 import os
 import shutil
 
+# this sets up everything and MUST be included before any third party module in every step
+import _initialize_template
+
 from bootstrap import bootstrap
-from configuration import BUILD_REQUIRED_FILES
+from emoji import emojize
+from configuration import BUILD_REQUIRED_FILES, LOGGING_LEVEL, PROJECT_SLUG
 from library import execute_command, clean_up, save_requirements
 
 # This is the main prefix used for logging
@@ -39,10 +42,9 @@ LOGGER.addHandler(logging.NullHandler())
 
 
 def build():
-    emojize = bootstrap()
+    bootstrap()
     clean_up(('build', 'dist'))
-    exit_code = execute_command('pipenv lock')
-    success = not exit_code
+    success = execute_command('pipenv lock')
     if success:
         LOGGER.info('Successfully created lock file %s %s',
                      emojize(':white_heavy_check_mark:'),
@@ -54,9 +56,8 @@ def build():
         raise SystemExit(1)
     save_requirements()
     for file in BUILD_REQUIRED_FILES:
-        shutil.copy(file, os.path.join('towerlib', file))
-    exit_code = execute_command('python setup.py sdist bdist_egg')
-    success = not exit_code
+        shutil.copy(file, os.path.join(f'{PROJECT_SLUG}', file))
+    success = execute_command('python setup.py sdist bdist_egg')
     if success:
         LOGGER.info('%s Successfully built artifact %s',
                     emojize(':white_heavy_check_mark:'),
@@ -65,10 +66,10 @@ def build():
         LOGGER.error('%s Errors building artifact! %s',
                      emojize(':cross_mark:'),
                      emojize(':crying_face:'))
-    clean_up([os.path.join('towerlib', file)
+    clean_up([os.path.join(f'{PROJECT_SLUG}', file)
               for file in BUILD_REQUIRED_FILES])
-    return emojize if success else None
+    return True if success else False
 
 
 if __name__ == '__main__':
-    raise SystemExit(not build())
+    raise SystemExit(0 if build() else 1)

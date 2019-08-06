@@ -23,14 +23,20 @@
 #  DEALINGS IN THE SOFTWARE.
 #
 
-
 import argparse
 import logging
+
+from datetime import datetime
+
+# this sets up everything and MUST be included before any third party module in every step
+import _initialize_template
+
+from emoji import emojize
 from bootstrap import bootstrap
 from gitwrapperlib import Git
 from library import bump
 from configuration import BRANCHES_SUPPORTED_FOR_TAG
-from datetime import datetime
+
 
 # This is the main prefix used for logging
 LOGGER_BASENAME = '''_CI.tag'''
@@ -97,7 +103,7 @@ def get_arguments():
 
 
 def tag():
-    emojize = bootstrap()
+    bootstrap()
     args = get_arguments()
     check_branch()
     if args.major:
