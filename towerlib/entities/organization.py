@@ -255,7 +255,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                    'organization': self.id,
                    'scm_update_on_launch': scm_update_on_launch,
                    'scm_update_cache_timeout': scm_update_cache_timeout}
-        response = self._tower.session.post(url, data=json.dumps(payload))
+        response = self._tower.session.post(url, json=payload)
         return Project(self._tower, response.json()) if response.ok else None
 
     def delete_project(self, name):
@@ -333,7 +333,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             payload['user_type'] = {'type': 'system_administrator',
                                     'label': 'System Administrator'}
             payload['is_superuser'] = True
-        response = self._tower.session.post(url, data=json.dumps(payload))
+        response = self._tower.session.post(url, json=payload)
         return User(self._tower, response.json()) if response.ok else None
 
     def delete_user(self, username):
@@ -380,7 +380,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                    'description': description,
                    'organization': self.id}
         url = '{api}/teams/'.format(api=self._tower.api)
-        response = self._tower.session.post(url, data=json.dumps(payload))
+        response = self._tower.session.post(url, json=payload)
         return Team(self._tower, response.json()) if response.ok else None
 
     def delete_team(self, name):
@@ -436,7 +436,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                    'organization': self.id,
                    'variables': variables}
         url = '{api}/inventories/'.format(api=self._tower.api)
-        response = self._tower.session.post(url, data=json.dumps(payload))
+        response = self._tower.session.post(url, json=payload)
         return Inventory(self._tower, response.json()) if response.ok else None
 
     def delete_inventory(self, name):

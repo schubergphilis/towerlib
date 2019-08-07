@@ -235,7 +235,7 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
                 self._logger.warning('{} is not part of the team'.format(username))
                 return False
             payload['disassociate'] = True
-        response = self._tower.session.post(url, data=json.dumps(payload))
+        response = self._tower.session.post(url, json=payload)
         return response.ok
 
     def add_project_permission_admin(self, project_name):
@@ -537,5 +537,5 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
             url = '{api}/teams/{id}/roles/'.format(api=self._tower.api,
                                                    id=self.id)
             payload = {'id': permission.id}
-        response = self._tower.session.post(url, data=json.dumps(payload))
+        response = self._tower.session.post(url, json=payload)
         return response.ok

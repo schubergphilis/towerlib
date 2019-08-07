@@ -822,7 +822,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
                 payload = {'id': extra_credential.id}
                 url = '{api}/job_templates/{id}/extra_credentials/'.format(api=self._tower.api,
                                                                            id=self.id)
-                response = self._tower.session.post(url, data=json.dumps(payload))
+                response = self._tower.session.post(url, json=payload)
                 if not response.ok:
                     self._logger.error('Failed to add credential {}'.format(credential))
 
@@ -966,7 +966,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         payload = {attribute: self._data.get(attribute)
                    for attribute in self._payload}
         payload['use_fact_cache'] = value
-        response = self._tower.session.put(url, data=json.dumps(payload))
+        response = self._tower.session.put(url, json=payload)
         if response.ok:
             self._data = response.json()
 
@@ -1169,7 +1169,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         """
         payload = {key: value for key, value in locals().items() if value and key != 'self'}
         url = '{url}launch/'.format(url=self.url)
-        response = self._tower.session.post(url, data=json.dumps(payload))
+        response = self._tower.session.post(url, json=payload)
         if response.ok:
             result = Job(self._tower, response.json())
         else:

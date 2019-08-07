@@ -192,7 +192,7 @@ class Group(Entity):
 
     def _post_host(self, payload):
         url = '{api}/groups/{id}/hosts/'.format(api=self._tower.api, id=self.id)
-        response = self._tower.session.post(url, data=json.dumps(payload))
+        response = self._tower.session.post(url, json=payload)
         return response.ok
 
     def _associate_group_by_id(self, id_):
@@ -206,7 +206,7 @@ class Group(Entity):
 
     def _post_group(self, payload):
         url = '{api}/groups/{id}/children/'.format(api=self._tower.api, id=self.id)
-        response = self._tower.session.post(url, data=json.dumps(payload))
+        response = self._tower.session.post(url, json=payload)
         return response.ok
 
     def add_host_by_name(self, name):

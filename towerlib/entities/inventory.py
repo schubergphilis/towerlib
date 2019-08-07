@@ -300,7 +300,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
                    'description': description,
                    'inventory': self.id,
                    'variables': variables}
-        response = self._tower.session.post(url, data=json.dumps(payload))
+        response = self._tower.session.post(url, json=payload)
         return Group(self._tower, response.json()) if response.ok else None
 
     def delete_group(self, name):
@@ -348,7 +348,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
                    'enabled': True,
                    'instance_id': '',
                    'variables': variables}
-        response = self._tower.session.post(url, data=json.dumps(payload))
+        response = self._tower.session.post(url, json=payload)
         return Host(self._tower, response.json()) if response.ok else None
 
     def delete_host(self, name):

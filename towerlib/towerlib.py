@@ -232,7 +232,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         url = '{api}/organizations/'.format(api=self.api)
         payload = {'name': name,
                    'description': description}
-        response = self.session.post(url, data=json.dumps(payload))
+        response = self.session.post(url, json=payload)
         return Organization(self, response.json()) if response.ok else None
 
     def delete_organization(self, name):
@@ -583,7 +583,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return EntityManager(self, entity_name='groups', entity_object='Group', primary_match_field='name')
 
-    def get_inventory_group_by_name(self, name, inventory):
+    def get_inventory_group_by_name(self, inventory, name):
         """Retrieves a group by name.
 
         Args:
@@ -623,7 +623,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidGroup: The group provided as argument does not exist.
 
         """
-        group = self.get_inventory_group_by_name(name, inventory)
+        group = self.get_inventory_group_by_name(inventory, name)
         if not group:
             raise InvalidGroup(name)
         return group.delete()
@@ -945,7 +945,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             except (ValueError, TypeError):
                 raise InvalidVariables(value)
         url = '{api}/credential_types/'.format(api=self.api)
-        response = self.session.post(url, data=json.dumps(payload))
+        response = self.session.post(url, json=payload)
         return CredentialType(self, response.json()) if response.ok else None
 
     def delete_credential_type(self, name):
@@ -1053,7 +1053,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         except ValueError:
             raise InvalidVariables(inputs_)
         url = '{api}/credentials/'.format(api=self.api)
-        response = self.session.post(url, data=json.dumps(payload))
+        response = self.session.post(url, json=payload)
         return Credential(self, response.json()) if response.ok else None
 
     def delete_credential(self, name):
@@ -1271,7 +1271,7 @@ class Tower:  # pylint: disable=too-many-public-methods
                    'diff_mode': diff_mode,
                    'allow_simultaneous': allow_simultaneous}
         url = '{api}/job_templates/'.format(api=self.api)
-        response = self.session.post(url, data=json.dumps(payload))
+        response = self.session.post(url, json=payload)
         return JobTemplate(self, response.json()) if response.ok else None
 
     @property

@@ -324,7 +324,7 @@ class GenericCredential(Entity):
     def _update_values(self, payload):
         url = '{api}/credentials/{id}/'.format(api=self._tower.api,
                                                id=self.id)
-        response = self._tower.session.put(url, data=json.dumps(payload))
+        response = self._tower.session.put(url, json=payload)
         if response.ok:
             self._data = response.json()
 
