@@ -164,17 +164,6 @@ class Host(Entity):
         """
         self._update_values('variables', value)
 
-    def _update_values(self, attribute, value):
-        url = '{api}/hosts/{id}/'.format(api=self._tower.api, id=self.id)
-        # payload = {attribute: self._data.get(attribute)
-        #            for attribute in self._payload}
-        # payload[attribute] = json.dumps(value)
-        response = self._tower.session.patch(url, json={attribute: value})
-        if response.ok:
-            self._data.update(response.json())
-        else:
-            self._logger.error('Error updating variables, response was: %s', response.text)
-
     @property
     def has_active_failures(self):
         """Flag about whether the host has active failures.

@@ -253,7 +253,6 @@ class Entity:
         """
         return self._data.get('url')
 
-
     @property
     def created_at(self):
         """The date and time the entity was created in tower.
@@ -293,6 +292,14 @@ class Entity:
         """
         response = self._tower.session.delete(self.url)
         return response.ok
+
+    def _update_values(self, attribute, value, parent_attribute=None):
+        payload = {parent_attribute: {attribute: value}} if parent_attribute else {attribute: value}
+        response = self._tower.session.patch(self.url, json=payload)
+        if response.ok:
+            self._data.update(response.json())
+        else:
+            self._logger.error('Error updating variables, response was: %s', response.text)
 
 
 class EntityManager:

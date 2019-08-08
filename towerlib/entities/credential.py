@@ -247,10 +247,7 @@ class GenericCredential(Entity):
             bool: True if successful, False otherwise.
 
         """
-        payload = {attribute: self._data.get(attribute)
-                   for attribute in self._payload}
-        payload['name'] = value
-        return self._update_values(payload)
+        self._update_values('name', value)
 
     @property
     def description(self):
@@ -270,10 +267,7 @@ class GenericCredential(Entity):
             bool: True if successful, False otherwise.
 
         """
-        payload = {attribute: self._data.get(attribute)
-                   for attribute in self._payload}
-        payload['description'] = value
-        return self._update_values(payload)
+        self._update_values('description', value)
 
     @property
     def organization(self):
@@ -293,13 +287,10 @@ class GenericCredential(Entity):
             bool: True if successful, False otherwise.
 
         """
-        payload = {attribute: self._data.get(attribute)
-                   for attribute in self._payload}
         organization = self._tower.get_organization_by_name(value)
         if not organization:
             raise InvalidOrganization(value)
-        payload['organization'] = organization.id
-        return self._update_values(payload)
+        self._update_values('organization', organization.id)
 
     @property
     def credential_type(self):
@@ -320,13 +311,6 @@ class GenericCredential(Entity):
 
         """
         return self._data.get('inputs')
-
-    def _update_values(self, payload):
-        url = '{api}/credentials/{id}/'.format(api=self._tower.api,
-                                               id=self.id)
-        response = self._tower.session.put(url, json=payload)
-        if response.ok:
-            self._data = response.json()
 
 
 class MachineCredential(GenericCredential):
@@ -353,10 +337,7 @@ class MachineCredential(GenericCredential):
             bool: True if successful, False otherwise.
 
         """
-        payload = {attribute: self._data.get(attribute)
-                   for attribute in self._payload}
-        payload['inputs']['username'] = value
-        return self._update_values(payload)
+        self._update_values('username', value, parent_attribute='inputs')
 
     @property
     def password(self):
@@ -376,10 +357,7 @@ class MachineCredential(GenericCredential):
             bool: True if successful, False otherwise.
 
         """
-        payload = {attribute: self._data.get(attribute)
-                   for attribute in self._payload}
-        payload['inputs']['password'] = value
-        return self._update_values(payload)
+        self._update_values('password', value, parent_attribute='inputs')
 
 
 class VaultCredential(GenericCredential):
@@ -406,10 +384,7 @@ class VaultCredential(GenericCredential):
             bool: True if successful, False otherwise.
 
         """
-        payload = {attribute: self._data.get(attribute)
-                   for attribute in self._payload}
-        payload['inputs']['hashi_vault_token'] = value
-        return self._update_values(payload)
+        self._update_values('hashi_vault_token', value, parent_attribute='inputs')
 
     @property
     def vault_address(self):
@@ -429,10 +404,7 @@ class VaultCredential(GenericCredential):
             bool: True if successful, False otherwise.
 
         """
-        payload = {attribute: self._data.get(attribute)
-                   for attribute in self._payload}
-        payload['inputs']['hashi_vault_addr'] = value
-        return self._update_values(payload)
+        self._update_values('hashi_vault_addr', value, parent_attribute='inputs')
 
     @property
     def ca_host_verify(self):
@@ -454,7 +426,4 @@ class VaultCredential(GenericCredential):
         """
         if value.lower() not in ['no', 'yes']:
             raise ValueError('Value should be either no/yes')
-        payload = {attribute: self._data.get(attribute)
-                   for attribute in self._payload}
-        payload['inputs']['hashi_vault_pre_python_279_cahostverify'] = value.lower()
-        return self._update_values(payload)
+        self._update_values('hashi_vault_pre_python_279_cahostverify', value, parent_attribute='inputs')
