@@ -32,10 +32,9 @@ Main code for jobs.
 """
 
 import logging
-import json
 
-from dateutil.parser import parse
 from bs4 import BeautifulSoup as Bfs
+from dateutil.parser import parse
 
 from .core import Entity, EntityManager
 

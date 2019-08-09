@@ -37,9 +37,9 @@ import logging
 from dateutil.parser import parse
 
 from towerlib.towerlibexceptions import InvalidVariables, InvalidHost, InvalidGroup
-from .host import Host
-from .group import Group
 from .core import Entity, EntityManager
+from .group import Group
+from .host import Host
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -376,16 +376,13 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
             name: The name of the group to retrieve.
 
         Returns:
-            bool: True on success, False otherwise.
+            group (Group): returns a group if found else None.
 
         Raises:
             InvalidGroup: The group provided as argument does not exist.
 
         """
-        group = next(self._tower.groups.filter({'inventory': self.id, 'name__iexact': name}), None)
-        if not group:
-            raise InvalidGroup(name)
-        return group
+        return next(self._tower.groups.filter({'inventory': self.id, 'name__iexact': name}), None)
 
     def get_host_by_name(self, name):
         """Retrieves a host.
@@ -394,13 +391,25 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
             name: The name of the host to retrieve.
 
         Returns:
-            bool: True on success, False otherwise.
+            host (Host): returns a host if found else None.
 
         Raises:
             InvalidHost: The host provided as argument does not exist.
 
         """
-        host = next(self._tower.hosts.filter({'inventory': self.id, 'name__iexact': name}), None)
-        if not host:
-            raise InvalidHost(name)
-        return host
+        return next(self._tower.hosts.filter({'inventory': self.id, 'name__iexact': name}), None)
+
+    def get_project_by_name(self, name):
+        """Retrieves a project.
+
+        Args:
+            name: The name of the project to retrieve.
+
+        Returns:
+            project (Project): returns a project if found else None.
+
+        Raises:
+            InvalidProject: The project provided as argument does not exist.
+
+        """
+        return next(self._tower.projects.filter({'inventory': self.id, 'name__iexact': name}), None)

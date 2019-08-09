@@ -31,7 +31,6 @@ Main code for team.
 
 """
 
-import json
 import logging
 
 from towerlib.towerlibexceptions import (InvalidUser,

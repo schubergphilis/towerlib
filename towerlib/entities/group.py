@@ -31,7 +31,6 @@ Main code for group.
 
 """
 
-import json
 import logging
 
 from towerlib.towerlibexceptions import InvalidHost, InvalidGroup

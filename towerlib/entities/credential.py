@@ -31,7 +31,6 @@ Main code for credentials.
 
 """
 
-import json
 import logging
 
 from towerlib.towerlibexceptions import InvalidOrganization

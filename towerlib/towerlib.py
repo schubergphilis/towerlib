@@ -258,31 +258,30 @@ class Tower:  # pylint: disable=too-many-public-methods
         """Adds a final slash to a url if there is not any."""
         return url + '/' if not url.endswith('/') else url
 
-    def _get_paginated_response(self, url, params=None):
-        url = '{url}?page_size={limit}'.format(url=self.add_slash(url), limit=PAGINATION_LIMIT)
-        if isinstance(params, dict):
-            url = url + ''.join(['&{}={}'.format(key, value) for key, value in params.items()])
-        elif params:
-            self._logger.warning('Argument "params" should be a dictionary, value provided was :%s', params)
-        else:
-            pass
+    def _get_first_page(self, url, params=None):
+        parameters = {'page_size': PAGINATION_LIMIT}
+        if params:
+            parameters.update(params)
         try:
-            response = self.session.get(url)
+            response = self.session.get(url, params=parameters)
             response_data = response.json()
             response.close()
         except (ValueError, AttributeError, TypeError):
             self._logger.exception('Could not retrieve first page, response was %s', response.text)
             response_data = {}
+        return response_data
+
+    def _get_paginated_response(self, url, params=None):
+        url = self.add_slash(url)
+        response_data = self._get_first_page(url, params)
         count = response_data.get('count', 0)
         page_count = int(math.ceil(float(count) / PAGINATION_LIMIT))
         self._logger.debug('Calculated that there are {} pages to get'.format(page_count))
         for result in response_data.get('results', []):
             yield result
-
         if page_count:
             with concurrent.futures.ThreadPoolExecutor(max_workers=30) as executor:
-                futures = [executor.submit(self.session.get, '{url}&page={page_index}'.format(url=url,
-                                                                                              page_index=index))
+                futures = [executor.submit(self.session.get, url, params={'page': index})
                            for index in range(page_count, 1, -1)]
                 for future in concurrent.futures.as_completed(futures):
                     try:
@@ -301,7 +300,8 @@ class Tower:  # pylint: disable=too-many-public-methods
             list: Users created by external system in tower.
 
         """
-        return (user for user in self.users if user.external_account == 'social')
+        return self.users.filter({'social_auth__isnull': False})
+        # return (user for user in self.users if user.external_account == 'social')
 
     def get_local_users(self):
         """Retrieves only users created locally in tower.
@@ -310,7 +310,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             list: Users created locally in tower.
 
         """
-        return (user for user in self.users if not user.external_account)
+        return self.users.filter({'social_auth__isnull': True})
 
     @property
     def users(self):
@@ -405,17 +405,21 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return EntityManager(self, entity_name='projects', entity_object='Project', primary_match_field='name')
 
-    def get_project_by_name(self, name):
+    def get_organization_project_by_name(self, organization, name):
         """Retrieves a project by name.
 
         Args:
             name: The name of the project to retrieve.
+            organization: The name of the organization the project belongs to.
 
         Returns:
             Project: The project if a match is found else None.
 
         """
-        return next(self.projects.filter({'name__iexact': name}), None)
+        organization_ = self.get_organization_by_name(organization)
+        if not organization_:
+            raise InvalidOrganization(organization)
+        return organization_.get_project_by_name(name)
 
     def get_project_by_id(self, id_):
         """Retrieves a project by id.
@@ -483,10 +487,12 @@ class Tower:  # pylint: disable=too-many-public-methods
                                             scm_update_on_launch,
                                             scm_update_cache_timeout)
 
-    def delete_project(self, name):
+    def delete_inventory_project(self, organization, inventory, name):
         """Deletes a project from tower.
 
         Args:
+            organization: The organization the inventory belongs to.
+            inventory: The inventory the project belongs to.
             name: The name of the project to delete.
 
         Returns:
@@ -496,7 +502,10 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidProject: The project provided as argument does not exist.
 
         """
-        project = self.get_project_by_name(name)
+        inventory_ = self.get_organization_inventory_by_name(organization, inventory)
+        if not inventory_:
+            raise InvalidInventory(inventory_)
+        project = inventory_.get
         if not project:
             raise InvalidProject(name)
         return project.delete()
@@ -511,17 +520,24 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return EntityManager(self, entity_name='teams', entity_object='Team', primary_match_field='name')
 
-    def get_team_by_name(self, name):
+    def get_organization_team_by_name(self, organization, name):
         """Retrieves a team by name.
 
         Args:
+            organization: The name of the organization the team belongs to.
             name: The name of the team to retrieve.
 
         Returns:
             Team: The team if a match is found else None.
 
+        Raises:
+            InvalidOrganization: The organization provided as argument does not exist.
+
         """
-        return next(self.teams.filter({'name__iexact': name}), None)
+        organization_ = self.get_organization_by_name(organization)
+        if not organization_:
+            raise InvalidOrganization(organization)
+        return organization_.get_team_by_name(name)
 
     def get_team_by_id(self, id_):
         """Retrieves a team by id.
@@ -555,10 +571,11 @@ class Tower:  # pylint: disable=too-many-public-methods
             raise InvalidOrganization(organization)
         return organization.create_team(team_name, description)
 
-    def delete_team(self, name):
+    def delete_team(self, organization, name):
         """Deletes a team from tower.
 
         Args:
+            organization: The name of the organization the team belongs to.
             name: The name of the team to delete.
 
         Returns:
@@ -568,7 +585,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidTeam: The team provided as argument does not exist.
 
         """
-        team = self.get_team_by_name(name)
+        team = self.get_organization_team_by_name(organization, name)
         if not team:
             raise InvalidTeam(team)
         return team.delete()
@@ -583,18 +600,28 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return EntityManager(self, entity_name='groups', entity_object='Group', primary_match_field='name')
 
-    def get_inventory_group_by_name(self, inventory, name):
+    def get_inventory_group_by_name(self, organization, inventory, name):
         """Retrieves a group by name.
 
         Args:
-            name: The name of the group to retrieve.
+            organization: The name of the organization the inventory belongs to.
             inventory: The inventory to retrieve the group from.
+            name: The name of the group to retrieve.
 
         Returns:
             Group: The group if a match is found else None.
 
+        Raises:
+            InvalidOrganization: The organisation provided as an argument does not exist.
+            InvalidInventory: The inventory name provided as an argument does not exist.
+
         """
-        inventory_ = self.get_inventory_by_name(inventory)
+        organization_ = self.get_organization_by_name(organization)
+        if not organization_:
+            raise InvalidOrganization(organization_)
+        inventory_ = organization_.get_inventory_by_name(inventory)
+        if not inventory_:
+            raise InvalidInventory(inventory_)
         return inventory_.get_group_by_name(name)
 
     def get_group_by_id(self, id_):
@@ -609,12 +636,13 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.groups.filter({'id': id_}), None)
 
-    def delete_inventory_group(self, name, inventory):
+    def delete_inventory_group(self, organization, inventory, name):
         """Deletes a group from tower.
 
         Args:
-            name: The name of the group to delete.
+            organization: The organization the inventory belongs to.
             inventory: The name of the inventory to retrieve the group from.
+            name: The name of the group to delete.
 
         Returns:
             bool: True on success, False otherwise.
@@ -623,7 +651,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidGroup: The group provided as argument does not exist.
 
         """
-        group = self.get_inventory_group_by_name(inventory, name)
+        group = self.get_inventory_group_by_name(organization, inventory, name)
         if not group:
             raise InvalidGroup(name)
         return group.delete()
@@ -638,17 +666,24 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return EntityManager(self, entity_name='inventories', entity_object='Inventory', primary_match_field='name')
 
-    def get_inventory_by_name(self, name):
-        """Retrieves an inventory by name.
+    def get_organization_inventory_by_name(self, organization, name):
+        """Retrieves an inventory by name from an organization.
 
         Args:
+            organization: The name of the organization to retrieve the inventory from.
             name: The name of the inventory to retrieve.
 
         Returns:
             Inventory: The inventory if a match is found else None.
 
+        Raises:
+            InvalidOrganization: The organization provided as argument does not exist.
+
         """
-        return next(self.inventories.filter({'name__iexact': name}), None)
+        organization = self.get_organization_by_name(organization)
+        if not organization:
+            raise InvalidOrganization(organization)
+        return organization.get_inventory_by_name(name)
 
     def get_inventory_by_id(self, id_):
         """Retrieves an inventory by id.
@@ -687,20 +722,21 @@ class Tower:  # pylint: disable=too-many-public-methods
             raise InvalidOrganization(organization)
         return organization.create_inventory(name, description, variables)
 
-    def delete_inventory(self, name):
+    def delete_organization_inventory(self, organization, name):
         """Deletes an inventory from tower.
 
         Args:
-            name: The name of the inventory to delete
+            organization: The organization the inventory is a member of.
+            name: The name of the inventory to delete.
 
         Returns:
-            bool: True on success, False otherwise
+            bool: True on success, False otherwise.
 
         Raises:
             InvalidInventory: The inventory provided as argument does not exist.
 
         """
-        inventory = self.get_inventory_by_name(name)
+        inventory = self.get_organization_inventory_by_name(organization, name)
         if not inventory:
             raise InvalidInventory(name)
         return inventory.delete()
@@ -715,18 +751,19 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return EntityManager(self, entity_name='hosts', entity_object='Host', primary_match_field='name')
 
-    def get_inventory_host_by_name(self, inventory, name):
+    def get_inventory_host_by_name(self, organization, inventory, name):
         """Retrieves a host by name from an inventory.
 
         Args:
-            name: The name of the host to retrieve
-            inventory: The name of the inventory to search for a host
+            organization: The name of the organization the inventory belongs to.
+            inventory: The name of the inventory to search for a host.
+            name: The name of the host to retrieve.
 
         Returns:
-            Host: The host if a match is found else None
+            Host: The host if a match is found else None.
 
         """
-        inventory_ = self.get_inventory_by_name(inventory)
+        inventory_ = self.get_organization_inventory_by_name(organization, inventory)
         if not inventory_:
             raise InvalidInventory(inventory)
         return inventory_.get_host_by_name(name)
@@ -743,10 +780,16 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.hosts.filter({'id': id_}), None)
 
-    def create_host_in_inventory(self, inventory, name, description, variables='{}'):
+    def create_host_in_inventory(self,  # pylint: disable=too-many-arguments
+                                 organization,
+                                 inventory,
+                                 name,
+                                 description,
+                                 variables='{}'):
         """Creates a host under an inventory.
 
         Args:
+            organization: The name of the organization the inventory belongs to.
             inventory: The name of the inventory to create the host under.
             name: The name of the host.
             description: The description of the host.
@@ -759,18 +802,19 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidInventory: The inventory provided as argument does not exist.
 
         """
-        inventory_ = self.get_inventory_by_name(inventory)
+        inventory_ = self.get_organization_inventory_by_name(organization, inventory)
         if not inventory_:
             raise InvalidInventory(inventory)
         return inventory_.create_host(name, description, variables)
 
-    def add_groups_to_inventory_host(self, inventory, hostname, groups):
+    def add_groups_to_inventory_host(self, organization, inventory, hostname, groups):
         """Adds groups to a host.
 
         Args:
+            organization: The name of the organization the inventory belongs to.
+            inventory: The inventory to retrieve the host from.
             hostname: The name of the host to add the groups to.
             groups: A string of a single group or a list or tuple of group names to add to host.
-            inventory: The inventory to retrieve the host from.
 
         Returns:
             bool: True on complete success, False otherwise.
@@ -779,18 +823,19 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidHost: The host provided as argument does not exist.
 
         """
-        host = self.get_inventory_host_by_name(inventory, hostname)
+        host = self.get_inventory_host_by_name(organization, inventory, hostname)
         if not host:
             raise InvalidHost(hostname)
         return host.associate_with_groups(groups)
 
-    def remove_groups_from_host(self, hostname, groups, inventory):
+    def remove_groups_from_inventory_host(self, organization, inventory, hostname, groups):
         """Removes groups from a host.
 
         Args:
+            organization: The name of the organization the inventory belongs to.
+            inventory: The inventory which contains the host to affect.
             hostname: The name of the host to remove the groups from.
             groups: A string of a single group or a list or tuple of group names to remove from a host.
-            inventory: The inventory which contains the host to affect.
 
         Returns:
             bool: True on complete success, False otherwise.
@@ -799,17 +844,18 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidHost: The host provided as argument does not exist.
 
         """
-        host = self.get_inventory_host_by_name(inventory, hostname)
+        host = self.get_inventory_host_by_name(organization, inventory, hostname)
         if not host:
             raise InvalidHost(hostname)
         return host.disassociate_with_groups(groups)
 
-    def delete_inventory_host(self, name, inventory):
+    def delete_inventory_host(self, organization, inventory, name):
         """Deletes an host from tower.
 
         Args:
-            name: The name of the host to delete.
+            organization: The name of the organization the inventory belongs to.
             inventory: The name of the inventory to delete the host from.
+            name: The name of the host to delete.
 
         Returns:
             bool: True on success, False otherwise.
@@ -818,7 +864,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidHost: The host provided as argument does not exist.
 
         """
-        host = self.get_inventory_host_by_name(inventory, name)
+        host = self.get_inventory_host_by_name(organization, inventory, name)
         if not host:
             raise InvalidHost(name)
         return host.delete()
@@ -1036,7 +1082,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         user_ = self.get_user_by_username(user)
         if not user_:
             raise InvalidUser(user)
-        team_ = self.get_team_by_name(team)
+        team_ = self.get_organization_team_by_name(organization, team)
         if not team_:
             raise InvalidTeam(team)
         credential_type_ = self.get_credential_type_by_name(credential_type)
@@ -1129,6 +1175,7 @@ class Tower:  # pylint: disable=too-many-public-methods
     def create_job_template(self,  # pylint: disable=too-many-arguments,too-many-locals
                             name,
                             description,
+                            organization,
                             inventory,
                             project,
                             playbook,
@@ -1165,6 +1212,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         Args:
             name: The name of the job template to create.
             description: The description of the job template to create.
+            organization: The organization the inventory belongs to.
             inventory: The inventory to use for the template.
             project: The project to use for the template.
             playbook: The playbook to run for the template.
@@ -1209,10 +1257,10 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidVerbosity: The verbosity provided is not in valid range of 0-4.
 
         """
-        inventory_ = self.get_inventory_by_name(inventory)
+        inventory_ = self.get_organization_inventory_by_name(organization, inventory)
         if not inventory_:
             raise InvalidInventory(inventory)
-        project_ = self.get_project_by_name(project)
+        project_ = self.get_organization_project_by_name(organization, project)
         if not project_:
             raise InvalidProject(project)
         if playbook not in project_.playbooks:

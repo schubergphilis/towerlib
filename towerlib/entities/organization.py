@@ -41,11 +41,11 @@ from towerlib.towerlibexceptions import (InvalidUserLevel,
                                          InvalidInventory,
                                          InvalidCredential,
                                          InvalidProject)
-from .user import User
-from .inventory import Inventory
 from .core import Entity, USER_LEVELS, EntityManager
-from .team import Team
+from .inventory import Inventory
 from .project import Project
+from .team import Team
+from .user import User
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -491,3 +491,42 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return next(self.credentials.filter({'id': id_}), None)
+
+    def get_project_by_name(self, name):
+        """Retrieves a project.
+
+        Args:
+            name: The name of the project to retrieve.
+
+        Returns:
+            project (Project): project on success else None.
+
+        """
+        return next(self._tower.projects.filter({'organization': self.id, 'name__iexact': name}), None)
+
+    def get_team_by_name(self, name):
+        """Retrieves a team.
+
+        Args:
+            name: The name of the team to retrieve.
+
+        Returns:
+            team (Team): team on success else None.
+
+        """
+        return next(self._tower.teams.filter({'organization': self.id, 'name__iexact': name}), None)
+
+    def get_inventory_by_name(self, name):
+        """Retrieves an inventory.
+
+        Args:
+            name: The name of the inventory to retrieve.
+
+        Returns:
+            inventory(Inventory): inventory on success else None.
+
+        Raises:
+            InvalidInventory: The inventory provided as argument does not exist.
+
+        """
+        return next(self._tower.inventories.filter({'organization': self.id, 'name__iexact': name}), None)

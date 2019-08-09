@@ -32,7 +32,6 @@ Main code for host.
 """
 
 import logging
-import json
 
 from towerlib.towerlibexceptions import InvalidGroup
 from .core import Entity, EntityManager
