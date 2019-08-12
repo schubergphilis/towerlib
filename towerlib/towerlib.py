@@ -324,17 +324,33 @@ class Tower:  # pylint: disable=too-many-public-methods
                              entity_object='User',
                              primary_match_field='username')
 
-    def get_user_by_username(self, name):
+    def get_users_by_username(self, name):
+        """Retrieves users by name.
+
+        Args:
+            name: The name of the user(s) to retrieve.
+
+        Returns:
+            Users (Generator): The user(s) if a match is found else None.
+
+        """
+        return self.users.filter({'username__iexact': name})
+
+    def get_organization_user_by_username(self, organization, name):
         """Retrieves a user by name.
 
         Args:
+            organization: The name of the organization the user belongs to.
             name: The name of the user to retrieve.
 
         Returns:
-            User: The user if a match is found else None.
+            Project: The user if a match is found else None.
 
         """
-        return next(self.users.filter({'username__iexact': name}), None)
+        organization_ = self.get_organization_by_name(organization)
+        if not organization_:
+            raise InvalidOrganization(organization)
+        return organization_.get_user_by_username(name)
 
     def get_user_by_id(self, id_):
         """Retrieves a user by id.
@@ -348,10 +364,11 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.users.filter({'id': id_}), None)
 
-    def delete_user(self, username):
+    def delete_organization_user(self, organization, username):
         """Deletes a user from tower.
 
         Args:
+            organization: The name of the organization to delete the user from.
             username: The username of the user to delete.
 
         Returns:
@@ -361,7 +378,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidUser: The user provided as argument does not exist.
 
         """
-        user = self.get_user_by_username(username)
+        user = self.get_organization_user_by_username(organization, username)
         if not user:
             raise InvalidUser(username)
         return user.delete()
@@ -455,6 +472,7 @@ class Tower:  # pylint: disable=too-many-public-methods
                                        name,
                                        description,
                                        credential,
+                                       credential_type,
                                        scm_url,
                                        scm_branch='master',
                                        scm_type='git',
@@ -469,6 +487,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             name: The name of the project.
             description: The description of the project.
             credential: The name of the credential to use for the project.
+            credential_type: The type of the credential to use for the project.
             scm_url: The url of the scm.
             scm_branch: The default branch of the scm.
             scm_type: The type of the scm.
@@ -490,9 +509,9 @@ class Tower:  # pylint: disable=too-many-public-methods
         organization_ = self.get_organization_by_name(organization)
         if not organization_:
             raise InvalidOrganization(organization)
-        credential_ = organization_.get_credential_by_name(credential)
-        if not credential_:
-            raise InvalidCredential(credential)
+        # credential_ = organization_.get_credential_by_name(credential, credential_type)
+        # if not credential_:
+        #     raise InvalidCredential(credential)
         return organization_.create_project(name,
                                             description,
                                             credential,

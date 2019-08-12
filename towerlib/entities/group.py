@@ -33,8 +33,13 @@ Main code for group.
 
 import logging
 
-from towerlib.towerlibexceptions import InvalidHost, InvalidGroup
-from .core import Entity, EntityManager
+from towerlib.towerlibexceptions import (InvalidHost,
+                                         InvalidGroup,
+                                         InvalidValue)
+from .core import (Entity,
+                   EntityManager,
+                   validate_max_length,
+                   validate_json)
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -68,6 +73,22 @@ class Group(Entity):
         """
         return self._data.get('name')
 
+    @name.setter
+    def name(self, value):
+        """Update the name of the group.
+
+        Returns:
+            None:
+
+        """
+        max_characters = 512
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('name', value)
+        else:
+            raise InvalidValue(f'{value} is invalid. '
+                               f'Condition max_characters must be less than or equal to {max_characters}')
+
     @property
     def description(self):
         """The description of the group.
@@ -77,6 +98,16 @@ class Group(Entity):
 
         """
         return self._data.get('description')
+
+    @description.setter
+    def description(self, value):
+        """Update the description of the group.
+
+        Returns:
+            None:
+
+        """
+        self._update_values('description', value)
 
     @property
     def inventory(self):
@@ -97,6 +128,20 @@ class Group(Entity):
 
         """
         return self._data.get('variables')
+
+    @variables.setter
+    def variables(self, value):
+        """Update the variables of the group.
+
+        Returns:
+            None:
+
+        """
+        conditions = [validate_json(value)]
+        if all(conditions):
+            self._update_values('variables', value)
+        else:
+            raise InvalidValue(f'{value} is not valid json.')
 
     @property
     def has_active_failures(self):

@@ -35,7 +35,13 @@ import logging
 
 from dateutil.parser import parse
 
-from .core import Entity, EntityManager
+from towerlib.towerlibexceptions import (InvalidValue,
+                                         InvalidCredential,
+                                         InvalidOrganization)
+from .core import (Entity,
+                   EntityManager,
+                   validate_max_length,
+                   validate_range)
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -140,15 +146,41 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._data.get('name')
 
-    @property
-    def description(self):
-        """The description of the project.
+    @name.setter
+    def name(self, value):
+        """Update the name of the project.
 
         Returns:
-            string: The description of the project.
+            None:
+
+        """
+        max_characters = 512
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('name', value)
+        else:
+            raise InvalidValue(f'{value} is invalid. '
+                               f'Condition max_characters must be less than or equal to {max_characters}')
+
+    @property
+    def description(self):
+        """The description of the Project.
+
+        Returns:
+            string: The description of the Project.
 
         """
         return self._data.get('description')
+
+    @description.setter
+    def description(self, value):
+        """Update the description of the project.
+
+        Returns:
+            None:
+
+        """
+        self._update_values('description', value)
 
     @property
     def local_path(self):
@@ -159,6 +191,22 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._data.get('local_path')
+
+    @local_path.setter
+    def local_path(self, value):
+        """Update the internal local path of the project.
+
+        Returns:
+            None:
+
+        """
+        max_characters = 1024
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('local_path', value)
+        else:
+            raise InvalidValue(f'{value} is invalid. '
+                               f'Condition max_characters must be less than or equal to {max_characters}')
 
     @property
     def scm_type(self):
@@ -180,6 +228,22 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._data.get('scm_url')
 
+    @scm_url.setter
+    def scm_url(self, value):
+        """Update the scm_url project.
+
+        Returns:
+            None:
+
+        """
+        max_characters = 1024
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('scm_url', value)
+        else:
+            raise InvalidValue(f'{value} is invalid. '
+                               f'Condition max_characters must be less than or equal to {max_characters}')
+
     @property
     def scm_branch(self):
         """The branch of the scm used.
@@ -189,6 +253,22 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._data.get('scm_branch')
+
+    @scm_branch.setter
+    def scm_branch(self, value):
+        """Update the scm_branch project.
+
+        Returns:
+            None:
+
+        """
+        max_characters = 256
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('scm_branch', value)
+        else:
+            raise InvalidValue(f'{value} is invalid. '
+                               f'Condition max_characters must be less than or equal to {max_characters}')
 
     @property
     def scm_clean(self):
@@ -200,6 +280,16 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._data.get('scm_clean')
 
+    @scm_clean.setter
+    def scm_clean(self, value):
+        """Update the scm_clean project.
+
+        Returns:
+            None:
+
+        """
+        self._update_values('scm_clean', value)
+
     @property
     def scm_delete_on_update(self):
         """A flag to delete the scm on update.
@@ -209,6 +299,16 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._data.get('scm_delete_on_update')
+
+    @scm_delete_on_update.setter
+    def scm_delete_on_update(self, value):
+        """Update the scm_delete_on_update project flag.
+
+        Returns:
+            None:
+
+        """
+        self._update_values('scm_delete_on_update', value)
 
     @property
     def credential(self):
@@ -220,6 +320,20 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._tower.get_credential_by_id(self._data.get('credential'))
 
+    @credential.setter
+    def credential(self, value):
+        """Update the credential attached to the project.
+
+        Returns:
+            None:
+
+        """
+        organization = self._tower.get_organization_by_id(self._data.get('organization'))
+        credential = organization.get_credential_by_name(value)
+        if not credential:
+            raise InvalidCredential(value)
+        self._update_values('credential', credential.id)
+
     @property
     def timeout(self):
         """The timeout setting of the project.
@@ -229,6 +343,23 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._data.get('timeout')
+
+    @timeout.setter
+    def timeout(self, value):
+        """Update the timeout of the project.
+
+        Returns:
+            None:
+
+        """
+        minimum = -2147483648
+        maximum = 2147483647
+        conditions = [validate_range(value, minimum, maximum)]
+        if all(conditions):
+            self._update_values('timeout', value)
+        else:
+            raise InvalidValue(f'{value} is invalid. '
+                               f'Value must be between {minimum} and {maximum}')
 
     @property
     def last_job_run(self):
@@ -284,6 +415,19 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._tower.get_organization_by_id(self._data.get('organization'))
 
+    @organization.setter
+    def organization(self, value):
+        """Update the organization attached to the project.
+
+        Returns:
+            None:
+
+        """
+        organization = self._tower.get_organization_by_name(value)
+        if not organization:
+            raise InvalidOrganization(value)
+        self._update_values('organization', organization.id)
+
     @property
     def scm_delete_on_next_update(self):
         """A flag on whether to delete the scm on the next update.
@@ -304,6 +448,16 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._data.get('scm_update_on_launch')
 
+    @scm_update_on_launch.setter
+    def scm_update_on_launch(self, value):
+        """Update the scm_update_on_launch project.
+
+        Returns:
+            None:
+
+        """
+        self._update_values('scm_update_on_launch', value)
+
     @property
     def scm_update_cache_timeout(self):
         """The cache timeout set for the scm.
@@ -313,6 +467,23 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._data.get('scm_update_cache_timeout')
+
+    @scm_update_cache_timeout.setter
+    def scm_update_cache_timeout(self, value):
+        """Update the scm_update_cache_timeout of the project.
+
+        Returns:
+            None:
+
+        """
+        minimum = 0
+        maximum = 2147483647
+        conditions = [validate_range(value, minimum, maximum)]
+        if all(conditions):
+            self._update_values('scm_update_cache_timeout', value)
+        else:
+            raise InvalidValue(f'{value} is invalid. '
+                               f'Value must be between {minimum} and {maximum}')
 
     @property
     def scm_revision(self):
@@ -347,3 +518,29 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         except (ValueError, TypeError):
             date_ = None
         return date_
+
+    @property
+    def custom_virtualenv(self):
+        """The path of the custom virtual environment.
+
+        Returns:
+            string: The path of the custom virtual environment.
+
+        """
+        return self._data.get('custom_virtualenv')
+
+    @custom_virtualenv.setter
+    def custom_virtualenv(self, value):
+        """Update the custom_virtualenv of the group.
+
+        Returns:
+            None:
+
+        """
+        max_characters = 100
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('custom_virtualenv', value)
+        else:
+            raise InvalidValue(f'{value} is invalid. '
+                               f'Condition max_characters must be less than or equal to {max_characters}')

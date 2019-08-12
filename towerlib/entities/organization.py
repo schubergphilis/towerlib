@@ -41,8 +41,12 @@ from towerlib.towerlibexceptions import (InvalidUserLevel,
                                          InvalidInventory,
                                          InvalidCredential,
                                          InvalidProject,
-                                         InvalidCredentialType)
-from .core import Entity, USER_LEVELS, EntityManager
+                                         InvalidCredentialType,
+                                         InvalidValue)
+from .core import (Entity,
+                   USER_LEVELS,
+                   EntityManager,
+                   validate_max_length)
 from .inventory import Inventory
 from .project import Project
 from .team import Team
@@ -80,6 +84,22 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._data.get('name')
 
+    @name.setter
+    def name(self, value):
+        """Update the name of the organization.
+
+        Returns:
+            None:
+
+        """
+        max_characters = 512
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('name', value)
+        else:
+            raise InvalidValue(f'{value} is invalid. '
+                               f'Condition max_characters must be less than or equal to {max_characters}')
+
     @property
     def description(self):
         """The description of the Organization.
@@ -89,6 +109,42 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._data.get('description')
+
+    @description.setter
+    def description(self, value):
+        """Update the description of the organization.
+
+        Returns:
+            None:
+
+        """
+        self._update_values('description', value)
+
+    @property
+    def custom_virtualenv(self):
+        """The path of the custom virtual environment.
+
+        Returns:
+            string: The path of the custom virtual environment.
+
+        """
+        return self._data.get('custom_virtualenv')
+
+    @custom_virtualenv.setter
+    def custom_virtualenv(self, value):
+        """Update the custom_virtualenv of the group.
+
+        Returns:
+            None:
+
+        """
+        max_characters = 100
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('custom_virtualenv', value)
+        else:
+            raise InvalidValue(f'{value} is invalid. '
+                               f'Condition max_characters must be less than or equal to {max_characters}')
 
     @property
     def created_by(self):
@@ -240,7 +296,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
 
         """
         url = '{api}/projects/'.format(api=self._tower.api)
-        credential_ = self._tower.get_credential_by_name(credential)
+        credential_ = self.get_credential_by_name(credential)
         if not credential_:
             raise InvalidCredential(credential)
         payload = {'name': name,
@@ -470,10 +526,10 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         return EntityManager(self._tower, entity_object='Credential', primary_match_field='name', url=url)
 
     def get_credential_by_name(self, name, credential_type):
-        """Retrieves all credentials matching a certain name.
+        """Retrieves credential matching a certain name.
 
         Args:
-            name: The name of the credential(s) to retrieve.
+            name: The name of the credential to retrieve.
             credential_type: The type of credential.
 
         Returns:
@@ -540,3 +596,15 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return next(self._tower.inventories.filter({'organization': self.id, 'name__iexact': name}), None)
+
+    def get_user_by_username(self, name):
+        """Retrieves a user.
+
+        Args:
+            name: The name of the user to retrieve.
+
+        Returns:
+            user (User): user on success else None.
+
+        """
+        return next(self._tower.users.filter({'organization': self.id, 'name__iexact': name}), None)
