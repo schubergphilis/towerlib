@@ -37,8 +37,7 @@ from towerlib.towerlibexceptions import (InvalidOrganization,
                                          InvalidValue)
 from .core import (Entity,
                    EntityManager,
-                   validate_max_length,
-                   validate_json)
+                   validate_max_length)
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''

@@ -33,11 +33,11 @@ Main code for user.
 
 import logging
 
+from towerlib.towerlibexceptions import InvalidValue
 from .core import (Entity,
                    EntityManager,
                    validate_max_length,
                    validate_characters)
-from towerlib.towerlibexceptions import InvalidValue
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''

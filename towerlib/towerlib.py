@@ -410,6 +410,18 @@ class Tower:  # pylint: disable=too-many-public-methods
                              entity_object='Project',
                              primary_match_field='name')
 
+    def get_projects_by_name(self, name):
+        """Retrieves projects by name.
+
+        Args:
+            name: The name of the projects to retrieve.
+
+        Returns:
+            projects (Generator): A generator with the matching projects
+
+        """
+        return self.projects.filter({'name__iexact': name})
+
     def get_organization_project_by_name(self, organization, name):
         """Retrieves a project by name.
 
@@ -478,7 +490,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         organization_ = self.get_organization_by_name(organization)
         if not organization_:
             raise InvalidOrganization(organization)
-        credential_ = self.get_credential_by_name(credential)
+        credential_ = organization_.get_credential_by_name(credential)
         if not credential_:
             raise InvalidCredential(credential)
         return organization_.create_project(name,
@@ -523,7 +535,22 @@ class Tower:  # pylint: disable=too-many-public-methods
             EntityManager: The manager object for teams.
 
         """
-        return EntityManager(self, entity_name='teams', entity_object='Team', primary_match_field='name')
+        return EntityManager(self,
+                             entity_name='teams',
+                             entity_object='Team',
+                             primary_match_field='name')
+
+    def get_teams_by_name(self, name):
+        """Retrieves teams by name.
+
+        Args:
+            name: The name of the teams to retrieve.
+
+        Returns:
+            teams (Generator): A generator with the matching teams
+
+        """
+        return self.teams.filter({'name__iexact': name})
 
     def get_organization_team_by_name(self, organization, name):
         """Retrieves a team by name.
@@ -603,7 +630,10 @@ class Tower:  # pylint: disable=too-many-public-methods
             EntityManager: The manager object for groups.
 
         """
-        return EntityManager(self, entity_name='groups', entity_object='Group', primary_match_field='name')
+        return EntityManager(self,
+                             entity_name='groups',
+                             entity_object='Group',
+                             primary_match_field='name')
 
     def get_inventory_group_by_name(self, organization, inventory, name):
         """Retrieves a group by name.
@@ -669,7 +699,22 @@ class Tower:  # pylint: disable=too-many-public-methods
             list of Inventory: The inventories configured in tower.`
 
         """
-        return EntityManager(self, entity_name='inventories', entity_object='Inventory', primary_match_field='name')
+        return EntityManager(self,
+                             entity_name='inventories',
+                             entity_object='Inventory',
+                             primary_match_field='name')
+
+    def get_inventories_by_name(self, name):
+        """Retrieves inventories by name.
+
+        Args:
+            name: The name of the inventories to retrieve.
+
+        Returns:
+            inventories (Generator): A generator with the matching inventories
+
+        """
+        return self.inventories.filter({'name__iexact': name})
 
     def get_organization_inventory_by_name(self, organization, name):
         """Retrieves an inventory by name from an organization.
@@ -754,7 +799,22 @@ class Tower:  # pylint: disable=too-many-public-methods
             EntityManager: The manager object for hosts
 
         """
-        return EntityManager(self, entity_name='hosts', entity_object='Host', primary_match_field='name')
+        return EntityManager(self,
+                             entity_name='hosts',
+                             entity_object='Host',
+                             primary_match_field='name')
+
+    def get_hosts_by_name(self, name):
+        """Retrieves hosts by name.
+
+        Args:
+            name: The name of the hosts to retrieve.
+
+        Returns:
+            hosts (Generator): A generator with the matching hosts
+
+        """
+        return self.hosts.filter({'name__iexact': name})
 
     def get_inventory_host_by_name(self, organization, inventory, name):
         """Retrieves a host by name from an inventory.
@@ -882,7 +942,10 @@ class Tower:  # pylint: disable=too-many-public-methods
             EntityManager: The manager object for instances.
 
         """
-        return EntityManager(self, entity_name='instances', entity_object='Instance', primary_match_field='name')
+        return EntityManager(self,
+                             entity_name='instances',
+                             entity_object='Instance',
+                             primary_match_field='name')
 
     @property
     def instance_groups(self):
@@ -1025,7 +1088,10 @@ class Tower:  # pylint: disable=too-many-public-methods
             EntityManager: The manager object for credentials.
 
         """
-        return EntityManager(self, entity_name='credentials', entity_object='Credential', primary_match_field='name')
+        return EntityManager(self,
+                             entity_name='credentials',
+                             entity_object='Credential',
+                             primary_match_field='name')
 
     def get_credentials_by_name(self, name):
         """Retrieves all credentials matching a certain name.
@@ -1135,7 +1201,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         return Credential(self, response.json()) if response.ok else None
 
     def delete_organization_credential_by_name(self, organization, name, credential_type):
-        """Deletes a credential from an organization
+        """Deletes a credential from an organization.
 
         Args:
             organization: The organization that owns the credential.
@@ -1151,7 +1217,6 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidCredential: The credential was not found.
 
         """
-
         credential_type_ = self.get_credential_type_by_name(credential_type)
         if not credential_type_:
             raise InvalidCredentialType(name)
@@ -1177,6 +1242,18 @@ class Tower:  # pylint: disable=too-many-public-methods
                              entity_name='job_templates',
                              entity_object='JobTemplate',
                              primary_match_field='name')
+
+    def get_job_templates_by_name(self, name):
+        """Retrieves job_templates by name.
+
+        Args:
+            name: The name of the job_templates to retrieve.
+
+        Returns:
+            job_templates (Generator): A generator with the matching job_templates
+
+        """
+        return self.job_templates.filter({'name__iexact': name})
 
     def get_job_template_by_name(self, name):
         """Retrieves a job template by name.
@@ -1313,7 +1390,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             raise InvalidProject(project)
         if playbook not in project_.playbooks:
             raise InvalidPlaybook(playbook)
-        credential_ = self.get_credential_by_name(credential)
+        credential_ = project_.get_credential_by_name(credential)
         if not credential_:
             raise InvalidCredential(credential)
         instance_group_ids = []
@@ -1378,7 +1455,10 @@ class Tower:  # pylint: disable=too-many-public-methods
             EntityManager: The manager object for roles.
 
         """
-        return EntityManager(self, entity_name='roles', entity_object='Role', primary_match_field='name')
+        return EntityManager(self,
+                             entity_name='roles',
+                             entity_object='Role',
+                             primary_match_field='name')
 
     def _get_object_by_url(self, object_type, url):
         url = '{host}{url}'.format(host=self.host, url=url)

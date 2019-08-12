@@ -125,4 +125,4 @@ class PermissionNotFound(Exception):
 
 
 class InvalidValue(Exception):
-    """The value is not valid for the field"""
+    """The value is not valid for the field."""
