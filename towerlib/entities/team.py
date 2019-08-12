@@ -38,8 +38,12 @@ from towerlib.towerlibexceptions import (InvalidUser,
                                          InvalidProject,
                                          InvalidJobTemplate,
                                          InvalidInventory,
-                                         InvalidCredential)
-from .core import Entity, EntityManager
+                                         InvalidCredential,
+                                         InvalidValue,
+                                         InvalidOrganization)
+from .core import (Entity,
+                   EntityManager,
+                   validate_max_length)
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -74,6 +78,21 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._data.get('name')
 
+    @name.setter
+    def name(self, value):
+        """Update the name of the team.
+
+        Returns:
+            None:
+
+        """
+        max_characters = 512
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('name', value)
+        else:
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must equal {max_characters}')
+
     @property
     def description(self):
         """The description of the team.
@@ -84,6 +103,16 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._data.get('description')
 
+    @description.setter
+    def description(self, value):
+        """Update the description of the team.
+
+        Returns:
+            None:
+
+        """
+        self._update_values('description', value)
+
     @property
     def organization(self):
         """The Organization of the team.
@@ -93,6 +122,19 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._tower.get_organization_by_id(self._data.get('organization'))
+
+    @organization.setter
+    def organization(self, value):
+        """Update the organization of the team.
+
+        Returns:
+            None:
+
+        """
+        organization = self._tower.get_organization_by_name(value)
+        if not organization:
+            raise InvalidOrganization(value)
+        self._update_values('organization', organization.id)
 
     @property
     def roles(self):

@@ -297,17 +297,16 @@ class Tower:  # pylint: disable=too-many-public-methods
         """Retrieves only users created by an external system.
 
         Returns:
-            list: Users created by external system in tower.
+            users (Generator): Users created by external system in tower.
 
         """
         return self.users.filter({'social_auth__isnull': False})
-        # return (user for user in self.users if user.external_account == 'social')
 
     def get_local_users(self):
         """Retrieves only users created locally in tower.
 
         Returns:
-            list: Users created locally in tower.
+            users (Generator): Users created locally in tower.
 
         """
         return self.users.filter({'social_auth__isnull': True})
@@ -320,7 +319,10 @@ class Tower:  # pylint: disable=too-many-public-methods
             EntityManager: The manager object for users.
 
         """
-        return EntityManager(self, entity_name='users', entity_object='User', primary_match_field='username')
+        return EntityManager(self,
+                             entity_name='users',
+                             entity_object='User',
+                             primary_match_field='username')
 
     def get_user_by_username(self, name):
         """Retrieves a user by name.
@@ -403,14 +405,17 @@ class Tower:  # pylint: disable=too-many-public-methods
             EntityManager: The manager object for projects.
 
         """
-        return EntityManager(self, entity_name='projects', entity_object='Project', primary_match_field='name')
+        return EntityManager(self,
+                             entity_name='projects',
+                             entity_object='Project',
+                             primary_match_field='name')
 
     def get_organization_project_by_name(self, organization, name):
         """Retrieves a project by name.
 
         Args:
-            name: The name of the project to retrieve.
             organization: The name of the organization the project belongs to.
+            name: The name of the project to retrieve.
 
         Returns:
             Project: The project if a match is found else None.
@@ -1007,10 +1012,10 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidCredential: The credential provided as argument does not exist.
 
         """
-        credential = self.get_credential_type_by_name(name)
-        if not credential:
-            raise InvalidCredential(name)
-        return credential.delete()
+        credential_type = self.get_credential_type_by_name(name)
+        if not credential_type:
+            raise InvalidCredentialType(name)
+        return credential_type.delete()
 
     @property
     def credentials(self):
@@ -1022,17 +1027,44 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return EntityManager(self, entity_name='credentials', entity_object='Credential', primary_match_field='name')
 
-    def get_credential_by_name(self, name):
-        """Retrieves a credential by name.
+    def get_credentials_by_name(self, name):
+        """Retrieves all credentials matching a certain name.
 
         Args:
-            name: The name of the credential to retrieve.
+            name: The name of the credential(s) to retrieve.
 
         Returns:
-            Host: The credential if a match is found else None.
+            Credentials (Generator): A credentials generator.
 
         """
-        return next(self.credentials.filter({'name__iexact': name}), None)
+        return self.credentials.filter({'name__iexact': name})
+
+    def get_organization_credential_by_name(self, organization, name, credential_type):
+        """Retrieves all credentials matching a certain name.
+
+        Args:
+            organization: The organization that owns the credential.
+            name: The name of the credential(s) to retrieve.
+            credential_type: The type of the credential.
+
+        Returns:
+            Credential: A credential if found else None.
+
+        Raises:
+            InvalidCredentialType: The CredentialType given was not found.
+            InvalidOrganization: The Organization given was not found.
+
+        """
+        # return self.credentials.filter({'name__iexact': name})
+        credential_type_ = self.get_credential_type_by_name(credential_type)
+        if not credential_type_:
+            raise InvalidCredentialType(name)
+        organization_ = self.get_organization_by_name(organization)
+        if not organization_:
+            raise InvalidOrganization(organization)
+        return next(self.credentials.filter({'organization': organization_.id,
+                                             'name__iexact': name,
+                                             'credential_type': credential_type_.id}), None)
 
     def get_credential_by_id(self, id_):
         """Retrieves a credential by id.
@@ -1102,20 +1134,33 @@ class Tower:  # pylint: disable=too-many-public-methods
         response = self.session.post(url, json=payload)
         return Credential(self, response.json()) if response.ok else None
 
-    def delete_credential(self, name):
-        """Deletes a credential from tower.
+    def delete_organization_credential_by_name(self, organization, name, credential_type):
+        """Deletes a credential from an organization
 
         Args:
-            name: The name of the credential to delete.
+            organization: The organization that owns the credential.
+            name: The name of the credential(s) to delete.
+            credential_type: The type of the credential.
 
         Returns:
             bool: True on success, False otherwise.
 
         Raises:
-            InvalidCredential: The credentials provided as argument does not exist.
+            InvalidCredentialType: The CredentialType given was not found.
+            InvalidOrganization: The Organization given was not found.
+            InvalidCredential: The credential was not found.
 
         """
-        credential = self.get_credential_by_name(name)
+
+        credential_type_ = self.get_credential_type_by_name(credential_type)
+        if not credential_type_:
+            raise InvalidCredentialType(name)
+        organization_ = self.get_organization_by_name(organization)
+        if not organization_:
+            raise InvalidOrganization(organization)
+        credential = next(self.credentials.filter({'organization': organization_.id,
+                                                   'name__iexact': name,
+                                                   'credential_type': credential_type_.id}), None)
         if not credential:
             raise InvalidCredential(name)
         return credential.delete()
@@ -1128,7 +1173,10 @@ class Tower:  # pylint: disable=too-many-public-methods
             EntityManager: The manager object for job templates.
 
         """
-        return EntityManager(self, entity_name='job_templates', entity_object='JobTemplate', primary_match_field='name')
+        return EntityManager(self,
+                             entity_name='job_templates',
+                             entity_object='JobTemplate',
+                             primary_match_field='name')
 
     def get_job_template_by_name(self, name):
         """Retrieves a job template by name.

@@ -36,8 +36,15 @@ import logging
 
 from dateutil.parser import parse
 
-from towerlib.towerlibexceptions import InvalidVariables, InvalidHost, InvalidGroup
-from .core import Entity, EntityManager
+from towerlib.towerlibexceptions import (InvalidVariables,
+                                         InvalidHost,
+                                         InvalidGroup,
+                                         InvalidValue,
+                                         InvalidOrganization)
+from .core import (Entity,
+                   EntityManager,
+                   validate_max_length,
+                   validate_json)
 from .group import Group
 from .host import Host
 
@@ -105,6 +112,21 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._data.get('name')
 
+    @name.setter
+    def name(self, value):
+        """Update the name of the user.
+
+        Returns:
+            None:
+
+        """
+        max_characters = 512
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('name', value)
+        else:
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must equal {max_characters}.')
+
     @property
     def description(self):
         """The description of the inventory.
@@ -114,6 +136,16 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._data.get('description')
+
+    @description.setter
+    def description(self, value):
+        """Update the description of the user.
+
+        Returns:
+            None:
+
+        """
+        self._update_values('description', value)
 
     @property
     def organization(self):
@@ -125,6 +157,19 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._tower.get_organization_by_id(self._data.get('organization'))
 
+    @organization.setter
+    def organization(self, value):
+        """Update the organization of the inventory.
+
+        Returns:
+            None:
+
+        """
+        organization = self._tower.get_organization_by_name(value)
+        if not organization:
+            raise InvalidOrganization(value)
+        self._update_values('organization', organization.id)
+
     @property
     def kind(self):
         """The kind of inventory.
@@ -134,6 +179,18 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._data.get('kind')
+
+    @kind.setter
+    def kind(self, value):
+        """Update the kind of the team.
+
+        Returns:
+            None:
+
+        """
+        if value not in ['', 'smart']:
+            raise InvalidValue(f'Value should either be empty or "smart", received: {value}')
+        self._update_values('kind', value)
 
     @property
     def host_filter(self):
@@ -145,6 +202,16 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._data.get('host_filter')
 
+    @host_filter.setter
+    def host_filter(self, value):
+        """Update the host_filter of the team.
+
+        Returns:
+            None:
+
+        """
+        self._update_values('host_filter', value)
+
     @property
     def variables(self):
         """The variables set on the inventory.
@@ -154,6 +221,19 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._data.get('variables')
+
+    @variables.setter
+    def variables(self, value):
+        """Update the variables of the team.
+
+        Returns:
+            None:
+
+        """
+        if validate_json(value):
+            self._update_values('variables', value)
+        else:
+            raise InvalidValue(f'Value is not valid json received: {value}')
 
     @property
     def has_active_failures(self):

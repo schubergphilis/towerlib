@@ -33,8 +33,12 @@ Main code for credentials.
 
 import logging
 
-from towerlib.towerlibexceptions import InvalidOrganization
-from .core import Entity, EntityManager
+from towerlib.towerlibexceptions import (InvalidOrganization,
+                                         InvalidValue)
+from .core import (Entity,
+                   EntityManager,
+                   validate_max_length,
+                   validate_json)
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -240,13 +244,18 @@ class GenericCredential(Entity):
 
     @name.setter
     def name(self, value):
-        """Set the name of the credential.
+        """Update the name of the credential.
 
         Returns:
-            bool: True if successful, False otherwise.
+            None:
 
         """
-        self._update_values('name', value)
+        max_characters = 512
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('name', value)
+        else:
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must equal {max_characters}')
 
     @property
     def description(self):
@@ -263,7 +272,7 @@ class GenericCredential(Entity):
         """Set the description of the credential.
 
         Returns:
-            bool: True if successful, False otherwise.
+            None.
 
         """
         self._update_values('description', value)

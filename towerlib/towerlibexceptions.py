@@ -121,4 +121,8 @@ class InvalidJobTemplate(Exception):
 
 
 class PermissionNotFound(Exception):
-    """The premission was not found in the entity."""
+    """The permission was not found in the entity."""
+
+
+class InvalidValue(Exception):
+    """The value is not valid for the field"""

@@ -40,7 +40,8 @@ from towerlib.towerlibexceptions import (InvalidUserLevel,
                                          InvalidVariables,
                                          InvalidInventory,
                                          InvalidCredential,
-                                         InvalidProject)
+                                         InvalidProject,
+                                         InvalidCredentialType)
 from .core import Entity, USER_LEVELS, EntityManager
 from .inventory import Inventory
 from .project import Project
@@ -468,17 +469,26 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         url = '{organization}credentials/'.format(organization=self.api_url)
         return EntityManager(self._tower, entity_object='Credential', primary_match_field='name', url=url)
 
-    def get_credential_by_name(self, name):
-        """Retrieves a credential by name.
+    def get_credential_by_name(self, name, credential_type):
+        """Retrieves all credentials matching a certain name.
 
         Args:
-            name: The name of the credential to retrieve.
+            name: The name of the credential(s) to retrieve.
+            credential_type: The type of credential.
 
         Returns:
-            Host: The credential if a match is found else None.
+            Credential: A credential if found else none.
+
+        Raises:
+            InvalidCredentialType: The credential type given as a parameter was not found.
 
         """
-        return next(self.credentials.filter({'name__iexact': name}), None)
+        credential_type_ = self._tower.get_credential_type_by_name(credential_type)
+        if not credential_type_:
+            raise InvalidCredentialType(name)
+        return next(self.credentials.filter({'organization': self.id,
+                                             'name__iexact': name,
+                                             'credential_type': credential_type_.id}), None)
 
     def get_credential_by_id(self, id_):
         """Retrieves a credential by id.

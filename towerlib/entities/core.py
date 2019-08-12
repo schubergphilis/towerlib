@@ -32,6 +32,8 @@ Main code for miscellaneous.
 """
 
 import logging
+import re
+import json
 from collections import namedtuple
 
 from dateutil.parser import parse
@@ -104,6 +106,29 @@ Cluster = namedtuple('InstanceGroups', ['instances',
                                         'active_node'])
 INSTANCE_STATE_CACHING_SECONDS = 60
 INSTANCE_STATE_CACHE = TTLCache(maxsize=1, ttl=INSTANCE_STATE_CACHING_SECONDS)
+
+
+def validate_max_length(value, max_length):
+    return len(value) <= max_length
+
+
+def validate_characters(value, alpha=True, numbers=True, extra_chars=None):
+    valid_characters = f'^[{"a-zA-Z" if alpha else ""}' \
+                       f'{"0-9" if numbers else ""}' \
+                       f'{re.escape(extra_chars) if extra_chars else ""}]+$'
+    return True if re.search(valid_characters, value) else False
+
+
+def validate_range(value, start, stop):
+    return start <= value <= stop
+
+
+def validate_json(value):
+    try:
+        json.loads(value)
+        return True
+    except ValueError:
+        return False
 
 
 class ClusterInstance:

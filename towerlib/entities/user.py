@@ -33,7 +33,11 @@ Main code for user.
 
 import logging
 
-from .core import Entity, EntityManager
+from .core import (Entity,
+                   EntityManager,
+                   validate_max_length,
+                   validate_characters)
+from towerlib.towerlibexceptions import InvalidValue
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -56,13 +60,6 @@ class User(Entity):
 
     def __init__(self, tower_instance, data):
         Entity.__init__(self, tower_instance, data)
-        # self._payload = ['first_name',
-        #                  'last_name',
-        #                  'email',
-        #                  'username',
-        #                  'user_type',
-        #                  'is_superuser',
-        #                  'is_system_auditor']
 
     @property
     def username(self):
@@ -74,6 +71,44 @@ class User(Entity):
         """
         return self._data.get('username')
 
+    @username.setter
+    def username(self, value):
+        """Update the username of the user.
+
+        Returns:
+            None:
+
+        """
+        max_characters = 150
+        valid_metacharacters = '@.+-_'
+        conditions = [validate_max_length(value, max_characters),
+                      validate_characters(value, extra_chars=valid_metacharacters)]
+        if all(conditions):
+            self._update_values('username', value)
+        else:
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must equal {max_characters} and '
+                               f'valid character are only alphanums and {valid_metacharacters}')
+
+    @property
+    def password(self):
+        """The password of the user.
+
+        Returns:
+            string: The masked password value of the user.
+
+        """
+        return '*********'
+
+    @password.setter
+    def password(self, value):
+        """Update the password of the user.
+
+        Returns:
+            None:
+
+        """
+        self._update_values('password', value)
+
     @property
     def first_name(self):
         """The first name of the user.
@@ -83,6 +118,21 @@ class User(Entity):
 
         """
         return self._data.get('first_name')
+
+    @first_name.setter
+    def first_name(self, value):
+        """Update the first name of the user.
+
+        Returns:
+            None:
+
+        """
+        max_characters = 30
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('first_name', value)
+        else:
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must equal {max_characters}')
 
     @property
     def last_name(self):
@@ -94,6 +144,21 @@ class User(Entity):
         """
         return self._data.get('last_name')
 
+    @last_name.setter
+    def last_name(self, value):
+        """Update the last name of the user.
+
+        Returns:
+            None:
+
+        """
+        max_characters = 30
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('last_name', value)
+        else:
+            raise InvalidValue(value)
+
     @property
     def email(self):
         """The email of the user.
@@ -103,6 +168,21 @@ class User(Entity):
 
         """
         return self._data.get('email')
+
+    @email.setter
+    def email(self, value):
+        """Update the email address of the user.
+
+        Returns:
+            None:
+
+        """
+        max_characters = 254
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('email', value)
+        else:
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must equal {max_characters}')
 
     @property
     def is_superuser(self):
@@ -114,6 +194,16 @@ class User(Entity):
         """
         return self._data.get('is_superuser')
 
+    @is_superuser.setter
+    def is_superuser(self, value):
+        """Update the is_superuser field of the user.
+
+        Returns:
+            None:
+
+        """
+        self._update_values('is_superuser', value)
+
     @property
     def is_system_auditor(self):
         """The system auditor status of the user.
@@ -123,6 +213,16 @@ class User(Entity):
 
         """
         return self._data.get('is_system_auditor')
+
+    @is_system_auditor.setter
+    def is_system_auditor(self, value):
+        """Update the is_system_auditor field of the user.
+
+        Returns:
+            None:
+
+        """
+        self._update_values('is_system_auditor', value)
 
     @property
     def ldap_dn(self):
