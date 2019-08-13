@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# File: __init__.py
+# File: test_towerlib.py
 #
-# Copyright 2018 Costas Tyfoxylos
+# Copyright 2018 Ilija Matoski
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to
@@ -24,28 +24,46 @@
 #
 
 """
+test_towerlib_configuration
+----------------------------------
+Tests for `towerlib` module.
+
 .. _Google Python Style Guide:
    http://google.github.io/styleguide/pyguide.html
+
 """
 
-__author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
+import betamax
+import requests
+
+from betamax.decorator import use_cassette
+from unittest import TestCase
+from towerlib import Tower
+
+__author__ = '''Ilija Matoski <imatoski@schubergphilis.com>'''
 __docformat__ = '''google'''
 __date__ = '''2018-05-25'''
-__copyright__ = '''Copyright 2018, Costas Tyfoxylos'''
+__copyright__ = '''Copyright 2018, Ilija Matoski'''
+__credits__ = ["Ilija Matoski"]
 __license__ = '''MIT'''
-__maintainer__ = '''Costas Tyfoxylos'''
-__email__ = '''<ctyfoxylos@schubergphilis.com>'''
+__maintainer__ = '''Ilija Matoski'''
+__email__ = '''<imatoski@schubergphilis.com>'''
 __status__ = '''Development'''  # "Prototype", "Development", "Production".
 
-import betamax
-from betamax_serializers import pretty_json
-from .helpers import sanitize_record
 
-betamax.Betamax.register_serializer(pretty_json.PrettyJSONSerializer)
+class TestTowerlibCommon(TestCase):
 
-with betamax.Betamax.configure() as config:
-    config.cassette_library_dir = 'tests/cassettes'
-    config.default_cassette_options['serialize_with'] = 'prettyjson'
-    config.before_record(callback=sanitize_record)
+    @use_cassette('configuration', record='once', preserve_exact_body_bytes=True)
+    def test_configuration(self, session):
+        host = 'awx.tst.cna.enexis.it'
+        # host = 'test.com'
+        user = 'user'
+        password = 'pass'
+
+        tower = Tower(host, user, password, secure=True, session=session)
+        self.assertIsNotNone(tower)
+        data = tower.configuration
+        self.assertEqual(data.version, "6.1.0.0")
+
 
 
