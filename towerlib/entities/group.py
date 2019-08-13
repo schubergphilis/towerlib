@@ -223,7 +223,10 @@ class Group(Entity):
 
         """
         url = self._data.get('related', {}).get('object_roles')
-        return EntityManager(self._tower, entity_object='ObjectRole', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='ObjectRole',
+                             primary_match_field='name',
+                             url=url)
 
     def _add_host_by_id(self, id_):
         payload = {'id': id_}
@@ -334,7 +337,10 @@ class Group(Entity):
 
         """
         url = self._data.get('related', {}).get('hosts')
-        return EntityManager(self._tower, entity_object='Host', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Host',
+                             primary_match_field='name',
+                             url=url)
 
     @property
     def groups(self):
@@ -345,4 +351,7 @@ class Group(Entity):
 
         """
         url = self._data.get('related', {}).get('children')
-        return EntityManager(self._tower, entity_object='Group', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Group',
+                             primary_match_field='name',
+                             url=url)

@@ -33,8 +33,8 @@ Main code for host.
 
 import logging
 
-from towerlib.towerlibexceptions import InvalidGroup
-from .core import Entity, EntityManager
+from towerlib.towerlibexceptions import InvalidGroup, InvalidValue
+from .core import Entity, EntityManager, validate_max_length, validate_json
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -57,11 +57,6 @@ class Host(Entity):
 
     def __init__(self, tower_instance, data):
         Entity.__init__(self, tower_instance, data)
-        self._payload = ['name',
-                         'description',
-                         'enabled',
-                         'instance_id',
-                         'variables']
 
     @property
     def name(self):
@@ -75,13 +70,19 @@ class Host(Entity):
 
     @name.setter
     def name(self, value):
-        """Update the name on the host.
+        """Update the name of the hosts.
 
         Returns:
             None:
 
         """
-        self._update_values('name', value)
+        max_characters = 512
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('name', value)
+        else:
+            raise InvalidValue(f'{value} is invalid. '
+                               f'Condition max_characters must be less than or equal to {max_characters}')
 
     @property
     def description(self):
@@ -143,6 +144,22 @@ class Host(Entity):
         """
         return self._data.get('instance_id')
 
+    @instance_id.setter
+    def instance_id(self, value):
+        """Update the instance_id of the host.
+
+        Returns:
+            None:
+
+        """
+        max_characters = 1024
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('instance_id', value)
+        else:
+            raise InvalidValue(f'{value} is invalid. '
+                               f'Condition max_characters must be less than or equal to {max_characters}')
+
     @property
     def variables(self):
         """The variables set on the host.
@@ -161,7 +178,11 @@ class Host(Entity):
             None:
 
         """
-        self._update_values('variables', value)
+        conditions = [validate_json(value)]
+        if all(conditions):
+            self._update_values('variables', value)
+        else:
+            raise InvalidValue(f'{value} is not valid json.')
 
     @property
     def has_active_failures(self):
@@ -244,7 +265,10 @@ class Host(Entity):
 
         """
         url = self._data.get('related', {}).get('groups')
-        return EntityManager(self._tower, entity_object='Group', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Group',
+                             primary_match_field='name',
+                             url=url)
 
     @property
     def recent_jobs(self):
@@ -273,10 +297,11 @@ class Host(Entity):
         if not isinstance(groups, (list, tuple)):
             groups = [groups]
         inventory_groups = [group_ for group_ in self.inventory.groups]
-        inventory_group_names = [group.name for group in inventory_groups]
-        for group_name in groups:
-            if group_name not in inventory_group_names:
-                raise InvalidGroup(group_name)
+        inventory_group_names = [group.name.lower() for group in inventory_groups]
+        missing_groups = [group_name for group_name in groups
+                          if group_name.lower() not in inventory_group_names]
+        if missing_groups:
+            raise InvalidGroup(missing_groups)
         final_groups = [group for group in inventory_groups
                         if group.name.lower() in groups]
         return all([group._add_host_by_id(self.id)  # pylint: disable=protected-access
@@ -300,9 +325,10 @@ class Host(Entity):
             groups = [groups]
         groups = [group.lower() for group in groups]
         host_group_names = [group.name.lower() for group in self.groups]
-        for group_name in groups:
-            if group_name.lower() not in host_group_names:
-                raise InvalidGroup(group_name)
+        missing_groups = [group_name for group_name in groups
+                          if group_name.lower() not in host_group_names]
+        if missing_groups:
+            raise InvalidGroup(missing_groups)
         inventory_groups = [group for group in self.inventory.groups
                             if group.name.lower() in groups]
 
