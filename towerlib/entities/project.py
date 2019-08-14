@@ -24,7 +24,7 @@
 #
 
 """
-Main code for project
+Main code for project.
 
 .. _Google Python Style Guide:
    http://google.github.io/styleguide/pyguide.html
@@ -35,7 +35,13 @@ import logging
 
 from dateutil.parser import parse
 
-from .core import Entity, EntityManager
+from towerlib.towerlibexceptions import (InvalidValue,
+                                         InvalidCredential,
+                                         InvalidOrganization)
+from .core import (Entity,
+                   EntityManager,
+                   validate_max_length,
+                   validate_range)
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -54,7 +60,7 @@ LOGGER.addHandler(logging.NullHandler())
 
 
 class Project(Entity):  # pylint: disable=too-many-public-methods
-    """Models the project entity of ansible tower"""
+    """Models the project entity of ansible tower."""
 
     def __init__(self, tower_instance, data):
         Entity.__init__(self, tower_instance, data)
@@ -62,30 +68,30 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
 
     @property
     def last_job(self):  # TOFIX model the job and return an object instead of dictionary
-        """The last job run on the project
+        """The last job run on the project.
 
         Returns:
-            dict: The last job executed
+            dict: The last job executed.
 
         """
         return self._data.get('summary_fields', {}).get('last_job')
 
     @property
     def last_update(self):  # TOFIX model the job and return an object instead of dictionary
-        """The last update of the project
+        """The last update of the project.
 
         Returns:
-            dict: The last update
+            dict: The last update.
 
         """
         return self._data.get('summary_fields', {}).get('last_update')
 
     @property
     def created_by(self):
-        """The person that created the project
+        """The person that created the project.
 
         Returns:
-            dict: The person that created the project
+            dict: The person that created the project.
 
         """
         url = self._data.get('related', {}).get('created_by')
@@ -93,10 +99,10 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
 
     @property
     def playbooks(self):
-        """The playbooks of the project
+        """The playbooks of the project.
 
         Returns:
-            list: A list of the project specified playbooks
+            list: A list of the project specified playbooks.
 
         """
         playbook_url = self._data.get('related', {}).get('playbooks')
@@ -106,10 +112,10 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
 
     @property
     def object_roles(self):
-        """The object roles
+        """The object roles.
 
         Returns:
-            EntityManager: EntityManager of the object roles supported
+            EntityManager: EntityManager of the object roles supported.
 
         """
         if not self._object_roles:
@@ -122,120 +128,246 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
 
     @property
     def object_role_names(self):
-        """The names of the object roles
+        """The names of the object roles.
 
         Returns:
-            list: A list of strings for the object_roles
+            list: A list of strings for the object_roles.
 
         """
         return [object_role.name for object_role in self.object_roles]
 
     @property
     def name(self):
-        """The name of the project
+        """The name of the project.
 
         Returns:
-            string: The name of the project
+            string: The name of the project.
 
         """
         return self._data.get('name')
 
-    @property
-    def description(self):
-        """The description of the project
+    @name.setter
+    def name(self, value):
+        """Update the name of the project.
 
         Returns:
-            string: The description of the project
+            None:
+
+        """
+        max_characters = 512
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('name', value)
+        else:
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
+
+    @property
+    def description(self):
+        """The description of the Project.
+
+        Returns:
+            string: The description of the Project.
 
         """
         return self._data.get('description')
 
-    @property
-    def local_path(self):
-        """The internal local path of the project
+    @description.setter
+    def description(self, value):
+        """Update the description of the project.
 
         Returns:
-            string: The internal local path of the project
+            None:
+
+        """
+        self._update_values('description', value)
+
+    @property
+    def local_path(self):
+        """The internal local path of the project.
+
+        Returns:
+            string: The internal local path of the project.
 
         """
         return self._data.get('local_path')
 
-    @property
-    def scm_type(self):
-        """The type of the scm used
+    @local_path.setter
+    def local_path(self, value):
+        """Update the internal local path of the project.
 
         Returns:
-            string: The type of the scm used
+            None:
+
+        """
+        max_characters = 1024
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('local_path', value)
+        else:
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
+
+    @property
+    def scm_type(self):
+        """The type of the scm used.
+
+        Returns:
+            string: The type of the scm used.
 
         """
         return self._data.get('scm_type')
 
     @property
     def scm_url(self):
-        """The url of the scm used
+        """The url of the scm used.
 
         Returns:
-            string: The url of the scm used
+            string: The url of the scm used.
 
         """
         return self._data.get('scm_url')
 
-    @property
-    def scm_branch(self):
-        """The branch of the scm used
+    @scm_url.setter
+    def scm_url(self, value):
+        """Update the scm_url project.
 
         Returns:
-            string: The branch of the scm used
+            None:
+
+        """
+        max_characters = 1024
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('scm_url', value)
+        else:
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
+
+    @property
+    def scm_branch(self):
+        """The branch of the scm used.
+
+        Returns:
+            string: The branch of the scm used.
 
         """
         return self._data.get('scm_branch')
 
-    @property
-    def scm_clean(self):
-        """A flag to clean the scm or not
+    @scm_branch.setter
+    def scm_branch(self, value):
+        """Update the scm_branch project.
 
         Returns:
-            bool: True if set, False otherwise
+            None:
+
+        """
+        max_characters = 256
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('scm_branch', value)
+        else:
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
+
+    @property
+    def scm_clean(self):
+        """A flag to clean the scm or not.
+
+        Returns:
+            bool: True if set, False otherwise.
 
         """
         return self._data.get('scm_clean')
 
-    @property
-    def scm_delete_on_update(self):
-        """A flag to delete the scm on update
+    @scm_clean.setter
+    def scm_clean(self, value):
+        """Update the scm_clean project.
 
         Returns:
-            bool: True if set, False otherwise
+            None:
+
+        """
+        self._update_values('scm_clean', value)
+
+    @property
+    def scm_delete_on_update(self):
+        """A flag to delete the scm on update.
+
+        Returns:
+            bool: True if set, False otherwise.
 
         """
         return self._data.get('scm_delete_on_update')
 
-    @property
-    def credential(self):
-        """The Credential object associated with this project
+    @scm_delete_on_update.setter
+    def scm_delete_on_update(self, value):
+        """Update the scm_delete_on_update project flag.
 
         Returns:
-            Credential: The Credential object of the project
+            None:
+
+        """
+        self._update_values('scm_delete_on_update', value)
+
+    @property
+    def credential(self):
+        """The Credential object associated with this project.
+
+        Returns:
+            Credential: The Credential object of the project.
 
         """
         return self._tower.get_credential_by_id(self._data.get('credential'))
 
-    @property
-    def timeout(self):
-        """The timeout setting of the project
+    @credential.setter
+    def credential(self, value):
+        """Update the credential attached to the project.
 
         Returns:
-            integer: The timeout setting of the project
+            None:
+
+        """
+        credential = self.organization.get_credential_by_name_with_type_id(value,
+                                                                           self.credential._data.get('credential_type'))
+        if not credential:
+            raise InvalidCredential(value)
+        self._update_values('credential', credential.id)
+
+    @property
+    def timeout(self):
+        """The timeout setting of the project.
+
+        Returns:
+            integer: The timeout setting of the project.
 
         """
         return self._data.get('timeout')
 
-    @property
-    def last_job_run(self):
-        """The date and time of the last run job
+    @timeout.setter
+    def timeout(self, value):
+        """Update the timeout of the project.
 
         Returns:
-            datetime: The datetime object of when the last job run
+            None:
+
+        """
+        minimum = -2147483648
+        maximum = 2147483647
+        conditions = [validate_range(value, minimum, maximum)]
+        if all(conditions):
+            self._update_values('timeout', value)
+        else:
+            raise InvalidValue('{value} is invalid, must be between {minimum} and {maximum}'.format(value=value,
+                                                                                                    minimum=minimum,
+                                                                                                    maximum=maximum))
+
+    @property
+    def last_job_run(self):
+        """The date and time of the last run job.
+
+        Returns:
+            datetime: The datetime object of when the last job run.
 
         """
         try:
@@ -246,100 +378,141 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
 
     @property
     def is_last_job_failed(self):
-        """A flag of whether the last job run failed
+        """A flag of whether the last job run failed.
 
         Returns:
-            bool: True if the job failed, False otherwise
+            bool: True if the job failed, False otherwise.
 
         """
         return self._data.get('last_job_failed')
 
     @property
     def next_job_run(self):
-        """Not sure what this does
+        """Not sure what this does.
 
         Returns:
-            None
+            None.
 
         """
         return self._data.get('next_job_run')
 
     @property
     def status(self):
-        """The status of the project
+        """The status of the project.
 
         Returns:
-            string: The status of the project
+            string: The status of the project.
 
         """
         return self._data.get('status')
 
     @property
     def organization(self):
-        """The Organization object that this project is part of
+        """The Organization object that this project is part of.
 
         Returns:
-            Organization: The Organization object that this project is part of
+            Organization: The Organization object that this project is part of.
 
         """
         return self._tower.get_organization_by_id(self._data.get('organization'))
 
-    @property
-    def scm_delete_on_next_update(self):
-        """A flag on whether to delete the scm on the next update
+    @organization.setter
+    def organization(self, value):
+        """Update the organization attached to the project.
 
         Returns:
-            bool: True if set, False otherwise
+            None:
+
+        """
+        organization = self._tower.get_organization_by_name(value)
+        if not organization:
+            raise InvalidOrganization(value)
+        self._update_values('organization', organization.id)
+
+    @property
+    def scm_delete_on_next_update(self):
+        """A flag on whether to delete the scm on the next update.
+
+        Returns:
+            bool: True if set, False otherwise.
 
         """
         return self._data.get('scm_delete_on_next_update')
 
     @property
     def scm_update_on_launch(self):
-        """A flag on whether to update scm on launch
+        """A flag on whether to update scm on launch.
 
         Returns:
-            bool: True if set, False otherwise
+            bool: True if set, False otherwise.
 
         """
         return self._data.get('scm_update_on_launch')
 
-    @property
-    def scm_update_cache_timeout(self):
-        """The cache timeout set for the scm
+    @scm_update_on_launch.setter
+    def scm_update_on_launch(self, value):
+        """Update the scm_update_on_launch project.
 
         Returns:
-            integer: The cache time out set
+            None:
+
+        """
+        self._update_values('scm_update_on_launch', value)
+
+    @property
+    def scm_update_cache_timeout(self):
+        """The cache timeout set for the scm.
+
+        Returns:
+            integer: The cache time out set.
 
         """
         return self._data.get('scm_update_cache_timeout')
 
-    @property
-    def scm_revision(self):
-        """The hash of the scm revision
+    @scm_update_cache_timeout.setter
+    def scm_update_cache_timeout(self, value):
+        """Update the scm_update_cache_timeout of the project.
 
         Returns:
-            string: The hash of the scm revision
+            None:
+
+        """
+        minimum = 0
+        maximum = 2147483647
+        conditions = [validate_range(value, minimum, maximum)]
+        if all(conditions):
+            self._update_values('scm_update_cache_timeout', value)
+        else:
+            raise InvalidValue('{value} is invalid, must be between {minimum} and {maximum}'.format(value=value,
+                                                                                                    minimum=minimum,
+                                                                                                    maximum=maximum))
+
+    @property
+    def scm_revision(self):
+        """The hash of the scm revision.
+
+        Returns:
+            string: The hash of the scm revision.
 
         """
         return self._data.get('scm_revision')
 
     @property
     def is_last_update_failed(self):
-        """Flag on whether the last update failed or not
+        """Flag on whether the last update failed or not.
 
         Returns:
-            bool: True if last update has failed, False otherwise
+            bool: True if last update has failed, False otherwise.
 
         """
         return self._data.get('last_update_failed')
 
     @property
     def last_updated(self):
-        """The date and time of the last update
+        """The date and time of the last update.
 
         Returns:
-            datetime: The datetime of the last update, None if not set
+            datetime: The datetime of the last update, None if not set.
 
         """
         try:
@@ -347,3 +520,29 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         except (ValueError, TypeError):
             date_ = None
         return date_
+
+    @property
+    def custom_virtualenv(self):
+        """The path of the custom virtual environment.
+
+        Returns:
+            string: The path of the custom virtual environment.
+
+        """
+        return self._data.get('custom_virtualenv')
+
+    @custom_virtualenv.setter
+    def custom_virtualenv(self, value):
+        """Update the custom_virtualenv of the group.
+
+        Returns:
+            None:
+
+        """
+        max_characters = 100
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('custom_virtualenv', value)
+        else:
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
