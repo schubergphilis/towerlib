@@ -417,7 +417,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             InvalidUser: The username provided as argument does not exist.
 
         """
-        user = self.get_user_by_username(username)
+        user = self._tower.get_user_by_username(username)
         if not user:
             raise InvalidUser(username)
         return user.delete()
@@ -625,16 +625,4 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             inventory(Inventory): inventory on success else None.
 
         """
-        return next(self.inventories.filter({'name__iexact': name}), None)
-
-    def get_user_by_username(self, name):
-        """Retrieves a user.
-
-        Args:
-            name: The name of the user to retrieve.
-
-        Returns:
-            user (User): user on success else None.
-
-        """
-        return next(self._tower.users.filter({'organization': self.id, 'name__iexact': name}), None)
+        return next(self._tower.inventories.filter({'organization': self.id, 'name__iexact': name}), None)
