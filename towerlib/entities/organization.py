@@ -299,9 +299,6 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             Project: The created project on success, None otherwise.
 
         Raises:
-            InvalidOrganization: The organization provided as argument does not exist.
-
-        Raises:
             InvalidCredential: The credential provided as argument does not exist.
 
         """
