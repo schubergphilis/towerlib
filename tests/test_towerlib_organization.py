@@ -33,13 +33,10 @@ Tests for `towerlib` module.
 
 """
 
-from betamax import Betamax
 from betamax.decorator import use_cassette
 from unittest import TestCase
-from towerlib import Tower
 from .helpers import get_tower
-from requests import Session
-import os
+import uuid
 
 __author__ = '''Ilija Matoski <imatoski@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -56,21 +53,21 @@ TOWER_NAME = 'tower'
 
 
 class TestTowerlibOrganization(TestCase):
-    # @use_cassette('organizations')
-    # def test_organization_data(self, session):
-    #     tower = get_tower(session)
-    #     self.assertIsNotNone(tower)
-    #     data = list(tower.organizations)
-    #
-    def setUp(self):
-        # self.tower = Tower('localhost:8052', 'admin', 'password', secure=False)
-        # self.session = self.tower.session
-        self.session = Session()
 
-    def test_org(self):
-        with Betamax(self.session) as vcr:
-            vcr.use_cassette('test01')
-            org = list(self.tower.organizations)[0]
-            assert org.name == "Default"
+    @use_cassette('organizations')
+    def test_organization(self, session):
+        tower = get_tower(session)
+        self.assertIsNotNone(tower)
+        data = list(tower.organizations)
+        assert len(data) == 1
+        assert data[0].name == "Default"
 
+    @use_cassette('organization_manipulation', record='None')
+    def test_organization_rundown(self, session):
+        tower = get_tower(session)
+        self.assertIsNotNone(tower)
+        org_name = uuid.uuid4()
+        org_description = uuid.uuid4()
+        org_create = tower.create_organization(org_name, org_description)
+        self.assertIsNotNone(org)
 
