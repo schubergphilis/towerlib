@@ -1368,7 +1368,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             name: The name of the job_template to retrieve.
 
         Returns:
-            job_templates (JobTemplate): A template with the matching job_templates
+            job_templates (JobTemplate): A template with the matching name
 
         """
         return next(self.job_templates.filter({'name__iexact': name}), None)
