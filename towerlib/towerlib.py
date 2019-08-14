@@ -59,7 +59,8 @@ from .entities import (Config,  # pylint: disable=unused-import  # NOQA
                        VERBOSITY_LEVELS,
                        Cluster,
                        ClusterInstance,
-                       EntityManager)
+                       EntityManager,
+                       NotificationTemplate)
 from .towerlibexceptions import (AuthFailed,
                                  InvalidOrganization,
                                  InvalidInventory,
@@ -1572,3 +1573,14 @@ class Tower:  # pylint: disable=too-many-public-methods
         entities = sys.modules['towerlib.entities']
         obj = getattr(entities, object_type)
         return obj(self, response.json()) if response.ok else None
+
+    @property
+    def notification_templates(self):
+        """The notification templates configured in tower
+        Returns:
+            EntityManager: The manager object for groups
+        """
+        return EntityManager(self,
+                             entity_name='notification_templates',
+                             entity_object='NotificationTemplate',
+                             primary_match_field='name')

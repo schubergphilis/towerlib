@@ -74,7 +74,9 @@ from .entities import (Organization,  # NOQA
                        SystemJob,
                        AdHocCommandJob,
                        ProjectUpdateJob,
-                       ObjectRole)
+                       ObjectRole,
+                       NotificationTemplate,
+                       Notification)
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
