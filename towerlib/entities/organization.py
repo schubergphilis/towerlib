@@ -45,7 +45,8 @@ from towerlib.towerlibexceptions import (InvalidUserLevel,
 from .core import (Entity,
                    USER_LEVELS,
                    EntityManager,
-                   validate_max_length, validate_json)
+                   validate_max_length,
+                   validate_json)
 from .inventory import Inventory
 from .project import Project
 from .team import Team
