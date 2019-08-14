@@ -58,3 +58,6 @@ env
 
 # python env file
 .env
+
+# Docker files
+.docker/
