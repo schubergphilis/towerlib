@@ -37,6 +37,9 @@ from betamax.decorator import use_cassette
 from unittest import TestCase
 from .helpers import get_tower
 from towerlib import AuthFailed
+from requests import Session
+from towerlib import Tower as TowerOriginal
+
 
 __author__ = '''Ilija Matoski <imatoski@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -54,24 +57,26 @@ TOWER_NAME = 'tower'
 
 class TestTowerlibCommon(TestCase):
 
-    @use_cassette('auth_failed_init', record='once')
-    def test_fail_auth(self, session):
-        with self.assertRaises(Exception) as context:
-            get_tower(session, user='none', password='what')
-        self.assertRaises(Exception, context.exception)
+    # @use_cassette('auth_failed_init', record='once')
+    # def test_fail_auth(self, session):
+    #     with self.assertRaises(Exception) as context:
+    #         get_tower(session, user='none', password='what')
+    #     self.assertRaises(Exception, context.exception)
 
     @use_cassette('configuration', record='once')
     def test_configuration(self, session):
-        tower = get_tower(session)
+        tower = get_tower()
+        tower.session = session
         self.assertIsNotNone(tower)
         data = tower.configuration
         self.assertEqual(data.version, TOWER_VERSION)
 
-    @use_cassette('cluster', record='once')
-    def test_cluster(self, session):
-        tower = get_tower(session)
-        self.assertIsNotNone(tower)
-        data = tower.cluster
-        self.assertEqual(data.version, TOWER_VERSION)
-        self.assertEqual(data.name, TOWER_NAME)
-
+    # @use_cassette('cluster', record='once')
+    # def test_cluster(self, session):
+    #     tower = get_tower()
+    #     tower.session = session
+    #     self.assertIsNotNone(tower)
+    #     data = tower.cluster
+    #     self.assertEqual(data.version, TOWER_VERSION)
+    #     self.assertEqual(data.name, TOWER_NAME)
+#
