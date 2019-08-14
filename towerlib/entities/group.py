@@ -86,8 +86,8 @@ class Group(Entity):
         if all(conditions):
             self._update_values('name', value)
         else:
-            raise InvalidValue(f'{value} is invalid. '
-                               f'Condition max_characters must be less than or equal to {max_characters}')
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
 
     @property
     def description(self):
@@ -141,7 +141,7 @@ class Group(Entity):
         if all(conditions):
             self._update_values('variables', value)
         else:
-            raise InvalidValue(f'{value} is not valid json.')
+            raise InvalidValue('{value} is not valid json.'.format(value=value))
 
     @property
     def has_active_failures(self):

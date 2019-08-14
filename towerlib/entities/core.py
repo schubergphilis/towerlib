@@ -115,9 +115,12 @@ def validate_max_length(value, max_length):
 
 def validate_characters(value, alpha=True, numbers=True, extra_chars=None):
     """Validates the string groups of a value."""
-    valid_characters = f'^[{"a-zA-Z" if alpha else ""}' \
-                       f'{"0-9" if numbers else ""}' \
-                       f'{re.escape(extra_chars) if extra_chars else ""}]+$'
+    alphas = "a-zA-Z" if alpha else ""
+    nums = "0-9" if numbers else ""
+    extra_characters = re.escape(extra_chars) if extra_chars else ""
+    valid_characters = '^[{alphas}{nums}{extra_characters}]+$'.format(alphas=alphas,
+                                                                      nums=nums,
+                                                                      extra_characters=extra_characters)
     return True if re.search(valid_characters, value) else False
 
 

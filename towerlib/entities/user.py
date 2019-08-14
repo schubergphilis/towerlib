@@ -86,9 +86,11 @@ class User(Entity):
         if all(conditions):
             self._update_values('username', value)
         else:
-            raise InvalidValue(f'{value} is invalid. '
-                               f'Condition max_characters must be less or equal to  {max_characters} and '
-                               f'valid character are only alphanums and {valid_metacharacters}')
+            raise InvalidValue(('{value} is invalid. Condition max_characters must be less or equal to {max_characters}'
+                                ' and valid character are only alphanums and '
+                                '{valid_metacharacters}').format(value=value,
+                                                                 max_characters=max_characters,
+                                                                 valid_metacharacters=valid_metacharacters))
 
     @property
     def password(self):
@@ -133,8 +135,8 @@ class User(Entity):
         if all(conditions):
             self._update_values('first_name', value)
         else:
-            raise InvalidValue(f'{value} is invalid. '
-                               f'Condition max_characters must be less or equal to  {max_characters}')
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less or equal to  '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
 
     @property
     def last_name(self):
@@ -184,8 +186,8 @@ class User(Entity):
         if all(conditions):
             self._update_values('email', value)
         else:
-            raise InvalidValue(f'{value} is invalid. '
-                               f'Condition max_characters must be less or equal to  {max_characters}')
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less or equal to '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
 
     @property
     def is_superuser(self):

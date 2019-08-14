@@ -91,8 +91,8 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         if all(conditions):
             self._update_values('name', value)
         else:
-            raise InvalidValue(f'{value} is invalid. '
-                               f'Condition max_characters must be less or equal to  {max_characters}')
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less or equal to '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
 
     @property
     def description(self):

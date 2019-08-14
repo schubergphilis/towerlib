@@ -86,7 +86,8 @@ class CredentialType(Entity):
         if all(conditions):
             self._update_values('name', value)
         else:
-            raise InvalidValue(f'{value} is invalid. Condition max_characters must be less or equal {max_characters}')
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less or equal '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
 
     @property
     def description(self):
@@ -151,7 +152,7 @@ class CredentialType(Entity):
         if validate_json(value):
             self._update_values('inputs', value)
         else:
-            raise InvalidValue(f'Value is not valid json received: {value}')
+            raise InvalidValue('Value is not valid json received: {value}'.format(value=value))
 
     @property
     def injectors(self):
@@ -174,7 +175,7 @@ class CredentialType(Entity):
         if validate_json(value):
             self._update_values('injectors', value)
         else:
-            raise InvalidValue(f'Value is not valid json received: {value}')
+            raise InvalidValue('Value is not valid json received: {value}'.format(value=value))
 
 
 class Credential:  # pylint: disable=too-few-public-methods
@@ -306,7 +307,8 @@ class GenericCredential(Entity):
         if all(conditions):
             self._update_values('name', value)
         else:
-            raise InvalidValue(f'{value} is invalid. Condition max_characters must be less or equal to {max_characters}')
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less or equal to '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
 
     @property
     def description(self):
@@ -395,7 +397,7 @@ class GenericCredential(Entity):
         if validate_json(value):
             self._update_values('inputs', value)
         else:
-            raise InvalidValue(f'Value is not valid json received: {value}')
+            raise InvalidValue('Value is not valid json received: {value}'.format(value=value))
 
 
 class MachineCredential(GenericCredential):

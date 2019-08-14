@@ -127,8 +127,8 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         if all(conditions):
             self._update_values('name', value)
         else:
-            raise InvalidValue(f'{value} is invalid. '
-                               f'Condition max_characters must be less or equal to {max_characters}.')
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less or equal to '
+                               '{max_characters}.'.format(value=value, max_characters=max_characters))
 
     @property
     def description(self):
@@ -192,7 +192,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
 
         """
         if value not in ['', 'smart']:
-            raise InvalidValue(f'Value should either be empty or "smart", received: {value}')
+            raise InvalidValue('Value should either be empty or "smart", received: {value}'.format(value=value))
         self._update_values('kind', value)
 
     @property
@@ -236,7 +236,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         if validate_json(value):
             self._update_values('variables', value)
         else:
-            raise InvalidValue(f'Value is not valid json received: {value}')
+            raise InvalidValue('Value is not valid json received: {value}'.format(value=value))
 
     @property
     def has_active_failures(self):
