@@ -328,33 +328,17 @@ class Tower:  # pylint: disable=too-many-public-methods
                              entity_object='User',
                              primary_match_field='username')
 
-    def get_users_by_username(self, name):
-        """Retrieves users by name.
+    def get_user_by_username(self, name):
+        """Retrieves user by name.
 
         Args:
-            name: The name of the user(s) to retrieve.
-
-        Returns:
-            Users (Generator): The user(s) if a match is found else None.
-
-        """
-        return self.users.filter({'username__iexact': name})
-
-    def get_organization_user_by_username(self, organization, name):
-        """Retrieves a user by name.
-
-        Args:
-            organization: The name of the organization the user belongs to.
             name: The name of the user to retrieve.
 
         Returns:
-            Project: The user if a match is found else None.
+            user (User): The user if a match is found else None.
 
         """
-        organization_ = self.get_organization_by_name(organization)
-        if not organization_:
-            raise InvalidOrganization(organization)
-        return organization_.get_user_by_username(name)
+        return next(self.users.filter({'username__iexact': name}), None)
 
     def get_user_by_id(self, id_):
         """Retrieves a user by id.
@@ -368,11 +352,10 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.users.filter({'id': id_}), None)
 
-    def delete_organization_user(self, organization, username):
+    def delete_user(self, username):
         """Deletes a user from tower.
 
         Args:
-            organization: The name of the organization to delete the user from.
             username: The username of the user to delete.
 
         Returns:
@@ -382,7 +365,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidUser: The user provided as argument does not exist.
 
         """
-        user = self.get_organization_user_by_username(organization, username)
+        user = self.get_user_by_username(username)
         if not user:
             raise InvalidUser(username)
         return user.delete()
