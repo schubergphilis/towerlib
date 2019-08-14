@@ -51,42 +51,17 @@ TOWER_VERSION = '6.1.0.0'
 TOWER_NAME = 'tower'
 
 
-class TestTowerlibOrganization(TestCase):
+class TestTowerlibProject(TestCase):
 
-    @use_cassette('organizations', record='once')
-    def test_organization(self, session):
+    @use_cassette('get_projects', record='once')
+    def test_get_projects(self, session):
         tower = get_tower(session=session)
-        self.assertIsNotNone(tower)
-        data = list(tower.organizations)
-        assert len(data) == 1
-        assert data[0].name == "Default"
-
-    @use_cassette('organization_generic', record='once')
-    def test_organization_generic(self, session):
-        tower = get_tower(session=session)
-        self.assertIsNotNone(tower)
-        org_name = "Lorem Ipsum"
-        org_description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt " \
-                          "ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation " \
-                          "ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in " \
-                          "reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. " \
-                          "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia " \
-                          "deserunt mollit anim id est laborum."
-
-        org_create = tower.create_organization(org_name, org_description)
-        self.assertIsNotNone(org_create)
-        self.assertEqual(org_create.name, org_name)
-        self.assertEqual(org_create.description, org_description)
-        org_byid = tower.get_organization_by_id(org_create.id)
-        org_byname = tower.get_organization_by_name(org_name)
-        self.assertEqual(org_byid.name, org_byname.name)
-        self.assertEqual(org_byid.description, org_byname.description)
-        self.assertTrue(tower.delete_organization(org_name))
-        self.assertIsNone(tower.get_organization_by_id(org_create.id))
-        self.assertDictEqual(org_byid._data, org_byname._data)
-        with self.assertRaises(Exception) as context:
-            tower.delete_organization("Invalid Organization")
-        self.assertRaises(Exception, context.exception)
+        projects = list(tower.projects)
+        self.assertEquals(len(projects), 1)
+        project = next(projects)
+        self.assertEquals(project.Name, "Demo Project")
+        project_demo = tower.get_projects_by_name(project.Name)
+        self.assertEquals()
 
     # @use_cassette('user_organization_create_assign_remove_delete')
     # def test_organization_user(self, session):

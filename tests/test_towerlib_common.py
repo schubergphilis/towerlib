@@ -36,10 +36,6 @@ Tests for `towerlib` module.
 from betamax.decorator import use_cassette
 from unittest import TestCase
 from .helpers import get_tower
-from towerlib import AuthFailed
-from requests import Session
-from towerlib import Tower as TowerOriginal
-
 
 __author__ = '''Ilija Matoski <imatoski@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -57,26 +53,51 @@ TOWER_NAME = 'tower'
 
 class TestTowerlibCommon(TestCase):
 
-    # @use_cassette('auth_failed_init', record='once')
-    # def test_fail_auth(self, session):
-    #     with self.assertRaises(Exception) as context:
-    #         get_tower(session, user='none', password='what')
-    #     self.assertRaises(Exception, context.exception)
+    @use_cassette('auth_failed_init', record='once')
+    def test_fail_auth(self, session):
+        with self.assertRaises(Exception) as context:
+            get_tower(user='none', password='what', session=session)
+        self.assertRaises(Exception, context.exception)
 
     @use_cassette('configuration', record='once')
     def test_configuration(self, session):
-        tower = get_tower()
-        tower.session = session
+        tower = get_tower(session=session)
         self.assertIsNotNone(tower)
         data = tower.configuration
         self.assertEqual(data.version, TOWER_VERSION)
 
-    # @use_cassette('cluster', record='once')
-    # def test_cluster(self, session):
-    #     tower = get_tower()
-    #     tower.session = session
-    #     self.assertIsNotNone(tower)
-    #     data = tower.cluster
-    #     self.assertEqual(data.version, TOWER_VERSION)
-    #     self.assertEqual(data.name, TOWER_NAME)
-#
+    @use_cassette('cluster_endpoint', record='once')
+    def test_cluster_endpoint(self, session):
+        tower = get_tower(session=session)
+        self.assertIsNotNone(tower)
+        data = tower.cluster
+        self.assertEqual(data.version, TOWER_VERSION)
+        self.assertEqual(data.name, TOWER_NAME)
+        instances = list(data.instances)
+        self.assertEqual(len(instances), 1)
+        instance_groups = tower.getin
+
+    @use_cassette('local_users', record='once')
+    def test_local_users(self, session):
+        tower = get_tower(session=session)
+        self.assertIsNotNone(tower)
+        local_users = list(tower.get_local_users())
+        self.assertIs(len(local_users), 1)
+        users_byusername = list(tower.get_users_by_username("admin"))
+        self.assertIsNotNone(users_byusername)
+        users_byid = tower.get_user_by_id(users_byusername[0].id)
+        self.assertIsNotNone(users_byid)
+        self.assertEquals(users_byid.username, "admin")
+
+    @use_cassette('external_users', record='once')
+    def test_cluster(self, session):
+        tower = get_tower(session=session)
+        self.assertIsNotNone(tower)
+        local_users = list(tower.get_external_users())
+        self.assertIs(len(local_users), 0)
+
+    @use_cassette('user_organization')
+    def test_organization_user(self, session):
+        tower = get_tower(session=session)
+        self.assertIsNotNone(tower)
+        self.assertIsNone(tower.get_organization_user_by_username("Default", "admin"))
