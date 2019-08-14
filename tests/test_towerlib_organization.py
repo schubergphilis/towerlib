@@ -33,10 +33,13 @@ Tests for `towerlib` module.
 
 """
 
+from betamax import Betamax
 from betamax.decorator import use_cassette
 from unittest import TestCase
+from towerlib import Tower
 from .helpers import get_tower
-from pprint import pprint
+from requests import Session
+import os
 
 __author__ = '''Ilija Matoski <imatoski@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -53,12 +56,21 @@ TOWER_NAME = 'tower'
 
 
 class TestTowerlibOrganization(TestCase):
+    # @use_cassette('organizations')
+    # def test_organization_data(self, session):
+    #     tower = get_tower(session)
+    #     self.assertIsNotNone(tower)
+    #     data = list(tower.organizations)
+    #
+    def setUp(self):
+        # self.tower = Tower('localhost:8052', 'admin', 'password', secure=False)
+        # self.session = self.tower.session
+        self.session = Session()
 
-    @use_cassette('organizations')
-    def test_organization_data(self, session):
-        tower = get_tower(session)
-        self.assertIsNotNone(tower)
-        data = list(tower.organizations)
-        dump(data)
-        die
+    def test_org(self):
+        with Betamax(self.session) as vcr:
+            vcr.use_cassette('test01')
+            org = list(self.tower.organizations)[0]
+            assert org.name == "Default"
+
 
