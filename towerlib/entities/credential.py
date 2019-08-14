@@ -34,10 +34,12 @@ Main code for credentials.
 import logging
 
 from towerlib.towerlibexceptions import (InvalidOrganization,
-                                         InvalidValue)
+                                         InvalidValue,
+                                         InvalidCredentialType)
 from .core import (Entity,
                    EntityManager,
-                   validate_max_length)
+                   validate_max_length,
+                   validate_json)
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -71,6 +73,22 @@ class CredentialType(Entity):
         """
         return self._data.get('name')
 
+    @name.setter
+    def name(self, value):
+        """Update the name of the credential type.
+
+        Returns:
+            None:
+
+        """
+        max_characters = 512
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('name', value)
+        else:
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less or equal '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
+
     @property
     def description(self):
         """The description of the credential type.
@@ -80,6 +98,16 @@ class CredentialType(Entity):
 
         """
         return self._data.get('description')
+
+    @description.setter
+    def description(self, value):
+        """Set the description of the credential type.
+
+        Returns:
+            None.
+
+        """
+        self._update_values('description', value)
 
     @property
     def kind(self):
@@ -113,6 +141,19 @@ class CredentialType(Entity):
         """
         return self._data.get('inputs')
 
+    @inputs.setter
+    def inputs(self, value):
+        """Update the inputs of the credential type.
+
+        Returns:
+            None:
+
+        """
+        if validate_json(value):
+            self._update_values('inputs', value)
+        else:
+            raise InvalidValue('Value is not valid json received: {value}'.format(value=value))
+
     @property
     def injectors(self):
         """The injectors of the credential type.
@@ -122,6 +163,19 @@ class CredentialType(Entity):
 
         """
         return self._data.get('injectors')
+
+    @injectors.setter
+    def injectors(self, value):
+        """Update the injectors of the credential type.
+
+        Returns:
+            None:
+
+        """
+        if validate_json(value):
+            self._update_values('injectors', value)
+        else:
+            raise InvalidValue('Value is not valid json received: {value}'.format(value=value))
 
 
 class Credential:  # pylint: disable=too-few-public-methods
@@ -143,13 +197,6 @@ class GenericCredential(Entity):
     def __init__(self, tower_instance, data):
         Entity.__init__(self, tower_instance, data)
         self._object_roles = None
-        self._payload = ['name',
-                         'description',
-                         'organization',
-                         'user',
-                         'team',
-                         'credential_type',
-                         'inputs']
 
     @property
     def host(self):
@@ -218,7 +265,10 @@ class GenericCredential(Entity):
 
         """
         url = self._data.get('related', {}).get('owner_users')
-        return EntityManager(self._tower, entity_object='User', primary_match_field='username', url=url)
+        return EntityManager(self._tower,
+                             entity_object='User',
+                             primary_match_field='username',
+                             url=url)
 
     @property
     def owner_teams(self):
@@ -229,7 +279,10 @@ class GenericCredential(Entity):
 
         """
         url = self._data.get('related', {}).get('owner_teams')
-        return EntityManager(self._tower, entity_object='Team', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Team',
+                             primary_match_field='name',
+                             url=url)
 
     @property
     def name(self):
@@ -254,7 +307,8 @@ class GenericCredential(Entity):
         if all(conditions):
             self._update_values('name', value)
         else:
-            raise InvalidValue(f'{value} is invalid. Condition max_characters must equal {max_characters}')
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less or equal to '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
 
     @property
     def description(self):
@@ -291,7 +345,7 @@ class GenericCredential(Entity):
         """Set the organization of the credential.
 
         Returns:
-            bool: True if successful, False otherwise.
+            None.
 
         """
         organization = self._tower.get_organization_by_name(value)
@@ -309,6 +363,19 @@ class GenericCredential(Entity):
         """
         return self._tower.get_credential_type_by_id(self._data.get('credential_type'))
 
+    @credential_type.setter
+    def credential_type(self, value):
+        """Set the credential_type of the credential.
+
+        Returns:
+            None.
+
+        """
+        credential_type = self._tower.get_credential_type_by_name(value)
+        if not credential_type:
+            raise InvalidCredentialType(value)
+        self._update_values('credential_type', credential_type.id)
+
     @property
     def inputs(self):
         """The inputs of the credential.
@@ -318,6 +385,19 @@ class GenericCredential(Entity):
 
         """
         return self._data.get('inputs')
+
+    @inputs.setter
+    def inputs(self, value):
+        """Update the inputs of the credential.
+
+        Returns:
+            None:
+
+        """
+        if validate_json(value):
+            self._update_values('inputs', value)
+        else:
+            raise InvalidValue('Value is not valid json received: {value}'.format(value=value))
 
 
 class MachineCredential(GenericCredential):
@@ -341,7 +421,7 @@ class MachineCredential(GenericCredential):
         """Set the username of the credential.
 
         Returns:
-            bool: True if successful, False otherwise.
+            None.
 
         """
         self._update_values('username', value, parent_attribute='inputs')
@@ -361,7 +441,7 @@ class MachineCredential(GenericCredential):
         """Set the password of the credential.
 
         Returns:
-            bool: True if successful, False otherwise.
+            None.
 
         """
         self._update_values('password', value, parent_attribute='inputs')
@@ -388,7 +468,7 @@ class VaultCredential(GenericCredential):
         """Set the token of the credential.
 
         Returns:
-            bool: True if successful, False otherwise.
+            None.
 
         """
         self._update_values('hashi_vault_token', value, parent_attribute='inputs')
@@ -408,7 +488,7 @@ class VaultCredential(GenericCredential):
         """Set the password of the credential.
 
         Returns:
-            bool: True if successful, False otherwise.
+            None.
 
         """
         self._update_values('hashi_vault_addr', value, parent_attribute='inputs')
@@ -428,7 +508,7 @@ class VaultCredential(GenericCredential):
         """Set the ca host verify of the credential.
 
         Returns:
-            bool: True if successful, False otherwise.
+            None.
 
         """
         if value.lower() not in ['no', 'yes']:

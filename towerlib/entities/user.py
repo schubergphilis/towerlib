@@ -86,8 +86,11 @@ class User(Entity):
         if all(conditions):
             self._update_values('username', value)
         else:
-            raise InvalidValue(f'{value} is invalid. Condition max_characters must equal {max_characters} and '
-                               f'valid character are only alphanums and {valid_metacharacters}')
+            raise InvalidValue(('{value} is invalid. Condition max_characters must be less or equal to {max_characters}'
+                                ' and valid character are only alphanums and '
+                                '{valid_metacharacters}').format(value=value,
+                                                                 max_characters=max_characters,
+                                                                 valid_metacharacters=valid_metacharacters))
 
     @property
     def password(self):
@@ -132,7 +135,8 @@ class User(Entity):
         if all(conditions):
             self._update_values('first_name', value)
         else:
-            raise InvalidValue(f'{value} is invalid. Condition max_characters must equal {max_characters}')
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less or equal to  '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
 
     @property
     def last_name(self):
@@ -182,7 +186,8 @@ class User(Entity):
         if all(conditions):
             self._update_values('email', value)
         else:
-            raise InvalidValue(f'{value} is invalid. Condition max_characters must equal {max_characters}')
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less or equal to '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
 
     @property
     def is_superuser(self):
@@ -264,7 +269,10 @@ class User(Entity):
 
         """
         url = self._data.get('related', {}).get('organizations')
-        return EntityManager(self._tower, entity_object='Organization', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Organization',
+                             primary_match_field='name',
+                             url=url)
 
     @property
     def roles(self):
@@ -275,7 +283,10 @@ class User(Entity):
 
         """
         url = self._data.get('related', {}).get('roles')
-        return EntityManager(self._tower, entity_object='Role', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Role',
+                             primary_match_field='name',
+                             url=url)
 
     @property
     def teams(self):
@@ -286,7 +297,10 @@ class User(Entity):
 
         """
         url = self._data.get('related', {}).get('teams')
-        return EntityManager(self._tower, entity_object='Team', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Team',
+                             primary_match_field='name',
+                             url=url)
 
     @property
     def projects(self):
@@ -297,7 +311,10 @@ class User(Entity):
 
         """
         url = self._data.get('related', {}).get('projects')
-        return EntityManager(self._tower, entity_object='Project', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Project',
+                             primary_match_field='name',
+                             url=url)
 
     @property
     def credentials(self):
@@ -308,4 +325,7 @@ class User(Entity):
 
         """
         url = self._data.get('related', {}).get('credentials')
-        return EntityManager(self._tower, entity_object='Credential', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Credential',
+                             primary_match_field='name',
+                             url=url)
