@@ -328,7 +328,7 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
             None:
 
         """
-        credential = self.organization.get_credential_by_name_with_type_id(value, self._data.get('credential'))
+        credential = self.organization.get_credential_by_name_with_type_id(value, self.credential.credential_type)
         if not credential:
             raise InvalidCredential(value)
         self._update_values('credential', credential.id)
