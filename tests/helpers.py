@@ -1,23 +1,9 @@
-from betamax.cassette import cassette
-from pprint import pprint
+from towerlib import Tower
 
 
 def sanitize_record(interaction, current_cassette):
-    sanitize_token(interaction, current_cassette)
+    pass
 
 
-def sanitize_token(interaction, current_cassette):
-    if interaction.data['response']['status']['code'] != 200:
-        return
-
-    headers = interaction.data['response']['headers']
-    token = headers.get('Authorization')
-
-    # If there was no token header in the response, exit
-    if token is None:
-        return
-
-    current_cassette.placeholders.append(
-        cassette.Placeholder(placeholder='<AUTH_TOKEN>', replace=token)
-    )
-
+def get_tower(session, user='admin', password='password'):
+    return Tower('localhost:8052', user, password, secure=False, session=session)

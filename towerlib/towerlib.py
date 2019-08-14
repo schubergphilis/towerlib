@@ -114,8 +114,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         self.session = self._setup_session(secure, ssl_verify, Session() if session is None else session)
 
     def _setup_session(self, secure, ssl_verify, session):
-        if secure:
-            session.verify = ssl_verify
+        session.verify = ssl_verify if secure else session.verify
         session.get(self.host)
         session.auth = (self.username, self.password)
         session.headers.update({'content-type': 'application/json'})
