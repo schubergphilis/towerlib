@@ -116,3 +116,17 @@ assert Job
 assert Cluster
 assert ClusterInstance
 assert EntityManager
+assert Notification
+assert Notification
+assert NotificationTemplate
+assert NotificationIRC
+assert NotificationRocketChat
+assert NotificationMatterMost
+assert NotificationWebHook
+assert NotificationHipChat
+assert NotificationGrafana
+assert NotificationPagerDuty
+assert NotificationTwilio
+assert NotificationEmail
+assert NotificationSlack
+assert NotificationTemplate

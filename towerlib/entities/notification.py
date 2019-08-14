@@ -121,7 +121,8 @@ class NotificationTemplate(Entity):
 
         class_name = notification_types.get(self.notification_type, None)
         if class_name is None:
-            raise ValueError('Invalid {notification_type} notification type'.format(notification_type=self.notification_type))
+            raise ValueError('Invalid {notification_type} '
+                             'notification type'.format(notification_type=self.notification_type))
 
         return class_name(data)
 

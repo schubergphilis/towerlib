@@ -1576,9 +1576,11 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     @property
     def notification_templates(self):
-        """The notification templates configured in tower
+        """The notification templates configured in tower.
+
         Returns:
-            EntityManager: The manager object for groups
+            EntityManager: The manager object for groups.
+
         """
         return EntityManager(self,
                              entity_name='notification_templates',
