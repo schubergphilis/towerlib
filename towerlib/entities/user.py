@@ -329,3 +329,15 @@ class User(Entity):
                              entity_object='Credential',
                              primary_match_field='name',
                              url=url)
+
+    @property
+    def last_login(self):
+        """The last time the user logged in to the system.
+
+        Returns:
+            datetime: The datetime object of the date and time of the last login for the user.
+            None: If there is no entry for the last login date.
+
+        """
+        return self._to_datetime(self._data.get('last_login'))
+

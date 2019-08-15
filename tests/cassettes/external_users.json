@@ -1,7 +1,7 @@
 {
   "http_interactions": [
     {
-      "recorded_at": "2019-08-14T14:15:56",
+      "recorded_at": "2019-08-14T15:10:38",
       "request": {
         "body": {
           "encoding": "utf-8",
@@ -46,7 +46,7 @@
             "text/html; charset=utf-8"
           ],
           "Date": [
-            "Wed, 14 Aug 2019 14:15:56 GMT"
+            "Wed, 14 Aug 2019 15:10:38 GMT"
           ],
           "Server": [
             "nginx/1.12.2"
@@ -58,7 +58,7 @@
             "Accept-Language, Origin, Cookie"
           ],
           "X-API-Total-Time": [
-            "0.091s"
+            "0.056s"
           ],
           "X-Content-Security-Policy": [
             "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
@@ -75,7 +75,7 @@
       }
     },
     {
-      "recorded_at": "2019-08-14T14:15:56",
+      "recorded_at": "2019-08-14T15:10:38",
       "request": {
         "body": {
           "encoding": "utf-8",
@@ -107,7 +107,7 @@
       "response": {
         "body": {
           "encoding": null,
-          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"user\",\"url\":\"/api/v2/users/1/\",\"related\":{\"teams\":\"/api/v2/users/1/teams/\",\"organizations\":\"/api/v2/users/1/organizations/\",\"admin_of_organizations\":\"/api/v2/users/1/admin_of_organizations/\",\"projects\":\"/api/v2/users/1/projects/\",\"credentials\":\"/api/v2/users/1/credentials/\",\"roles\":\"/api/v2/users/1/roles/\",\"activity_stream\":\"/api/v2/users/1/activity_stream/\",\"access_list\":\"/api/v2/users/1/access_list/\",\"tokens\":\"/api/v2/users/1/tokens/\",\"authorized_tokens\":\"/api/v2/users/1/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/1/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":false}},\"created\":\"2019-08-13T14:54:58.066414Z\",\"username\":\"admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-14T14:15:08.249347Z\",\"external_account\":null,\"auth\":[]}]}"
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"user\",\"url\":\"/api/v2/users/1/\",\"related\":{\"teams\":\"/api/v2/users/1/teams/\",\"organizations\":\"/api/v2/users/1/organizations/\",\"admin_of_organizations\":\"/api/v2/users/1/admin_of_organizations/\",\"projects\":\"/api/v2/users/1/projects/\",\"credentials\":\"/api/v2/users/1/credentials/\",\"roles\":\"/api/v2/users/1/roles/\",\"activity_stream\":\"/api/v2/users/1/activity_stream/\",\"access_list\":\"/api/v2/users/1/access_list/\",\"tokens\":\"/api/v2/users/1/tokens/\",\"authorized_tokens\":\"/api/v2/users/1/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/1/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":false}},\"created\":\"2019-08-13T14:54:58.066414Z\",\"username\":\"admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-14T14:51:48.806655Z\",\"external_account\":null,\"auth\":[]}]}"
         },
         "headers": {
           "Allow": [
@@ -129,7 +129,7 @@
             "application/json"
           ],
           "Date": [
-            "Wed, 14 Aug 2019 14:15:56 GMT"
+            "Wed, 14 Aug 2019 15:10:38 GMT"
           ],
           "Server": [
             "nginx/1.12.2"
@@ -147,7 +147,7 @@
             "0.173s"
           ],
           "X-API-Total-Time": [
-            "0.269s"
+            "0.231s"
           ],
           "X-Content-Security-Policy": [
             "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
@@ -164,7 +164,7 @@
       }
     },
     {
-      "recorded_at": "2019-08-14T14:15:56",
+      "recorded_at": "2019-08-14T15:10:38",
       "request": {
         "body": {
           "encoding": "utf-8",
@@ -218,7 +218,7 @@
             "application/json"
           ],
           "Date": [
-            "Wed, 14 Aug 2019 14:15:56 GMT"
+            "Wed, 14 Aug 2019 15:10:38 GMT"
           ],
           "Server": [
             "nginx/1.12.2"
@@ -233,10 +233,10 @@
             "awx"
           ],
           "X-API-Time": [
-            "0.140s"
+            "0.247s"
           ],
           "X-API-Total-Time": [
-            "0.197s"
+            "0.290s"
           ],
           "X-Content-Security-Policy": [
             "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"

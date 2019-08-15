@@ -88,6 +88,7 @@ class TestTowerlibOrganization(TestCase):
             tower.delete_organization("Invalid Organization")
         self.assertRaises(Exception, context.exception)
 
+    # TODO: Cannot dissassociate user from organization
     # @use_cassette('user_organization_create_assign_remove_delete')
     # def test_organization_user(self, session):
     #     tower = get_tower(session=session)
@@ -99,9 +100,11 @@ class TestTowerlibOrganization(TestCase):
     #                                              "first_name", "last_name", "example@example.com",
     #                                              username, "password")
     #     self.assertIsNotNone(user)
-    #     self.assertIsNotNone(tower.get_organization_user_by_username(organization, username))
+    #     # self.assertIsNotNone(tower.get_organization_user_by_username(organization, username))
+    #     org = tower.get_organization_by_name(organization)
+    #     self.assertIsNotNone(org)
     #     self.assertTrue(tower.delete_organization_user(organization, username))
     #     self.assertIsNone(tower.get_organization_user_by_username(organization, username))
     #     self.assertTrue(user.delete())
-    #
+
 

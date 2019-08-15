@@ -58,25 +58,4 @@ class TestTowerlibProject(TestCase):
         tower = get_tower(session=session)
         projects = list(tower.projects)
         self.assertEquals(len(projects), 1)
-        project = next(projects)
-        self.assertEquals(project.Name, "Demo Project")
-        project_demo = tower.get_projects_by_name(project.Name)
-        self.assertEquals()
-
-    # @use_cassette('user_organization_create_assign_remove_delete')
-    # def test_organization_user(self, session):
-    #     tower = get_tower(session=session)
-    #     self.assertIsNotNone(tower)
-    #     username = "test_user_default_organization"
-    #     organization = "Default"
-    #     self.assertIsNone(tower.get_organization_user_by_username(organization, username))
-    #     user = tower.create_user_in_organization(organization,
-    #                                              "first_name", "last_name", "example@example.com",
-    #                                              username, "password")
-    #     self.assertIsNotNone(user)
-    #     self.assertIsNotNone(tower.get_organization_user_by_username(organization, username))
-    #     self.assertTrue(tower.delete_organization_user(organization, username))
-    #     self.assertIsNone(tower.get_organization_user_by_username(organization, username))
-    #     self.assertTrue(user.delete())
-    #
 

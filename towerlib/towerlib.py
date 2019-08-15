@@ -369,6 +369,61 @@ class Tower:  # pylint: disable=too-many-public-methods
             raise InvalidUser(username)
         return user.delete()
 
+    def create_user(self,  # pylint: disable=too-many-arguments
+                    username,
+                    password,
+                    first_name="",
+                    last_name="",
+                    email="",
+                    is_superuser=False,
+                    is_system_auditor=False,
+                    ):
+        """Creates a user in AWX/Tower.
+
+        Args:
+            username: The username to create for the user.
+            password: The password to set for the user.
+            first_name: The first name of the user.
+            last_name: The last name of the user.
+            email: The email of the user.
+            is_superuser: Is the user a super user
+            is_system_auditor: Is the user an auditor
+
+        Returns:
+            User: The created User object on success, None otherwise.
+
+        """
+
+        url = '{api}/users/'.format(api=self.api)
+        payload = {
+                   'username': username,
+                   'first_name': first_name,
+                   'last_name': last_name,
+                   'email': email,
+                   'password': password,
+                   'is_superuser': is_superuser,
+                   'is_system_auditor': is_system_auditor}
+        response = self.session.post(url, json=payload)
+        return User(self, response.json()) if response.ok else None
+
+    def delete_user(self, username):
+        """Deletes a user by username.
+
+        Args:
+            username: The username of the user to delete.
+
+        Returns:
+            bool: True on success, False otherwise.
+
+        Raises:
+            InvalidUser: The username provided as argument does not exist.
+
+        """
+        user = self.get_user_by_username(username)
+        if not user:
+            raise InvalidUser(username)
+        return user.delete()
+
     def create_user_in_organization(self,  # pylint: disable=too-many-arguments
                                     organization,
                                     first_name,
