@@ -62,7 +62,7 @@ class TestTowerlibOrganization(TestCase):
         assert len(data) == 1
         assert data[0].name == "Default"
 
-    @use_cassette('organization_generic', record='all')
+    @use_cassette('organization_generic', record='once')
     def test_organization_generic(self, session):
         tower = get_tower(session=session)
         self.assertIsNotNone(tower)
