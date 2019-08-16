@@ -51,7 +51,9 @@ from .towerlibexceptions import (AuthFailed,
                                  InvalidJobType,
                                  InvalidVerbosity,
                                  InvalidJobTemplate,
-                                 PermissionNotFound)
+                                 PermissionNotFound,
+                                 InvalidRole,
+                                 InvalidValue)
 
 from .towerlib import Tower
 from .entities import (Organization,  # NOQA
@@ -110,6 +112,8 @@ assert InvalidJobType
 assert InvalidVerbosity
 assert InvalidJobTemplate
 assert PermissionNotFound
+assert InvalidValue
+assert InvalidRole
 
 # assert objects
 assert Tower

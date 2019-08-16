@@ -36,6 +36,7 @@ Tests for `towerlib` module.
 from betamax.decorator import use_cassette
 from unittest import TestCase
 from .helpers import get_tower
+from towerlib import InvalidValue
 
 __author__ = '''Ilija Matoski <imatoski@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -61,7 +62,7 @@ class TestTowerlibOrganization(TestCase):
         assert len(data) == 1
         assert data[0].name == "Default"
 
-    @use_cassette('organization_generic', record='once')
+    @use_cassette('organization_generic', record='all')
     def test_organization_generic(self, session):
         tower = get_tower(session=session)
         self.assertIsNotNone(tower)
@@ -77,34 +78,71 @@ class TestTowerlibOrganization(TestCase):
         self.assertIsNotNone(org_create)
         self.assertEqual(org_create.name, org_name)
         self.assertEqual(org_create.description, org_description)
+        self.assertIsNotNone(org_create.created_by)
+        self.assertIsNotNone(org_create.modified_by)
+
+        with self.assertRaises(Exception) as context:
+            org_create.name = "*" * 600
+        self.assertRaises(Exception, context.exception)
+        org_create.name = "Lorem Ipsum 2"
+        org_create.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"
+        self.assertIsNone(org_create.custom_virtualenv)
+
+        with self.assertRaises(Exception) as context:
+            org_create.custom_virtualenv = "*" * 600
+        self.assertRaises(Exception, context.exception)
+        org_create.custom_virtualenv = "/var/lib/awx/test"
+        self.assertTrue(len(org_create.object_role_names) > 0)
+
+        self.assertEqual(org_create.users_count, 0)
+        self.assertEqual(org_create.admins_count, 0)
+        self.assertEqual(org_create.inventories_count, 0)
+        self.assertEqual(org_create.job_templates_count, 0)
+        self.assertEqual(org_create.projects_count, 0)
+        self.assertEqual(org_create.teams_count, 0)
+
+        self.assertEqual(len(list(org_create.projects)), org_create.projects_count)
+        self.assertEqual(len(list(org_create.users)), org_create.users_count)
+        self.assertEqual(len(list(org_create.teams)), org_create.teams_count)
+        self.assertEqual(len(list(org_create.inventories)), org_create.inventories_count)
+
         org_byid = tower.get_organization_by_id(org_create.id)
-        org_byname = tower.get_organization_by_name(org_name)
+        org_byname = tower.get_organization_by_name(org_create.name)
         self.assertEqual(org_byid.name, org_byname.name)
         self.assertEqual(org_byid.description, org_byname.description)
-        self.assertTrue(tower.delete_organization(org_name))
+        self.assertTrue(tower.delete_organization(org_byname.name))
         self.assertIsNone(tower.get_organization_by_id(org_create.id))
         self.assertDictEqual(org_byid._data, org_byname._data)
         with self.assertRaises(Exception) as context:
             tower.delete_organization("Invalid Organization")
         self.assertRaises(Exception, context.exception)
 
-    # TODO: Cannot dissassociate user from organization
-    # @use_cassette('user_organization_create_assign_remove_delete')
-    # def test_organization_user(self, session):
-    #     tower = get_tower(session=session)
-    #     self.assertIsNotNone(tower)
-    #     username = "test_user_default_organization"
-    #     organization = "Default"
-    #     self.assertIsNone(tower.get_organization_user_by_username(organization, username))
-    #     user = tower.create_user_in_organization(organization,
-    #                                              "first_name", "last_name", "example@example.com",
-    #                                              username, "password")
-    #     self.assertIsNotNone(user)
-    #     # self.assertIsNotNone(tower.get_organization_user_by_username(organization, username))
-    #     org = tower.get_organization_by_name(organization)
-    #     self.assertIsNotNone(org)
-    #     self.assertTrue(tower.delete_organization_user(organization, username))
-    #     self.assertIsNone(tower.get_organization_user_by_username(organization, username))
-    #     self.assertTrue(user.delete())
+    @use_cassette('user_organization_create_assign_remove_delete', record='once')
+    def test_organization_user(self, session):
+        tower = get_tower(session=session)
+        self.assertIsNotNone(tower)
+        username = "test_user_default_organization"
+        org = tower.create_organization("Test Organization", "Description")
+        self.assertIsNotNone(org)
+        user = tower.create_user_in_organization(org.name,
+                                                 "first_name", "last_name", "example@example.com",
+                                                 username, "password")
+        self.assertIsNotNone(user)
 
+        # roles
+        user.associate_organization_role(org, 'Admin')
+        with self.assertRaises(Exception) as context:
+            user.associate_organization_role(org, 'Non Existing Role')
+        self.assertRaises(Exception, context.exception)
 
+        with self.assertRaises(Exception) as context:
+            user.disassociate_organization_role(org, 'Non Existing Role')
+        self.assertRaises(Exception, context.exception)
+        user.disassociate_organization_role(org, 'Admin')
+
+        org_ = tower.get_organization_by_name('Test Organization')
+        self.assertIsNotNone(org_)
+        self.assertEqual(org_.users_count, 1)
+        self.assertTrue(user.delete())
+        self.assertTrue(org_.delete())
+        self.assertFalse(org.delete())

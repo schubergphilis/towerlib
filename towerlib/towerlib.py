@@ -453,7 +453,13 @@ class Tower:  # pylint: disable=too-many-public-methods
         organization_ = self.get_organization_by_name(organization)
         if not organization_:
             raise InvalidOrganization(organization)
-        return organization_.create_user(first_name, last_name, email, username, password, level)
+        user = self.create_user(username, password,
+                                first_name=first_name,
+                                last_name=last_name,
+                                email=email)
+
+        user.associate_organization_role(organization_, Organization.DEFAULT_MEMBER_ROLE)
+        return user
 
     @property
     def projects(self):

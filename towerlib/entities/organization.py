@@ -71,6 +71,8 @@ LOGGER.addHandler(logging.NullHandler())
 class Organization(Entity):  # pylint: disable=too-many-public-methods
     """Models the organization entity of ansible tower."""
 
+    DEFAULT_MEMBER_ROLE = 'Member'
+
     def __init__(self, tower_instance, data):
         Entity.__init__(self, tower_instance, data)
 
@@ -168,6 +170,21 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         url = self._data.get('related', {}).get('modified_by')
         return self._tower._get_object_by_url('User', url)  # pylint: disable=protected-access
 
+    def _get_object_role_id(self, name):
+        """
+        Returns the object role ID for a given member
+
+        Args:
+            name: The role we want to get the id for
+
+        Returns:
+            int: The ID of the role
+            None: If the role is not found
+
+        """
+        return next((obj.id for obj in self.object_roles
+                     if obj.name.lower() == name.lower()), None)
+
     @property
     def object_roles(self):
         """The object roles.
@@ -193,6 +210,17 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         return [object_role.name for object_role in self.object_roles]
 
     @property
+    def _related_field_counts(self):
+        """
+        Get the related fields counts
+
+        Returns:
+            dict: A dictionary of all the related field counts
+
+        """
+        return self._data.get('summary_fields', {}).get('related_field_counts', {})
+
+    @property
     def job_templates_count(self):
         """The number of job templates of the organization.
 
@@ -200,7 +228,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             integer: The count of the job templates on the organization.
 
         """
-        return self._data.get('related_field_counts', {}).get('job_templates', 0)
+        return self._related_field_counts.get('job_templates', 0)
 
     @property
     def users_count(self):
@@ -210,7 +238,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             integer: The count of the users on the organization.
 
         """
-        return self._data.get('related_field_counts', {}).get('users', 0)
+        return self._related_field_counts.get('users', 0)
 
     @property
     def teams_count(self):
@@ -220,7 +248,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             integer: The count of the teams on the organization.
 
         """
-        return self._data.get('related_field_counts', {}).get('teams', 0)
+        return self._related_field_counts.get('teams', 0)
 
     @property
     def admins_count(self):
@@ -230,7 +258,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             integer: The count of the administrators on the organization.
 
         """
-        return self._data.get('related_field_counts', {}).get('admins', 0)
+        return self._related_field_counts.get('admins', 0)
 
     @property
     def inventories_count(self):
@@ -240,7 +268,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             integer: The count of the inventories on the organization.
 
         """
-        return self._data.get('related_field_counts', {}).get('inventories', 0)
+        return self._related_field_counts.get('inventories', 0)
 
     @property
     def projects_count(self):
@@ -250,7 +278,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             integer: The count of the projects on the organization.
 
         """
-        return self._data.get('related_field_counts', {}).get('projects', 0)
+        return self._related_field_counts.get('projects', 0)
 
     @property
     def projects(self):

@@ -126,3 +126,7 @@ class PermissionNotFound(Exception):
 
 class InvalidValue(Exception):
     """The value is not valid for the field."""
+
+
+class InvalidRole(Exception):
+    """The role is not valid for this organization."""

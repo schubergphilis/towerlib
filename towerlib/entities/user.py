@@ -33,11 +33,12 @@ Main code for user.
 
 import logging
 
-from towerlib.towerlibexceptions import InvalidValue
+from towerlib.towerlibexceptions import InvalidValue, InvalidRole
 from .core import (Entity,
                    EntityManager,
                    validate_max_length,
                    validate_characters)
+import json
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -340,4 +341,20 @@ class User(Entity):
 
         """
         return self._to_datetime(self._data.get('last_login'))
+
+    def associate_organization_role(self, organization, role):
+        url = self._data.get('related', {}).get('roles')
+        role_id = organization._get_object_role_id(role) # pylint: disable=protected-access
+        if role_id is None:
+            raise InvalidRole()
+        payload = {'id': role_id}
+        return self._tower.session.post('{host}{url}'.format(url=url, host=self._tower.host), json.dumps(payload))
+
+    def disassociate_organization_role(self, organization, role):
+        url = self._data.get('related', {}).get('roles')
+        role_id = organization._get_object_role_id(role) # pylint: disable=protected-access
+        if role_id is None:
+            raise InvalidRole()
+        payload = {'id': role_id, 'disassociate': True}
+        return self._tower.session.post('{host}{url}'.format(url=url, host=self._tower.host), json.dumps(payload))
 
