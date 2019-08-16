@@ -102,7 +102,7 @@ CONFIGURATION_STATE_CACHE = TTLCache(maxsize=1, ttl=CONFIGURATION_STATE_CACHING_
 class Tower:  # pylint: disable=too-many-public-methods
     """Models the api of ansible tower."""
 
-    def __init__(self, host, username, password, secure=False, ssl_verify=True,):  # pylint: disable=too-many-arguments
+    def __init__(self, host, username, password, secure=False, ssl_verify=True):  # pylint: disable=too-many-arguments
         logger_name = u'{base}.{suffix}'.format(base=LOGGER_BASENAME,
                                                 suffix=self.__class__.__name__)
         self._logger = logging.getLogger(logger_name)
