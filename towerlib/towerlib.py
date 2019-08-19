@@ -104,7 +104,7 @@ CONFIGURATION_STATE_CACHE = TTLCache(maxsize=1, ttl=CONFIGURATION_STATE_CACHING_
 class Tower:  # pylint: disable=too-many-public-methods
     """Models the api of ansible tower."""
 
-    def __init__(self, host, username, password, secure=False, ssl_verify=True, session=None):  # pylint: disable=too-many-arguments
+    def __init__(self, host, username, password, secure=False, ssl_verify=True):  # pylint: disable=too-many-arguments
         logger_name = u'{base}.{suffix}'.format(base=LOGGER_BASENAME,
                                                 suffix=self.__class__.__name__)
         self._logger = logging.getLogger(logger_name)
@@ -113,9 +113,10 @@ class Tower:  # pylint: disable=too-many-public-methods
         self.api = '{host}/api/v2'.format(host=self.host)
         self.username = username
         self.password = password
-        self.session = self._setup_session(secure, ssl_verify, Session() if session is None else session)
+        self.session = self._setup_session(secure, ssl_verify)
 
-    def _setup_session(self, secure, ssl_verify, session):
+    def _setup_session(self, secure, ssl_verify):
+        session = Session()
         if secure:
             session.verify = ssl_verify
         session.get(self.host)
@@ -1458,6 +1459,7 @@ class Tower:  # pylint: disable=too-many-public-methods
                             project,
                             playbook,
                             credential,
+                            credential_type,
                             instance_groups=None,
                             host_config_key=None,
                             job_type='run',
@@ -1543,7 +1545,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             raise InvalidProject(project)
         if playbook not in project_.playbooks:
             raise InvalidPlaybook(playbook)
-        credential_ = inventory_.organization.get_credential_by_name(credential)
+        credential_ = inventory_.organization.get_credential_by_name(credential, credential_type)
         if not credential_:
             raise InvalidCredential(credential)
         instance_group_ids = []
