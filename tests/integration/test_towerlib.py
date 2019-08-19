@@ -140,7 +140,7 @@ class TestTowerlib(IntegrationTest):
             self.assertTrue(self.tower.delete_inventory_host(org_name, inventory.name, host.name))
             self.assertTrue(self.tower.delete_organization_inventory(org_name, inventory.name))
             self.assertTrue(self.tower.delete_organization_credential_by_name(org_name, credential.name,
-                                                                              credential._data.get('credential_type')))
+                                                                              'Source Control'))
             self.assertTrue(self.tower.delete_user(user_admin.username))
             self.assertTrue(self.tower.delete_user(user_normal.username))
 

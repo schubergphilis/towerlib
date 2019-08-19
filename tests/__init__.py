@@ -68,6 +68,8 @@ with betamax.Betamax.configure() as config:
     config.default_cassette_options["serialize_with"] = "prettyjson"
     config.default_cassette_options["record_mode"] = "once"
     for key, value in placeholders.items():
+        if key == "username":
+            continue
         if key == "password":
             value = quote_plus(value)
         config.define_cassette_placeholder("<{}>".format(key.upper()), value)
