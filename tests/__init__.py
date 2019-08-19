@@ -54,7 +54,7 @@ def b64_string(input_string):
 
 def get_environment_variable(key):
     """Return environment variable or placeholder string."""
-    return os.environ.get("TOWERLIB_{}".format(key.upper()), key)
+    return os.environ.get("TOWERLIB_{}".format(key.upper()), "placeholder_{}".format(key.upper()))
 
 
 placeholders = {value: get_environment_variable(value)
@@ -66,7 +66,7 @@ betamax.Betamax.register_serializer(pretty_json.PrettyJSONSerializer)
 with betamax.Betamax.configure() as config:
     config.cassette_library_dir = "tests/integration/cassettes"
     config.default_cassette_options["serialize_with"] = "prettyjson"
-    config.default_cassette_options["record_mode"] = "new_episodes"
+    config.default_cassette_options["record_mode"] = "once"
     for key, value in placeholders.items():
         if key == "password":
             value = quote_plus(value)

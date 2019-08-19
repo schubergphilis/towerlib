@@ -92,7 +92,8 @@ class TestTowerlib(IntegrationTest):
             self.assertIsNotNone(credential)
 
             # Create a project to the organization
-            project = org.create_project(
+            project = self.tower.create_project_in_organization(
+                org_name,
                 "Test project",
                 "Description",
                 credential.name,
@@ -115,6 +116,9 @@ class TestTowerlib(IntegrationTest):
             group = inventory.create_group("Test Group", "Test Groups")
             self.assertIsNotNone(group)
 
+            host_r = self.tower.get_inventory_host_by_name(org_name, inventory.name, "example.com")
+            self.assertIsNotNone(host_r)
+
             # We need to fully checkout the project before we can create the template
             # @TODO: Fix the create_job_template to allow creation without validating if it exists or not
             time.sleep(90)
@@ -131,17 +135,18 @@ class TestTowerlib(IntegrationTest):
             )
             self.assertIsNotNone(jt)
 
-            self.assertTrue(jt.delete())
-            self.assertTrue(group.delete())
-            self.assertTrue(host.delete())
-            self.assertTrue(inventory.delete())
-            self.assertTrue(credential.delete())
-            self.assertTrue(user_admin.delete())
-            self.assertTrue(user_normal.delete())
+            self.assertTrue(self.tower.delete_job_template(jt.name))
+            self.assertTrue(self.tower.delete_inventory_group(org_name, inventory.name, group.name))
+            self.assertTrue(self.tower.delete_inventory_host(org_name, inventory.name, host.name))
+            self.assertTrue(self.tower.delete_organization_inventory(org_name, inventory.name))
+            self.assertTrue(self.tower.delete_organization_credential_by_name(org_name, credential.name,
+                                                                              credential._data.get('credential_type')))
+            self.assertTrue(self.tower.delete_user(user_admin.username))
+            self.assertTrue(self.tower.delete_user(user_normal.username))
 
             # Project requires a full checkout before it can be deleted. So we will need to wait a bit before
             # deleting it
             self.assertTrue(project.delete())
 
-            self.assertTrue(team.delete())
-            self.assertTrue(org.delete())
+            self.assertTrue(self.tower.delete_team_in_organization(org_name, team_name))
+            self.assertTrue(self.tower.delete_organization(org.name))
