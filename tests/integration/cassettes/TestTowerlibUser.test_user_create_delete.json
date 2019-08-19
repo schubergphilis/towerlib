@@ -1,0 +1,1585 @@
+{
+  "http_interactions": [
+    {
+      "recorded_at": "2019-08-19T09:22:14",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": "{\"username\": \"test_user\", \"first_name\": \"\", \"last_name\": \"\", \"email\": \"\", \"<PASSWORD>\": \"<PASSWORD>\", \"is_superuser\": false, \"is_system_auditor\": false}"
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "148"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "POST",
+        "uri": "http://<HOSTNAME>/api/v2/users/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"id\":20,\"type\":\"user\",\"url\":\"/api/v2/users/20/\",\"related\":{\"named_url\":\"/api/v2/users/test_user/\",\"teams\":\"/api/v2/users/20/teams/\",\"organizations\":\"/api/v2/users/20/organizations/\",\"<USERNAME>_of_organizations\":\"/api/v2/users/20/<USERNAME>_of_organizations/\",\"projects\":\"/api/v2/users/20/projects/\",\"credentials\":\"/api/v2/users/20/credentials/\",\"roles\":\"/api/v2/users/20/roles/\",\"activity_stream\":\"/api/v2/users/20/activity_stream/\",\"access_list\":\"/api/v2/users/20/access_list/\",\"tokens\":\"/api/v2/users/20/tokens/\",\"authorized_tokens\":\"/api/v2/users/20/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/20/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T09:22:13.847054Z\",\"username\":\"test_user\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "904"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 09:22:14 GMT"
+          ],
+          "Location": [
+            "/api/v2/users/20/"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Session-Timeout": [
+            "1800"
+          ],
+          "Set-Cookie": [
+            "sessionid=7q5mq0u8de3dgy2sennmreov7e2mirfv; expires=Mon, 19 Aug 2019 09:52:14 GMT; HttpOnly; Max-Age=1800; Path=/; SameSite=Lax"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.360s"
+          ],
+          "X-API-Total-Time": [
+            "0.460s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 201,
+          "message": "Created"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T09:22:14",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Cookie": [
+            "sessionid=7q5mq0u8de3dgy2sennmreov7e2mirfv"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/users/?page_size=25&username__iexact=test_user"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":20,\"type\":\"user\",\"url\":\"/api/v2/users/20/\",\"related\":{\"teams\":\"/api/v2/users/20/teams/\",\"organizations\":\"/api/v2/users/20/organizations/\",\"<USERNAME>_of_organizations\":\"/api/v2/users/20/<USERNAME>_of_organizations/\",\"projects\":\"/api/v2/users/20/projects/\",\"credentials\":\"/api/v2/users/20/credentials/\",\"roles\":\"/api/v2/users/20/roles/\",\"activity_stream\":\"/api/v2/users/20/activity_stream/\",\"access_list\":\"/api/v2/users/20/access_list/\",\"tokens\":\"/api/v2/users/20/tokens/\",\"authorized_tokens\":\"/api/v2/users/20/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/20/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T09:22:13.847054Z\",\"username\":\"test_user\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "917"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 09:22:14 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Session-Timeout": [
+            "1800"
+          ],
+          "Set-Cookie": [
+            "sessionid=7q5mq0u8de3dgy2sennmreov7e2mirfv; expires=Mon, 19 Aug 2019 09:52:14 GMT; HttpOnly; Max-Age=1800; Path=/; SameSite=Lax"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.187s"
+          ],
+          "X-API-Total-Time": [
+            "0.283s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/?page_size=25&username__iexact=test_user"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T09:22:15",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "0"
+          ],
+          "Cookie": [
+            "sessionid=7q5mq0u8de3dgy2sennmreov7e2mirfv"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "DELETE",
+        "uri": "http://<HOSTNAME>/api/v2/users/20/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": ""
+        },
+        "headers": {
+          "Allow": [
+            "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "0"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 09:22:15 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Session-Timeout": [
+            "1800"
+          ],
+          "Set-Cookie": [
+            "sessionid=7q5mq0u8de3dgy2sennmreov7e2mirfv; expires=Mon, 19 Aug 2019 09:52:15 GMT; HttpOnly; Max-Age=1800; Path=/; SameSite=Lax"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.672s"
+          ],
+          "X-API-Total-Time": [
+            "1.154s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 204,
+          "message": "No Content"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/20/"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T09:22:15",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Cookie": [
+            "sessionid=7q5mq0u8de3dgy2sennmreov7e2mirfv"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/users/?page_size=25&username__iexact=test_user"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":0,\"next\":null,\"previous\":null,\"results\":[]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "52"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 09:22:15 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Session-Timeout": [
+            "1800"
+          ],
+          "Set-Cookie": [
+            "sessionid=7q5mq0u8de3dgy2sennmreov7e2mirfv; expires=Mon, 19 Aug 2019 09:52:15 GMT; HttpOnly; Max-Age=1800; Path=/; SameSite=Lax"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.163s"
+          ],
+          "X-API-Total-Time": [
+            "0.407s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/?page_size=25&username__iexact=test_user"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T09:23:50",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": "{\"username\": \"test_user\", \"first_name\": \"\", \"last_name\": \"\", \"email\": \"\", \"<PASSWORD>\": \"<PASSWORD>\", \"is_superuser\": false, \"is_system_auditor\": false}"
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "148"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "POST",
+        "uri": "http://<HOSTNAME>/api/v2/users/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"id\":23,\"type\":\"user\",\"url\":\"/api/v2/users/23/\",\"related\":{\"named_url\":\"/api/v2/users/test_user/\",\"teams\":\"/api/v2/users/23/teams/\",\"organizations\":\"/api/v2/users/23/organizations/\",\"<USERNAME>_of_organizations\":\"/api/v2/users/23/<USERNAME>_of_organizations/\",\"projects\":\"/api/v2/users/23/projects/\",\"credentials\":\"/api/v2/users/23/credentials/\",\"roles\":\"/api/v2/users/23/roles/\",\"activity_stream\":\"/api/v2/users/23/activity_stream/\",\"access_list\":\"/api/v2/users/23/access_list/\",\"tokens\":\"/api/v2/users/23/tokens/\",\"authorized_tokens\":\"/api/v2/users/23/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/23/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T09:23:49.766633Z\",\"username\":\"test_user\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "904"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 09:23:50 GMT"
+          ],
+          "Location": [
+            "/api/v2/users/23/"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Session-Timeout": [
+            "1800"
+          ],
+          "Set-Cookie": [
+            "sessionid=j443v36k452e6sz7hv3icvlvk5le4734; expires=Mon, 19 Aug 2019 09:53:50 GMT; HttpOnly; Max-Age=1800; Path=/; SameSite=Lax"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.591s"
+          ],
+          "X-API-Total-Time": [
+            "0.778s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 201,
+          "message": "Created"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T09:23:50",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Cookie": [
+            "sessionid=j443v36k452e6sz7hv3icvlvk5le4734"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/users/?page_size=25&username__iexact=test_user"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":23,\"type\":\"user\",\"url\":\"/api/v2/users/23/\",\"related\":{\"teams\":\"/api/v2/users/23/teams/\",\"organizations\":\"/api/v2/users/23/organizations/\",\"<USERNAME>_of_organizations\":\"/api/v2/users/23/<USERNAME>_of_organizations/\",\"projects\":\"/api/v2/users/23/projects/\",\"credentials\":\"/api/v2/users/23/credentials/\",\"roles\":\"/api/v2/users/23/roles/\",\"activity_stream\":\"/api/v2/users/23/activity_stream/\",\"access_list\":\"/api/v2/users/23/access_list/\",\"tokens\":\"/api/v2/users/23/tokens/\",\"authorized_tokens\":\"/api/v2/users/23/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/23/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T09:23:49.766633Z\",\"username\":\"test_user\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "917"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 09:23:50 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Session-Timeout": [
+            "1800"
+          ],
+          "Set-Cookie": [
+            "sessionid=j443v36k452e6sz7hv3icvlvk5le4734; expires=Mon, 19 Aug 2019 09:53:50 GMT; HttpOnly; Max-Age=1800; Path=/; SameSite=Lax"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.239s"
+          ],
+          "X-API-Total-Time": [
+            "0.480s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/?page_size=25&username__iexact=test_user"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T09:23:51",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "0"
+          ],
+          "Cookie": [
+            "sessionid=j443v36k452e6sz7hv3icvlvk5le4734"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "DELETE",
+        "uri": "http://<HOSTNAME>/api/v2/users/23/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": ""
+        },
+        "headers": {
+          "Allow": [
+            "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "0"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 09:23:51 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Session-Timeout": [
+            "1800"
+          ],
+          "Set-Cookie": [
+            "sessionid=j443v36k452e6sz7hv3icvlvk5le4734; expires=Mon, 19 Aug 2019 09:53:51 GMT; HttpOnly; Max-Age=1800; Path=/; SameSite=Lax"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.802s"
+          ],
+          "X-API-Total-Time": [
+            "1.074s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 204,
+          "message": "No Content"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/23/"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T09:23:52",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Cookie": [
+            "sessionid=j443v36k452e6sz7hv3icvlvk5le4734"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/users/?page_size=25&username__iexact=test_user"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":0,\"next\":null,\"previous\":null,\"results\":[]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "52"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 09:23:52 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Session-Timeout": [
+            "1800"
+          ],
+          "Set-Cookie": [
+            "sessionid=j443v36k452e6sz7hv3icvlvk5le4734; expires=Mon, 19 Aug 2019 09:53:52 GMT; HttpOnly; Max-Age=1800; Path=/; SameSite=Lax"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.263s"
+          ],
+          "X-API-Total-Time": [
+            "0.434s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/?page_size=25&username__iexact=test_user"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T09:25:24",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": "{\"username\": \"test_user\", \"first_name\": \"\", \"last_name\": \"\", \"email\": \"\", \"<PASSWORD>\": \"<PASSWORD>\", \"is_superuser\": false, \"is_system_auditor\": false}"
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "148"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "POST",
+        "uri": "http://<HOSTNAME>/api/v2/users/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"id\":26,\"type\":\"user\",\"url\":\"/api/v2/users/26/\",\"related\":{\"named_url\":\"/api/v2/users/test_user/\",\"teams\":\"/api/v2/users/26/teams/\",\"organizations\":\"/api/v2/users/26/organizations/\",\"<USERNAME>_of_organizations\":\"/api/v2/users/26/<USERNAME>_of_organizations/\",\"projects\":\"/api/v2/users/26/projects/\",\"credentials\":\"/api/v2/users/26/credentials/\",\"roles\":\"/api/v2/users/26/roles/\",\"activity_stream\":\"/api/v2/users/26/activity_stream/\",\"access_list\":\"/api/v2/users/26/access_list/\",\"tokens\":\"/api/v2/users/26/tokens/\",\"authorized_tokens\":\"/api/v2/users/26/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/26/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T09:25:24.004065Z\",\"username\":\"test_user\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "904"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 09:25:24 GMT"
+          ],
+          "Location": [
+            "/api/v2/users/26/"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Session-Timeout": [
+            "1800"
+          ],
+          "Set-Cookie": [
+            "sessionid=6xvjkq8ddm7hk42t7q5lgc2jgbtgkarp; expires=Mon, 19 Aug 2019 09:55:24 GMT; HttpOnly; Max-Age=1800; Path=/; SameSite=Lax"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.401s"
+          ],
+          "X-API-Total-Time": [
+            "0.499s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 201,
+          "message": "Created"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T09:25:24",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Cookie": [
+            "sessionid=6xvjkq8ddm7hk42t7q5lgc2jgbtgkarp"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/users/?page_size=25&username__iexact=test_user"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":26,\"type\":\"user\",\"url\":\"/api/v2/users/26/\",\"related\":{\"teams\":\"/api/v2/users/26/teams/\",\"organizations\":\"/api/v2/users/26/organizations/\",\"<USERNAME>_of_organizations\":\"/api/v2/users/26/<USERNAME>_of_organizations/\",\"projects\":\"/api/v2/users/26/projects/\",\"credentials\":\"/api/v2/users/26/credentials/\",\"roles\":\"/api/v2/users/26/roles/\",\"activity_stream\":\"/api/v2/users/26/activity_stream/\",\"access_list\":\"/api/v2/users/26/access_list/\",\"tokens\":\"/api/v2/users/26/tokens/\",\"authorized_tokens\":\"/api/v2/users/26/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/26/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T09:25:24.004065Z\",\"username\":\"test_user\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "917"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 09:25:24 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Session-Timeout": [
+            "1800"
+          ],
+          "Set-Cookie": [
+            "sessionid=6xvjkq8ddm7hk42t7q5lgc2jgbtgkarp; expires=Mon, 19 Aug 2019 09:55:24 GMT; HttpOnly; Max-Age=1800; Path=/; SameSite=Lax"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.358s"
+          ],
+          "X-API-Total-Time": [
+            "0.449s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/?page_size=25&username__iexact=test_user"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T09:25:25",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "0"
+          ],
+          "Cookie": [
+            "sessionid=6xvjkq8ddm7hk42t7q5lgc2jgbtgkarp"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "DELETE",
+        "uri": "http://<HOSTNAME>/api/v2/users/26/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": ""
+        },
+        "headers": {
+          "Allow": [
+            "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "0"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 09:25:25 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Session-Timeout": [
+            "1800"
+          ],
+          "Set-Cookie": [
+            "sessionid=6xvjkq8ddm7hk42t7q5lgc2jgbtgkarp; expires=Mon, 19 Aug 2019 09:55:25 GMT; HttpOnly; Max-Age=1800; Path=/; SameSite=Lax"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.708s"
+          ],
+          "X-API-Total-Time": [
+            "1.071s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 204,
+          "message": "No Content"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/26/"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T09:25:26",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Cookie": [
+            "sessionid=6xvjkq8ddm7hk42t7q5lgc2jgbtgkarp"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/users/?page_size=25&username__iexact=test_user"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":0,\"next\":null,\"previous\":null,\"results\":[]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "52"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 09:25:26 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Session-Timeout": [
+            "1800"
+          ],
+          "Set-Cookie": [
+            "sessionid=6xvjkq8ddm7hk42t7q5lgc2jgbtgkarp; expires=Mon, 19 Aug 2019 09:55:26 GMT; HttpOnly; Max-Age=1800; Path=/; SameSite=Lax"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.147s"
+          ],
+          "X-API-Total-Time": [
+            "0.243s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/?page_size=25&username__iexact=test_user"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T13:22:41",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": "{\"username\": \"test_user\", \"first_name\": \"\", \"last_name\": \"\", \"email\": \"\", \"<PASSWORD>\": \"<PASSWORD>\", \"is_superuser\": false, \"is_system_auditor\": false}"
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "148"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "POST",
+        "uri": "http://<HOSTNAME>/api/v2/users/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"id\":82,\"type\":\"user\",\"url\":\"/api/v2/users/82/\",\"related\":{\"named_url\":\"/api/v2/users/test_user/\",\"teams\":\"/api/v2/users/82/teams/\",\"organizations\":\"/api/v2/users/82/organizations/\",\"<USERNAME>_of_organizations\":\"/api/v2/users/82/<USERNAME>_of_organizations/\",\"projects\":\"/api/v2/users/82/projects/\",\"credentials\":\"/api/v2/users/82/credentials/\",\"roles\":\"/api/v2/users/82/roles/\",\"activity_stream\":\"/api/v2/users/82/activity_stream/\",\"access_list\":\"/api/v2/users/82/access_list/\",\"tokens\":\"/api/v2/users/82/tokens/\",\"authorized_tokens\":\"/api/v2/users/82/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/82/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:22:41.315334Z\",\"username\":\"test_user\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "904"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 13:22:41 GMT"
+          ],
+          "Location": [
+            "/api/v2/users/82/"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Session-Timeout": [
+            "1800"
+          ],
+          "Set-Cookie": [
+            "sessionid=o3a52ioa4gtv67uyf6exrnt4uhkwcojg; expires=Mon, 19 Aug 2019 13:52:41 GMT; HttpOnly; Max-Age=1800; Path=/; SameSite=Lax"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.353s"
+          ],
+          "X-API-Total-Time": [
+            "0.450s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 201,
+          "message": "Created"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T13:22:41",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Cookie": [
+            "sessionid=o3a52ioa4gtv67uyf6exrnt4uhkwcojg"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/users/?page_size=25&username__iexact=test_user"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":82,\"type\":\"user\",\"url\":\"/api/v2/users/82/\",\"related\":{\"teams\":\"/api/v2/users/82/teams/\",\"organizations\":\"/api/v2/users/82/organizations/\",\"<USERNAME>_of_organizations\":\"/api/v2/users/82/<USERNAME>_of_organizations/\",\"projects\":\"/api/v2/users/82/projects/\",\"credentials\":\"/api/v2/users/82/credentials/\",\"roles\":\"/api/v2/users/82/roles/\",\"activity_stream\":\"/api/v2/users/82/activity_stream/\",\"access_list\":\"/api/v2/users/82/access_list/\",\"tokens\":\"/api/v2/users/82/tokens/\",\"authorized_tokens\":\"/api/v2/users/82/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/82/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:22:41.315334Z\",\"username\":\"test_user\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "917"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 13:22:41 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Session-Timeout": [
+            "1800"
+          ],
+          "Set-Cookie": [
+            "sessionid=o3a52ioa4gtv67uyf6exrnt4uhkwcojg; expires=Mon, 19 Aug 2019 13:52:41 GMT; HttpOnly; Max-Age=1800; Path=/; SameSite=Lax"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.171s"
+          ],
+          "X-API-Total-Time": [
+            "0.260s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/?page_size=25&username__iexact=test_user"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T13:22:42",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "0"
+          ],
+          "Cookie": [
+            "sessionid=o3a52ioa4gtv67uyf6exrnt4uhkwcojg"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "DELETE",
+        "uri": "http://<HOSTNAME>/api/v2/users/82/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": ""
+        },
+        "headers": {
+          "Allow": [
+            "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "0"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 13:22:42 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Session-Timeout": [
+            "1800"
+          ],
+          "Set-Cookie": [
+            "sessionid=o3a52ioa4gtv67uyf6exrnt4uhkwcojg; expires=Mon, 19 Aug 2019 13:52:42 GMT; HttpOnly; Max-Age=1800; Path=/; SameSite=Lax"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.578s"
+          ],
+          "X-API-Total-Time": [
+            "0.882s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 204,
+          "message": "No Content"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/82/"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T13:22:42",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Cookie": [
+            "sessionid=o3a52ioa4gtv67uyf6exrnt4uhkwcojg"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/users/?page_size=25&username__iexact=test_user"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":0,\"next\":null,\"previous\":null,\"results\":[]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "52"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 13:22:42 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Session-Timeout": [
+            "1800"
+          ],
+          "Set-Cookie": [
+            "sessionid=o3a52ioa4gtv67uyf6exrnt4uhkwcojg; expires=Mon, 19 Aug 2019 13:52:42 GMT; HttpOnly; Max-Age=1800; Path=/; SameSite=Lax"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.130s"
+          ],
+          "X-API-Total-Time": [
+            "0.224s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/?page_size=25&username__iexact=test_user"
+      }
+    }
+  ],
+  "recorded_with": "betamax/0.8.1"
+}

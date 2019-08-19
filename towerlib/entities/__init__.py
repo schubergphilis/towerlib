@@ -61,6 +61,18 @@ from towerlib.entities.organization import Organization
 from towerlib.entities.project import Project
 from towerlib.entities.team import Team
 from towerlib.entities.user import User
+from towerlib.entities.notification import (Notification,
+                                            NotificationTemplate,
+                                            NotificationIRC,
+                                            NotificationRocketChat,
+                                            NotificationMatterMost,
+                                            NotificationWebHook,
+                                            NotificationHipChat,
+                                            NotificationGrafana,
+                                            NotificationPagerDuty,
+                                            NotificationTwilio,
+                                            NotificationEmail,
+                                            NotificationSlack)
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -104,3 +116,17 @@ assert Job
 assert Cluster
 assert ClusterInstance
 assert EntityManager
+assert Notification
+assert Notification
+assert NotificationTemplate
+assert NotificationIRC
+assert NotificationRocketChat
+assert NotificationMatterMost
+assert NotificationWebHook
+assert NotificationHipChat
+assert NotificationGrafana
+assert NotificationPagerDuty
+assert NotificationTwilio
+assert NotificationEmail
+assert NotificationSlack
+assert NotificationTemplate

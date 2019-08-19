@@ -115,9 +115,12 @@ def validate_max_length(value, max_length):
 
 def validate_characters(value, alpha=True, numbers=True, extra_chars=None):
     """Validates the string groups of a value."""
-    valid_characters = f'^[{"a-zA-Z" if alpha else ""}' \
-                       f'{"0-9" if numbers else ""}' \
-                       f'{re.escape(extra_chars) if extra_chars else ""}]+$'
+    alphas = "a-zA-Z" if alpha else ""
+    nums = "0-9" if numbers else ""
+    extra_characters = re.escape(extra_chars) if extra_chars else ""
+    valid_characters = '^[{alphas}{nums}{extra_characters}]+$'.format(alphas=alphas,
+                                                                      nums=nums,
+                                                                      extra_characters=extra_characters)
     return True if re.search(valid_characters, value) else False
 
 
@@ -135,7 +138,19 @@ def validate_json(value):
         return False
 
 
-class ClusterInstance:
+class DateParserMixin:  # pylint: disable=too-few-public-methods
+    """Implements a string to datetime parsing to be inherited by all needed objects."""
+
+    @staticmethod
+    def _to_datetime(field):
+        try:
+            date_ = parse(field)
+        except (ValueError, TypeError):
+            date_ = None
+        return date_
+
+
+class ClusterInstance(DateParserMixin):
     """Models the instance of a node as part of the cluster."""
 
     def __init__(self, tower_instance, name, hearbeat):
@@ -210,11 +225,7 @@ class ClusterInstance:
             None: If there is no entry for the creation.
 
         """
-        try:
-            date_ = parse(self._instance_data.get('created'))
-        except (ValueError, TypeError):
-            date_ = None
-        return date_
+        self._to_datetime(self._instance_data.get('created'))
 
     @property
     def modified_at(self):
@@ -225,14 +236,10 @@ class ClusterInstance:
             None: If there is no entry for the modification.
 
         """
-        try:
-            date_ = parse(self._instance_data.get('modified'))
-        except (ValueError, TypeError):
-            date_ = None
-        return date_
+        self._to_datetime(self._instance_data.get('modified'))
 
 
-class Entity:
+class Entity(DateParserMixin):
     """The basic object that holds common responses across all entities."""
 
     def __init__(self, tower_instance, data):
@@ -291,11 +298,7 @@ class Entity:
             None: If there is no entry for the creation.
 
         """
-        try:
-            date_ = parse(self._data.get('created'))
-        except (ValueError, TypeError):
-            date_ = None
-        return date_
+        return self._to_datetime(self._data.get('created'))
 
     @property
     def modified_at(self):
@@ -306,11 +309,7 @@ class Entity:
             None: If there is no entry for the modification.
 
         """
-        try:
-            date_ = parse(self._data.get('modified'))
-        except (ValueError, TypeError):
-            date_ = None
-        return date_
+        return self._to_datetime(self._data.get('modified'))
 
     def delete(self):
         """Deletes the entity from tower.

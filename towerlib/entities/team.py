@@ -91,7 +91,8 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         if all(conditions):
             self._update_values('name', value)
         else:
-            raise InvalidValue(f'{value} is invalid. Condition max_characters must equal {max_characters}')
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less or equal to '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
 
     @property
     def description(self):
@@ -145,7 +146,10 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
 
         """
         url = self._data.get('related', {}).get('roles')
-        return EntityManager(self._tower, entity_object='Role', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Role',
+                             primary_match_field='name',
+                             url=url)
 
     @property
     def object_roles(self):
@@ -182,7 +186,10 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
 
         """
         url = self._data.get('related', {}).get('users')
-        return EntityManager(self._tower, entity_object='User', primary_match_field='username', url=url)
+        return EntityManager(self._tower,
+                             entity_object='User',
+                             primary_match_field='username',
+                             url=url)
 
     @property
     def credentials(self):
@@ -193,7 +200,10 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
 
         """
         url = self._data.get('related', {}).get('credentials')
-        return EntityManager(self._tower, entity_object='Credential', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Credential',
+                             primary_match_field='name',
+                             url=url)
 
     @property
     def projects(self):
@@ -204,7 +214,10 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
 
         """
         url = self._data.get('related', {}).get('projects')
-        return EntityManager(self._tower, entity_object='Project', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Project',
+                             primary_match_field='name',
+                             url=url)
 
     def add_user_as_member(self, username):
         """Adds a user as a member of the team.
@@ -257,7 +270,7 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
     @staticmethod
     def _get_permission(role_name, object_roles):
         permission = next((role for role in object_roles
-                           if role.name.lower() == role_name))
+                           if role.name.lower() == role_name.lower()))
         if not permission:
             raise PermissionNotFound(role_name)
         return permission
@@ -544,7 +557,7 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         return self._post_credential_permission(credential_name, 'use', remove=True)
 
     def _post_project_permission(self, project_name, permission_name, remove=False):
-        project = self._tower.get_project_by_name(project_name)
+        project = self.organization.get_project_by_name(project_name)
         if not project:
             raise InvalidProject(project_name)
         return self._post_permission(project.object_roles, permission_name, remove)
@@ -556,13 +569,13 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         return self._post_permission(job_template.object_roles, permission_name, remove)
 
     def _post_inventory_permission(self, inventory_name, permission_name, remove=False):
-        inventory = self._tower.get_inventory_by_name(inventory_name)
+        inventory = self.organization.get_inventory_by_name(inventory_name)
         if not inventory:
             raise InvalidInventory(inventory_name)
         return self._post_permission(inventory.object_roles, permission_name, remove)
 
     def _post_credential_permission(self, credential_name, permission_name, remove=False):
-        credential = self._tower.get_credential_by_name(credential_name)
+        credential = self.organization.get_credential_by_name(credential_name)
         if not credential:
             raise InvalidCredential(credential_name)
         return self._post_permission(credential.object_roles, permission_name, remove)

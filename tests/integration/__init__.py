@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# File: test_towerlib.py
+# File: __init__.py
 #
 # Copyright 2018 Costas Tyfoxylos
 #
@@ -24,42 +24,65 @@
 #
 
 """
-test_towerlib
-----------------------------------
-Tests for `towerlib` module.
-
 .. _Google Python Style Guide:
    http://google.github.io/styleguide/pyguide.html
-
 """
 
+from betamax import recorder
 from betamax.fixtures import unittest
+from requests import Session
+
+import logging
+
+from towerlib import Tower
+from .. import placeholders
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
 __date__ = '''2018-05-25'''
 __copyright__ = '''Copyright 2018, Costas Tyfoxylos'''
-__credits__ = ["Costas Tyfoxylos"]
 __license__ = '''MIT'''
 __maintainer__ = '''Costas Tyfoxylos'''
 __email__ = '''<ctyfoxylos@schubergphilis.com>'''
 __status__ = '''Development'''  # "Prototype", "Development", "Production".
 
 
-class TestTowerlib(unittest.BetamaxTestCase):
+class TowerMock(Tower):
+
+    def __init__(self, host, username, password, secure=False, ssl_verify=True):
+        self._logger = logging.getLogger("TowerMock")
+        protocol = 'https' if secure else 'http'
+        self.host = '{protocol}://{host}'.format(protocol=protocol, host=host.lower())
+        self.api = '{host}/api/v2'.format(host=self.host)
+        self.username = username
+        self.password = password
+        self.session = self._setup_session(secure, ssl_verify)
+
+    def _setup_session(self, secure, ssl_verify):
+        session = Session()
+        if secure:
+            session.verify = ssl_verify
+        session.auth = (self.username, self.password)
+        session.headers.update({'content-type': 'application/json'})
+        return session
+
+
+class IntegrationTest(unittest.BetamaxTestCase):
 
     def setUp(self):
-        """
-        Test set up
+        super(IntegrationTest, self).setUp()
+        self.tower = self.setup_tower()
+        self.recorder = recorder.Betamax(session=self.tower.session)
+        self.recorder.use_cassette(self.generate_cassette_name())
+        self.recorder.start()
 
-        This is where you can setup things that you use throughout the tests. This method is called before every test.
-        """
-        pass
+    def setup_tower(self):
+        host = placeholders.get('hostname')
+        username = placeholders.get('username')
+        password = placeholders.get('password')
 
-    def tearDown(self):
-        """
-        Test tear down
-
-        This is where you should tear down what you've setup in setUp before. This method is called after every test.
-        """
-        pass
+        try:
+            tower = Tower(host, username, password)
+        except Exception:
+            tower = TowerMock(host, username, password)
+        return tower

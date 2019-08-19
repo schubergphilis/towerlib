@@ -526,7 +526,10 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
 
         """
         url = self._data.get('related', {}).get('credentials')
-        return EntityManager(self._tower, entity_object='Credential', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Credential',
+                             primary_match_field='name',
+                             url=url)
 
     @property
     def extra_credentials(self):
@@ -537,7 +540,10 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
 
         """
         url = self._data.get('related', {}).get('extra_credentials')
-        return EntityManager(self._tower, entity_object='Credential', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Credential',
+                             primary_match_field='name',
+                             url=url)
 
     @property
     def unified_job_template(self):
@@ -589,7 +595,10 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
 
         """
         url = self._data.get('related', {}).get('job_host_summaries')
-        return EntityManager(self._tower, entity_object='JobSummary', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='JobSummary',
+                             primary_match_field='name',
+                             url=url)
 
     @property
     def job_events(self):
@@ -600,7 +609,10 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
 
         """
         url = self._data.get('related', {}).get('job_events')
-        return EntityManager(self._tower, entity_object='JobEvent', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='JobEvent',
+                             primary_match_field='name',
+                             url=url)
 
     # TOFIX model activity streams and implement them here.
 
@@ -666,37 +678,6 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
     def __init__(self, tower_instance, data):
         Entity.__init__(self, tower_instance, data)
         self._object_roles = None
-        self._payload = ['name',
-                         'description',
-                         'job_type',
-                         'inventory',
-                         'project',
-                         'playbook',
-                         'credential',
-                         'limit',
-                         'verbosity',
-                         'job_tags',
-                         'skip_tags',
-                         'diff_mode',
-                         'become_enabled',
-                         'allow_callbacks',
-                         'allow_simultaneous',
-                         'use_fact_cache',
-                         'callback_url',
-                         'host_config_key',
-                         'forks',
-                         'ask_diff_mode_on_launch',
-                         'ask_tags_on_launch',
-                         'ask_skip_tags_on_launch',
-                         'ask_limit_on_launch',
-                         'ask_job_type_on_launch',
-                         'ask_verbosity_on_launch',
-                         'ask_inventory_on_launch',
-                         'ask_variables_on_launch',
-                         'ask_credential_on_launch',
-                         'vault_credential',
-                         'extra_vars',
-                         'survey_enabled']
 
     @property
     def name(self):
@@ -791,7 +772,10 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
 
         """
         url = self._data.get('related', {}).get('credentials')
-        return EntityManager(self._tower, entity_object='Credential', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Credential',
+                             primary_match_field='name',
+                             url=url)
 
     @property
     def extra_credentials(self):
@@ -802,7 +786,10 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
 
         """
         url = self._data.get('related', {}).get('extra_credentials')
-        return EntityManager(self._tower, entity_object='Credential', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Credential',
+                             primary_match_field='name',
+                             url=url)
 
     def add_extra_credentials(self, credentials):
         """Adds credentials by name.
@@ -813,8 +800,9 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         """
         if not isinstance(credentials, (list, tuple)):
             credentials = [credentials]
+        organization = self.inventory.organization
         for credential in credentials:
-            extra_credential = self._tower.get_credential_by_name(credential)
+            extra_credential = organization.get_credential_by_name(credential)
             if not extra_credential:
                 self._logger.warning('No credential with name {}'.format(credential))
             else:
@@ -956,18 +944,10 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         """Set or unset the "user fact cache flag".
 
         Returns:
-            bool: True if the fact cache should be used, False otherwise.
+            None.
 
         """
-        url = '{api}/job_templates/{id}/'.format(api=self._tower.api,
-                                                 id=self.id)
-
-        payload = {attribute: self._data.get(attribute)
-                   for attribute in self._payload}
-        payload['use_fact_cache'] = value
-        response = self._tower.session.put(url, json=payload)
-        if response.ok:
-            self._data = response.json()
+        self._update_values('use_fact_cache', value)
 
     @property
     def last_job_run_at(self):
@@ -977,11 +957,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
             datetime: The datetime of the last job execution.
 
         """
-        try:
-            date_ = parse(self._data.get('last_job_run'))
-        except (ValueError, TypeError):
-            date_ = None
-        return date_
+        return self._to_datetime(self._data.get('last_job_run'))
 
     @property
     def is_last_job_failed(self):
@@ -1001,11 +977,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
             datetime: The datetime of the next job execution.
 
         """
-        try:
-            date_ = parse(self._data.get('next_job_run'))
-        except (ValueError, TypeError):
-            date_ = None
-        return date_
+        return self._to_datetime(self._data.get('next_job_run'))
 
     @property
     def status(self):
@@ -1169,12 +1141,10 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         payload = {key: value for key, value in locals().items() if value and key != 'self'}
         url = '{url}launch/'.format(url=self.url)
         response = self._tower.session.post(url, json=payload)
-        if response.ok:
-            result = Job(self._tower, response.json())
-        else:
+        if not response.ok:
             self._logger.error('Error launching job %s, response was :%s', self.name, response.text)
-            result = None
-        return result
+            return None
+        return Job(self._tower, response.json())
 
 
 class SystemJob(Entity):
@@ -1200,11 +1170,7 @@ class SystemJob(Entity):
             None: If there is no entry for the start.
 
         """
-        try:
-            date_ = parse(self._data.get('start'))
-        except (ValueError, TypeError):
-            date_ = None
-        return date_
+        return self._to_datetime(self._data.get('start'))
 
     @property
     def finished_at(self):
@@ -1215,11 +1181,7 @@ class SystemJob(Entity):
             None: If there is no entry for the finish.
 
         """
-        try:
-            date_ = parse(self._data.get('finished'))
-        except (ValueError, TypeError):
-            date_ = None
-        return date_
+        return self._to_datetime(self._data.get('finished'))
 
     @property
     def summary_fields(self):
@@ -1397,7 +1359,10 @@ class ProjectUpdateJob(Entity):  # pylint: disable=too-many-public-methods
 
         """
         url = self._data.get('related', {}).get('credentials')
-        return EntityManager(self._tower, entity_object='Credential', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Credential',
+                             primary_match_field='name',
+                             url=url)
 
     @property
     def stdout(self):

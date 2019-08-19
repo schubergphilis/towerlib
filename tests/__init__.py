@@ -28,6 +28,15 @@
    http://google.github.io/styleguide/pyguide.html
 """
 
+import os
+import socket
+from base64 import b64encode
+from sys import platform
+from urllib.parse import quote_plus
+
+import betamax
+from betamax_serializers import pretty_json
+
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
 __date__ = '''2018-05-25'''
@@ -37,15 +46,32 @@ __maintainer__ = '''Costas Tyfoxylos'''
 __email__ = '''<ctyfoxylos@schubergphilis.com>'''
 __status__ = '''Development'''  # "Prototype", "Development", "Production".
 
-import betamax
-from betamax_serializers import pretty_json
-from .helpers import sanitize_record
+
+def b64_string(input_string):
+    """Return a base64 encoded string (not bytes) from input_string."""
+    return b64encode(input_string.encode("utf-8")).decode("utf-8")
+
+
+def get_environment_variable(key):
+    """Return environment variable or placeholder string."""
+    return os.environ.get("TOWERLIB_{}".format(key.upper()), key)
+
+
+placeholders = {value: get_environment_variable(value)
+                for value in ['username', 'password', 'hostname', 'install_uuid']}
+
+placeholders['basic_auth'] = b64_string('{}:{}'.format(placeholders['username'], placeholders['password']))
 
 betamax.Betamax.register_serializer(pretty_json.PrettyJSONSerializer)
-
 with betamax.Betamax.configure() as config:
-    config.cassette_library_dir = 'tests/cassettes'
-    config.default_cassette_options['serialize_with'] = 'prettyjson'
-    config.before_record(callback=sanitize_record)
+    config.cassette_library_dir = "tests/integration/cassettes"
+    config.default_cassette_options["serialize_with"] = "prettyjson"
+    config.default_cassette_options["record_mode"] = "new_episodes"
+    for key, value in placeholders.items():
+        if key == "password":
+            value = quote_plus(value)
+        config.define_cassette_placeholder("<{}>".format(key.upper()), value)
 
 
+if platform == "darwin":  # Work around issue with betamax on OS X
+    socket.gethostbyname = lambda x: "127.0.0.1"

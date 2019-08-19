@@ -159,8 +159,8 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         if all(conditions):
             self._update_values('name', value)
         else:
-            raise InvalidValue(f'{value} is invalid. '
-                               f'Condition max_characters must be less than or equal to {max_characters}')
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
 
     @property
     def description(self):
@@ -205,8 +205,8 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         if all(conditions):
             self._update_values('local_path', value)
         else:
-            raise InvalidValue(f'{value} is invalid. '
-                               f'Condition max_characters must be less than or equal to {max_characters}')
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
 
     @property
     def scm_type(self):
@@ -241,8 +241,8 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         if all(conditions):
             self._update_values('scm_url', value)
         else:
-            raise InvalidValue(f'{value} is invalid. '
-                               f'Condition max_characters must be less than or equal to {max_characters}')
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
 
     @property
     def scm_branch(self):
@@ -267,8 +267,8 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         if all(conditions):
             self._update_values('scm_branch', value)
         else:
-            raise InvalidValue(f'{value} is invalid. '
-                               f'Condition max_characters must be less than or equal to {max_characters}')
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
 
     @property
     def scm_clean(self):
@@ -328,8 +328,8 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
             None:
 
         """
-        organization = self._tower.get_organization_by_id(self._data.get('organization'))
-        credential = organization.get_credential_by_name(value)
+        credential = self.organization.get_credential_by_name_with_type_id(value,
+                                                                           self.credential._data.get('credential_type'))
         if not credential:
             raise InvalidCredential(value)
         self._update_values('credential', credential.id)
@@ -358,8 +358,9 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         if all(conditions):
             self._update_values('timeout', value)
         else:
-            raise InvalidValue(f'{value} is invalid. '
-                               f'Value must be between {minimum} and {maximum}')
+            raise InvalidValue('{value} is invalid, must be between {minimum} and {maximum}'.format(value=value,
+                                                                                                    minimum=minimum,
+                                                                                                    maximum=maximum))
 
     @property
     def last_job_run(self):
@@ -482,8 +483,9 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         if all(conditions):
             self._update_values('scm_update_cache_timeout', value)
         else:
-            raise InvalidValue(f'{value} is invalid. '
-                               f'Value must be between {minimum} and {maximum}')
+            raise InvalidValue('{value} is invalid, must be between {minimum} and {maximum}'.format(value=value,
+                                                                                                    minimum=minimum,
+                                                                                                    maximum=maximum))
 
     @property
     def scm_revision(self):
@@ -542,5 +544,5 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         if all(conditions):
             self._update_values('custom_virtualenv', value)
         else:
-            raise InvalidValue(f'{value} is invalid. '
-                               f'Condition max_characters must be less than or equal to {max_characters}')
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))

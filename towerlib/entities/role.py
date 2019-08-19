@@ -96,7 +96,10 @@ class Role(Entity):
 
         """
         url = self._data.get('related', {}).get('users')
-        return EntityManager(self._tower, entity_object='User', primary_match_field='username', url=url)
+        return EntityManager(self._tower,
+                             entity_object='User',
+                             primary_match_field='username',
+                             url=url)
 
     @property
     def teams(self):
@@ -107,7 +110,10 @@ class Role(Entity):
 
         """
         url = self._data.get('related', {}).get('teams')
-        return EntityManager(self._tower, entity_object='Team', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Team',
+                             primary_match_field='name',
+                             url=url)
 
     @property
     def projects(self):
@@ -118,7 +124,10 @@ class Role(Entity):
 
         """
         url = self._data.get('related', {}).get('projects')
-        return EntityManager(self._tower, entity_object='Project', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Project',
+                             primary_match_field='name',
+                             url=url)
 
 
 class ObjectRole(Role):

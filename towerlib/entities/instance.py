@@ -137,7 +137,10 @@ class Instance(Entity):
 
         """
         url = self._data.get('related', {}).get('jobs')
-        return EntityManager(self._tower, entity_object='Job', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Job',
+                             primary_match_field='name',
+                             url=url)
 
 
 class InstanceGroup(Entity):

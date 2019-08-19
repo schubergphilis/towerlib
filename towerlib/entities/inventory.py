@@ -31,7 +31,6 @@ Main code for inventory.
 
 """
 
-import json
 import logging
 
 from dateutil.parser import parse
@@ -90,7 +89,10 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
 
         """
         url = self._data.get('related', {}).get('object_roles')
-        return EntityManager(self._tower, entity_object='ObjectRole', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='ObjectRole',
+                             primary_match_field='name',
+                             url=url)
 
     @property
     def object_role_names(self):
@@ -125,7 +127,8 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         if all(conditions):
             self._update_values('name', value)
         else:
-            raise InvalidValue(f'{value} is invalid. Condition max_characters must equal {max_characters}.')
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less or equal to '
+                               '{max_characters}.'.format(value=value, max_characters=max_characters))
 
     @property
     def description(self):
@@ -189,7 +192,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
 
         """
         if value not in ['', 'smart']:
-            raise InvalidValue(f'Value should either be empty or "smart", received: {value}')
+            raise InvalidValue('Value should either be empty or "smart", received: {value}'.format(value=value))
         self._update_values('kind', value)
 
     @property
@@ -197,7 +200,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         """Not sure what this does.
 
         Returns:
-            None.
+            string :The host filter.
 
         """
         return self._data.get('host_filter')
@@ -233,7 +236,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         if validate_json(value):
             self._update_values('variables', value)
         else:
-            raise InvalidValue(f'Value is not valid json received: {value}')
+            raise InvalidValue('Value is not valid json received: {value}'.format(value=value))
 
     @property
     def has_active_failures(self):
@@ -370,10 +373,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
             InvalidVariables: The variables provided as argument is not valid json.
 
         """
-        try:
-            _ = json.loads(variables)
-            del _
-        except ValueError:
+        if not validate_json(variables):
             raise InvalidVariables(variables)
         url = '{api}/groups/'.format(api=self._tower.api)
         payload = {'name': name,
@@ -416,10 +416,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
             InvalidVariables: The variables provided as argument is not valid json.
 
         """
-        try:
-            _ = json.loads(variables)
-            del _
-        except ValueError:
+        if not validate_json(variables):
             raise InvalidVariables(variables)
         url = '{api}/hosts/'.format(api=self._tower.api)
         payload = {'name': name,

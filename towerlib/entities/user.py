@@ -33,11 +33,12 @@ Main code for user.
 
 import logging
 
-from towerlib.towerlibexceptions import InvalidValue
+from towerlib.towerlibexceptions import InvalidValue, InvalidRole
 from .core import (Entity,
                    EntityManager,
                    validate_max_length,
                    validate_characters)
+import json
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -86,8 +87,11 @@ class User(Entity):
         if all(conditions):
             self._update_values('username', value)
         else:
-            raise InvalidValue(f'{value} is invalid. Condition max_characters must equal {max_characters} and '
-                               f'valid character are only alphanums and {valid_metacharacters}')
+            raise InvalidValue(('{value} is invalid. Condition max_characters must be less or equal to {max_characters}'
+                                ' and valid character are only alphanums and '
+                                '{valid_metacharacters}').format(value=value,
+                                                                 max_characters=max_characters,
+                                                                 valid_metacharacters=valid_metacharacters))
 
     @property
     def password(self):
@@ -132,7 +136,8 @@ class User(Entity):
         if all(conditions):
             self._update_values('first_name', value)
         else:
-            raise InvalidValue(f'{value} is invalid. Condition max_characters must equal {max_characters}')
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less or equal to  '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
 
     @property
     def last_name(self):
@@ -182,7 +187,8 @@ class User(Entity):
         if all(conditions):
             self._update_values('email', value)
         else:
-            raise InvalidValue(f'{value} is invalid. Condition max_characters must equal {max_characters}')
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less or equal to '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
 
     @property
     def is_superuser(self):
@@ -264,7 +270,10 @@ class User(Entity):
 
         """
         url = self._data.get('related', {}).get('organizations')
-        return EntityManager(self._tower, entity_object='Organization', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Organization',
+                             primary_match_field='name',
+                             url=url)
 
     @property
     def roles(self):
@@ -275,7 +284,10 @@ class User(Entity):
 
         """
         url = self._data.get('related', {}).get('roles')
-        return EntityManager(self._tower, entity_object='Role', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Role',
+                             primary_match_field='name',
+                             url=url)
 
     @property
     def teams(self):
@@ -286,7 +298,10 @@ class User(Entity):
 
         """
         url = self._data.get('related', {}).get('teams')
-        return EntityManager(self._tower, entity_object='Team', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Team',
+                             primary_match_field='name',
+                             url=url)
 
     @property
     def projects(self):
@@ -297,7 +312,10 @@ class User(Entity):
 
         """
         url = self._data.get('related', {}).get('projects')
-        return EntityManager(self._tower, entity_object='Project', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Project',
+                             primary_match_field='name',
+                             url=url)
 
     @property
     def credentials(self):
@@ -308,4 +326,58 @@ class User(Entity):
 
         """
         url = self._data.get('related', {}).get('credentials')
-        return EntityManager(self._tower, entity_object='Credential', primary_match_field='name', url=url)
+        return EntityManager(self._tower,
+                             entity_object='Credential',
+                             primary_match_field='name',
+                             url=url)
+
+    @property
+    def last_login(self):
+        """The last time the user logged in to the system.
+
+        Returns:
+            datetime: The datetime object of the date and time of the last login for the user.
+            None: If there is no entry for the last login date.
+
+        """
+        return self._to_datetime(self._data.get('last_login'))
+
+    def _assign_permission_role(self, role_id, disassociate=False):
+        url = self._data.get('related', {}).get('roles')
+        payload = {'id': role_id}
+        if disassociate:
+            payload['disassociate'] = True
+        response = self._tower.session.post('{host}{url}'.format(url=url, host=self._tower.host), json.dumps(payload))
+        return response.ok
+
+    def associate_organization_role(self, organization, role):
+        """Associate a user to an organizational role
+
+        Args:
+            organization: The organization object that we want to assign to
+            role: The role we want to assign to the object
+
+        Returns:
+            bool: If it managed to associate the user to the organization
+
+        """
+        role_id = organization._get_object_role_id(role) # pylint: disable=protected-access
+        if role_id is None:
+            raise InvalidRole()
+        return self._assign_permission_role(role_id)
+
+    def disassociate_organization_role(self, organization, role):
+        """Disassociate a user to an organizational role
+
+        Args:
+            organization: The organization object that we want to assign to
+            role: The role we want to assign to the object
+
+        Returns:
+            bool: If it managed to disassociate the user to the organization
+
+        """
+        role_id = organization._get_object_role_id(role) # pylint: disable=protected-access
+        if role_id is None:
+            raise InvalidRole()
+        return self._assign_permission_role(role_id, disassociate=True)
