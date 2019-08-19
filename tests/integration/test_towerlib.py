@@ -135,17 +135,18 @@ class TestTowerlib(IntegrationTest):
             )
             self.assertIsNotNone(jt)
 
-            self.assertTrue(jt.delete())
-            self.assertTrue(group.delete())
-            self.assertTrue(host.delete())
+            self.assertTrue(self.tower.delete_job_template(jt.name))
+            self.assertTrue(self.tower.delete_inventory_group(org_name, inventory.name, group.name))
+            self.assertTrue(self.tower.delete_inventory_host(org_name, inventory.name, host.name))
             self.assertTrue(self.tower.delete_organization_inventory(org_name, inventory.name))
-            self.assertTrue(credential.delete())
-            self.assertTrue(user_admin.delete())
-            self.assertTrue(user_normal.delete())
+            self.assertTrue(self.tower.delete_organization_credential_by_name(org_name, credential.name,
+                                                                              credential._data.get('credential_type')))
+            self.assertTrue(self.tower.delete_user(user_admin.username))
+            self.assertTrue(self.tower.delete_user(user_normal.username))
 
             # Project requires a full checkout before it can be deleted. So we will need to wait a bit before
             # deleting it
             self.assertTrue(project.delete())
 
             self.assertTrue(self.tower.delete_team_in_organization(org_name, team_name))
-            self.assertTrue(org.delete())
+            self.assertTrue(self.tower.delete_organization(org.name))
