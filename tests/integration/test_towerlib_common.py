@@ -110,13 +110,13 @@ class TestTowerlibCommon(IntegrationTest):
             self.assertEqual(len(list(self.tower.get_teams_by_name("Unknown Team"))), 0)
             with self.assertRaises(InvalidOrganization):
                 self.tower.get_organization_team_by_name("Unknown Organization", "Team")
-    #
-    # def test_notification_templates(self):
-    #     with self.recorder:
-    #         data = list(self.tower.notification_templates)
-    #         self.assertIsNotNone(data)
-    #         self.assertEqual(len(data), 0)
-    #
+
+    def test_notification_templates(self):
+        with self.recorder:
+            data = list(self.tower.notification_templates)
+            self.assertIsNotNone(data)
+            self.assertEqual(len(data), 0)
+
     def test_roles(self):
         with self.recorder:
             data = list(self.tower.roles)
@@ -138,10 +138,15 @@ class TestTowerlibCommon(IntegrationTest):
             self.assertIsNotNone(self.tower.get_credential_by_id(credential.id))
             self.assertEqual(len(list(self.tower.get_credentials_by_name(credential.name))), 1)
 
-    # def test_credential_types(self):
-    #     with self.recorder:
-    #         custom_credential_types = list(self.tower.custom_credential_types)
-    #         self.assertEqual(len(custom_credential_types), 0)
-    #         tower_credential_types = list(self.tower.tower_credential_types)
-    #         self.assertTrue(len(tower_credential_types) > 0)
-    #
+    def test_credential_types(self):
+        with self.recorder:
+            custom_credential_types = list(self.tower.custom_credential_types)
+            self.assertEqual(len(custom_credential_types), 0)
+            tower_credential_types = list(self.tower.tower_credential_types)
+            self.assertTrue(len(tower_credential_types) > 0)
+
+    def test_hosts(self):
+        with self.recorder:
+            hosts = list(self.tower.hosts)
+            self.assertEqual(len(hosts), 1)
+            self.assertIsNone(self.tower.get_host_by_id(99999))

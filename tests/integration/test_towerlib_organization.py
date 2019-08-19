@@ -55,8 +55,8 @@ class TestTowerlibOrganization(IntegrationTest):
     def test_organization(self):
         with self.recorder:
             data = list(self.tower.organizations)
-            assert len(data) == 1
-            assert data[0].name == "Default"
+            self.assertEqual(len(data), 1)
+            self.assertEqual(data[0].name, "Default")
 
     def test_organization_generic(self):
         with self.recorder:
