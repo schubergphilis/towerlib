@@ -117,7 +117,7 @@ class TestTowerlib(IntegrationTest):
 
             # We need to fully checkout the project before we can create the template
             # @TODO: Fix the create_job_template to allow creation without validating if it exists or not
-            time.sleep(120)
+            time.sleep(90)
 
             jt = self.tower.create_job_template(
                 "Test Template",
@@ -126,7 +126,8 @@ class TestTowerlib(IntegrationTest):
                 inventory.name,
                 project.name,
                 "hello_world.yml",
-                credential.name
+                credential.name,
+                'Source Control'
             )
             self.assertIsNotNone(jt)
 

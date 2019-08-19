@@ -1535,6 +1535,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidInstanceGroup: The instance group provided as argument does not exist.
             InvalidJobType: The job type provided as argument does not exist.
             InvalidVerbosity: The verbosity provided is not in valid range of 0-4.
+            InvalidCredentialType: The credential type is invalid.
 
         """
         inventory_ = self.get_organization_inventory_by_name(organization, inventory)
