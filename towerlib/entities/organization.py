@@ -330,6 +330,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             InvalidCredential: The credential provided as argument does not exist.
 
         """
+        # Credential Type 2 = SCM
         url = '{api}/projects/'.format(api=self._tower.api)
         credential_ = self.get_credential_by_name_with_type_id(credential, credential_type_id=2)
         if not credential_:

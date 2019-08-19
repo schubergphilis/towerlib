@@ -219,7 +219,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.organizations.filter({'id': id_}), None)
 
-    def create_organization(self, name, description):
+    def create_organization(self, name, description=""):
         """Creates an organization in tower.
 
         Args:
@@ -351,24 +351,6 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.users.filter({'id': id_}), None)
 
-    def delete_user(self, username):
-        """Deletes a user from tower.
-
-        Args:
-            username: The username of the user to delete.
-
-        Returns:
-            bool: True on success, False otherwise.
-
-        Raises:
-            InvalidUser: The user provided as argument does not exist.
-
-        """
-        user = self.get_user_by_username(username)
-        if not user:
-            raise InvalidUser(username)
-        return user.delete()
-
     def create_user(self,  # pylint: disable=too-many-arguments
                     username,
                     password,
@@ -430,8 +412,7 @@ class Tower:  # pylint: disable=too-many-public-methods
                                     last_name,
                                     email,
                                     username,
-                                    password,
-                                    level='standard'):
+                                    password,):
         """Creates a user in an organization.
 
         Args:
@@ -441,7 +422,6 @@ class Tower:  # pylint: disable=too-many-public-methods
             email: The user's email.
             username: The user's username.
             password: The user's password.
-            level: The user's level. Accepted values are ('standard', 'system_auditor', 'system_administrator').
 
         Returns:
             User: The user on success, None otherwise.
@@ -647,7 +627,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.teams.filter({'id': id_}), None)
 
-    def create_team_in_organization(self, organization, team_name, description):
+    def create_team_in_organization(self, organization, team_name, description=""):
         """Creates a team under an organization.
 
         Args:
@@ -1230,6 +1210,24 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.credentials.filter({'id': id_}), None)
 
+    def create_credential_by_id(self, name: str, credential_type_id: int,
+                                description=None, organization_id=None,
+                                user_id=None, team_id=None,
+                                inputs='{}'):
+        payload = {
+            'name': name,
+            'description': description,
+            'credential_type': credential_type_id,
+            'organization': organization_id,
+            'user': user_id,
+            'team': team_id,
+            'inputs': json.loads(inputs)
+        }
+
+        url = '{api}/credentials/'.format(api=self.api)
+        response = self.session.post(url, json=payload)
+        return Credential(self, response.json()) if response.ok else None
+
     def create_credential_in_organization(self,  # pylint: disable=too-many-arguments,too-many-locals
                                           organization,
                                           name,
@@ -1263,7 +1261,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         organization_ = self.get_organization_by_name(organization)
         if not organization_:
             raise InvalidOrganization(organization)
-        user_ = organization_.get_user_by_username(user)
+        user_ = self.get_user_by_username(user)
         if not user_:
             raise InvalidUser(user)
         team_ = organization_.get_team_by_name(team)
@@ -1272,18 +1270,23 @@ class Tower:  # pylint: disable=too-many-public-methods
         credential_type_ = self.get_credential_type_by_name(credential_type)
         if not credential_type_:
             raise InvalidCredentialType(credential_type)
-        payload = {'name': name,
-                   'description': description,
-                   'organization': organization_.id,
-                   'user': user_.id,
-                   'team': team_.id,
-                   'credential_type': credential_type_.id}
         if not validate_json(inputs_):
             raise InvalidVariables(inputs_)
-        payload['inputs'] = json.loads(inputs_)
-        url = '{api}/credentials/'.format(api=self.api)
-        response = self.session.post(url, json=payload)
-        return Credential(self, response.json()) if response.ok else None
+
+        return self.create_credential_by_id(
+            name,
+            credential_type_.id,
+            description=description,
+            user_id=user_.id,
+            team_id=team_.id,
+            organization_id=organization_.id,
+            inputs=inputs_
+        )
+
+        # payload['inputs'] = json.loads(inputs_)
+        # url = '{api}/credentials/'.format(api=self.api)
+        # response = self.session.post(url, json=payload)
+        # return Credential(self, response.json()) if response.ok else None
 
     def create_credential_in_organization_with_type_id(self,  # pylint: disable=too-many-arguments
                                                        organization,
@@ -1317,7 +1320,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         organization_ = self.get_organization_by_name(organization)
         if not organization_:
             raise InvalidOrganization(organization)
-        user_ = organization_.get_user_by_username(user)
+        user_ = self.get_user_by_username(user)
         if not user_:
             raise InvalidUser(user)
         team_ = organization_.get_team_by_name(team)
@@ -1593,6 +1596,8 @@ class Tower:  # pylint: disable=too-many-public-methods
                    'become_enabled': become_enabled,
                    'diff_mode': diff_mode,
                    'allow_simultaneous': allow_simultaneous}
+        from pprint import pprint
+        pprint(payload)
         url = '{api}/job_templates/'.format(api=self.api)
         response = self.session.post(url, json=payload)
         return JobTemplate(self, response.json()) if response.ok else None

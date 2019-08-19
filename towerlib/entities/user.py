@@ -342,19 +342,42 @@ class User(Entity):
         """
         return self._to_datetime(self._data.get('last_login'))
 
-    def associate_organization_role(self, organization, role):
+    def _assign_permission_role(self, role_id, disassociate=False):
         url = self._data.get('related', {}).get('roles')
+        payload = {'id': role_id}
+        if disassociate:
+            payload['disassociate'] = True
+        response = self._tower.session.post('{host}{url}'.format(url=url, host=self._tower.host), json.dumps(payload))
+        return response.ok
+
+    def associate_organization_role(self, organization, role):
+        """Associate a user to an organizational role
+
+        Args:
+            organization: The organization object that we want to assign to
+            role: The role we want to assign to the object
+
+        Returns:
+            bool: If it managed to associate the user to the organization
+
+        """
         role_id = organization._get_object_role_id(role) # pylint: disable=protected-access
         if role_id is None:
             raise InvalidRole()
-        payload = {'id': role_id}
-        return self._tower.session.post('{host}{url}'.format(url=url, host=self._tower.host), json.dumps(payload))
+        return self._assign_permission_role(role_id)
 
     def disassociate_organization_role(self, organization, role):
-        url = self._data.get('related', {}).get('roles')
+        """Disassociate a user to an organizational role
+
+        Args:
+            organization: The organization object that we want to assign to
+            role: The role we want to assign to the object
+
+        Returns:
+            bool: If it managed to disassociate the user to the organization
+
+        """
         role_id = organization._get_object_role_id(role) # pylint: disable=protected-access
         if role_id is None:
             raise InvalidRole()
-        payload = {'id': role_id, 'disassociate': True}
-        return self._tower.session.post('{host}{url}'.format(url=url, host=self._tower.host), json.dumps(payload))
-
+        return self._assign_permission_role(role_id, disassociate=True)

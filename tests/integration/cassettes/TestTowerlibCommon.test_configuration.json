@@ -1,0 +1,984 @@
+{
+  "http_interactions": [
+    {
+      "recorded_at": "2019-08-19T08:31:20",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/config/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"time_zone\":\"UTC\",\"license_info\":{\"license_key\":\"OPEN\",\"valid_key\":true,\"compliant\":true,\"features\":{\"activity_streams\":true,\"ha\":true,\"ldap\":true,\"multiple_organizations\":true,\"surveys\":true,\"system_tracking\":true,\"rebranding\":true,\"enterprise_auth\":true,\"workflows\":true},\"license_type\":\"open\"},\"version\":\"6.1.0.0\",\"ansible_version\":\"2.8.2\",\"eula\":\"\",\"analytics_status\":\"off\",\"become_methods\":[[\"sudo\",\"Sudo\"],[\"su\",\"Su\"],[\"pbrun\",\"Pbrun\"],[\"pfexec\",\"Pfexec\"],[\"dzdo\",\"DZDO\"],[\"pmrun\",\"Pmrun\"],[\"runas\",\"Runas\"],[\"enable\",\"Enable\"],[\"doas\",\"Doas\"],[\"ksu\",\"Ksu\"],[\"machinectl\",\"Machinectl\"],[\"sesu\",\"Sesu\"]],\"project_base_dir\":\"/var/lib/awx/projects\",\"project_local_paths\":[],\"custom_virtualenvs\":[\"/var/lib/awx/venv/ansible/\"]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "730"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 08:31:20 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.518s"
+          ],
+          "X-API-Total-Time": [
+            "0.579s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/config/"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T08:37:25",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/config/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"time_zone\":\"UTC\",\"license_info\":{\"license_key\":\"OPEN\",\"valid_key\":true,\"compliant\":true,\"features\":{\"activity_streams\":true,\"ha\":true,\"ldap\":true,\"multiple_organizations\":true,\"surveys\":true,\"system_tracking\":true,\"rebranding\":true,\"enterprise_auth\":true,\"workflows\":true},\"license_type\":\"open\"},\"version\":\"6.1.0.0\",\"ansible_version\":\"2.8.2\",\"eula\":\"\",\"analytics_status\":\"off\",\"become_methods\":[[\"sudo\",\"Sudo\"],[\"su\",\"Su\"],[\"pbrun\",\"Pbrun\"],[\"pfexec\",\"Pfexec\"],[\"dzdo\",\"DZDO\"],[\"pmrun\",\"Pmrun\"],[\"runas\",\"Runas\"],[\"enable\",\"Enable\"],[\"doas\",\"Doas\"],[\"ksu\",\"Ksu\"],[\"machinectl\",\"Machinectl\"],[\"sesu\",\"Sesu\"]],\"project_base_dir\":\"/var/lib/awx/projects\",\"project_local_paths\":[],\"custom_virtualenvs\":[\"/var/lib/awx/venv/ansible/\"]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "730"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 08:37:25 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.131s"
+          ],
+          "X-API-Total-Time": [
+            "0.180s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/config/"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T08:39:00",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/config/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"time_zone\":\"UTC\",\"license_info\":{\"license_key\":\"OPEN\",\"valid_key\":true,\"compliant\":true,\"features\":{\"activity_streams\":true,\"ha\":true,\"ldap\":true,\"multiple_organizations\":true,\"surveys\":true,\"system_tracking\":true,\"rebranding\":true,\"enterprise_auth\":true,\"workflows\":true},\"license_type\":\"open\"},\"version\":\"6.1.0.0\",\"ansible_version\":\"2.8.2\",\"eula\":\"\",\"analytics_status\":\"off\",\"become_methods\":[[\"sudo\",\"Sudo\"],[\"su\",\"Su\"],[\"pbrun\",\"Pbrun\"],[\"pfexec\",\"Pfexec\"],[\"dzdo\",\"DZDO\"],[\"pmrun\",\"Pmrun\"],[\"runas\",\"Runas\"],[\"enable\",\"Enable\"],[\"doas\",\"Doas\"],[\"ksu\",\"Ksu\"],[\"machinectl\",\"Machinectl\"],[\"sesu\",\"Sesu\"]],\"project_base_dir\":\"/var/lib/awx/projects\",\"project_local_paths\":[],\"custom_virtualenvs\":[\"/var/lib/awx/venv/ansible/\"]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "730"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 08:39:00 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.429s"
+          ],
+          "X-API-Total-Time": [
+            "0.478s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/config/"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T08:41:02",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/config/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"time_zone\":\"UTC\",\"license_info\":{\"license_key\":\"OPEN\",\"valid_key\":true,\"compliant\":true,\"features\":{\"activity_streams\":true,\"ha\":true,\"ldap\":true,\"multiple_organizations\":true,\"surveys\":true,\"system_tracking\":true,\"rebranding\":true,\"enterprise_auth\":true,\"workflows\":true},\"license_type\":\"open\"},\"version\":\"6.1.0.0\",\"ansible_version\":\"2.8.2\",\"eula\":\"\",\"analytics_status\":\"off\",\"become_methods\":[[\"sudo\",\"Sudo\"],[\"su\",\"Su\"],[\"pbrun\",\"Pbrun\"],[\"pfexec\",\"Pfexec\"],[\"dzdo\",\"DZDO\"],[\"pmrun\",\"Pmrun\"],[\"runas\",\"Runas\"],[\"enable\",\"Enable\"],[\"doas\",\"Doas\"],[\"ksu\",\"Ksu\"],[\"machinectl\",\"Machinectl\"],[\"sesu\",\"Sesu\"]],\"project_base_dir\":\"/var/lib/awx/projects\",\"project_local_paths\":[],\"custom_virtualenvs\":[\"/var/lib/awx/venv/ansible/\"]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "730"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 08:41:02 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.497s"
+          ],
+          "X-API-Total-Time": [
+            "0.548s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/config/"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T08:41:41",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/config/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"time_zone\":\"UTC\",\"license_info\":{\"license_key\":\"OPEN\",\"valid_key\":true,\"compliant\":true,\"features\":{\"activity_streams\":true,\"ha\":true,\"ldap\":true,\"multiple_organizations\":true,\"surveys\":true,\"system_tracking\":true,\"rebranding\":true,\"enterprise_auth\":true,\"workflows\":true},\"license_type\":\"open\"},\"version\":\"6.1.0.0\",\"ansible_version\":\"2.8.2\",\"eula\":\"\",\"analytics_status\":\"off\",\"become_methods\":[[\"sudo\",\"Sudo\"],[\"su\",\"Su\"],[\"pbrun\",\"Pbrun\"],[\"pfexec\",\"Pfexec\"],[\"dzdo\",\"DZDO\"],[\"pmrun\",\"Pmrun\"],[\"runas\",\"Runas\"],[\"enable\",\"Enable\"],[\"doas\",\"Doas\"],[\"ksu\",\"Ksu\"],[\"machinectl\",\"Machinectl\"],[\"sesu\",\"Sesu\"]],\"project_base_dir\":\"/var/lib/awx/projects\",\"project_local_paths\":[],\"custom_virtualenvs\":[\"/var/lib/awx/venv/ansible/\"]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "730"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 08:41:41 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.129s"
+          ],
+          "X-API-Total-Time": [
+            "0.180s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/config/"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T08:42:41",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/config/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"time_zone\":\"UTC\",\"license_info\":{\"license_key\":\"OPEN\",\"valid_key\":true,\"compliant\":true,\"features\":{\"activity_streams\":true,\"ha\":true,\"ldap\":true,\"multiple_organizations\":true,\"surveys\":true,\"system_tracking\":true,\"rebranding\":true,\"enterprise_auth\":true,\"workflows\":true},\"license_type\":\"open\"},\"version\":\"6.1.0.0\",\"ansible_version\":\"2.8.2\",\"eula\":\"\",\"analytics_status\":\"off\",\"become_methods\":[[\"sudo\",\"Sudo\"],[\"su\",\"Su\"],[\"pbrun\",\"Pbrun\"],[\"pfexec\",\"Pfexec\"],[\"dzdo\",\"DZDO\"],[\"pmrun\",\"Pmrun\"],[\"runas\",\"Runas\"],[\"enable\",\"Enable\"],[\"doas\",\"Doas\"],[\"ksu\",\"Ksu\"],[\"machinectl\",\"Machinectl\"],[\"sesu\",\"Sesu\"]],\"project_base_dir\":\"/var/lib/awx/projects\",\"project_local_paths\":[],\"custom_virtualenvs\":[\"/var/lib/awx/venv/ansible/\"]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "730"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 08:42:41 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.469s"
+          ],
+          "X-API-Total-Time": [
+            "0.514s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/config/"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T09:15:06",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/config/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"time_zone\":\"UTC\",\"license_info\":{\"license_key\":\"OPEN\",\"valid_key\":true,\"compliant\":true,\"features\":{\"activity_streams\":true,\"ha\":true,\"ldap\":true,\"multiple_organizations\":true,\"surveys\":true,\"system_tracking\":true,\"rebranding\":true,\"enterprise_auth\":true,\"workflows\":true},\"license_type\":\"open\"},\"version\":\"6.1.0.0\",\"ansible_version\":\"2.8.2\",\"eula\":\"\",\"analytics_status\":\"off\",\"become_methods\":[[\"sudo\",\"Sudo\"],[\"su\",\"Su\"],[\"pbrun\",\"Pbrun\"],[\"pfexec\",\"Pfexec\"],[\"dzdo\",\"DZDO\"],[\"pmrun\",\"Pmrun\"],[\"runas\",\"Runas\"],[\"enable\",\"Enable\"],[\"doas\",\"Doas\"],[\"ksu\",\"Ksu\"],[\"machinectl\",\"Machinectl\"],[\"sesu\",\"Sesu\"]],\"project_base_dir\":\"/var/lib/awx/projects\",\"project_local_paths\":[],\"custom_virtualenvs\":[\"/var/lib/awx/venv/ansible/\"]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "730"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 09:15:06 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.141s"
+          ],
+          "X-API-Total-Time": [
+            "0.200s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/config/"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T09:17:40",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/config/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"time_zone\":\"UTC\",\"license_info\":{\"license_key\":\"OPEN\",\"valid_key\":true,\"compliant\":true,\"features\":{\"activity_streams\":true,\"ha\":true,\"ldap\":true,\"multiple_organizations\":true,\"surveys\":true,\"system_tracking\":true,\"rebranding\":true,\"enterprise_auth\":true,\"workflows\":true},\"license_type\":\"open\"},\"version\":\"6.1.0.0\",\"ansible_version\":\"2.8.2\",\"eula\":\"\",\"analytics_status\":\"off\",\"become_methods\":[[\"sudo\",\"Sudo\"],[\"su\",\"Su\"],[\"pbrun\",\"Pbrun\"],[\"pfexec\",\"Pfexec\"],[\"dzdo\",\"DZDO\"],[\"pmrun\",\"Pmrun\"],[\"runas\",\"Runas\"],[\"enable\",\"Enable\"],[\"doas\",\"Doas\"],[\"ksu\",\"Ksu\"],[\"machinectl\",\"Machinectl\"],[\"sesu\",\"Sesu\"]],\"project_base_dir\":\"/var/lib/awx/projects\",\"project_local_paths\":[],\"custom_virtualenvs\":[\"/var/lib/awx/venv/ansible/\"]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "730"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 09:17:40 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.460s"
+          ],
+          "X-API-Total-Time": [
+            "0.514s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/config/"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T09:21:24",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/config/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"time_zone\":\"UTC\",\"license_info\":{\"license_key\":\"OPEN\",\"valid_key\":true,\"compliant\":true,\"features\":{\"activity_streams\":true,\"ha\":true,\"ldap\":true,\"multiple_organizations\":true,\"surveys\":true,\"system_tracking\":true,\"rebranding\":true,\"enterprise_auth\":true,\"workflows\":true},\"license_type\":\"open\"},\"version\":\"6.1.0.0\",\"ansible_version\":\"2.8.2\",\"eula\":\"\",\"analytics_status\":\"off\",\"become_methods\":[[\"sudo\",\"Sudo\"],[\"su\",\"Su\"],[\"pbrun\",\"Pbrun\"],[\"pfexec\",\"Pfexec\"],[\"dzdo\",\"DZDO\"],[\"pmrun\",\"Pmrun\"],[\"runas\",\"Runas\"],[\"enable\",\"Enable\"],[\"doas\",\"Doas\"],[\"ksu\",\"Ksu\"],[\"machinectl\",\"Machinectl\"],[\"sesu\",\"Sesu\"]],\"project_base_dir\":\"/var/lib/awx/projects\",\"project_local_paths\":[],\"custom_virtualenvs\":[\"/var/lib/awx/venv/ansible/\"]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "730"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 09:21:24 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.794s"
+          ],
+          "X-API-Total-Time": [
+            "0.859s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/config/"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T09:23:06",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/config/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"time_zone\":\"UTC\",\"license_info\":{\"license_key\":\"OPEN\",\"valid_key\":true,\"compliant\":true,\"features\":{\"activity_streams\":true,\"ha\":true,\"ldap\":true,\"multiple_organizations\":true,\"surveys\":true,\"system_tracking\":true,\"rebranding\":true,\"enterprise_auth\":true,\"workflows\":true},\"license_type\":\"open\"},\"version\":\"6.1.0.0\",\"ansible_version\":\"2.8.2\",\"eula\":\"\",\"analytics_status\":\"off\",\"become_methods\":[[\"sudo\",\"Sudo\"],[\"su\",\"Su\"],[\"pbrun\",\"Pbrun\"],[\"pfexec\",\"Pfexec\"],[\"dzdo\",\"DZDO\"],[\"pmrun\",\"Pmrun\"],[\"runas\",\"Runas\"],[\"enable\",\"Enable\"],[\"doas\",\"Doas\"],[\"ksu\",\"Ksu\"],[\"machinectl\",\"Machinectl\"],[\"sesu\",\"Sesu\"]],\"project_base_dir\":\"/var/lib/awx/projects\",\"project_local_paths\":[],\"custom_virtualenvs\":[\"/var/lib/awx/venv/ansible/\"]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "730"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 09:23:06 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.132s"
+          ],
+          "X-API-Total-Time": [
+            "0.182s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/config/"
+      }
+    },
+    {
+      "recorded_at": "2019-08-19T09:24:35",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/config/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"time_zone\":\"UTC\",\"license_info\":{\"license_key\":\"OPEN\",\"valid_key\":true,\"compliant\":true,\"features\":{\"activity_streams\":true,\"ha\":true,\"ldap\":true,\"multiple_organizations\":true,\"surveys\":true,\"system_tracking\":true,\"rebranding\":true,\"enterprise_auth\":true,\"workflows\":true},\"license_type\":\"open\"},\"version\":\"6.1.0.0\",\"ansible_version\":\"2.8.2\",\"eula\":\"\",\"analytics_status\":\"off\",\"become_methods\":[[\"sudo\",\"Sudo\"],[\"su\",\"Su\"],[\"pbrun\",\"Pbrun\"],[\"pfexec\",\"Pfexec\"],[\"dzdo\",\"DZDO\"],[\"pmrun\",\"Pmrun\"],[\"runas\",\"Runas\"],[\"enable\",\"Enable\"],[\"doas\",\"Doas\"],[\"ksu\",\"Ksu\"],[\"machinectl\",\"Machinectl\"],[\"sesu\",\"Sesu\"]],\"project_base_dir\":\"/var/lib/awx/projects\",\"project_local_paths\":[],\"custom_virtualenvs\":[\"/var/lib/awx/venv/ansible/\"]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "730"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 19 Aug 2019 09:24:35 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.137s"
+          ],
+          "X-API-Total-Time": [
+            "0.198s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/config/"
+      }
+    }
+  ],
+  "recorded_with": "betamax/0.8.1"
+}

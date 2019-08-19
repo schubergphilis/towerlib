@@ -270,14 +270,14 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
     @staticmethod
     def _get_permission(role_name, object_roles):
         permission = next((role for role in object_roles
-                           if role.name.lower() == role_name))
+                           if role.name.lower() == role_name.lower()))
         if not permission:
             raise PermissionNotFound(role_name)
         return permission
 
     def _post_user_with_permission(self, username, role_name, remove=False):
         permission = self._get_permission(role_name, self.object_roles)
-        user = self.organization.get_user_by_username(username)
+        user = self._tower.get_user_by_username(username)
         if not user:
             raise InvalidUser(username)
         url = '{api}/users/{id}/roles/'.format(api=self._tower.api,
