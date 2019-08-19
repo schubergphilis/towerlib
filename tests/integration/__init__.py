@@ -57,6 +57,7 @@ class TowerMock(Tower):
         self.username = username
         self.password = password
         self.session = self._setup_session(secure, ssl_verify)
+        self.mock = True
 
     def _setup_session(self, secure, ssl_verify):
         session = Session()
