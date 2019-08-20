@@ -46,8 +46,6 @@ __maintainer__ = '''Costas Tyfoxylos'''
 __email__ = '''<ctyfoxylos@schubergphilis.com>'''
 __status__ = '''Development'''  # "Prototype", "Development", "Production".
 
-MAX_RETRY = 10
-TIME_SLEEP = 1
 
 class TestTowerlib(IntegrationTest):
 
@@ -121,7 +119,8 @@ class TestTowerlib(IntegrationTest):
 
             # We need to fully checkout the project before we can create the template
             # @TODO: Fix the create_job_template to allow creation without validating if it exists or not
-            time.sleep(90)
+            if not self.tower.mock:
+                time.sleep(90)
 
             jt = self.tower.create_job_template(
                 "Test Template",
@@ -140,7 +139,7 @@ class TestTowerlib(IntegrationTest):
             self.assertTrue(self.tower.delete_inventory_host(org_name, inventory.name, host.name))
             self.assertTrue(self.tower.delete_organization_inventory(org_name, inventory.name))
             self.assertTrue(self.tower.delete_organization_credential_by_name(org_name, credential.name,
-                                                                              credential._data.get('credential_type')))
+                                                                              'Source Control'))
             self.assertTrue(self.tower.delete_user(user_admin.username))
             self.assertTrue(self.tower.delete_user(user_normal.username))
 
