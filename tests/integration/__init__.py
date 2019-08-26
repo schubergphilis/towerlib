@@ -56,10 +56,10 @@ class TowerMock(Tower):
         self.api = '{host}/api/v2'.format(host=self.host)
         self.username = username
         self.password = password
-        self.session = self._setup_session(secure, ssl_verify)
+        self.session = self._get_authenticated_session(secure, ssl_verify)
         self.mock = True
 
-    def _setup_session(self, secure, ssl_verify):
+    def _get_authenticated_session(self, secure, ssl_verify):
         session = Session()
         if secure:
             session.verify = ssl_verify
@@ -77,11 +77,11 @@ class IntegrationTest(unittest.BetamaxTestCase):
         self.recorder.use_cassette(self.generate_cassette_name())
         self.recorder.start()
 
-    def setup_tower(self):
+    @staticmethod
+    def setup_tower():
         host = placeholders.get('hostname')
         username = placeholders.get('username')
         password = placeholders.get('password')
-
         try:
             tower = Tower(host, username, password)
         except Exception:

@@ -404,6 +404,7 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
             string: The status of the project.
 
         """
+        self._refresh_state()
         return self._data.get('status')
 
     @property

@@ -296,14 +296,15 @@ class Host(Entity):
         """
         if not isinstance(groups, (list, tuple)):
             groups = [groups]
-        inventory_groups = [group_ for group_ in self.inventory.groups]
-        inventory_group_names = [group.name.lower() for group in inventory_groups]
+        inventory_groups = [group for group in self.inventory.groups]
+        lower_inventory_group_names = [group.name.lower() for group in inventory_groups]
         missing_groups = [group_name for group_name in groups
-                          if group_name.lower() not in inventory_group_names]
+                          if group_name.lower() not in lower_inventory_group_names]
         if missing_groups:
             raise InvalidGroup(missing_groups)
+        lower_group_names = [name.lower() for name in groups]
         final_groups = [group for group in inventory_groups
-                        if group.name.lower() in groups]
+                        if group.name.lower() in lower_group_names]
         return all([group._add_host_by_id(self.id)  # pylint: disable=protected-access
                     for group in final_groups])
 
@@ -323,14 +324,12 @@ class Host(Entity):
         """
         if not isinstance(groups, (list, tuple)):
             groups = [groups]
-        groups = [group.lower() for group in groups]
-        host_group_names = [group.name.lower() for group in self.groups]
         missing_groups = [group_name for group_name in groups
-                          if group_name.lower() not in host_group_names]
+                          if group_name not in self.groups]
         if missing_groups:
             raise InvalidGroup(missing_groups)
+        lower_group_names = [name.lower() for name in groups]
         inventory_groups = [group for group in self.inventory.groups
-                            if group.name.lower() in groups]
-
+                            if group.name.lower() in lower_group_names]
         return all([group._remove_host_by_id(self.id)  # pylint: disable=protected-access
                     for group in inventory_groups])

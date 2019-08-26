@@ -319,6 +319,8 @@ class Entity(DateParserMixin):
 
         """
         response = self._tower.session.delete(self.url)
+        if not response.ok:
+            self._logger.error('Error deleting, response was: "%s"', response.text)
         return response.ok
 
     def _update_values(self, attribute, value, parent_attribute=None):
@@ -328,6 +330,13 @@ class Entity(DateParserMixin):
             self._data.update(response.json())
         else:
             self._logger.error('Error updating variables, response was: %s', response.text)
+
+    def _refresh_state(self):
+        response = self._tower.session.get(self.url)
+        if response.ok:
+            self._data.update(response.json())
+        else:
+            self._logger.error('Error getting updated state, response was: %s', response.text)
 
 
 class EntityManager:

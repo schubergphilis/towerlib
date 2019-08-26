@@ -104,25 +104,33 @@ CONFIGURATION_STATE_CACHE = TTLCache(maxsize=1, ttl=CONFIGURATION_STATE_CACHING_
 class Tower:  # pylint: disable=too-many-public-methods
     """Models the api of ansible tower."""
 
-    def __init__(self, host, username, password, secure=False, ssl_verify=True,):  # pylint: disable=too-many-arguments
+    def __init__(self, host, username, password, secure=False, ssl_verify=True):  # pylint: disable=too-many-arguments
         logger_name = u'{base}.{suffix}'.format(base=LOGGER_BASENAME,
                                                 suffix=self.__class__.__name__)
         self._logger = logging.getLogger(logger_name)
-        protocol = 'https' if secure else 'http'
-        self.host = '{protocol}://{host}'.format(protocol=protocol, host=host)
+        self.host = self._generate_host_name(host, secure)
         self.api = '{host}/api/v2'.format(host=self.host)
         self.username = username
         self.password = password
-        self.session = self._setup_session(secure, ssl_verify)
+        self.session = self._get_authenticated_session(secure, ssl_verify)
 
-    def _setup_session(self, secure, ssl_verify):
+    @staticmethod
+    def _generate_host_name(host, secure):
+        protocol = 'https' if secure else 'http'
+        return '{protocol}://{host}'.format(protocol=protocol, host=host)
+
+    def _get_authenticated_session(self, secure, ssl_verify):
         session = Session()
         if secure:
             session.verify = ssl_verify
-        session.get(self.host)
-        session.auth = (self.username, self.password)
+        return self._authenticate(session, self.host, self.username, self.password, self.api)
+
+    @staticmethod
+    def _authenticate(session, host, username, password, api_url):
+        session.get(host)
+        session.auth = (username, password)
         session.headers.update({'content-type': 'application/json'})
-        url = '{api}/me/'.format(api=self.api)
+        url = '{api}/me/'.format(api=api_url)
         response = session.get(url)
         if response.status_code == 401:
             raise AuthFailed(response.content)
@@ -387,6 +395,8 @@ class Tower:  # pylint: disable=too-many-public-methods
                    'is_superuser': is_superuser,
                    'is_system_auditor': is_system_auditor}
         response = self.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error creating user, response was: "%s"', response.text)
         return User(self, response.json()) if response.ok else None
 
     def delete_user(self, username):
@@ -409,20 +419,21 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     def create_user_in_organization(self,  # pylint: disable=too-many-arguments
                                     organization,
+                                    username,
+                                    password,
                                     first_name,
                                     last_name,
-                                    email,
-                                    username,
-                                    password,):
+                                    email):
         """Creates a user in an organization.
 
         Args:
             organization: The name of the organization to create the user under.
+            username: The user's username.
+            password: The user's password.
             first_name: The user's first name.
             last_name: The user's last name.
             email: The user's email.
-            username: The user's username.
-            password: The user's password.
+
 
         Returns:
             User: The user on success, None otherwise.
@@ -434,12 +445,14 @@ class Tower:  # pylint: disable=too-many-public-methods
         organization_ = self.get_organization_by_name(organization)
         if not organization_:
             raise InvalidOrganization(organization)
-        user = self.create_user(username, password,
+        user = self.create_user(username,
+                                password,
                                 first_name=first_name,
                                 last_name=last_name,
                                 email=email)
-
-        user.associate_organization_role(organization_, Organization.DEFAULT_MEMBER_ROLE)
+        if not user:
+            return False
+        user.associate_with_organization_role(organization_, Organization.DEFAULT_MEMBER_ROLE)
         return user
 
     @property
@@ -549,12 +562,11 @@ class Tower:  # pylint: disable=too-many-public-methods
                                             scm_update_on_launch,
                                             scm_update_cache_timeout)
 
-    def delete_inventory_project(self, organization, inventory, name):
+    def delete_organization_project(self, organization, name):
         """Deletes a project from tower.
 
         Args:
             organization: The organization the inventory belongs to.
-            inventory: The inventory the project belongs to.
             name: The name of the project to delete.
 
         Returns:
@@ -564,10 +576,10 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidProject: The project provided as argument does not exist.
 
         """
-        inventory_ = self.get_organization_inventory_by_name(organization, inventory)
-        if not inventory_:
-            raise InvalidInventory(inventory_)
-        project = inventory_.get_project_by_name(name)
+        organization_ = self.get_organization_by_name(organization)
+        if not organization_:
+            raise InvalidOrganization(organization_)
+        project = organization_.get_project_by_name(name)
         if not project:
             raise InvalidProject(name)
         return project.delete()
@@ -716,6 +728,28 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.groups.filter({'id': id_}), None)
 
+    def create_inventory_group(self, organization, inventory, name, description, variables='{}'):
+        """Creates a group in an inventory in tower.
+
+        Args:
+            organization: The organization the inventory belongs to.
+            inventory: The name of the inventory to create the group in.
+            name: The name of the group to create.
+            description (str): The description of the group to create.
+            variables (str): The Variables of the group in a json string format.
+
+        Returns:
+            bool: True on success, False otherwise.
+
+        Raises:
+            InvalidGroup: The group provided as argument does not exist.
+
+        """
+        inventory_ = self.get_organization_inventory_by_name(organization, inventory)
+        if not inventory_:
+            raise InvalidInventory(inventory)
+        return inventory_.create_group(name, description, variables)
+
     def delete_inventory_group(self, organization, inventory, name):
         """Deletes a group from tower.
 
@@ -792,11 +826,11 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.inventories.filter({'id': id_}), None)
 
-    def create_inventory_in_organization(self,
-                                         organization,
-                                         name,
-                                         description,
-                                         variables='{}'):
+    def create_organization_inventory(self,
+                                      organization,
+                                      name,
+                                      description,
+                                      variables='{}'):
         """Creates an inventory under an organization.
 
         Args:
@@ -1377,7 +1411,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             organization (str): The organization that owns the credential.
             name (str): The name of the credential(s) to delete.
             credential_type_id (int): The type of the credential.
-
+x
         Returns:
             bool: True on success, False otherwise.
 
@@ -1599,8 +1633,6 @@ class Tower:  # pylint: disable=too-many-public-methods
                    'become_enabled': become_enabled,
                    'diff_mode': diff_mode,
                    'allow_simultaneous': allow_simultaneous}
-        from pprint import pprint
-        pprint(payload)
         url = '{api}/job_templates/'.format(api=self.api)
         response = self.session.post(url, json=payload)
         return JobTemplate(self, response.json()) if response.ok else None

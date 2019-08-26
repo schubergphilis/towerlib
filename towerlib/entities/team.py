@@ -290,6 +290,8 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
                 return False
             payload['disassociate'] = True
         response = self._tower.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error posting to url "%s", response was: "s%"', url, response.text)
         return response.ok
 
     def add_project_permission_admin(self, project_name):
@@ -592,4 +594,6 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
                                                    id=self.id)
             payload = {'id': permission.id}
         response = self._tower.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error posting to url "%s", response was "%s"', url, response.text)
         return response.ok

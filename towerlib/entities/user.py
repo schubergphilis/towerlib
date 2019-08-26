@@ -350,7 +350,7 @@ class User(Entity):
         response = self._tower.session.post('{host}{url}'.format(url=url, host=self._tower.host), json.dumps(payload))
         return response.ok
 
-    def associate_organization_role(self, organization, role):
+    def associate_with_organization_role(self, organization, role):
         """Associate a user to an organizational role
 
         Args:
@@ -366,7 +366,7 @@ class User(Entity):
             raise InvalidRole()
         return self._assign_permission_role(role_id)
 
-    def disassociate_organization_role(self, organization, role):
+    def disassociate_from_organization_role(self, organization, role):
         """Disassociate a user to an organizational role
 
         Args:

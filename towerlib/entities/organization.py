@@ -350,6 +350,8 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                    'scm_update_on_launch': scm_update_on_launch,
                    'scm_update_cache_timeout': scm_update_cache_timeout}
         response = self._tower.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error creating project, response was: "%s"', response.text)
         return Project(self._tower, response.json()) if response.ok else None
 
     def delete_project(self, name):
@@ -414,6 +416,8 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                    'organization': self.id}
         url = '{api}/teams/'.format(api=self._tower.api)
         response = self._tower.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error creating team "%s", response was : "%s"', name, response.text)
         return Team(self._tower, response.json()) if response.ok else None
 
     def delete_team(self, name):
@@ -471,6 +475,8 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                    'variables': variables}
         url = '{api}/inventories/'.format(api=self._tower.api)
         response = self._tower.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error creating inventory "%s", response was "%s"', name, response.text)
         return Inventory(self._tower, response.json()) if response.ok else None
 
     def delete_inventory(self, name):
