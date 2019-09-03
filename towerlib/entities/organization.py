@@ -33,9 +33,7 @@ Main code for organization.
 
 import logging
 
-from towerlib.towerlibexceptions import (InvalidUserLevel,
-                                         InvalidUser,
-                                         InvalidTeam,
+from towerlib.towerlibexceptions import (InvalidTeam,
                                          InvalidVariables,
                                          InvalidInventory,
                                          InvalidCredential,
@@ -43,14 +41,12 @@ from towerlib.towerlibexceptions import (InvalidUserLevel,
                                          InvalidCredentialType,
                                          InvalidValue)
 from .core import (Entity,
-                   USER_LEVELS,
                    EntityManager,
                    validate_max_length,
                    validate_json)
 from .inventory import Inventory
 from .project import Project
 from .team import Team
-from .user import User
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -172,7 +168,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
 
     def _get_object_role_id(self, name):
         """
-        Returns the object role ID for a given member
+        Returns the object role ID for a given member.
 
         Args:
             name: The role we want to get the id for
@@ -212,7 +208,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
     @property
     def _related_field_counts(self):
         """
-        Get the related fields counts
+        Get the related fields counts.
 
         Returns:
             dict: A dictionary of all the related field counts

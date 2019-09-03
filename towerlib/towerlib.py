@@ -31,14 +31,14 @@ Main code for towerlib.
 
 """
 
+import concurrent.futures
 import json
 import logging
-import sys
 import math
-import concurrent.futures
+import sys
 
-from requests import Session
 from cachetools import TTLCache, cached
+from requests import Session
 
 from towerlib.entities.core import validate_json
 from .entities import (Config,  # pylint: disable=unused-import  # NOQA
@@ -59,8 +59,7 @@ from .entities import (Config,  # pylint: disable=unused-import  # NOQA
                        VERBOSITY_LEVELS,
                        Cluster,
                        ClusterInstance,
-                       EntityManager,
-                       NotificationTemplate)
+                       EntityManager)
 from .towerlibexceptions import (AuthFailed,
                                  InvalidOrganization,
                                  InvalidInventory,
@@ -384,16 +383,15 @@ class Tower:  # pylint: disable=too-many-public-methods
             User: The created User object on success, None otherwise.
 
         """
-
         url = '{api}/users/'.format(api=self.api)
         payload = {
-                   'username': username,
-                   'first_name': first_name,
-                   'last_name': last_name,
-                   'email': email,
-                   'password': password,
-                   'is_superuser': is_superuser,
-                   'is_system_auditor': is_system_auditor}
+            'username': username,
+            'first_name': first_name,
+            'last_name': last_name,
+            'email': email,
+            'password': password,
+            'is_superuser': is_superuser,
+            'is_system_auditor': is_system_auditor}
         response = self.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating user, response was: "%s"', response.text)
@@ -728,7 +726,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.groups.filter({'id': id_}), None)
 
-    def create_inventory_group(self, organization, inventory, name, description, variables='{}'):
+    def create_inventory_group(self, organization, inventory, name, description, variables='{}'):  # pylint: disable=too-many-arguments
         """Creates a group in an inventory in tower.
 
         Args:
@@ -1245,10 +1243,29 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.credentials.filter({'id': id_}), None)
 
-    def create_credential_by_id(self, name: str, credential_type_id: int,
-                                description=None, organization_id=None,
-                                user_id=None, team_id=None,
-                                inputs='{}'):
+    def create_credential_with_credential_id(self,  # pylint: disable=too-many-arguments
+                                             name: str,
+                                             credential_type_id: int,
+                                             description='',
+                                             organization_id=None,
+                                             user_id=None,
+                                             team_id=None,
+                                             inputs='{}'):
+        """Creates a credential using the id  of the provided credential type.
+
+        Args:
+            name (str): The name of the credential
+            credential_type_id (int): The number of the credential type
+            description (str): The description of the credential
+            organization_id (int): The id of the organization
+            user_id (int): The id of the user
+            team_id (int): The id of the team
+            inputs (str): The input to provide to the credential as json in a string format
+
+        Returns:
+            credential (Credential|None): A credential object on success, false otherwise.
+
+        """
         payload = {
             'name': name,
             'description': description,
@@ -1263,7 +1280,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         response = self.session.post(url, json=payload)
         return Credential(self, response.json()) if response.ok else None
 
-    def create_credential_in_organization(self,  # pylint: disable=too-many-arguments,too-many-locals
+    def create_credential_in_organization(self,  # pylint: disable=too-many-arguments
                                           organization,
                                           name,
                                           description,
@@ -1308,7 +1325,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         if not validate_json(inputs_):
             raise InvalidVariables(inputs_)
 
-        return self.create_credential_by_id(
+        return self.create_credential_with_credential_id(
             name,
             credential_type_.id,
             description=description,
@@ -1411,7 +1428,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             organization (str): The organization that owns the credential.
             name (str): The name of the credential(s) to delete.
             credential_type_id (int): The type of the credential.
-x
+
         Returns:
             bool: True on success, False otherwise.
 

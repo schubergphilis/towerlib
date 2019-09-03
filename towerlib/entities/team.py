@@ -286,12 +286,12 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         if remove:
             roles_ids = [role.id for role in user.roles]
             if permission.id not in roles_ids:
-                self._logger.warning('{} is not part of the team'.format(username))
+                self._logger.warning('"%s" is not part of the team', username)
                 return False
             payload['disassociate'] = True
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
-            self._logger.error('Error posting to url "%s", response was: "s%"', url, response.text)
+            self._logger.error('Error posting to url "%s", response was: "%s"', url, response.text)
         return response.ok
 
     def add_project_permission_admin(self, project_name):

@@ -31,6 +31,7 @@ Main code for user.
 
 """
 
+import json
 import logging
 
 from towerlib.towerlibexceptions import InvalidValue, InvalidRole
@@ -38,7 +39,6 @@ from .core import (Entity,
                    EntityManager,
                    validate_max_length,
                    validate_characters)
-import json
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -351,7 +351,7 @@ class User(Entity):
         return response.ok
 
     def associate_with_organization_role(self, organization, role):
-        """Associate a user to an organizational role
+        """Associate a user to an organizational role.
 
         Args:
             organization: The organization object that we want to assign to
@@ -367,7 +367,7 @@ class User(Entity):
         return self._assign_permission_role(role_id)
 
     def disassociate_from_organization_role(self, organization, role):
-        """Disassociate a user to an organizational role
+        """Disassociate a user to an organizational role.
 
         Args:
             organization: The organization object that we want to assign to
