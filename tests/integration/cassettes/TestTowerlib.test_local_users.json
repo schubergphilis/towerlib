@@ -5695,6 +5695,1163 @@
         },
         "url": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
       }
+    },
+    {
+      "recorded_at": "2019-08-26T14:09:17",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":4,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"user\",\"url\":\"/api/v2/users/1/\",\"related\":{\"teams\":\"/api/v2/users/1/teams/\",\"organizations\":\"/api/v2/users/1/organizations/\",\"admin_of_organizations\":\"/api/v2/users/1/admin_of_organizations/\",\"projects\":\"/api/v2/users/1/projects/\",\"credentials\":\"/api/v2/users/1/credentials/\",\"roles\":\"/api/v2/users/1/roles/\",\"activity_stream\":\"/api/v2/users/1/activity_stream/\",\"access_list\":\"/api/v2/users/1/access_list/\",\"tokens\":\"/api/v2/users/1/tokens/\",\"authorized_tokens\":\"/api/v2/users/1/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/1/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":false}},\"created\":\"2019-08-14T11:37:07.225284Z\",\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-19T14:04:42.193879Z\",\"external_account\":null,\"auth\":[]},{\"id\":5,\"type\":\"user\",\"url\":\"/api/v2/users/5/\",\"related\":{\"teams\":\"/api/v2/users/5/teams/\",\"organizations\":\"/api/v2/users/5/organizations/\",\"admin_of_organizations\":\"/api/v2/users/5/admin_of_organizations/\",\"projects\":\"/api/v2/users/5/projects/\",\"credentials\":\"/api/v2/users/5/credentials/\",\"roles\":\"/api/v2/users/5/roles/\",\"activity_stream\":\"/api/v2/users/5/activity_stream/\",\"access_list\":\"/api/v2/users/5/access_list/\",\"tokens\":\"/api/v2/users/5/tokens/\",\"authorized_tokens\":\"/api/v2/users/5/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/5/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:55.217754Z\",\"username\":\"workflow_admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":6,\"type\":\"user\",\"url\":\"/api/v2/users/6/\",\"related\":{\"teams\":\"/api/v2/users/6/teams/\",\"organizations\":\"/api/v2/users/6/organizations/\",\"admin_of_organizations\":\"/api/v2/users/6/admin_of_organizations/\",\"projects\":\"/api/v2/users/6/projects/\",\"credentials\":\"/api/v2/users/6/credentials/\",\"roles\":\"/api/v2/users/6/roles/\",\"activity_stream\":\"/api/v2/users/6/activity_stream/\",\"access_list\":\"/api/v2/users/6/access_list/\",\"tokens\":\"/api/v2/users/6/tokens/\",\"authorized_tokens\":\"/api/v2/users/6/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/6/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:59.715067Z\",\"username\":\"workflow_normal\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":23,\"type\":\"user\",\"url\":\"/api/v2/users/23/\",\"related\":{\"teams\":\"/api/v2/users/23/teams/\",\"organizations\":\"/api/v2/users/23/organizations/\",\"admin_of_organizations\":\"/api/v2/users/23/admin_of_organizations/\",\"projects\":\"/api/v2/users/23/projects/\",\"credentials\":\"/api/v2/users/23/credentials/\",\"roles\":\"/api/v2/users/23/roles/\",\"activity_stream\":\"/api/v2/users/23/activity_stream/\",\"access_list\":\"/api/v2/users/23/access_list/\",\"tokens\":\"/api/v2/users/23/tokens/\",\"authorized_tokens\":\"/api/v2/users/23/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/23/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-22T07:19:34.559713Z\",\"username\":\"admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-26T11:49:21.222233Z\",\"external_account\":null,\"auth\":[]}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "3555"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 26 Aug 2019 14:09:17 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.284s"
+          ],
+          "X-API-Total-Time": [
+            "0.401s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      }
+    },
+    {
+      "recorded_at": "2019-08-28T07:20:09",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":4,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"user\",\"url\":\"/api/v2/users/1/\",\"related\":{\"teams\":\"/api/v2/users/1/teams/\",\"organizations\":\"/api/v2/users/1/organizations/\",\"admin_of_organizations\":\"/api/v2/users/1/admin_of_organizations/\",\"projects\":\"/api/v2/users/1/projects/\",\"credentials\":\"/api/v2/users/1/credentials/\",\"roles\":\"/api/v2/users/1/roles/\",\"activity_stream\":\"/api/v2/users/1/activity_stream/\",\"access_list\":\"/api/v2/users/1/access_list/\",\"tokens\":\"/api/v2/users/1/tokens/\",\"authorized_tokens\":\"/api/v2/users/1/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/1/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":false}},\"created\":\"2019-08-14T11:37:07.225284Z\",\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-19T14:04:42.193879Z\",\"external_account\":null,\"auth\":[]},{\"id\":5,\"type\":\"user\",\"url\":\"/api/v2/users/5/\",\"related\":{\"teams\":\"/api/v2/users/5/teams/\",\"organizations\":\"/api/v2/users/5/organizations/\",\"admin_of_organizations\":\"/api/v2/users/5/admin_of_organizations/\",\"projects\":\"/api/v2/users/5/projects/\",\"credentials\":\"/api/v2/users/5/credentials/\",\"roles\":\"/api/v2/users/5/roles/\",\"activity_stream\":\"/api/v2/users/5/activity_stream/\",\"access_list\":\"/api/v2/users/5/access_list/\",\"tokens\":\"/api/v2/users/5/tokens/\",\"authorized_tokens\":\"/api/v2/users/5/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/5/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:55.217754Z\",\"username\":\"workflow_admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":6,\"type\":\"user\",\"url\":\"/api/v2/users/6/\",\"related\":{\"teams\":\"/api/v2/users/6/teams/\",\"organizations\":\"/api/v2/users/6/organizations/\",\"admin_of_organizations\":\"/api/v2/users/6/admin_of_organizations/\",\"projects\":\"/api/v2/users/6/projects/\",\"credentials\":\"/api/v2/users/6/credentials/\",\"roles\":\"/api/v2/users/6/roles/\",\"activity_stream\":\"/api/v2/users/6/activity_stream/\",\"access_list\":\"/api/v2/users/6/access_list/\",\"tokens\":\"/api/v2/users/6/tokens/\",\"authorized_tokens\":\"/api/v2/users/6/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/6/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:59.715067Z\",\"username\":\"workflow_normal\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":23,\"type\":\"user\",\"url\":\"/api/v2/users/23/\",\"related\":{\"teams\":\"/api/v2/users/23/teams/\",\"organizations\":\"/api/v2/users/23/organizations/\",\"admin_of_organizations\":\"/api/v2/users/23/admin_of_organizations/\",\"projects\":\"/api/v2/users/23/projects/\",\"credentials\":\"/api/v2/users/23/credentials/\",\"roles\":\"/api/v2/users/23/roles/\",\"activity_stream\":\"/api/v2/users/23/activity_stream/\",\"access_list\":\"/api/v2/users/23/access_list/\",\"tokens\":\"/api/v2/users/23/tokens/\",\"authorized_tokens\":\"/api/v2/users/23/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/23/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-22T07:19:34.559713Z\",\"username\":\"admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-26T11:49:21.222233Z\",\"external_account\":null,\"auth\":[]}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "3555"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Wed, 28 Aug 2019 07:20:09 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.340s"
+          ],
+          "X-API-Total-Time": [
+            "0.428s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      }
+    },
+    {
+      "recorded_at": "2019-09-03T13:15:27",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":4,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"user\",\"url\":\"/api/v2/users/1/\",\"related\":{\"teams\":\"/api/v2/users/1/teams/\",\"organizations\":\"/api/v2/users/1/organizations/\",\"admin_of_organizations\":\"/api/v2/users/1/admin_of_organizations/\",\"projects\":\"/api/v2/users/1/projects/\",\"credentials\":\"/api/v2/users/1/credentials/\",\"roles\":\"/api/v2/users/1/roles/\",\"activity_stream\":\"/api/v2/users/1/activity_stream/\",\"access_list\":\"/api/v2/users/1/access_list/\",\"tokens\":\"/api/v2/users/1/tokens/\",\"authorized_tokens\":\"/api/v2/users/1/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/1/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":false}},\"created\":\"2019-08-14T11:37:07.225284Z\",\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-19T14:04:42.193879Z\",\"external_account\":null,\"auth\":[]},{\"id\":5,\"type\":\"user\",\"url\":\"/api/v2/users/5/\",\"related\":{\"teams\":\"/api/v2/users/5/teams/\",\"organizations\":\"/api/v2/users/5/organizations/\",\"admin_of_organizations\":\"/api/v2/users/5/admin_of_organizations/\",\"projects\":\"/api/v2/users/5/projects/\",\"credentials\":\"/api/v2/users/5/credentials/\",\"roles\":\"/api/v2/users/5/roles/\",\"activity_stream\":\"/api/v2/users/5/activity_stream/\",\"access_list\":\"/api/v2/users/5/access_list/\",\"tokens\":\"/api/v2/users/5/tokens/\",\"authorized_tokens\":\"/api/v2/users/5/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/5/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:55.217754Z\",\"username\":\"workflow_admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":6,\"type\":\"user\",\"url\":\"/api/v2/users/6/\",\"related\":{\"teams\":\"/api/v2/users/6/teams/\",\"organizations\":\"/api/v2/users/6/organizations/\",\"admin_of_organizations\":\"/api/v2/users/6/admin_of_organizations/\",\"projects\":\"/api/v2/users/6/projects/\",\"credentials\":\"/api/v2/users/6/credentials/\",\"roles\":\"/api/v2/users/6/roles/\",\"activity_stream\":\"/api/v2/users/6/activity_stream/\",\"access_list\":\"/api/v2/users/6/access_list/\",\"tokens\":\"/api/v2/users/6/tokens/\",\"authorized_tokens\":\"/api/v2/users/6/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/6/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:59.715067Z\",\"username\":\"workflow_normal\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":23,\"type\":\"user\",\"url\":\"/api/v2/users/23/\",\"related\":{\"teams\":\"/api/v2/users/23/teams/\",\"organizations\":\"/api/v2/users/23/organizations/\",\"admin_of_organizations\":\"/api/v2/users/23/admin_of_organizations/\",\"projects\":\"/api/v2/users/23/projects/\",\"credentials\":\"/api/v2/users/23/credentials/\",\"roles\":\"/api/v2/users/23/roles/\",\"activity_stream\":\"/api/v2/users/23/activity_stream/\",\"access_list\":\"/api/v2/users/23/access_list/\",\"tokens\":\"/api/v2/users/23/tokens/\",\"authorized_tokens\":\"/api/v2/users/23/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/23/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-22T07:19:34.559713Z\",\"username\":\"admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-28T07:44:09.025692Z\",\"external_account\":null,\"auth\":[]}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "3555"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 03 Sep 2019 13:15:27 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.313s"
+          ],
+          "X-API-Total-Time": [
+            "0.413s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      }
+    },
+    {
+      "recorded_at": "2019-09-03T13:22:15",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":4,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"user\",\"url\":\"/api/v2/users/1/\",\"related\":{\"teams\":\"/api/v2/users/1/teams/\",\"organizations\":\"/api/v2/users/1/organizations/\",\"admin_of_organizations\":\"/api/v2/users/1/admin_of_organizations/\",\"projects\":\"/api/v2/users/1/projects/\",\"credentials\":\"/api/v2/users/1/credentials/\",\"roles\":\"/api/v2/users/1/roles/\",\"activity_stream\":\"/api/v2/users/1/activity_stream/\",\"access_list\":\"/api/v2/users/1/access_list/\",\"tokens\":\"/api/v2/users/1/tokens/\",\"authorized_tokens\":\"/api/v2/users/1/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/1/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":false}},\"created\":\"2019-08-14T11:37:07.225284Z\",\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-19T14:04:42.193879Z\",\"external_account\":null,\"auth\":[]},{\"id\":5,\"type\":\"user\",\"url\":\"/api/v2/users/5/\",\"related\":{\"teams\":\"/api/v2/users/5/teams/\",\"organizations\":\"/api/v2/users/5/organizations/\",\"admin_of_organizations\":\"/api/v2/users/5/admin_of_organizations/\",\"projects\":\"/api/v2/users/5/projects/\",\"credentials\":\"/api/v2/users/5/credentials/\",\"roles\":\"/api/v2/users/5/roles/\",\"activity_stream\":\"/api/v2/users/5/activity_stream/\",\"access_list\":\"/api/v2/users/5/access_list/\",\"tokens\":\"/api/v2/users/5/tokens/\",\"authorized_tokens\":\"/api/v2/users/5/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/5/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:55.217754Z\",\"username\":\"workflow_admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":6,\"type\":\"user\",\"url\":\"/api/v2/users/6/\",\"related\":{\"teams\":\"/api/v2/users/6/teams/\",\"organizations\":\"/api/v2/users/6/organizations/\",\"admin_of_organizations\":\"/api/v2/users/6/admin_of_organizations/\",\"projects\":\"/api/v2/users/6/projects/\",\"credentials\":\"/api/v2/users/6/credentials/\",\"roles\":\"/api/v2/users/6/roles/\",\"activity_stream\":\"/api/v2/users/6/activity_stream/\",\"access_list\":\"/api/v2/users/6/access_list/\",\"tokens\":\"/api/v2/users/6/tokens/\",\"authorized_tokens\":\"/api/v2/users/6/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/6/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:59.715067Z\",\"username\":\"workflow_normal\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":23,\"type\":\"user\",\"url\":\"/api/v2/users/23/\",\"related\":{\"teams\":\"/api/v2/users/23/teams/\",\"organizations\":\"/api/v2/users/23/organizations/\",\"admin_of_organizations\":\"/api/v2/users/23/admin_of_organizations/\",\"projects\":\"/api/v2/users/23/projects/\",\"credentials\":\"/api/v2/users/23/credentials/\",\"roles\":\"/api/v2/users/23/roles/\",\"activity_stream\":\"/api/v2/users/23/activity_stream/\",\"access_list\":\"/api/v2/users/23/access_list/\",\"tokens\":\"/api/v2/users/23/tokens/\",\"authorized_tokens\":\"/api/v2/users/23/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/23/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-22T07:19:34.559713Z\",\"username\":\"admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-28T07:44:09.025692Z\",\"external_account\":null,\"auth\":[]}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "3555"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 03 Sep 2019 13:22:15 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.319s"
+          ],
+          "X-API-Total-Time": [
+            "0.396s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      }
+    },
+    {
+      "recorded_at": "2019-09-09T07:43:48",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":4,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"user\",\"url\":\"/api/v2/users/1/\",\"related\":{\"teams\":\"/api/v2/users/1/teams/\",\"organizations\":\"/api/v2/users/1/organizations/\",\"admin_of_organizations\":\"/api/v2/users/1/admin_of_organizations/\",\"projects\":\"/api/v2/users/1/projects/\",\"credentials\":\"/api/v2/users/1/credentials/\",\"roles\":\"/api/v2/users/1/roles/\",\"activity_stream\":\"/api/v2/users/1/activity_stream/\",\"access_list\":\"/api/v2/users/1/access_list/\",\"tokens\":\"/api/v2/users/1/tokens/\",\"authorized_tokens\":\"/api/v2/users/1/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/1/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":false}},\"created\":\"2019-08-14T11:37:07.225284Z\",\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-19T14:04:42.193879Z\",\"external_account\":null,\"auth\":[]},{\"id\":5,\"type\":\"user\",\"url\":\"/api/v2/users/5/\",\"related\":{\"teams\":\"/api/v2/users/5/teams/\",\"organizations\":\"/api/v2/users/5/organizations/\",\"admin_of_organizations\":\"/api/v2/users/5/admin_of_organizations/\",\"projects\":\"/api/v2/users/5/projects/\",\"credentials\":\"/api/v2/users/5/credentials/\",\"roles\":\"/api/v2/users/5/roles/\",\"activity_stream\":\"/api/v2/users/5/activity_stream/\",\"access_list\":\"/api/v2/users/5/access_list/\",\"tokens\":\"/api/v2/users/5/tokens/\",\"authorized_tokens\":\"/api/v2/users/5/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/5/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:55.217754Z\",\"username\":\"workflow_admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":6,\"type\":\"user\",\"url\":\"/api/v2/users/6/\",\"related\":{\"teams\":\"/api/v2/users/6/teams/\",\"organizations\":\"/api/v2/users/6/organizations/\",\"admin_of_organizations\":\"/api/v2/users/6/admin_of_organizations/\",\"projects\":\"/api/v2/users/6/projects/\",\"credentials\":\"/api/v2/users/6/credentials/\",\"roles\":\"/api/v2/users/6/roles/\",\"activity_stream\":\"/api/v2/users/6/activity_stream/\",\"access_list\":\"/api/v2/users/6/access_list/\",\"tokens\":\"/api/v2/users/6/tokens/\",\"authorized_tokens\":\"/api/v2/users/6/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/6/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:59.715067Z\",\"username\":\"workflow_normal\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":23,\"type\":\"user\",\"url\":\"/api/v2/users/23/\",\"related\":{\"teams\":\"/api/v2/users/23/teams/\",\"organizations\":\"/api/v2/users/23/organizations/\",\"admin_of_organizations\":\"/api/v2/users/23/admin_of_organizations/\",\"projects\":\"/api/v2/users/23/projects/\",\"credentials\":\"/api/v2/users/23/credentials/\",\"roles\":\"/api/v2/users/23/roles/\",\"activity_stream\":\"/api/v2/users/23/activity_stream/\",\"access_list\":\"/api/v2/users/23/access_list/\",\"tokens\":\"/api/v2/users/23/tokens/\",\"authorized_tokens\":\"/api/v2/users/23/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/23/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-22T07:19:34.559713Z\",\"username\":\"admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-28T07:44:09.025692Z\",\"external_account\":null,\"auth\":[]}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "3555"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 09 Sep 2019 07:43:48 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.622s"
+          ],
+          "X-API-Total-Time": [
+            "0.710s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      }
+    },
+    {
+      "recorded_at": "2019-09-09T08:11:24",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":4,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"user\",\"url\":\"/api/v2/users/1/\",\"related\":{\"teams\":\"/api/v2/users/1/teams/\",\"organizations\":\"/api/v2/users/1/organizations/\",\"admin_of_organizations\":\"/api/v2/users/1/admin_of_organizations/\",\"projects\":\"/api/v2/users/1/projects/\",\"credentials\":\"/api/v2/users/1/credentials/\",\"roles\":\"/api/v2/users/1/roles/\",\"activity_stream\":\"/api/v2/users/1/activity_stream/\",\"access_list\":\"/api/v2/users/1/access_list/\",\"tokens\":\"/api/v2/users/1/tokens/\",\"authorized_tokens\":\"/api/v2/users/1/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/1/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":false}},\"created\":\"2019-08-14T11:37:07.225284Z\",\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-19T14:04:42.193879Z\",\"external_account\":null,\"auth\":[]},{\"id\":5,\"type\":\"user\",\"url\":\"/api/v2/users/5/\",\"related\":{\"teams\":\"/api/v2/users/5/teams/\",\"organizations\":\"/api/v2/users/5/organizations/\",\"admin_of_organizations\":\"/api/v2/users/5/admin_of_organizations/\",\"projects\":\"/api/v2/users/5/projects/\",\"credentials\":\"/api/v2/users/5/credentials/\",\"roles\":\"/api/v2/users/5/roles/\",\"activity_stream\":\"/api/v2/users/5/activity_stream/\",\"access_list\":\"/api/v2/users/5/access_list/\",\"tokens\":\"/api/v2/users/5/tokens/\",\"authorized_tokens\":\"/api/v2/users/5/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/5/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:55.217754Z\",\"username\":\"workflow_admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":6,\"type\":\"user\",\"url\":\"/api/v2/users/6/\",\"related\":{\"teams\":\"/api/v2/users/6/teams/\",\"organizations\":\"/api/v2/users/6/organizations/\",\"admin_of_organizations\":\"/api/v2/users/6/admin_of_organizations/\",\"projects\":\"/api/v2/users/6/projects/\",\"credentials\":\"/api/v2/users/6/credentials/\",\"roles\":\"/api/v2/users/6/roles/\",\"activity_stream\":\"/api/v2/users/6/activity_stream/\",\"access_list\":\"/api/v2/users/6/access_list/\",\"tokens\":\"/api/v2/users/6/tokens/\",\"authorized_tokens\":\"/api/v2/users/6/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/6/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:59.715067Z\",\"username\":\"workflow_normal\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":23,\"type\":\"user\",\"url\":\"/api/v2/users/23/\",\"related\":{\"teams\":\"/api/v2/users/23/teams/\",\"organizations\":\"/api/v2/users/23/organizations/\",\"admin_of_organizations\":\"/api/v2/users/23/admin_of_organizations/\",\"projects\":\"/api/v2/users/23/projects/\",\"credentials\":\"/api/v2/users/23/credentials/\",\"roles\":\"/api/v2/users/23/roles/\",\"activity_stream\":\"/api/v2/users/23/activity_stream/\",\"access_list\":\"/api/v2/users/23/access_list/\",\"tokens\":\"/api/v2/users/23/tokens/\",\"authorized_tokens\":\"/api/v2/users/23/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/23/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-22T07:19:34.559713Z\",\"username\":\"admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-09-09T08:00:19.696437Z\",\"external_account\":null,\"auth\":[]}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "3555"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 09 Sep 2019 08:11:24 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.647s"
+          ],
+          "X-API-Total-Time": [
+            "0.839s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      }
+    },
+    {
+      "recorded_at": "2019-09-09T08:19:39",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":4,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"user\",\"url\":\"/api/v2/users/1/\",\"related\":{\"teams\":\"/api/v2/users/1/teams/\",\"organizations\":\"/api/v2/users/1/organizations/\",\"admin_of_organizations\":\"/api/v2/users/1/admin_of_organizations/\",\"projects\":\"/api/v2/users/1/projects/\",\"credentials\":\"/api/v2/users/1/credentials/\",\"roles\":\"/api/v2/users/1/roles/\",\"activity_stream\":\"/api/v2/users/1/activity_stream/\",\"access_list\":\"/api/v2/users/1/access_list/\",\"tokens\":\"/api/v2/users/1/tokens/\",\"authorized_tokens\":\"/api/v2/users/1/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/1/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":false}},\"created\":\"2019-08-14T11:37:07.225284Z\",\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-19T14:04:42.193879Z\",\"external_account\":null,\"auth\":[]},{\"id\":5,\"type\":\"user\",\"url\":\"/api/v2/users/5/\",\"related\":{\"teams\":\"/api/v2/users/5/teams/\",\"organizations\":\"/api/v2/users/5/organizations/\",\"admin_of_organizations\":\"/api/v2/users/5/admin_of_organizations/\",\"projects\":\"/api/v2/users/5/projects/\",\"credentials\":\"/api/v2/users/5/credentials/\",\"roles\":\"/api/v2/users/5/roles/\",\"activity_stream\":\"/api/v2/users/5/activity_stream/\",\"access_list\":\"/api/v2/users/5/access_list/\",\"tokens\":\"/api/v2/users/5/tokens/\",\"authorized_tokens\":\"/api/v2/users/5/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/5/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:55.217754Z\",\"username\":\"workflow_admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":6,\"type\":\"user\",\"url\":\"/api/v2/users/6/\",\"related\":{\"teams\":\"/api/v2/users/6/teams/\",\"organizations\":\"/api/v2/users/6/organizations/\",\"admin_of_organizations\":\"/api/v2/users/6/admin_of_organizations/\",\"projects\":\"/api/v2/users/6/projects/\",\"credentials\":\"/api/v2/users/6/credentials/\",\"roles\":\"/api/v2/users/6/roles/\",\"activity_stream\":\"/api/v2/users/6/activity_stream/\",\"access_list\":\"/api/v2/users/6/access_list/\",\"tokens\":\"/api/v2/users/6/tokens/\",\"authorized_tokens\":\"/api/v2/users/6/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/6/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:59.715067Z\",\"username\":\"workflow_normal\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":23,\"type\":\"user\",\"url\":\"/api/v2/users/23/\",\"related\":{\"teams\":\"/api/v2/users/23/teams/\",\"organizations\":\"/api/v2/users/23/organizations/\",\"admin_of_organizations\":\"/api/v2/users/23/admin_of_organizations/\",\"projects\":\"/api/v2/users/23/projects/\",\"credentials\":\"/api/v2/users/23/credentials/\",\"roles\":\"/api/v2/users/23/roles/\",\"activity_stream\":\"/api/v2/users/23/activity_stream/\",\"access_list\":\"/api/v2/users/23/access_list/\",\"tokens\":\"/api/v2/users/23/tokens/\",\"authorized_tokens\":\"/api/v2/users/23/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/23/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-22T07:19:34.559713Z\",\"username\":\"admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-09-09T08:00:19.696437Z\",\"external_account\":null,\"auth\":[]}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "3555"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 09 Sep 2019 08:19:39 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "1.141s"
+          ],
+          "X-API-Total-Time": [
+            "1.293s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      }
+    },
+    {
+      "recorded_at": "2019-09-09T08:57:04",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":4,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"user\",\"url\":\"/api/v2/users/1/\",\"related\":{\"teams\":\"/api/v2/users/1/teams/\",\"organizations\":\"/api/v2/users/1/organizations/\",\"admin_of_organizations\":\"/api/v2/users/1/admin_of_organizations/\",\"projects\":\"/api/v2/users/1/projects/\",\"credentials\":\"/api/v2/users/1/credentials/\",\"roles\":\"/api/v2/users/1/roles/\",\"activity_stream\":\"/api/v2/users/1/activity_stream/\",\"access_list\":\"/api/v2/users/1/access_list/\",\"tokens\":\"/api/v2/users/1/tokens/\",\"authorized_tokens\":\"/api/v2/users/1/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/1/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":false}},\"created\":\"2019-08-14T11:37:07.225284Z\",\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-19T14:04:42.193879Z\",\"external_account\":null,\"auth\":[]},{\"id\":5,\"type\":\"user\",\"url\":\"/api/v2/users/5/\",\"related\":{\"teams\":\"/api/v2/users/5/teams/\",\"organizations\":\"/api/v2/users/5/organizations/\",\"admin_of_organizations\":\"/api/v2/users/5/admin_of_organizations/\",\"projects\":\"/api/v2/users/5/projects/\",\"credentials\":\"/api/v2/users/5/credentials/\",\"roles\":\"/api/v2/users/5/roles/\",\"activity_stream\":\"/api/v2/users/5/activity_stream/\",\"access_list\":\"/api/v2/users/5/access_list/\",\"tokens\":\"/api/v2/users/5/tokens/\",\"authorized_tokens\":\"/api/v2/users/5/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/5/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:55.217754Z\",\"username\":\"workflow_admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":6,\"type\":\"user\",\"url\":\"/api/v2/users/6/\",\"related\":{\"teams\":\"/api/v2/users/6/teams/\",\"organizations\":\"/api/v2/users/6/organizations/\",\"admin_of_organizations\":\"/api/v2/users/6/admin_of_organizations/\",\"projects\":\"/api/v2/users/6/projects/\",\"credentials\":\"/api/v2/users/6/credentials/\",\"roles\":\"/api/v2/users/6/roles/\",\"activity_stream\":\"/api/v2/users/6/activity_stream/\",\"access_list\":\"/api/v2/users/6/access_list/\",\"tokens\":\"/api/v2/users/6/tokens/\",\"authorized_tokens\":\"/api/v2/users/6/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/6/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:59.715067Z\",\"username\":\"workflow_normal\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":23,\"type\":\"user\",\"url\":\"/api/v2/users/23/\",\"related\":{\"teams\":\"/api/v2/users/23/teams/\",\"organizations\":\"/api/v2/users/23/organizations/\",\"admin_of_organizations\":\"/api/v2/users/23/admin_of_organizations/\",\"projects\":\"/api/v2/users/23/projects/\",\"credentials\":\"/api/v2/users/23/credentials/\",\"roles\":\"/api/v2/users/23/roles/\",\"activity_stream\":\"/api/v2/users/23/activity_stream/\",\"access_list\":\"/api/v2/users/23/access_list/\",\"tokens\":\"/api/v2/users/23/tokens/\",\"authorized_tokens\":\"/api/v2/users/23/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/23/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-22T07:19:34.559713Z\",\"username\":\"admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-09-09T08:00:19.696437Z\",\"external_account\":null,\"auth\":[]}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "3555"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 09 Sep 2019 08:57:04 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.611s"
+          ],
+          "X-API-Total-Time": [
+            "0.774s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      }
+    },
+    {
+      "recorded_at": "2019-09-09T09:58:27",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":4,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"user\",\"url\":\"/api/v2/users/1/\",\"related\":{\"teams\":\"/api/v2/users/1/teams/\",\"organizations\":\"/api/v2/users/1/organizations/\",\"admin_of_organizations\":\"/api/v2/users/1/admin_of_organizations/\",\"projects\":\"/api/v2/users/1/projects/\",\"credentials\":\"/api/v2/users/1/credentials/\",\"roles\":\"/api/v2/users/1/roles/\",\"activity_stream\":\"/api/v2/users/1/activity_stream/\",\"access_list\":\"/api/v2/users/1/access_list/\",\"tokens\":\"/api/v2/users/1/tokens/\",\"authorized_tokens\":\"/api/v2/users/1/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/1/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":false}},\"created\":\"2019-08-14T11:37:07.225284Z\",\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-19T14:04:42.193879Z\",\"external_account\":null,\"auth\":[]},{\"id\":5,\"type\":\"user\",\"url\":\"/api/v2/users/5/\",\"related\":{\"teams\":\"/api/v2/users/5/teams/\",\"organizations\":\"/api/v2/users/5/organizations/\",\"admin_of_organizations\":\"/api/v2/users/5/admin_of_organizations/\",\"projects\":\"/api/v2/users/5/projects/\",\"credentials\":\"/api/v2/users/5/credentials/\",\"roles\":\"/api/v2/users/5/roles/\",\"activity_stream\":\"/api/v2/users/5/activity_stream/\",\"access_list\":\"/api/v2/users/5/access_list/\",\"tokens\":\"/api/v2/users/5/tokens/\",\"authorized_tokens\":\"/api/v2/users/5/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/5/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:55.217754Z\",\"username\":\"workflow_admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":6,\"type\":\"user\",\"url\":\"/api/v2/users/6/\",\"related\":{\"teams\":\"/api/v2/users/6/teams/\",\"organizations\":\"/api/v2/users/6/organizations/\",\"admin_of_organizations\":\"/api/v2/users/6/admin_of_organizations/\",\"projects\":\"/api/v2/users/6/projects/\",\"credentials\":\"/api/v2/users/6/credentials/\",\"roles\":\"/api/v2/users/6/roles/\",\"activity_stream\":\"/api/v2/users/6/activity_stream/\",\"access_list\":\"/api/v2/users/6/access_list/\",\"tokens\":\"/api/v2/users/6/tokens/\",\"authorized_tokens\":\"/api/v2/users/6/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/6/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:59.715067Z\",\"username\":\"workflow_normal\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":23,\"type\":\"user\",\"url\":\"/api/v2/users/23/\",\"related\":{\"teams\":\"/api/v2/users/23/teams/\",\"organizations\":\"/api/v2/users/23/organizations/\",\"admin_of_organizations\":\"/api/v2/users/23/admin_of_organizations/\",\"projects\":\"/api/v2/users/23/projects/\",\"credentials\":\"/api/v2/users/23/credentials/\",\"roles\":\"/api/v2/users/23/roles/\",\"activity_stream\":\"/api/v2/users/23/activity_stream/\",\"access_list\":\"/api/v2/users/23/access_list/\",\"tokens\":\"/api/v2/users/23/tokens/\",\"authorized_tokens\":\"/api/v2/users/23/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/23/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-22T07:19:34.559713Z\",\"username\":\"admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-09-09T09:30:48.534692Z\",\"external_account\":null,\"auth\":[]}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "3555"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 09 Sep 2019 09:58:27 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "1.027s"
+          ],
+          "X-API-Total-Time": [
+            "1.201s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      }
+    },
+    {
+      "recorded_at": "2019-09-09T10:06:04",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":4,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"user\",\"url\":\"/api/v2/users/1/\",\"related\":{\"teams\":\"/api/v2/users/1/teams/\",\"organizations\":\"/api/v2/users/1/organizations/\",\"admin_of_organizations\":\"/api/v2/users/1/admin_of_organizations/\",\"projects\":\"/api/v2/users/1/projects/\",\"credentials\":\"/api/v2/users/1/credentials/\",\"roles\":\"/api/v2/users/1/roles/\",\"activity_stream\":\"/api/v2/users/1/activity_stream/\",\"access_list\":\"/api/v2/users/1/access_list/\",\"tokens\":\"/api/v2/users/1/tokens/\",\"authorized_tokens\":\"/api/v2/users/1/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/1/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":false}},\"created\":\"2019-08-14T11:37:07.225284Z\",\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-19T14:04:42.193879Z\",\"external_account\":null,\"auth\":[]},{\"id\":5,\"type\":\"user\",\"url\":\"/api/v2/users/5/\",\"related\":{\"teams\":\"/api/v2/users/5/teams/\",\"organizations\":\"/api/v2/users/5/organizations/\",\"admin_of_organizations\":\"/api/v2/users/5/admin_of_organizations/\",\"projects\":\"/api/v2/users/5/projects/\",\"credentials\":\"/api/v2/users/5/credentials/\",\"roles\":\"/api/v2/users/5/roles/\",\"activity_stream\":\"/api/v2/users/5/activity_stream/\",\"access_list\":\"/api/v2/users/5/access_list/\",\"tokens\":\"/api/v2/users/5/tokens/\",\"authorized_tokens\":\"/api/v2/users/5/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/5/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:55.217754Z\",\"username\":\"workflow_admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":6,\"type\":\"user\",\"url\":\"/api/v2/users/6/\",\"related\":{\"teams\":\"/api/v2/users/6/teams/\",\"organizations\":\"/api/v2/users/6/organizations/\",\"admin_of_organizations\":\"/api/v2/users/6/admin_of_organizations/\",\"projects\":\"/api/v2/users/6/projects/\",\"credentials\":\"/api/v2/users/6/credentials/\",\"roles\":\"/api/v2/users/6/roles/\",\"activity_stream\":\"/api/v2/users/6/activity_stream/\",\"access_list\":\"/api/v2/users/6/access_list/\",\"tokens\":\"/api/v2/users/6/tokens/\",\"authorized_tokens\":\"/api/v2/users/6/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/6/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:59.715067Z\",\"username\":\"workflow_normal\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":23,\"type\":\"user\",\"url\":\"/api/v2/users/23/\",\"related\":{\"teams\":\"/api/v2/users/23/teams/\",\"organizations\":\"/api/v2/users/23/organizations/\",\"admin_of_organizations\":\"/api/v2/users/23/admin_of_organizations/\",\"projects\":\"/api/v2/users/23/projects/\",\"credentials\":\"/api/v2/users/23/credentials/\",\"roles\":\"/api/v2/users/23/roles/\",\"activity_stream\":\"/api/v2/users/23/activity_stream/\",\"access_list\":\"/api/v2/users/23/access_list/\",\"tokens\":\"/api/v2/users/23/tokens/\",\"authorized_tokens\":\"/api/v2/users/23/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/23/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-22T07:19:34.559713Z\",\"username\":\"admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-09-09T09:30:48.534692Z\",\"external_account\":null,\"auth\":[]}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "3555"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 09 Sep 2019 10:06:04 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.504s"
+          ],
+          "X-API-Total-Time": [
+            "0.627s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      }
+    },
+    {
+      "recorded_at": "2019-09-09T12:57:26",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":4,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"user\",\"url\":\"/api/v2/users/1/\",\"related\":{\"teams\":\"/api/v2/users/1/teams/\",\"organizations\":\"/api/v2/users/1/organizations/\",\"admin_of_organizations\":\"/api/v2/users/1/admin_of_organizations/\",\"projects\":\"/api/v2/users/1/projects/\",\"credentials\":\"/api/v2/users/1/credentials/\",\"roles\":\"/api/v2/users/1/roles/\",\"activity_stream\":\"/api/v2/users/1/activity_stream/\",\"access_list\":\"/api/v2/users/1/access_list/\",\"tokens\":\"/api/v2/users/1/tokens/\",\"authorized_tokens\":\"/api/v2/users/1/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/1/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":false}},\"created\":\"2019-08-14T11:37:07.225284Z\",\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-19T14:04:42.193879Z\",\"external_account\":null,\"auth\":[]},{\"id\":5,\"type\":\"user\",\"url\":\"/api/v2/users/5/\",\"related\":{\"teams\":\"/api/v2/users/5/teams/\",\"organizations\":\"/api/v2/users/5/organizations/\",\"admin_of_organizations\":\"/api/v2/users/5/admin_of_organizations/\",\"projects\":\"/api/v2/users/5/projects/\",\"credentials\":\"/api/v2/users/5/credentials/\",\"roles\":\"/api/v2/users/5/roles/\",\"activity_stream\":\"/api/v2/users/5/activity_stream/\",\"access_list\":\"/api/v2/users/5/access_list/\",\"tokens\":\"/api/v2/users/5/tokens/\",\"authorized_tokens\":\"/api/v2/users/5/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/5/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:55.217754Z\",\"username\":\"workflow_admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":6,\"type\":\"user\",\"url\":\"/api/v2/users/6/\",\"related\":{\"teams\":\"/api/v2/users/6/teams/\",\"organizations\":\"/api/v2/users/6/organizations/\",\"admin_of_organizations\":\"/api/v2/users/6/admin_of_organizations/\",\"projects\":\"/api/v2/users/6/projects/\",\"credentials\":\"/api/v2/users/6/credentials/\",\"roles\":\"/api/v2/users/6/roles/\",\"activity_stream\":\"/api/v2/users/6/activity_stream/\",\"access_list\":\"/api/v2/users/6/access_list/\",\"tokens\":\"/api/v2/users/6/tokens/\",\"authorized_tokens\":\"/api/v2/users/6/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/6/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:59.715067Z\",\"username\":\"workflow_normal\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":23,\"type\":\"user\",\"url\":\"/api/v2/users/23/\",\"related\":{\"teams\":\"/api/v2/users/23/teams/\",\"organizations\":\"/api/v2/users/23/organizations/\",\"admin_of_organizations\":\"/api/v2/users/23/admin_of_organizations/\",\"projects\":\"/api/v2/users/23/projects/\",\"credentials\":\"/api/v2/users/23/credentials/\",\"roles\":\"/api/v2/users/23/roles/\",\"activity_stream\":\"/api/v2/users/23/activity_stream/\",\"access_list\":\"/api/v2/users/23/access_list/\",\"tokens\":\"/api/v2/users/23/tokens/\",\"authorized_tokens\":\"/api/v2/users/23/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/23/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-22T07:19:34.559713Z\",\"username\":\"admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-09-09T12:49:14.175441Z\",\"external_account\":null,\"auth\":[]}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "3555"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 09 Sep 2019 12:57:26 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "1.201s"
+          ],
+          "X-API-Total-Time": [
+            "1.382s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      }
+    },
+    {
+      "recorded_at": "2019-09-09T13:08:25",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":4,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"user\",\"url\":\"/api/v2/users/1/\",\"related\":{\"teams\":\"/api/v2/users/1/teams/\",\"organizations\":\"/api/v2/users/1/organizations/\",\"admin_of_organizations\":\"/api/v2/users/1/admin_of_organizations/\",\"projects\":\"/api/v2/users/1/projects/\",\"credentials\":\"/api/v2/users/1/credentials/\",\"roles\":\"/api/v2/users/1/roles/\",\"activity_stream\":\"/api/v2/users/1/activity_stream/\",\"access_list\":\"/api/v2/users/1/access_list/\",\"tokens\":\"/api/v2/users/1/tokens/\",\"authorized_tokens\":\"/api/v2/users/1/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/1/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":false}},\"created\":\"2019-08-14T11:37:07.225284Z\",\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-19T14:04:42.193879Z\",\"external_account\":null,\"auth\":[]},{\"id\":5,\"type\":\"user\",\"url\":\"/api/v2/users/5/\",\"related\":{\"teams\":\"/api/v2/users/5/teams/\",\"organizations\":\"/api/v2/users/5/organizations/\",\"admin_of_organizations\":\"/api/v2/users/5/admin_of_organizations/\",\"projects\":\"/api/v2/users/5/projects/\",\"credentials\":\"/api/v2/users/5/credentials/\",\"roles\":\"/api/v2/users/5/roles/\",\"activity_stream\":\"/api/v2/users/5/activity_stream/\",\"access_list\":\"/api/v2/users/5/access_list/\",\"tokens\":\"/api/v2/users/5/tokens/\",\"authorized_tokens\":\"/api/v2/users/5/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/5/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:55.217754Z\",\"username\":\"workflow_admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":6,\"type\":\"user\",\"url\":\"/api/v2/users/6/\",\"related\":{\"teams\":\"/api/v2/users/6/teams/\",\"organizations\":\"/api/v2/users/6/organizations/\",\"admin_of_organizations\":\"/api/v2/users/6/admin_of_organizations/\",\"projects\":\"/api/v2/users/6/projects/\",\"credentials\":\"/api/v2/users/6/credentials/\",\"roles\":\"/api/v2/users/6/roles/\",\"activity_stream\":\"/api/v2/users/6/activity_stream/\",\"access_list\":\"/api/v2/users/6/access_list/\",\"tokens\":\"/api/v2/users/6/tokens/\",\"authorized_tokens\":\"/api/v2/users/6/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/6/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:59.715067Z\",\"username\":\"workflow_normal\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":23,\"type\":\"user\",\"url\":\"/api/v2/users/23/\",\"related\":{\"teams\":\"/api/v2/users/23/teams/\",\"organizations\":\"/api/v2/users/23/organizations/\",\"admin_of_organizations\":\"/api/v2/users/23/admin_of_organizations/\",\"projects\":\"/api/v2/users/23/projects/\",\"credentials\":\"/api/v2/users/23/credentials/\",\"roles\":\"/api/v2/users/23/roles/\",\"activity_stream\":\"/api/v2/users/23/activity_stream/\",\"access_list\":\"/api/v2/users/23/access_list/\",\"tokens\":\"/api/v2/users/23/tokens/\",\"authorized_tokens\":\"/api/v2/users/23/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/23/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-22T07:19:34.559713Z\",\"username\":\"admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-09-09T12:49:14.175441Z\",\"external_account\":null,\"auth\":[]}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "3555"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 09 Sep 2019 13:08:25 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.404s"
+          ],
+          "X-API-Total-Time": [
+            "0.482s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      }
+    },
+    {
+      "recorded_at": "2019-09-09T13:30:59",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic <BASIC_AUTH>"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":4,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"user\",\"url\":\"/api/v2/users/1/\",\"related\":{\"teams\":\"/api/v2/users/1/teams/\",\"organizations\":\"/api/v2/users/1/organizations/\",\"admin_of_organizations\":\"/api/v2/users/1/admin_of_organizations/\",\"projects\":\"/api/v2/users/1/projects/\",\"credentials\":\"/api/v2/users/1/credentials/\",\"roles\":\"/api/v2/users/1/roles/\",\"activity_stream\":\"/api/v2/users/1/activity_stream/\",\"access_list\":\"/api/v2/users/1/access_list/\",\"tokens\":\"/api/v2/users/1/tokens/\",\"authorized_tokens\":\"/api/v2/users/1/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/1/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":false}},\"created\":\"2019-08-14T11:37:07.225284Z\",\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-19T14:04:42.193879Z\",\"external_account\":null,\"auth\":[]},{\"id\":5,\"type\":\"user\",\"url\":\"/api/v2/users/5/\",\"related\":{\"teams\":\"/api/v2/users/5/teams/\",\"organizations\":\"/api/v2/users/5/organizations/\",\"admin_of_organizations\":\"/api/v2/users/5/admin_of_organizations/\",\"projects\":\"/api/v2/users/5/projects/\",\"credentials\":\"/api/v2/users/5/credentials/\",\"roles\":\"/api/v2/users/5/roles/\",\"activity_stream\":\"/api/v2/users/5/activity_stream/\",\"access_list\":\"/api/v2/users/5/access_list/\",\"tokens\":\"/api/v2/users/5/tokens/\",\"authorized_tokens\":\"/api/v2/users/5/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/5/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:55.217754Z\",\"username\":\"workflow_admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":6,\"type\":\"user\",\"url\":\"/api/v2/users/6/\",\"related\":{\"teams\":\"/api/v2/users/6/teams/\",\"organizations\":\"/api/v2/users/6/organizations/\",\"admin_of_organizations\":\"/api/v2/users/6/admin_of_organizations/\",\"projects\":\"/api/v2/users/6/projects/\",\"credentials\":\"/api/v2/users/6/credentials/\",\"roles\":\"/api/v2/users/6/roles/\",\"activity_stream\":\"/api/v2/users/6/activity_stream/\",\"access_list\":\"/api/v2/users/6/access_list/\",\"tokens\":\"/api/v2/users/6/tokens/\",\"authorized_tokens\":\"/api/v2/users/6/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/6/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:59.715067Z\",\"username\":\"workflow_normal\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"\",\"is_superuser\":false,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":null,\"external_account\":null,\"auth\":[]},{\"id\":23,\"type\":\"user\",\"url\":\"/api/v2/users/23/\",\"related\":{\"teams\":\"/api/v2/users/23/teams/\",\"organizations\":\"/api/v2/users/23/organizations/\",\"admin_of_organizations\":\"/api/v2/users/23/admin_of_organizations/\",\"projects\":\"/api/v2/users/23/projects/\",\"credentials\":\"/api/v2/users/23/credentials/\",\"roles\":\"/api/v2/users/23/roles/\",\"activity_stream\":\"/api/v2/users/23/activity_stream/\",\"access_list\":\"/api/v2/users/23/access_list/\",\"tokens\":\"/api/v2/users/23/tokens/\",\"authorized_tokens\":\"/api/v2/users/23/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/23/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-22T07:19:34.559713Z\",\"username\":\"admin\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-09-09T12:49:14.175441Z\",\"external_account\":null,\"auth\":[]}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "3555"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Mon, 09 Sep 2019 13:30:59 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.734s"
+          ],
+          "X-API-Total-Time": [
+            "0.986s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://<HOSTNAME>/api/v2/users/?page_size=25&social_auth__isnull=True"
+      }
     }
   ],
   "recorded_with": "betamax/0.8.1"

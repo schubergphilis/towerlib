@@ -33,7 +33,7 @@ Import all parts from entities here.
 """
 
 
-from towerlib.entities.credential import Credential, CredentialType
+from towerlib.entities.credential import Credential, CredentialType, GenericCredential
 from towerlib.entities.group import Group
 from towerlib.entities.host import Host
 from towerlib.entities.instance import Instance, InstanceGroup
@@ -51,7 +51,7 @@ from towerlib.entities.core import (Entity,
                                     Config,
                                     LicenseInfo,
                                     LicenseFeatures,
-                                    CERTIFICATE_TYPE_KINDS,
+                                    VALID_CREDENTIAL_TYPES,
                                     JOB_TYPES,
                                     VERBOSITY_LEVELS,
                                     Cluster,
@@ -89,7 +89,7 @@ assert Entity
 assert Config
 assert LicenseInfo
 assert LicenseFeatures
-assert CERTIFICATE_TYPE_KINDS
+assert VALID_CREDENTIAL_TYPES
 assert JOB_TYPES
 assert VERBOSITY_LEVELS
 assert Organization
@@ -103,6 +103,7 @@ assert Instance
 assert InstanceGroup
 assert CredentialType
 assert Credential
+assert GenericCredential
 assert JobTemplate
 assert Role
 assert ObjectRole
@@ -116,7 +117,6 @@ assert Job
 assert Cluster
 assert ClusterInstance
 assert EntityManager
-assert Notification
 assert Notification
 assert NotificationTemplate
 assert NotificationIRC

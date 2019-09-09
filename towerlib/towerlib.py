@@ -54,7 +54,7 @@ from .entities import (Config,  # pylint: disable=unused-import  # NOQA
                        CredentialType,
                        Credential,
                        JobTemplate,
-                       CERTIFICATE_TYPE_KINDS,
+                       VALID_CREDENTIAL_TYPES,
                        JOB_TYPES,
                        VERBOSITY_LEVELS,
                        Cluster,
@@ -64,7 +64,6 @@ from .towerlibexceptions import (AuthFailed,
                                  InvalidOrganization,
                                  InvalidInventory,
                                  InvalidVariables,
-                                 InvalidCredentialTypeKind,
                                  InvalidUser,
                                  InvalidTeam,
                                  InvalidCredential,
@@ -242,6 +241,8 @@ class Tower:  # pylint: disable=too-many-public-methods
         payload = {'name': name,
                    'description': description}
         response = self.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error creating organization, response was: "%s"', response.text)
         return Organization(self, response.json()) if response.ok else None
 
     def delete_organization(self, name):
@@ -1103,7 +1104,7 @@ class Tower:  # pylint: disable=too-many-public-methods
     def create_credential_type(self,  # pylint: disable=too-many-arguments
                                name,
                                description,
-                               kind,
+                               type_,
                                inputs_='{}',
                                injectors='{}'):
         """Creates a credential type in tower.
@@ -1111,7 +1112,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         Args:
             name: The name of the credential type.
             description: The description of the credential type.
-            kind: The kind of credential type.Valid values (u'scm', u'ssh', u'vault', u'net', u'cloud', u'insights').
+            type_: The kind of credential type.Valid values (u'scm', u'ssh', u'vault', u'net', u'cloud', u'insights').
             inputs_ (str): A json of the inputs to set to the credential type.
             injectors (str): A json of the injectors to set to the credential type.
 
@@ -1123,11 +1124,11 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidVariables: The inputs or injectors provided as argument is not valid json.
 
         """
-        if kind.lower() not in CERTIFICATE_TYPE_KINDS:
-            raise InvalidCredentialTypeKind(kind)
+        if type_.lower() not in VALID_CREDENTIAL_TYPES:
+            raise InvalidCredentialType(type_)
         payload = {'name': name,
                    'description': description,
-                   'kind': kind.lower()}
+                   'kind': type_.lower()}
         if not validate_json(inputs_):
             raise InvalidVariables(inputs_)
         if not validate_json(injectors):
@@ -1136,6 +1137,8 @@ class Tower:  # pylint: disable=too-many-public-methods
         payload['injectors'] = json.loads(injectors)
         url = '{api}/credential_types/'.format(api=self.api)
         response = self.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error creating credential type "%s", response was: "%s"', type_, response.text)
         return CredentialType(self, response.json()) if response.ok else None
 
     def delete_credential_type(self, name):
@@ -1200,7 +1203,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         # return self.credentials.filter({'name__iexact': name})
         credential_type_ = self.get_credential_type_by_name(credential_type)
         if not credential_type_:
-            raise InvalidCredentialType(name)
+            raise InvalidCredentialType(credential_type)
         organization_ = self.get_organization_by_name(organization)
         if not organization_:
             raise InvalidOrganization(organization)
@@ -1243,14 +1246,14 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.credentials.filter({'id': id_}), None)
 
-    def create_credential_with_credential_id(self,  # pylint: disable=too-many-arguments
-                                             name: str,
-                                             credential_type_id: int,
-                                             description='',
-                                             organization_id=None,
-                                             user_id=None,
-                                             team_id=None,
-                                             inputs='{}'):
+    def create_credential_with_credential_type_id(self,  # pylint: disable=too-many-arguments
+                                                  name: str,
+                                                  credential_type_id: int,
+                                                  description='',
+                                                  organization_id=None,
+                                                  user_id=None,
+                                                  team_id=None,
+                                                  inputs='{}'):
         """Creates a credential using the id  of the provided credential type.
 
         Args:
@@ -1278,6 +1281,8 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         url = '{api}/credentials/'.format(api=self.api)
         response = self.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error creating credential "%s", response was: "%s"', name, response.text)
         return Credential(self, response.json()) if response.ok else None
 
     def create_credential_in_organization(self,  # pylint: disable=too-many-arguments
@@ -1324,21 +1329,14 @@ class Tower:  # pylint: disable=too-many-public-methods
             raise InvalidCredentialType(credential_type)
         if not validate_json(inputs_):
             raise InvalidVariables(inputs_)
-
-        return self.create_credential_with_credential_id(
-            name,
-            credential_type_.id,
-            description=description,
-            user_id=user_.id,
-            team_id=team_.id,
-            organization_id=organization_.id,
-            inputs=inputs_
-        )
-
-        # payload['inputs'] = json.loads(inputs_)
-        # url = '{api}/credentials/'.format(api=self.api)
-        # response = self.session.post(url, json=payload)
-        # return Credential(self, response.json()) if response.ok else None
+        return self.create_credential_with_credential_type_id(name,
+                                                              credential_type_.id,
+                                                              description=description,
+                                                              user_id=user_.id,
+                                                              team_id=team_.id,
+                                                              organization_id=organization_.id,
+                                                              inputs=inputs_
+                                                              )
 
     def create_credential_in_organization_with_type_id(self,  # pylint: disable=too-many-arguments
                                                        organization,
@@ -1356,7 +1354,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             description (str): The description of the credential to create.
             user (str): The username of the user to assign to the credential.
             team (str): The name of the team to assign to the credential.
-            credential_type (int): The number of the type of the credential.
+            credential_type_id (int): The number of the type of the credential.
             inputs_ s(str): A json with the values to set to the credential according to what is required by its type.
 
         Returns:
@@ -1389,6 +1387,8 @@ class Tower:  # pylint: disable=too-many-public-methods
         payload['inputs'] = json.loads(inputs_)
         url = '{api}/credentials/'.format(api=self.api)
         response = self.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error creating credential "%s", response was: "%s"', name, response.text)
         return Credential(self, response.json()) if response.ok else None
 
     def delete_organization_credential_by_name(self, organization, name, credential_type):
@@ -1410,7 +1410,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         credential_type_ = self.get_credential_type_by_name(credential_type)
         if not credential_type_:
-            raise InvalidCredentialType(name)
+            raise InvalidCredentialType(credential_type)
         organization_ = self.get_organization_by_name(organization)
         if not organization_:
             raise InvalidOrganization(organization)
@@ -1652,6 +1652,8 @@ class Tower:  # pylint: disable=too-many-public-methods
                    'allow_simultaneous': allow_simultaneous}
         url = '{api}/job_templates/'.format(api=self.api)
         response = self.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error creating job template, response was: "%s"', response.text)
         return JobTemplate(self, response.json()) if response.ok else None
 
     @property

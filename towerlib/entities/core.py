@@ -50,12 +50,12 @@ __email__ = '''<ctyfoxylos@schubergphilis.com>'''
 __status__ = '''Development'''  # "Prototype", "Development", "Production".
 
 # This is the main prefix used for logging
-LOGGER_BASENAME = '''misc'''
+LOGGER_BASENAME = '''core'''
 LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
 
 USER_LEVELS = (u'standard', u'system_auditor', u'system_administrator')
-CERTIFICATE_TYPE_KINDS = (u'scm', u'ssh', u'vault', u'net', u'cloud', u'insights')
+VALID_CREDENTIAL_TYPES = (u'net', u'cloud')
 JOB_TYPES = (u'run', u'check')
 VERBOSITY_LEVELS = (0, 1, 2, 3, 4)
 

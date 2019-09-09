@@ -38,7 +38,6 @@ from .towerlibexceptions import (AuthFailed,
                                  InvalidOrganization,
                                  InvalidVariables,
                                  InvalidInventory,
-                                 InvalidCredentialTypeKind,
                                  InvalidUser,
                                  InvalidTeam,
                                  InvalidCredential,
@@ -98,7 +97,6 @@ assert InvalidUserLevel
 assert InvalidOrganization
 assert InvalidVariables
 assert InvalidInventory
-assert InvalidCredentialTypeKind
 assert InvalidUser
 assert InvalidTeam
 assert InvalidCredential

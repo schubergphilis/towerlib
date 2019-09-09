@@ -69,13 +69,6 @@ class InvalidCredentialType(Exception):
     """The credential type provided is invalid."""
 
 
-class InvalidCredentialTypeKind(Exception):
-    """The credential type kind provided is invalid.
-
-    Valid values (u'scm', u'ssh', u'vault', u'net', u'cloud', u'insights')
-    """
-
-
 class InvalidUser(Exception):
     """The user provided is invalid."""
 

@@ -34,6 +34,7 @@ Tests for `towerlib` module.
 """
 
 import time
+import copy
 
 from towerlib.entities import (Cluster,
                                EntityManager,
@@ -44,7 +45,9 @@ from towerlib.entities import (Cluster,
                                Group,
                                Inventory,
                                Host,
-                               CredentialType)
+                               CredentialType,
+                               GenericCredential,
+                               JobTemplate)
 from towerlib.towerlibexceptions import (AuthFailed,
                                          InvalidOrganization,
                                          InvalidUser,
@@ -54,7 +57,14 @@ from towerlib.towerlibexceptions import (AuthFailed,
                                          InvalidInventory,
                                          InvalidGroup,
                                          InvalidVariables,
-                                         InvalidHost)
+                                         InvalidHost,
+                                         InvalidCredentialType,
+                                         InvalidPlaybook,
+                                         InvalidInstanceGroup,
+                                         InvalidJobType,
+                                         InvalidVerbosity)
+
+
 from . import IntegrationTest, placeholders
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
@@ -202,11 +212,12 @@ class TestTowerlib(IntegrationTest):
                                                                 'Test Credential',
                                                                 'https://github.com/ansible/ansible-tower-samples')
             self.assertIsInstance(project, Project)
+            url = 'https://github.com/ansible/ansible-tower-samples'
             duplicate_project = self.tower.create_project_in_organization('Default',
                                                                           'Project_name',
                                                                           'description',
                                                                           'Test Credential',
-                                                                          'https://github.com/ansible/ansible-tower-samples')
+                                                                          url)
             self.assertFalse(duplicate_project)
             with self.assertRaises(InvalidOrganization):
                 self.tower.create_project_in_organization('NoOrg',
@@ -415,104 +426,320 @@ class TestTowerlib(IntegrationTest):
             self.assertIsNone(self.tower.get_credential_type_by_name('Amazon Web ServicesBroken'))
             self.assertTrue(credential_type.name == self.tower.get_credential_type_by_id(credential_type.id).name)
 
+    def test_tower_credential_types(self):
+        with self.recorder:
+            self.assertEqual(len(list(self.tower.tower_credential_types)), 19)
 
-    # def test_basic_workflow(self):
-    #     with self.recorder:
-    #         org_name = "workflow"
-    #         team_name = "workflow_team"
-    #         user_admin_name = "workflow_admin"
-    #         user_normal_name = "workflow_normal"
-    #
-    #         # Create organization
-    #         org = self.tower.create_organization(org_name)
-    #         self.assertIsNotNone(org)
-    #
-    #         # Create a Team
-    #         team = self.tower.create_team_in_organization(org_name, team_name)
-    #         self.assertIsNotNone(team)
-    #
-    #         # Create user, assign user to organization and team
-    #         user_admin = self.tower.create_user(user_admin_name, "password")
-    #         self.assertIsNotNone(user_admin)
-    #         self.assertTrue(user_admin.associate_organization_role(org, 'Member'))
-    #         self.assertTrue(user_admin.associate_organization_role(org, 'Admin'))
-    #         # self.assertTrue(team.add_user_as_member(user_admin.username))
-    #
-    #         # Create user, assign user to organization and team
-    #         user_normal = self.tower.create_user(user_normal_name, "password")
-    #         self.assertIsNotNone(user_normal)
-    #         self.assertTrue(user_normal.associate_organization_role(org, 'Member'))
-    #         self.assertTrue(user_normal.associate_organization_role(org, 'Execute'))
-    #         # self.assertTrue(team.add_user_as_member(user_normal.username))
-    #
-    #         # Create a credential
-    #         credential = self.tower.create_credential_in_organization(
-    #             org.name,
-    #             'Test Credential',
-    #             'Description',
-    #             user_admin_name,
-    #             team.name,
-    #             'Source Control',
-    #         )
-    #         self.assertIsNotNone(credential)
-    #
-    #         # Create a project to the organization
-    #         project = self.tower.create_project_in_organization(
-    #             org_name,
-    #             "Test project",
-    #             "Description",
-    #             credential.name,
-    #             "https://github.com/ansible/ansible-tower-samples",
-    #             scm_update_on_launch=False,
-    #             scm_clean=False
-    #         )
-    #         self.assertIsNotNone(project)
-    #
-    #         inventory = self.tower.create_inventory_in_organization(
-    #             org_name,
-    #             'Test Inventory',
-    #             'Test Description'
-    #         )
-    #         self.assertIsNotNone(inventory)
-    #
-    #         host = inventory.create_host("example.com", "Test hostname")
-    #         self.assertIsNotNone(host)
-    #
-    #         group = inventory.create_group("Test Group", "Test Groups")
-    #         self.assertIsNotNone(group)
-    #
-    #         host_r = self.tower.get_inventory_host_by_name(org_name, inventory.name, "example.com")
-    #         self.assertIsNotNone(host_r)
-    #
-    #         # We need to fully checkout the project before we can create the template
-    #         # @TODO: Fix the create_job_template to allow creation without validating if it exists or not
-    #         if not self.tower.mock:
-    #             time.sleep(90)
-    #
-    #         jt = self.tower.create_job_template(
-    #             "Test Template",
-    #             "Test Description",
-    #             org_name,
-    #             inventory.name,
-    #             project.name,
-    #             "hello_world.yml",
-    #             credential.name,
-    #             'Source Control'
-    #         )
-    #         self.assertIsNotNone(jt)
-    #
-    #         self.assertTrue(self.tower.delete_job_template(jt.name))
-    #         self.assertTrue(self.tower.delete_inventory_group(org_name, inventory.name, group.name))
-    #         self.assertTrue(self.tower.delete_inventory_host(org_name, inventory.name, host.name))
-    #         self.assertTrue(self.tower.delete_organization_inventory(org_name, inventory.name))
-    #         self.assertTrue(self.tower.delete_organization_credential_by_name(org_name, credential.name,
-    #                                                                           'Source Control'))
-    #         self.assertTrue(self.tower.delete_user(user_admin.username))
-    #         self.assertTrue(self.tower.delete_user(user_normal.username))
-    #
-    #         # Project requires a full checkout before it can be deleted. So we will need to wait a bit before
-    #         # deleting it
-    #         self.assertTrue(project.delete())
-    #
-    #         self.assertTrue(self.tower.delete_team_in_organization(org_name, team_name))
-    #         self.assertTrue(self.tower.delete_organization(org.name))
+    def test_custom_credential_types(self):
+        with self.recorder:
+            self.assertEqual(len(list(self.tower.custom_credential_types)), 1)
+
+    def test_credential_type_lifecycle(self):
+        with self.recorder:
+            credential = self.tower.create_credential_type('Test Credential Type',
+                                                           'This is the description',
+                                                           'net',
+                                                           '{}',
+                                                           '{}')
+            self.assertIsInstance(credential, CredentialType)
+            duplicate_credential = self.tower.create_credential_type('Test Credential Type',
+                                                                     'This is the description',
+                                                                     'net',
+                                                                     '{}',
+                                                                     '{}')
+            self.assertIsNone(duplicate_credential)
+            self.assertTrue(self.tower.delete_credential_type('Test Credential Type'))
+            with self.assertRaises(InvalidCredentialType):
+                self.tower.create_credential_type('Test Credential Type',
+                                                  'This is the description',
+                                                  'garbage',
+                                                  '{}',
+                                                  '{}')
+            with self.assertRaises(InvalidVariables):
+                self.tower.create_credential_type('Test Credential Type',
+                                                  'This is the description',
+                                                  'net',
+                                                  'agadgffdsagsdffg',
+                                                  '{}')
+            with self.assertRaises(InvalidVariables):
+                self.tower.create_credential_type('Test Credential Type',
+                                                  'This is the description',
+                                                  'net',
+                                                  '{}',
+                                                  'agadgffdsagsdffg')
+            with self.assertRaises(InvalidCredentialType):
+                self.tower.delete_credential_type('Non Existent Credential Type')
+
+    def test_credentials(self):
+        with self.recorder:
+            self.assertIsInstance(self.tower.credentials, EntityManager)
+            credentials_list = list(self.tower.get_credentials_by_name('Test Credential'))
+            self.assertEqual(len(credentials_list), 2)
+            credential = credentials_list[0]
+            self.assertIsInstance(credential, GenericCredential)
+            with self.assertRaises(InvalidCredentialType):
+                _ = self.tower.get_organization_credential_by_name('Default',
+                                                                   'Test Credential',
+                                                                   'Garbage Credential Type')
+            with self.assertRaises(InvalidOrganization):
+                _ = self.tower.get_organization_credential_by_name('DefaultGarbage',
+                                                                   'Test Credential',
+                                                                   'Source Control')
+            self.assertIsNone(self.tower.get_credential_type_by_name('Amazon Web ServicesBroken'))
+            credential = self.tower.get_organization_credential_by_name('Default',
+                                                                        'Test Credential',
+                                                                        'Source Control')
+            self.assertIsInstance(credential, GenericCredential)
+            with self.assertRaises(InvalidOrganization):
+                _ = self.tower.get_organization_credential_by_name_with_type_id('DefaultGarbage',
+                                                                                'Test Credential',
+                                                                                '2')
+            credential = self.tower.get_organization_credential_by_name_with_type_id('Default',
+                                                                                     'Test Credential',
+                                                                                     '2')
+            self.assertIsInstance(credential, GenericCredential)
+            credential = self.tower.get_credential_by_id('2')
+            self.assertIsInstance(credential, GenericCredential)
+            self.assertIsNone(self.tower.get_credential_by_id('99999'))
+
+    def test_credentials_lifecycle(self):
+        with self.recorder:
+            self.assertIsNone(self.tower.create_credential_with_credential_type_id('Testing',
+                                                                                   '9999',
+                                                                                   'description'))
+            self.assertIsNone(self.tower.create_credential_with_credential_type_id('Testing',
+                                                                                   '2',
+                                                                                   'description',
+                                                                                   '999'))
+            self.assertIsNone(self.tower.create_credential_with_credential_type_id('Testing',
+                                                                                   '2',
+                                                                                   'description',
+                                                                                   '1',
+                                                                                   '999'))
+            self.assertIsNone(self.tower.create_credential_with_credential_type_id('Testing',
+                                                                                   '2',
+                                                                                   'description',
+                                                                                   '1',
+                                                                                   '5',
+                                                                                   '999'))
+            credential = self.tower.create_credential_with_credential_type_id('Testing',
+                                                                              '2',
+                                                                              'description',
+                                                                              '1',
+                                                                              '5',
+                                                                              '1')
+            self.assertIsInstance(credential, GenericCredential)
+            self.assertTrue(credential.delete())
+            with self.assertRaises(InvalidOrganization):
+                self.tower.create_credential_in_organization('BrokenOrg',
+                                                             'CredName',
+                                                             'CredDescription',
+                                                             'workflow_admin',
+                                                             'workflow_team',
+                                                             'Source Control',
+                                                             '{}')
+            with self.assertRaises(InvalidUser):
+                self.tower.create_credential_in_organization('workflow',
+                                                             'CredName',
+                                                             'CredDescription',
+                                                             'workflow_adminBroken',
+                                                             'workflow_team',
+                                                             'Source Control',
+                                                             '{}')
+            with self.assertRaises(InvalidTeam):
+                self.tower.create_credential_in_organization('workflow',
+                                                             'CredName',
+                                                             'CredDescription',
+                                                             'workflow_admin',
+                                                             'workflow_teamBroken',
+                                                             'Source Control',
+                                                             '{}')
+            with self.assertRaises(InvalidCredentialType):
+                self.tower.create_credential_in_organization('workflow',
+                                                             'CredName',
+                                                             'CredDescription',
+                                                             'workflow_admin',
+                                                             'workflow_team',
+                                                             'Source Control Broken',
+                                                             '{}')
+            with self.assertRaises(InvalidVariables):
+                self.tower.create_credential_in_organization('workflow',
+                                                             'CredName',
+                                                             'CredDescription',
+                                                             'workflow_admin',
+                                                             'workflow_team',
+                                                             'Source Control',
+                                                             'garbage')
+            credential = self.tower.create_credential_in_organization('workflow',
+                                                                      'CredName',
+                                                                      'CredDescription',
+                                                                      'workflow_admin',
+                                                                      'workflow_team',
+                                                                      'Source Control',
+                                                                      '{}')
+            self.assertIsInstance(credential, GenericCredential)
+            with self.assertRaises(InvalidOrganization):
+                self.tower.create_credential_in_organization_with_type_id('BrokenOrg',
+                                                                          'CredName2',
+                                                                          'CredDescription',
+                                                                          'workflow_admin',
+                                                                          'workflow_team',
+                                                                          'Source Control',
+                                                                          '{}')
+            with self.assertRaises(InvalidUser):
+                self.tower.create_credential_in_organization_with_type_id('workflow',
+                                                                          'CredName2',
+                                                                          'CredDescription',
+                                                                          'workflow_adminBroken',
+                                                                          'workflow_team',
+                                                                          'Source Control',
+                                                                          '{}')
+            with self.assertRaises(InvalidTeam):
+                self.tower.create_credential_in_organization_with_type_id('workflow',
+                                                                          'CredName2',
+                                                                          'CredDescription',
+                                                                          'workflow_admin',
+                                                                          'workflow_teamBroken',
+                                                                          'Source Control',
+                                                                          '{}')
+            with self.assertRaises(InvalidVariables):
+                self.tower.create_credential_in_organization_with_type_id('workflow',
+                                                                          'CredName2',
+                                                                          'CredDescription',
+                                                                          'workflow_admin',
+                                                                          'workflow_team',
+                                                                          'Source Control',
+                                                                          'garbage')
+            credential_with_type_id = self.tower.create_credential_in_organization_with_type_id('workflow',
+                                                                                                'CredName2',
+                                                                                                'CredDescription',
+                                                                                                'workflow_admin',
+                                                                                                'workflow_team',
+                                                                                                '2',
+                                                                                                '{}')
+            self.assertIsInstance(credential_with_type_id, GenericCredential)
+            self.assertIsNone(self.tower.create_credential_in_organization_with_type_id('workflow',
+                                                                                        'CredName2',
+                                                                                        'CredDescription',
+                                                                                        'workflow_admin',
+                                                                                        'workflow_team',
+                                                                                        '2',
+                                                                                        '{}'))
+            with self.assertRaises(InvalidOrganization):
+                self.tower.delete_organization_credential_by_name('workflowBroken',
+                                                                  'CredName',
+                                                                  'Source Control')
+            with self.assertRaises(InvalidCredentialType):
+                self.tower.delete_organization_credential_by_name('workflow',
+                                                                  'CredName',
+                                                                  'Source ControlBroken')
+            with self.assertRaises(InvalidCredential):
+                self.tower.delete_organization_credential_by_name('workflow',
+                                                                  'CredNameBroken',
+                                                                  'Source Control')
+            self.assertTrue(self.tower.delete_organization_credential_by_name('workflow',
+                                                                              'CredName',
+                                                                              'Source Control'))
+            with self.assertRaises(InvalidOrganization):
+                self.tower.delete_organization_credential_by_name_with_type_id('workflowBroken',
+                                                                               'CredName2',
+                                                                               '2')
+            with self.assertRaises(InvalidCredential):
+                self.tower.delete_organization_credential_by_name_with_type_id('workflow',
+                                                                               'CredNameBroken',
+                                                                               '2')
+            self.assertTrue(self.tower.delete_organization_credential_by_name_with_type_id('workflow',
+                                                                                           'CredName2',
+                                                                                           '2'))
+
+    def test_job_templates(self):
+        with self.recorder:
+            self.assertIsInstance(self.tower.job_templates, EntityManager)
+
+    def test_job_templates_lifecycle(self):
+        arguments = dict(name='Demo Job Template 2',
+                         description='Description of job template',
+                         organization='workflow',
+                         inventory='Test Inventory',
+                         project='Test Project',
+                         playbook='hello_world.yml',
+                         credential='Test Credential',
+                         credential_type='Source Control',
+                         instance_groups=None,
+                         host_config_key=None,
+                         job_type='run',
+                         vault_credential=None,
+                         forks=0,
+                         limit=0,
+                         verbosity=0,
+                         extra_vars='',
+                         job_tags='',
+                         force_handlers=False,
+                         skip_tags='',
+                         start_at_task='',
+                         timeout=0,
+                         use_fact_cache=False,
+                         ask_diff_mode_on_launch=False,
+                         ask_variables_on_launch=False,
+                         ask_limit_on_launch=False,
+                         ask_tags_on_launch=False,
+                         ask_skip_tags_on_launch=False,
+                         ask_job_type_on_launch=False,
+                         ask_verbosity_on_launch=False,
+                         ask_inventory_on_launch=False,
+                         ask_credential_on_launch=False,
+                         survey_enabled=False,
+                         become_enabled=False,
+                         diff_mode=False,
+                         allow_simultaneous=False)
+        with self.recorder:
+            with self.assertRaises(InvalidInventory):
+                args = copy.deepcopy(arguments)
+                args['inventory'] = 'Broken'
+                _ = self.tower.create_job_template(**args)
+            with self.assertRaises(InvalidProject):
+                args = copy.deepcopy(arguments)
+                args['project'] = 'Broken'
+                _ = self.tower.create_job_template(**args)
+            with self.assertRaises(InvalidPlaybook):
+                args = copy.deepcopy(arguments)
+                args['playbook'] = 'Broken'
+                _ = self.tower.create_job_template(**args)
+            with self.assertRaises(InvalidCredential):
+                args = copy.deepcopy(arguments)
+                args['credential'] = 'Broken'
+                _ = self.tower.create_job_template(**args)
+            with self.assertRaises(InvalidInstanceGroup):
+                args = copy.deepcopy(arguments)
+                args['instance_groups'] = 'Broken'
+                _ = self.tower.create_job_template(**args)
+            with self.assertRaises(InvalidJobType):
+                args = copy.deepcopy(arguments)
+                args['job_type'] = 'Broken'
+                _ = self.tower.create_job_template(**args)
+            with self.assertRaises(InvalidVerbosity):
+                args = copy.deepcopy(arguments)
+                args['verbosity'] = 11
+                _ = self.tower.create_job_template(**args)
+            arguments['instance_groups'] = 'tower'
+            job_template = self.tower.create_job_template(**arguments)
+            self.assertIsInstance(job_template, JobTemplate)
+            self.assertIsNone(self.tower.create_job_template(**arguments))
+            job_template_by_name = self.tower.get_job_template_by_name(job_template.name)
+            self.assertEqual(job_template.id, job_template_by_name.id)
+            job_template_by_id = self.tower.get_job_template_by_id(job_template.id)
+            self.assertEqual(job_template.id, job_template_by_id.id)
+            self.assertTrue(self.tower.delete_job_template(job_template.name))
+
+    def test_roles(self):
+        with self.recorder:
+            self.assertIsInstance(self.tower.roles, EntityManager)
+
+    def test_notification_templates(self):
+        with self.recorder:
+            self.assertIsInstance(self.tower.notification_templates, EntityManager)
+
+    def test_object_by_url(self):
+        url = '/api/v2/users/23/'
+        user = self.tower._get_object_by_url('User', url)
+        self.assertIsInstance(user, User)
