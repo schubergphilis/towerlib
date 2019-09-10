@@ -108,6 +108,9 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         playbook_url = self._data.get('related', {}).get('playbooks')
         url = '{host}{playbook_url}'.format(host=self._tower.host, playbook_url=playbook_url)
         response = self._tower.session.get(url)
+        if not response.ok:
+            self._logger.error('Error getting playbooks for project "%s", response was :"%s"', self.name,
+                               response.text)
         return response.json() if response.ok else None
 
     @property
@@ -191,22 +194,6 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._data.get('local_path')
-
-    @local_path.setter
-    def local_path(self, value):
-        """Update the internal local path of the project.
-
-        Returns:
-            None:
-
-        """
-        max_characters = 1024
-        conditions = [validate_max_length(value, max_characters)]
-        if all(conditions):
-            self._update_values('local_path', value)
-        else:
-            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
-                               '{max_characters}'.format(value=value, max_characters=max_characters))
 
     @property
     def scm_type(self):

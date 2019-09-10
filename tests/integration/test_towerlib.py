@@ -62,6 +62,7 @@ from towerlib.towerlibexceptions import (AuthFailed,
                                          InvalidPlaybook,
                                          InvalidInstanceGroup,
                                          InvalidJobType,
+                                         InvalidJobTemplate,
                                          InvalidVerbosity)
 
 
@@ -78,6 +79,9 @@ __email__ = '''<ctyfoxylos@schubergphilis.com>'''
 __status__ = '''Development'''  # "Prototype", "Development", "Production".
 
 
+TIMEOUT_IN_SECONDS = 90
+
+
 class Timeout:
     def __init__(self, seconds):
         self.seconds = seconds
@@ -90,7 +94,7 @@ class Timeout:
         pass
 
     @property
-    def timed_out(self):
+    def reached(self):
         return time.time() > self.die_after
 
 
@@ -231,9 +235,9 @@ class TestTowerlib(IntegrationTest):
                                                           'description',
                                                           'No Credential',
                                                           'https://github.com/ansible/ansible-tower-samples')
-            with Timeout(60) as timeout:
+            with Timeout(TIMEOUT_IN_SECONDS) as timeout:
                 while project.status != 'successful':
-                    if timeout.timed_out:
+                    if timeout.reached:
                         raise TimeoutError
                     time.sleep(1)
             self.assertTrue(self.tower.delete_organization_project('Default', 'Project_name'))
@@ -729,6 +733,8 @@ class TestTowerlib(IntegrationTest):
             self.assertEqual(job_template.id, job_template_by_name.id)
             job_template_by_id = self.tower.get_job_template_by_id(job_template.id)
             self.assertEqual(job_template.id, job_template_by_id.id)
+            with self.assertRaises(InvalidJobTemplate):
+                self.tower.delete_job_template('NoneExistentJobTemplate')
             self.assertTrue(self.tower.delete_job_template(job_template.name))
 
     def test_roles(self):

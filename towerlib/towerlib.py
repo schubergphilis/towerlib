@@ -451,7 +451,7 @@ class Tower:  # pylint: disable=too-many-public-methods
                                 email=email)
         if not user:
             return False
-        user.associate_with_organization_role(organization_, Organization.DEFAULT_MEMBER_ROLE)
+        user.associate_with_organization_role(organization, Organization.DEFAULT_MEMBER_ROLE)
         return user
 
     @property

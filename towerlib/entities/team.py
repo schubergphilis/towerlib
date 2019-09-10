@@ -219,6 +219,19 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
                              primary_match_field='name',
                              url=url)
 
+    def get_user_by_username(self, username):
+        """Retrieves a user of the team by its username
+
+        Args:
+            username: The username of the user to retrieve.
+
+        Returns:
+            user (User) on success, None otherwise.
+
+        """
+        return next((user for user in self.users
+                     if user.username.lower() == username.lower()), None)
+
     def add_user_as_member(self, username):
         """Adds a user as a member of the team.
 
@@ -306,30 +319,6 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._post_project_permission(project_name, 'admin')
 
-    def add_project_permission_update(self, project_name):
-        """Adds a project with update permissions.
-
-        Args:
-            project_name: The name of the project to add.
-
-        Returns:
-            True on success, False otherwise.
-
-        """
-        return self._post_project_permission(project_name, 'update')
-
-    def add_project_permission_use(self, project_name):
-        """Adds a project with use permissions.
-
-        Args:
-            project_name: The name of the project to add.
-
-        Returns:
-            True on success, False otherwise.
-
-        """
-        return self._post_project_permission(project_name, 'use')
-
     def remove_project_permission_admin(self, project_name):
         """Removes a project with admin permissions.
 
@@ -342,6 +331,18 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._post_project_permission(project_name, 'admin', remove=True)
 
+    def add_project_permission_update(self, project_name):
+        """Adds a project with update permissions.
+
+        Args:
+            project_name: The name of the project to add.
+
+        Returns:
+            True on success, False otherwise.
+
+        """
+        return self._post_project_permission(project_name, 'update')
+
     def remove_project_permission_update(self, project_name):
         """Removes a project with update permissions.
 
@@ -353,6 +354,18 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._post_project_permission(project_name, 'update', remove=True)
+
+    def add_project_permission_use(self, project_name):
+        """Adds a project with use permissions.
+
+        Args:
+            project_name: The name of the project to add.
+
+        Returns:
+            True on success, False otherwise.
+
+        """
+        return self._post_project_permission(project_name, 'use')
 
     def remove_project_permission_use(self, project_name):
         """Removes a project with use permissions.
@@ -378,18 +391,6 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._post_job_template_permission(job_template_name, 'admin')
 
-    def add_job_template_permission_execute(self, job_template_name):
-        """Adds a job template with execute permissions.
-
-        Args:
-            job_template_name: The name of the job template to add.
-
-        Returns:
-            True on success, False otherwise.
-
-        """
-        return self._post_job_template_permission(job_template_name, 'execute')
-
     def remove_job_template_permission_admin(self, job_template_name):
         """Removes a job template with admin permissions.
 
@@ -401,6 +402,18 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._post_job_template_permission(job_template_name, 'admin', remove=True)
+
+    def add_job_template_permission_execute(self, job_template_name):
+        """Adds a job template with execute permissions.
+
+        Args:
+            job_template_name: The name of the job template to add.
+
+        Returns:
+            True on success, False otherwise.
+
+        """
+        return self._post_job_template_permission(job_template_name, 'execute')
 
     def remove_job_template_permission_execute(self, job_template_name):
         """Removes a job template with execute permissions.
@@ -426,6 +439,18 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._post_inventory_permission(inventory_name, 'admin')
 
+    def remove_inventory_permission_admin(self, inventory_name):
+        """Removes an inventory with admin permissions.
+
+        Args:
+            inventory_name: The name of the inventory to remove.
+
+        Returns:
+            True on success, False otherwise.
+
+        """
+        return self._post_inventory_permission(inventory_name, 'admin', remove=True)
+
     def add_inventory_permission_use(self, inventory_name):
         """Adds an inventory with use permissions.
 
@@ -438,41 +463,6 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._post_inventory_permission(inventory_name, 'use')
 
-    def add_inventory_permission_update(self, inventory_name):
-        """Adds an inventory with update permissions.
-
-        Args:
-            inventory_name: The name of the inventory to add.
-
-        Returns:
-            True on success, False otherwise.
-
-        """
-        return self._post_inventory_permission(inventory_name, 'update')
-
-    def add_inventory_permission_ad_hoc(self, inventory_name):
-        """Adds an inventory with ad hoc permissions.
-
-        Args:
-            inventory_name: The name of the inventory to add.
-
-        Returns:
-            True on success, False otherwise.
-
-        """
-        return self._post_inventory_permission(inventory_name, 'ad hoc')
-
-    def remove_inventory_permission_admin(self, inventory_name):
-        """Removes an inventory with admin permissions.
-
-        Args:
-            inventory_name: The name of the inventory to remove.
-
-        Returns:
-            True on success, False otherwise.
-
-        """
-        return self._post_inventory_permission(inventory_name, 'admin', remove=True)
 
     def remove_inventory_permission_use(self, inventory_name):
         """Removes an inventory with use permissions.
@@ -486,6 +476,18 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._post_inventory_permission(inventory_name, 'use', remove=True)
 
+    def add_inventory_permission_update(self, inventory_name):
+        """Adds an inventory with update permissions.
+
+        Args:
+            inventory_name: The name of the inventory to add.
+
+        Returns:
+            True on success, False otherwise.
+
+        """
+        return self._post_inventory_permission(inventory_name, 'update')
+
     def remove_inventory_permission_update(self, inventory_name):
         """Removes an inventory with update permissions.
 
@@ -497,6 +499,18 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._post_inventory_permission(inventory_name, 'update', remove=True)
+
+    def add_inventory_permission_ad_hoc(self, inventory_name):
+        """Adds an inventory with ad hoc permissions.
+
+        Args:
+            inventory_name: The name of the inventory to add.
+
+        Returns:
+            True on success, False otherwise.
+
+        """
+        return self._post_inventory_permission(inventory_name, 'ad hoc')
 
     def remove_inventory_permission_ad_hoc(self, inventory_name):
         """Removes an inventory with ad hoc permissions.
@@ -510,53 +524,57 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._post_inventory_permission(inventory_name, 'ad hoc', remove=True)
 
-    def add_credential_permission_admin(self, credential_name):
+    def add_credential_permission_admin(self, credential_name, credential_type):
         """Adds a credential with admin permissions.
 
         Args:
             credential_name: The name of the credential to add.
+            credential_type (str): The type of the credential to use
 
         Returns:
             True on success, False otherwise.
 
         """
-        return self._post_credential_permission(credential_name, 'admin')
+        return self._post_credential_permission(credential_name, credential_type, 'admin')
 
-    def add_credential_permission_use(self, credential_name):
-        """Adds a credential with admin permissions.
-
-        Args:
-            credential_name: The name of the credential to add.
-
-        Returns:
-            True on success, False otherwise.
-
-        """
-        return self._post_credential_permission(credential_name, 'use')
-
-    def remove_credential_permission_admin(self, credential_name):
+    def remove_credential_permission_admin(self, credential_name, credential_type):
         """Removes a credential with admin permissions.
 
         Args:
             credential_name: The name of the credential to remove.
+            credential_type (str): The type of the credential to use
 
         Returns:
             True on success, False otherwise.
 
         """
-        return self._post_credential_permission(credential_name, 'admin', remove=True)
+        return self._post_credential_permission(credential_name, credential_type, 'admin', remove=True)
 
-    def remove_credential_permission_use(self, credential_name):
+    def add_credential_permission_use(self, credential_name, credential_type):
+        """Adds a credential with admin permissions.
+
+        Args:
+            credential_name: The name of the credential to add.
+            credential_type (str): The type of the credential to use
+
+        Returns:
+            True on success, False otherwise.
+
+        """
+        return self._post_credential_permission(credential_name, credential_type, 'use')
+
+    def remove_credential_permission_use(self, credential_name, credential_type):
         """Removes a credential with use permissions.
 
         Args:
             credential_name: The name of the credential to remove.
+            credential_type (str): The type of the credential to use
 
         Returns:
             True on success, False otherwise.
 
         """
-        return self._post_credential_permission(credential_name, 'use', remove=True)
+        return self._post_credential_permission(credential_name, credential_type, 'use', remove=True)
 
     def _post_project_permission(self, project_name, permission_name, remove=False):
         project = self.organization.get_project_by_name(project_name)
@@ -576,8 +594,8 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
             raise InvalidInventory(inventory_name)
         return self._post_permission(inventory.object_roles, permission_name, remove)
 
-    def _post_credential_permission(self, credential_name, permission_name, remove=False):
-        credential = self.organization.get_credential_by_name(credential_name)
+    def _post_credential_permission(self, credential_name, credential_type, permission_name, remove=False):
+        credential = self.organization.get_credential_by_name(credential_name, credential_type)
         if not credential:
             raise InvalidCredential(credential_name)
         return self._post_permission(credential.object_roles, permission_name, remove)
