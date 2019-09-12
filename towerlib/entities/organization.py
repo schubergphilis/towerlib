@@ -227,26 +227,6 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         return self._related_field_counts.get('job_templates', 0)
 
     @property
-    def users_count(self):
-        """The number of user of the organization.
-
-        Returns:
-            integer: The count of the users on the organization.
-
-        """
-        return self._related_field_counts.get('users', 0)
-
-    @property
-    def teams_count(self):
-        """The number of teams of the organization.
-
-        Returns:
-            integer: The count of the teams on the organization.
-
-        """
-        return self._related_field_counts.get('teams', 0)
-
-    @property
     def admins_count(self):
         """The number of administrators of the organization.
 
@@ -255,26 +235,6 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._related_field_counts.get('admins', 0)
-
-    @property
-    def inventories_count(self):
-        """The number of inventories of the organization.
-
-        Returns:
-            integer: The count of the inventories on the organization.
-
-        """
-        return self._related_field_counts.get('inventories', 0)
-
-    @property
-    def projects_count(self):
-        """The number of projects of the organization.
-
-        Returns:
-            integer: The count of the projects on the organization.
-
-        """
-        return self._related_field_counts.get('projects', 0)
 
     @property
     def projects(self):
@@ -289,6 +249,29 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                              entity_object='Project',
                              primary_match_field='name',
                              url=url)
+
+    @property
+    def projects_count(self):
+        """The number of projects of the organization.
+
+        Returns:
+            integer: The count of the projects on the organization.
+
+        """
+        return self._related_field_counts.get('projects', 0)
+
+    def get_project_by_name(self, name):
+        """Retrieves a project.
+
+        Args:
+            name: The name of the project to retrieve.
+
+        Returns:
+            project (Project): project on success else None.
+
+        """
+        return next(self._tower.projects.filter({'organization': self.id, 'name__iexact': name}), None)\
+
 
     def create_project(self,  # pylint: disable=too-many-arguments, too-many-locals
                        name,
@@ -383,6 +366,16 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                              url=url)
 
     @property
+    def users_count(self):
+        """The number of user of the organization.
+
+        Returns:
+            integer: The count of the users on the organization.
+
+        """
+        return self._related_field_counts.get('users', 0)
+
+    @property
     def teams(self):
         """The teams of the organization.
 
@@ -395,6 +388,28 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                              entity_object='Team',
                              primary_match_field='name',
                              url=url)
+
+    @property
+    def teams_count(self):
+        """The number of teams of the organization.
+
+        Returns:
+            integer: The count of the teams on the organization.
+
+        """
+        return self._related_field_counts.get('teams', 0)
+
+    def get_team_by_name(self, name):
+        """Retrieves a team.
+
+        Args:
+            name: The name of the team to retrieve.
+
+        Returns:
+            team (Team): team on success else None.
+
+        """
+        return next(self._tower.teams.filter({'organization': self.id, 'name__iexact': name}), None)
 
     def create_team(self, name, description):
         """Creates a team.
@@ -447,6 +462,28 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                              entity_object='Inventory',
                              primary_match_field='name',
                              url=url)
+
+    @property
+    def inventories_count(self):
+        """The number of inventories of the organization.
+
+        Returns:
+            integer: The count of the inventories on the organization.
+
+        """
+        return self._related_field_counts.get('inventories', 0)
+
+    def get_inventory_by_name(self, name):
+        """Retrieves an inventory.
+
+        Args:
+            name: The name of the inventory to retrieve.
+
+        Returns:
+            inventory(Inventory): inventory on success else None.
+
+        """
+        return next(self._tower.inventories.filter({'organization': self.id, 'name__iexact': name}), None)
 
     def create_inventory(self, name, description, variables='{}'):
         """Creates an inventory.
@@ -554,39 +591,3 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return next(self.credentials.filter({'id': id_}), None)
-
-    def get_project_by_name(self, name):
-        """Retrieves a project.
-
-        Args:
-            name: The name of the project to retrieve.
-
-        Returns:
-            project (Project): project on success else None.
-
-        """
-        return next(self._tower.projects.filter({'organization': self.id, 'name__iexact': name}), None)
-
-    def get_team_by_name(self, name):
-        """Retrieves a team.
-
-        Args:
-            name: The name of the team to retrieve.
-
-        Returns:
-            team (Team): team on success else None.
-
-        """
-        return next(self._tower.teams.filter({'organization': self.id, 'name__iexact': name}), None)
-
-    def get_inventory_by_name(self, name):
-        """Retrieves an inventory.
-
-        Args:
-            name: The name of the inventory to retrieve.
-
-        Returns:
-            inventory(Inventory): inventory on success else None.
-
-        """
-        return next(self._tower.inventories.filter({'organization': self.id, 'name__iexact': name}), None)

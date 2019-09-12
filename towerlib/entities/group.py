@@ -214,20 +214,6 @@ class Group(Entity):
         url = self._data.get('related', {}).get('created_by')
         return self._tower._get_object_by_url('User', url)  # pylint: disable=protected-access
 
-    @property
-    def object_roles(self):
-        """The object roles.
-
-        Returns:
-            EntityManager: EntityManager of the object roles supported.
-
-        """
-        url = self._data.get('related', {}).get('object_roles')
-        return EntityManager(self._tower,
-                             entity_object='ObjectRole',
-                             primary_match_field='name',
-                             url=url)
-
     def _add_host_by_id(self, id_):
         payload = {'id': id_}
         return self._post_host(payload)
@@ -259,6 +245,20 @@ class Group(Entity):
         if not response.ok:
             self._logger.error('Error posting to url "%s", response was "%s"', url, response.text)
         return response.ok
+
+    @property
+    def hosts(self):
+        """The hosts of the group.
+
+        Returns:
+            EntityManager: EntityManager of the hosts of the group.
+
+        """
+        url = self._data.get('related', {}).get('hosts')
+        return EntityManager(self._tower,
+                             entity_object='Host',
+                             primary_match_field='name',
+                             url=url)
 
     def add_host_by_name(self, name):
         """Add a host to the group by name.
@@ -296,6 +296,20 @@ class Group(Entity):
             raise InvalidHost(name)
         return self._remove_host_by_id(host.id)
 
+    @property
+    def groups(self):
+        """The associated groups of the group.
+
+        Returns:
+            EntityManager: EntityManager of the groups of the group.
+
+        """
+        url = self._data.get('related', {}).get('children')
+        return EntityManager(self._tower,
+                             entity_object='Group',
+                             primary_match_field='name',
+                             url=url)
+
     def associate_group_by_name(self, name):
         """Associate a group to the group by name.
 
@@ -331,31 +345,3 @@ class Group(Entity):
         if not group:
             raise InvalidGroup(name)
         return self._disassociate_group_by_id(group.id)
-
-    @property
-    def hosts(self):
-        """The hosts of the group.
-
-        Returns:
-            EntityManager: EntityManager of the hosts of the group.
-
-        """
-        url = self._data.get('related', {}).get('hosts')
-        return EntityManager(self._tower,
-                             entity_object='Host',
-                             primary_match_field='name',
-                             url=url)
-
-    @property
-    def groups(self):
-        """The associated groups of the group.
-
-        Returns:
-            EntityManager: EntityManager of the groups of the group.
-
-        """
-        url = self._data.get('related', {}).get('children')
-        return EntityManager(self._tower,
-                             entity_object='Group',
-                             primary_match_field='name',
-                             url=url)

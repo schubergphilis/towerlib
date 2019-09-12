@@ -57,190 +57,159 @@ __status__ = '''Development'''  # "Prototype", "Development", "Production".
 
 class TestTeamMutabilityAndEntities(IntegrationTest):
 
-    def test_mutating_team_name(self):
+    def setUp(self):
+        super(TestTeamMutabilityAndEntities, self).setUp()
+        original_name = 'workflow_team'
+        organization = 'workflow'
+        self.team = self.tower.get_organization_team_by_name(organization, original_name)
+
+    def test_mutating_name(self):
         with self.recorder:
-            original_team_name = 'workflow_team'
-            organization = 'workflow'
-            team = self.tower.get_organization_team_by_name(organization, original_team_name)
+
             with self.assertRaises(InvalidValue):
-                team.name = 'a' * 513
-            team.name = 'valid_name'
-            self.assertEqual(team.name, 'valid_name')
-            team.name = original_team_name
-            self.assertEqual(team.name, original_team_name)
+                self.team.name = 'a' * 513
+            original_name = self.team.name
+            self.team.name = 'valid_name'
+            self.assertEqual(self.team.name, 'valid_name')
+            self.team.name = original_name
+            self.assertEqual(self.team.name, original_name)
 
-    def test_mutating_team_description(self):
+    def test_mutating_description(self):
         with self.recorder:
-            original_team_name = 'workflow_team'
-            organization = 'workflow'
-            team = self.tower.get_organization_team_by_name(organization, original_team_name)
-            original_description = team.description
-            team.description = 'valid_description'
-            self.assertEqual(team.description, 'valid_description')
-            team.description = original_description
-            self.assertEqual(team.description, original_description)
+            original_description = self.team.description
+            self.team.description = 'valid_description'
+            self.assertEqual(self.team.description, 'valid_description')
+            self.team.description = original_description
+            self.assertEqual(self.team.description, original_description)
 
-    def test_mutating_team_organization(self):
+    def test_mutating_organization(self):
         with self.recorder:
-            original_team_name = 'workflow_team'
-            organization = 'workflow'
-            team = self.tower.get_organization_team_by_name(organization, original_team_name)
-            original_organization = team.organization
+            original_organization = self.team.organization
             with self.assertRaises(InvalidOrganization):
-                team.organization = 'NoOrgBroken'
-            team.organization = 'Default'
-            self.assertEqual(team.organization.name, 'Default')
-            team.organization = original_organization.name
-            self.assertEqual(team.organization.name, original_organization.name)
+                self.team.organization = 'NoOrgBroken'
+            self.team.organization = 'Default'
+            self.assertEqual(self.team.organization.name, 'Default')
+            self.team.organization = original_organization.name
+            self.assertEqual(self.team.organization.name, original_organization.name)
 
-    def test_team_roles(self):
+    def test_roles(self):
         with self.recorder:
-            original_team_name = 'workflow_team'
-            organization = 'workflow'
-            team = self.tower.get_organization_team_by_name(organization, original_team_name)
-            self.assertIsInstance(team.roles, EntityManager)
+            self.assertIsInstance(self.team.roles, EntityManager)
 
-    def test_team_object_roles(self):
+    def test_object_roles(self):
         with self.recorder:
-            original_team_name = 'workflow_team'
-            organization = 'workflow'
-            team = self.tower.get_organization_team_by_name(organization, original_team_name)
-            self.assertIsInstance(team.object_roles, EntityManager)
-            self.assertEqual(set(team.object_role_names), {'Admin', 'Member', 'Read'})
+            self.assertIsInstance(self.team.object_roles, EntityManager)
+            self.assertEqual(set(self.team.object_role_names), {'Admin', 'Member', 'Read'})
 
-    def test_team_users(self):
+    def test_users(self):
         with self.recorder:
-            original_team_name = 'workflow_team'
-            organization = 'workflow'
-            team = self.tower.get_organization_team_by_name(organization, original_team_name)
-            self.assertIsInstance(team.users, EntityManager)
+            self.assertIsInstance(self.team.users, EntityManager)
 
-    def test_team_credentials(self):
+    def test_credentials(self):
         with self.recorder:
-            original_team_name = 'workflow_team'
-            organization = 'workflow'
-            team = self.tower.get_organization_team_by_name(organization, original_team_name)
-            self.assertIsInstance(team.credentials, EntityManager)
+            self.assertIsInstance(self.team.credentials, EntityManager)
 
-    def test_team_projects(self):
+    def test_projects(self):
         with self.recorder:
-            original_team_name = 'workflow_team'
-            organization = 'workflow'
-            team = self.tower.get_organization_team_by_name(organization, original_team_name)
-            self.assertIsInstance(team.projects, EntityManager)
+            self.assertIsInstance(self.team.projects, EntityManager)
 
-    def test_mutating_team_users(self):
+    def test_mutating_users(self):
         with self.recorder:
-            original_team_name = 'workflow_team'
-            organization = 'workflow'
             username = 'workflow_normal'
             username_broken = 'workflow_normalBroken'
-            team = self.tower.get_organization_team_by_name(organization, original_team_name)
-            self.assertFalse(bool(list(team.users)))
+            self.assertFalse(bool(list(self.team.users)))
             with self.assertRaises(InvalidUser):
-                team.add_user_as_member(username_broken)
-            self.assertTrue(team.add_user_as_member(username))
-            user = team.get_user_by_username(username)
+                self.team.add_user_as_member(username_broken)
+            self.assertTrue(self.team.add_user_as_member(username))
+            user = self.team.get_user_by_username(username)
             self.assertTrue(user.username == username)
-            self.assertTrue(team.remove_user_as_member(username))
-            self.assertTrue(team.add_user_as_admin(username))
-            self.assertTrue(team.remove_user_as_admin(username))
+            self.assertTrue(self.team.remove_user_as_member(username))
+            self.assertTrue(self.team.add_user_as_admin(username))
+            self.assertTrue(self.team.remove_user_as_admin(username))
 
-    def test_mutating_team_projects(self):
+    def test_mutating_projects(self):
         with self.recorder:
-            original_team_name = 'workflow_team'
-            organization = 'workflow'
             project = 'Test project'
             project_broken = 'Test projectBroken'
-            team = self.tower.get_organization_team_by_name(organization, original_team_name)
             with self.assertRaises(InvalidProject):
-                team.add_project_permission_admin(project_broken)
-            self.assertTrue(team.add_project_permission_admin(project))
+                self.team.add_project_permission_admin(project_broken)
+            self.assertTrue(self.team.add_project_permission_admin(project))
             with self.assertRaises(InvalidProject):
-                team.remove_project_permission_admin(project_broken)
-            self.assertTrue(team.remove_project_permission_admin(project))
+                self.team.remove_project_permission_admin(project_broken)
+            self.assertTrue(self.team.remove_project_permission_admin(project))
             with self.assertRaises(InvalidProject):
-                team.add_project_permission_update(project_broken)
-            self.assertTrue(team.add_project_permission_update(project))
+                self.team.add_project_permission_update(project_broken)
+            self.assertTrue(self.team.add_project_permission_update(project))
             with self.assertRaises(InvalidProject):
-                team.remove_project_permission_update(project_broken)
-            self.assertTrue(team.remove_project_permission_update(project))
+                self.team.remove_project_permission_update(project_broken)
+            self.assertTrue(self.team.remove_project_permission_update(project))
             with self.assertRaises(InvalidProject):
-                team.add_project_permission_use(project_broken)
-            self.assertTrue(team.add_project_permission_use(project))
+                self.team.add_project_permission_use(project_broken)
+            self.assertTrue(self.team.add_project_permission_use(project))
             with self.assertRaises(InvalidProject):
-                team.remove_project_permission_use(project_broken)
-            self.assertTrue(team.remove_project_permission_use(project))
+                self.team.remove_project_permission_use(project_broken)
+            self.assertTrue(self.team.remove_project_permission_use(project))
 
-    def test_mutating_team_job_templates(self):
+    def test_mutating_job_templates(self):
         with self.recorder:
-            original_team_name = 'workflow_team'
-            organization = 'workflow'
             job_template = 'Demo Job Template'
             job_template_broken = 'Demo Job TemplateBroken'
-            team = self.tower.get_organization_team_by_name(organization, original_team_name)
             with self.assertRaises(InvalidJobTemplate):
-                team.add_job_template_permission_admin(job_template_broken)
-            self.assertTrue(team.add_job_template_permission_admin(job_template))
+                self.team.add_job_template_permission_admin(job_template_broken)
+            self.assertTrue(self.team.add_job_template_permission_admin(job_template))
             with self.assertRaises(InvalidJobTemplate):
-                team.remove_job_template_permission_admin(job_template_broken)
-            self.assertTrue(team.remove_job_template_permission_admin(job_template))
+                self.team.remove_job_template_permission_admin(job_template_broken)
+            self.assertTrue(self.team.remove_job_template_permission_admin(job_template))
             with self.assertRaises(InvalidJobTemplate):
-                team.add_job_template_permission_execute(job_template_broken)
-            self.assertTrue(team.add_job_template_permission_execute(job_template))
+                self.team.add_job_template_permission_execute(job_template_broken)
+            self.assertTrue(self.team.add_job_template_permission_execute(job_template))
             with self.assertRaises(InvalidJobTemplate):
-                team.remove_job_template_permission_execute(job_template_broken)
-            self.assertTrue(team.remove_job_template_permission_execute(job_template))
+                self.team.remove_job_template_permission_execute(job_template_broken)
+            self.assertTrue(self.team.remove_job_template_permission_execute(job_template))
 
-    def test_mutating_team_inventory(self):
+    def test_mutating_inventory(self):
         with self.recorder:
-            original_team_name = 'workflow_team'
-            organization = 'workflow'
             inventory = 'Test Inventory'
             inventory_broken = 'Test InventoryBroken'
-            team = self.tower.get_organization_team_by_name(organization, original_team_name)
             with self.assertRaises(InvalidInventory):
-                team.add_inventory_permission_admin(inventory_broken)
-            self.assertTrue(team.add_inventory_permission_admin(inventory))
+                self.team.add_inventory_permission_admin(inventory_broken)
+            self.assertTrue(self.team.add_inventory_permission_admin(inventory))
             with self.assertRaises(InvalidInventory):
-                team.remove_inventory_permission_admin(inventory_broken)
-            self.assertTrue(team.remove_inventory_permission_admin(inventory))
+                self.team.remove_inventory_permission_admin(inventory_broken)
+            self.assertTrue(self.team.remove_inventory_permission_admin(inventory))
             with self.assertRaises(InvalidInventory):
-                team.add_inventory_permission_use(inventory_broken)
-            self.assertTrue(team.add_inventory_permission_use(inventory))
+                self.team.add_inventory_permission_use(inventory_broken)
+            self.assertTrue(self.team.add_inventory_permission_use(inventory))
             with self.assertRaises(InvalidInventory):
-                team.remove_inventory_permission_use(inventory_broken)
-            self.assertTrue(team.remove_inventory_permission_use(inventory))
+                self.team.remove_inventory_permission_use(inventory_broken)
+            self.assertTrue(self.team.remove_inventory_permission_use(inventory))
             with self.assertRaises(InvalidInventory):
-                team.add_inventory_permission_update(inventory_broken)
-            self.assertTrue(team.add_inventory_permission_update(inventory))
+                self.team.add_inventory_permission_update(inventory_broken)
+            self.assertTrue(self.team.add_inventory_permission_update(inventory))
             with self.assertRaises(InvalidInventory):
-                team.remove_inventory_permission_update(inventory_broken)
-            self.assertTrue(team.remove_inventory_permission_update(inventory))
+                self.team.remove_inventory_permission_update(inventory_broken)
+            self.assertTrue(self.team.remove_inventory_permission_update(inventory))
             with self.assertRaises(InvalidInventory):
-                team.add_inventory_permission_ad_hoc(inventory_broken)
-            self.assertTrue(team.add_inventory_permission_ad_hoc(inventory))
+                self.team.add_inventory_permission_ad_hoc(inventory_broken)
+            self.assertTrue(self.team.add_inventory_permission_ad_hoc(inventory))
             with self.assertRaises(InvalidInventory):
-                team.remove_inventory_permission_ad_hoc(inventory_broken)
-            self.assertTrue(team.remove_inventory_permission_ad_hoc(inventory))
+                self.team.remove_inventory_permission_ad_hoc(inventory_broken)
+            self.assertTrue(self.team.remove_inventory_permission_ad_hoc(inventory))
 
-    def test_mutating_team_credential_permission(self):
+    def test_mutating_credential_permission(self):
         with self.recorder:
-            original_team_name = 'workflow_team'
-            organization = 'workflow'
             credential = 'Test Credential'
             credential_type = 'Source Control'
             credential_broken = 'Test CredentialBroken'
-            team = self.tower.get_organization_team_by_name(organization, original_team_name)
             with self.assertRaises(InvalidCredential):
-                team.add_credential_permission_admin(credential_broken, credential_type)
-            self.assertTrue(team.add_credential_permission_admin(credential, credential_type))
+                self.team.add_credential_permission_admin(credential_broken, credential_type)
+            self.assertTrue(self.team.add_credential_permission_admin(credential, credential_type))
             with self.assertRaises(InvalidCredential):
-                team.remove_credential_permission_admin(credential_broken, credential_type)
-            self.assertTrue(team.remove_credential_permission_admin(credential, credential_type))
+                self.team.remove_credential_permission_admin(credential_broken, credential_type)
+            self.assertTrue(self.team.remove_credential_permission_admin(credential, credential_type))
             with self.assertRaises(InvalidCredential):
-                team.add_credential_permission_use(credential_broken, credential_type)
-            self.assertTrue(team.add_credential_permission_use(credential, credential_type))
+                self.team.add_credential_permission_use(credential_broken, credential_type)
+            self.assertTrue(self.team.add_credential_permission_use(credential, credential_type))
             with self.assertRaises(InvalidCredential):
-                team.remove_credential_permission_use(credential_broken, credential_type)
-            self.assertTrue(team.remove_credential_permission_use(credential, credential_type))
+                self.team.remove_credential_permission_use(credential_broken, credential_type)
+            self.assertTrue(self.team.remove_credential_permission_use(credential, credential_type))

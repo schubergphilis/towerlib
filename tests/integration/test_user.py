@@ -54,102 +54,95 @@ __status__ = '''Development'''  # "Prototype", "Development", "Production".
 
 class TestUserMutabilityAndEntities(IntegrationTest):
 
-    def test_mutating_user_username(self):
+    def setUp(self):
+        super(TestUserMutabilityAndEntities, self).setUp()
+        self.user = self.tower.get_user_by_username('workflow_normal')
+
+    def test_mutating_username(self):
         with self.recorder:
-            user = self.tower.get_user_by_username('workflow_normal')
             with self.assertRaises(InvalidValue):
-                user.username = 'a' * 151
+                self.user.username = 'a' * 151
             with self.assertRaises(InvalidValue):
-                user.username = 'something**!'
-            user.username = 'valid_username'
-            self.assertEqual(user.username, 'valid_username')
-            user.username = 'workflow_normal'
-            self.assertEqual(user.username, 'workflow_normal')
+                self.user.username = 'something**!'
+            self.user.username = 'valid_username'
+            self.assertEqual(self.user.username, 'valid_username')
+            self.user.username = 'workflow_normal'
+            self.assertEqual(self.user.username, 'workflow_normal')
 
-    def test_mutating_user_first_name(self):
+    def test_mutating_first_name(self):
         with self.recorder:
-            user = self.tower.get_user_by_username('workflow_normal')
             with self.assertRaises(InvalidValue):
-                user.first_name = 'a' * 31
-            original_first_name = user.first_name
-            user.first_name = 'new_first_name'
-            self.assertEqual(user.first_name, 'new_first_name')
-            user.first_name = original_first_name
-            self.assertEqual(user.first_name, original_first_name)
+                self.user.first_name = 'a' * 31
+            original_first_name = self.user.first_name
+            self.user.first_name = 'new_first_name'
+            self.assertEqual(self.user.first_name, 'new_first_name')
+            self.user.first_name = original_first_name
+            self.assertEqual(self.user.first_name, original_first_name)
 
-    def test_mutating_user_last_name(self):
+    def test_mutating_last_name(self):
         with self.recorder:
-            user = self.tower.get_user_by_username('workflow_normal')
             with self.assertRaises(InvalidValue):
-                user.last_name = 'a' * 31
-            original_last_name = user.last_name
-            user.last_name = 'new_first_name'
-            self.assertEqual(user.last_name, 'new_first_name')
-            user.last_name = original_last_name
-            self.assertEqual(user.last_name, original_last_name)
+                self.user.last_name = 'a' * 31
+            original_last_name = self.user.last_name
+            self.user.last_name = 'new_first_name'
+            self.assertEqual(self.user.last_name, 'new_first_name')
+            self.user.last_name = original_last_name
+            self.assertEqual(self.user.last_name, original_last_name)
 
-    def test_mutating_user_email(self):
+    def test_mutating_email(self):
         with self.recorder:
-            user = self.tower.get_user_by_username('workflow_normal')
             with self.assertRaises(InvalidValue):
-                user.email = 'a' * 255
-            original_email = user.email
-            user.email = 'new@email.com'
-            self.assertEqual(user.email, 'new@email.com')
-            user.email = original_email
-            self.assertEqual(user.email, original_email)
+                self.user.email = 'a' * 255
+            original_email = self.user.email
+            self.user.email = 'new@email.com'
+            self.assertEqual(self.user.email, 'new@email.com')
+            self.user.email = original_email
+            self.assertEqual(self.user.email, original_email)
 
-    def test_mutating_user_superuser_status(self):
+    def test_mutating_superuser_status(self):
         with self.recorder:
-            user = self.tower.get_user_by_username('workflow_normal')
-            is_superuser = user.is_superuser
-            user.is_superuser = not is_superuser
-            self.assertEqual(user.is_superuser, not is_superuser)
-            user.is_superuser = is_superuser
-            self.assertEqual(user.is_superuser, is_superuser)
+            is_superuser = self.user.is_superuser
+            self.user.is_superuser = not is_superuser
+            self.assertEqual(self.user.is_superuser, not is_superuser)
+            self.user.is_superuser = is_superuser
+            self.assertEqual(self.user.is_superuser, is_superuser)
 
-    def test_mutating_user_auditor_status(self):
+    def test_mutating_auditor_status(self):
         with self.recorder:
-            user = self.tower.get_user_by_username('workflow_normal')
-            is_system_auditor = user.is_system_auditor
-            user.is_system_auditor = not is_system_auditor
-            self.assertEqual(user.is_system_auditor, not is_system_auditor)
-            user.is_system_auditor = is_system_auditor
-            self.assertEqual(user.is_system_auditor, is_system_auditor)
+            is_system_auditor = self.user.is_system_auditor
+            self.user.is_system_auditor = not is_system_auditor
+            self.assertEqual(self.user.is_system_auditor, not is_system_auditor)
+            self.user.is_system_auditor = is_system_auditor
+            self.assertEqual(self.user.is_system_auditor, is_system_auditor)
 
-    def test_user_organizations(self):
+    def test_organizations(self):
         with self.recorder:
-            user = self.tower.get_user_by_username('workflow_normal')
-            self.assertIsInstance(user.organizations, EntityManager)
+            self.assertIsInstance(self.user.organizations, EntityManager)
 
-    def test_mutating_user_roles(self):
+    def test_mutating_roles(self):
         with self.recorder:
-            user = self.tower.get_user_by_username('workflow_normal')
-            self.assertIsInstance(user.roles, EntityManager)
+            self.assertIsInstance(self.user.roles, EntityManager)
             with self.assertRaises(InvalidOrganization):
-                user.associate_with_organization_role('DefaultBroken', 'Read')
+                self.user.associate_with_organization_role('DefaultBroken', 'Read')
             with self.assertRaises(InvalidRole):
-                user.associate_with_organization_role('Default', 'ReadBroken')
-            user.associate_with_organization_role('Default', 'Read')
-            self.assertTrue('Read' in [role.name for role in user.roles])
+                self.user.associate_with_organization_role('Default', 'ReadBroken')
+            self.user.associate_with_organization_role('Default', 'Read')
+            self.assertTrue('Read' in [role.name for role in self.user.roles])
             with self.assertRaises(InvalidOrganization):
-                user.disassociate_from_organization_role('DefaultBroken', 'Read')
+                self.user.disassociate_from_organization_role('DefaultBroken', 'Read')
             with self.assertRaises(InvalidRole):
-                user.disassociate_from_organization_role('Default', 'ReadBroken')
-            user.disassociate_from_organization_role('Default', 'Read')
-            self.assertTrue('Read' not in [role.name for role in user.roles])
+                self.user.disassociate_from_organization_role('Default', 'ReadBroken')
+            self.user.disassociate_from_organization_role('Default', 'Read')
+            self.assertTrue('Read' not in [role.name for role in self.user.roles])
 
-    def test_user_teams(self):
+    def test_teams(self):
         with self.recorder:
-            user = self.tower.get_user_by_username('workflow_normal')
-            self.assertIsInstance(user.teams, EntityManager)
+            self.assertIsInstance(self.user.teams, EntityManager)
 
-    def test_user_projects(self):
+    def test_projects(self):
         with self.recorder:
-            user = self.tower.get_user_by_username('workflow_normal')
-            self.assertIsInstance(user.projects, EntityManager)
+            self.assertIsInstance(self.user.projects, EntityManager)
 
-    def test_user_credentials(self):
+    def test_credentials(self):
         with self.recorder:
-            user = self.tower.get_user_by_username('workflow_normal')
-            self.assertIsInstance(user.credentials, EntityManager)
+            self.assertIsInstance(self.user.credentials, EntityManager)

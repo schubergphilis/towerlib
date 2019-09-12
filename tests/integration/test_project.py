@@ -54,205 +54,152 @@ __status__ = '''Development'''  # "Prototype", "Development", "Production".
 
 class TestProjectMutabilityAndEntities(IntegrationTest):
 
-    def test_mutating_project_name(self):
+    def setUp(self):
+        super(TestProjectMutabilityAndEntities, self).setUp()
+        original_name = 'Test Project'
+        organization = 'workflow'
+        self.project = self.tower.get_organization_project_by_name(organization, original_name)
+
+    def test_mutating_name(self):
         with self.recorder:
-            original_project_name = 'Test Project'
-            organization = 'workflow'
-            project = self.tower.get_organization_project_by_name(organization, original_project_name)
             with self.assertRaises(InvalidValue):
-                project.name = 'a' * 513
-            project.name = 'valid_name'
-            self.assertEqual(project.name, 'valid_name')
-            project.name = original_project_name
-            self.assertEqual(project.name, original_project_name)
+                self.project.name = 'a' * 513
+            original_name = self.project.name
+            self.project.name = 'valid_name'
+            self.assertEqual(self.project.name, 'valid_name')
+            self.project.name = original_name
+            self.assertEqual(self.project.name, original_name)
 
-    def test_project_playbooks(self):
+    def test_playbooks(self):
         with self.recorder:
-            original_project_name = 'Test Project'
-            organization = 'workflow'
-            project = self.tower.get_organization_project_by_name(organization, original_project_name)
-            self.assertTrue('hello_world.yml' in project.playbooks)
+            self.assertTrue('hello_world.yml' in self.project.playbooks)
 
-    def test_project_created_by_attribute(self):
+    def test_created_by_attribute(self):
         with self.recorder:
-            original_project_name = 'Test Project'
-            organization = 'workflow'
-            project = self.tower.get_organization_project_by_name(organization, original_project_name)
-            self.assertIsInstance(project.created_by, User)
+            self.assertIsInstance(self.project.created_by, User)
 
-    def test_project_object_role_names(self):
+    def test_object_role_names(self):
         with self.recorder:
-            original_project_name = 'Test Project'
-            organization = 'workflow'
-            project = self.tower.get_organization_project_by_name(organization, original_project_name)
-            self.assertEquals(set(project.object_role_names), {'Admin', 'Use', 'Update', 'Read'})
+            self.assertEquals(set(self.project.object_role_names), {'Admin', 'Use', 'Update', 'Read'})
 
-    def test_mutating_project_description(self):
+    def test_mutating_description(self):
         with self.recorder:
-            original_project_name = 'Test Project'
-            organization = 'workflow'
-            project = self.tower.get_organization_project_by_name(organization, original_project_name)
-            original_project_description = project.description
-            project.description = 'valid_description'
-            self.assertEqual(project.description, 'valid_description')
-            project.description = original_project_description
-            self.assertEqual(project.description, original_project_description)
+            original_description = self.project.description
+            self.project.description = 'valid_description'
+            self.assertEqual(self.project.description, 'valid_description')
+            self.project.description = original_description
+            self.assertEqual(self.project.description, original_description)
 
-    def test_mutating_project_local_path(self):
+    def test_mutating_local_path(self):
         with self.recorder:
-            original_project_name = 'Test Project'
-            organization = 'workflow'
-            project = self.tower.get_organization_project_by_name(organization, original_project_name)
-            self.assertEquals(project.local_path, '_8__test_project')
+            self.assertEquals(self.project.local_path, '_8__test_project')
 
-    def test_project_scm_type(self):
+    def test_scm_type(self):
         with self.recorder:
-            original_project_name = 'Test Project'
-            organization = 'workflow'
-            project = self.tower.get_organization_project_by_name(organization, original_project_name)
-            self.assertEquals(project.scm_type, 'git')
+            self.assertEquals(self.project.scm_type, 'git')
 
-    def test_mutating_project_scm_url(self):
+    def test_mutating_scm_url(self):
         with self.recorder:
-            original_project_name = 'Test Project'
-            organization = 'workflow'
-            project = self.tower.get_organization_project_by_name(organization, original_project_name)
-            original_project_scm_url = project.scm_url
+            original_scm_url = self.project.scm_url
             with self.assertRaises(InvalidValue):
-                project.scm_url = 'a' * 1025
+                self.project.scm_url = 'a' * 1025
             new_scm_url = 'https://test.com/whatever'
-            project.scm_url = new_scm_url
-            self.assertEqual(project.scm_url, new_scm_url)
-            project.scm_url = original_project_scm_url
-            self.assertEqual(project.scm_url, original_project_scm_url)
+            self.project.scm_url = new_scm_url
+            self.assertEqual(self.project.scm_url, new_scm_url)
+            self.project.scm_url = original_scm_url
+            self.assertEqual(self.project.scm_url, original_scm_url)
 
-    def test_mutating_project_scm_branch(self):
+    def test_mutating_scm_branch(self):
         with self.recorder:
-            original_project_name = 'Test Project'
-            organization = 'workflow'
-            project = self.tower.get_organization_project_by_name(organization, original_project_name)
-            original_project_scm_branch = project.scm_branch
+            original_scm_branch = self.project.scm_branch
             with self.assertRaises(InvalidValue):
-                project.scm_branch = 'a' * 257
-            project.scm_branch = 'valid_scm_branch'
-            self.assertEqual(project.scm_branch, 'valid_scm_branch')
-            project.scm_branch = original_project_scm_branch
-            self.assertEqual(project.scm_branch, original_project_scm_branch)
+                self.project.scm_branch = 'a' * 257
+            self.project.scm_branch = 'valid_scm_branch'
+            self.assertEqual(self.project.scm_branch, 'valid_scm_branch')
+            self.project.scm_branch = original_scm_branch
+            self.assertEqual(self.project.scm_branch, original_scm_branch)
 
-    def test_mutating_project_scm_clean(self):
+    def test_mutating_scm_clean(self):
         with self.recorder:
-            original_project_name = 'Test Project'
-            organization = 'workflow'
-            project = self.tower.get_organization_project_by_name(organization, original_project_name)
-            original_project_scm_clean = project.scm_clean
-            project.scm_clean = not original_project_scm_clean
-            self.assertEqual(project.scm_clean, not original_project_scm_clean)
-            project.scm_clean = original_project_scm_clean
-            self.assertEqual(project.scm_clean, original_project_scm_clean)
+            original_scm_clean = self.project.scm_clean
+            self.project.scm_clean = not original_scm_clean
+            self.assertEqual(self.project.scm_clean, not original_scm_clean)
+            self.project.scm_clean = original_scm_clean
+            self.assertEqual(self.project.scm_clean, original_scm_clean)
 
-    def test_mutating_project_scm_delete_on_update(self):
+    def test_mutating_scm_delete_on_update(self):
         with self.recorder:
-            original_project_name = 'Test Project'
-            organization = 'workflow'
-            project = self.tower.get_organization_project_by_name(organization, original_project_name)
-            original_project_scm_delete_on_update = project.scm_delete_on_update
-            project.scm_delete_on_update = not original_project_scm_delete_on_update
-            self.assertEqual(project.scm_delete_on_update, not original_project_scm_delete_on_update)
-            project.scm_delete_on_update = original_project_scm_delete_on_update
-            self.assertEqual(project.scm_delete_on_update, original_project_scm_delete_on_update)
+            original_scm_delete_on_update = self.project.scm_delete_on_update
+            self.project.scm_delete_on_update = not original_scm_delete_on_update
+            self.assertEqual(self.project.scm_delete_on_update, not original_scm_delete_on_update)
+            self.project.scm_delete_on_update = original_scm_delete_on_update
+            self.assertEqual(self.project.scm_delete_on_update, original_scm_delete_on_update)
 
-    def test_mutating_project_credential(self):
+    def test_mutating_credential(self):
         with self.recorder:
-            original_project_name = 'Test Project'
-            organization = 'workflow'
-            project = self.tower.get_organization_project_by_name(organization, original_project_name)
-            self.assertIsInstance(project.credential, GenericCredential)
+            self.assertIsInstance(self.project.credential, GenericCredential)
             with self.assertRaises(InvalidCredential):
-                project.credential = 'BrokenCredname'
-            project.credential = 'Test Credential'
-            self.assertIsInstance(project.credential, GenericCredential)
+                self.project.credential = 'BrokenCredname'
+            self.project.credential = 'Test Credential'
+            self.assertIsInstance(self.project.credential, GenericCredential)
 
-    def test_mutating_project_timeout(self):
+    def test_mutating_timeout(self):
         with self.recorder:
-            original_project_name = 'Test Project'
-            organization = 'workflow'
-            project = self.tower.get_organization_project_by_name(organization, original_project_name)
-            original_project_timeout = project.timeout
+            original_timeout = self.project.timeout
             with self.assertRaises(InvalidValue):
-                project.timeout = -2147483649
+                self.project.timeout = -2147483649
             with self.assertRaises(InvalidValue):
-                project.timeout = 2147483648
+                self.project.timeout = 2147483648
             new_timeout = 10
-            project.timeout = new_timeout
-            self.assertEquals(project.timeout, new_timeout)
-            project.timeout = original_project_timeout
-            self.assertEquals(project.timeout, original_project_timeout)
+            self.project.timeout = new_timeout
+            self.assertEquals(self.project.timeout, new_timeout)
+            self.project.timeout = original_timeout
+            self.assertEquals(self.project.timeout, original_timeout)
 
-    def test_project_last_job_run(self):
+    def test_last_job_run(self):
         with self.recorder:
-            original_project_name = 'Test Project'
-            organization = 'workflow'
-            project = self.tower.get_organization_project_by_name(organization, original_project_name)
-            self.assertIsInstance(project.last_job_run, datetime)
+            self.assertIsInstance(self.project.last_job_run, datetime)
 
-    def test_mutating_project_organization(self):
+    def test_mutating_organization(self):
         with self.recorder:
-            original_project_name = 'Test Project'
-            organization = 'workflow'
-            project = self.tower.get_organization_project_by_name(organization, original_project_name)
-            original_project_organization = project.organization
+            original_organization = self.project.organization
             with self.assertRaises(InvalidOrganization):
-                project.organization = 'BrokenOrg'
-            project.organization = 'Default'
-            self.assertEquals(project.organization.name, 'Default')
-            project.organization = original_project_organization.name
-            self.assertEquals(project.organization.name, original_project_organization.name)
+                self.project.organization = 'BrokenOrg'
+            self.project.organization = 'Default'
+            self.assertEquals(self.project.organization.name, 'Default')
+            self.project.organization = original_organization.name
+            self.assertEquals(self.project.organization.name, original_organization.name)
 
-    def test_mutating_project_scm_delete_on_next_update(self):
+    def test_mutating_scm_delete_on_next_update(self):
         with self.recorder:
-            original_project_name = 'Test Project'
-            organization = 'workflow'
-            project = self.tower.get_organization_project_by_name(organization, original_project_name)
-            self.assertIsNone(project.scm_delete_on_next_update)
+            self.assertIsNone(self.project.scm_delete_on_next_update)
 
-    def test_mutating_project_scm_update_on_launch(self):
+    def test_mutating_scm_update_on_launch(self):
         with self.recorder:
-            original_project_name = 'Test Project'
-            organization = 'workflow'
-            project = self.tower.get_organization_project_by_name(organization, original_project_name)
-            original_project_scm_update_on_launch = project.scm_update_on_launch
-            project.scm_update_on_launch = not original_project_scm_update_on_launch
-            self.assertEqual(project.scm_update_on_launch, not original_project_scm_update_on_launch)
-            project.scm_update_on_launch = original_project_scm_update_on_launch
-            self.assertEqual(project.scm_update_on_launch, original_project_scm_update_on_launch)
+            original_scm_update_on_launch = self.project.scm_update_on_launch
+            self.project.scm_update_on_launch = not original_scm_update_on_launch
+            self.assertEqual(self.project.scm_update_on_launch, not original_scm_update_on_launch)
+            self.project.scm_update_on_launch = original_scm_update_on_launch
+            self.assertEqual(self.project.scm_update_on_launch, original_scm_update_on_launch)
 
-    def test_mutating_project_scm_update_cache_timeout(self):
+    def test_mutating_scm_update_cache_timeout(self):
         with self.recorder:
-            original_project_name = 'Test Project'
-            organization = 'workflow'
-            project = self.tower.get_organization_project_by_name(organization, original_project_name)
-            original_project_scm_update_cache_timeout = project.scm_update_cache_timeout
+            original_scm_update_cache_timeout = self.project.scm_update_cache_timeout
             with self.assertRaises(InvalidValue):
-                project.scm_update_cache_timeout = -1
+                self.project.scm_update_cache_timeout = -1
             with self.assertRaises(InvalidValue):
-                project.scm_update_cache_timeout = 2147483648
+                self.project.scm_update_cache_timeout = 2147483648
             new_scm_update_cache_timeout = 10
-            project.scm_update_cache_timeout = new_scm_update_cache_timeout
-            self.assertEquals(project.scm_update_cache_timeout, new_scm_update_cache_timeout)
-            project.scm_update_cache_timeout = original_project_scm_update_cache_timeout
-            self.assertEquals(project.scm_update_cache_timeout, original_project_scm_update_cache_timeout)
+            self.project.scm_update_cache_timeout = new_scm_update_cache_timeout
+            self.assertEquals(self.project.scm_update_cache_timeout, new_scm_update_cache_timeout)
+            self.project.scm_update_cache_timeout = original_scm_update_cache_timeout
+            self.assertEquals(self.project.scm_update_cache_timeout, original_scm_update_cache_timeout)
 
-    def test_project_last_updated(self):
+    def test_last_updated(self):
         with self.recorder:
-            original_project_name = 'Test Project'
-            organization = 'workflow'
-            project = self.tower.get_organization_project_by_name(organization, original_project_name)
-            self.assertIsInstance(project.last_updated, datetime)
+            self.assertIsInstance(self.project.last_updated, datetime)
 
-    def test_mutating_project_custom_virtualenv(self):
+    def test_mutating_custom_virtualenv(self):
         with self.recorder:
-            original_project_name = 'Test Project'
-            organization = 'workflow'
-            project = self.tower.get_organization_project_by_name(organization, original_project_name)
             with self.assertRaises(InvalidValue):
-                project.custom_virtualenv = 'a' * 101
+                self.project.custom_virtualenv = 'a' * 101

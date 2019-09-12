@@ -220,7 +220,7 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
                              url=url)
 
     def get_user_by_username(self, username):
-        """Retrieves a user of the team by its username
+        """Retrieves a user of the team by its username.
 
         Args:
             username: The username of the user to retrieve.

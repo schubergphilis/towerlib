@@ -33,8 +33,8 @@ Tests for `towerlib` module.
 
 """
 
-import time
 import copy
+import time
 
 from towerlib.entities import (Cluster,
                                EntityManager,
@@ -64,9 +64,8 @@ from towerlib.towerlibexceptions import (AuthFailed,
                                          InvalidJobType,
                                          InvalidJobTemplate,
                                          InvalidVerbosity)
-
-
 from . import IntegrationTest, placeholders
+from .common import Timeout, TIMEOUT_IN_SECONDS
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -77,25 +76,6 @@ __license__ = '''MIT'''
 __maintainer__ = '''Costas Tyfoxylos'''
 __email__ = '''<ctyfoxylos@schubergphilis.com>'''
 __status__ = '''Development'''  # "Prototype", "Development", "Production".
-
-
-TIMEOUT_IN_SECONDS = 90
-
-
-class Timeout:
-    def __init__(self, seconds):
-        self.seconds = seconds
-
-    def __enter__(self):
-        self.die_after = time.time() + self.seconds
-        return self
-
-    def __exit__(self, type, value, traceback):
-        pass
-
-    @property
-    def reached(self):
-        return time.time() > self.die_after
 
 
 class TestTowerlib(IntegrationTest):

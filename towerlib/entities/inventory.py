@@ -33,8 +33,6 @@ Main code for inventory.
 
 import logging
 
-from dateutil.parser import parse
-
 from towerlib.towerlibexceptions import (InvalidVariables,
                                          InvalidHost,
                                          InvalidGroup,
@@ -183,18 +181,6 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._data.get('kind')
 
-    @kind.setter
-    def kind(self, value):
-        """Update the kind of the team.
-
-        Returns:
-            None:
-
-        """
-        if value not in ['', 'smart']:
-            raise InvalidValue('Value should either be empty or "smart", received: {value}'.format(value=value))
-        self._update_values('kind', value)
-
     @property
     def host_filter(self):
         """Not sure what this does.
@@ -204,16 +190,6 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._data.get('host_filter')
-
-    @host_filter.setter
-    def host_filter(self, value):
-        """Update the host_filter of the team.
-
-        Returns:
-            None:
-
-        """
-        self._update_values('host_filter', value)
 
     @property
     def variables(self):
@@ -249,46 +225,6 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         return self._data.get('has_active_failures')
 
     @property
-    def total_hosts_count(self):
-        """The total number of hosts in the inventory.
-
-        Returns:
-            integer: The number of inventory hosts.
-
-        """
-        return self._data.get('total_hosts')
-
-    @property
-    def hosts_with_active_failures_count(self):
-        """The number of hosts with active failures.
-
-        Returns:
-            integer: The number of hosts with active failures.
-
-        """
-        return self._data.get('hosts_with_active_failures')
-
-    @property
-    def total_groups_count(self):
-        """The number of groups.
-
-        Returns:
-            integer: The number of groups.
-
-        """
-        return self._data.get('total_groups')
-
-    @property
-    def groups_with_active_failures_count(self):
-        """The number of groups with active failures.
-
-        Returns:
-            integer: The number of groups with active failures.
-
-        """
-        return self._data.get('groups_with_active_failures')
-
-    @property
     def has_inventory_sources(self):
         """A flag of whether there are.
 
@@ -296,7 +232,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
             bool: True if set, False otherwise.
 
         """
-        return parse(self._data.get('has_inventory_sources'))
+        return self._data.get('has_inventory_sources')
 
     @property
     def total_inventory_sources_count(self):
@@ -349,59 +285,39 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         return self._tower.hosts.filter({'inventory': self.id})
 
     @property
-    def groups(self):
-        """The groups of the inventory.
+    def total_hosts_count(self):
+        """The total number of hosts in the inventory.
 
         Returns:
-            list of Group: The groups of the inventory.
+            integer: The number of inventory hosts.
 
         """
-        return self._tower.groups.filter({'inventory': self.id})
+        return self._data.get('total_hosts')
 
-    def create_group(self, name, description, variables='{}'):
-        """Creates a group.
+    @property
+    def hosts_with_active_failures_count(self):
+        """The number of hosts with active failures.
+
+        Returns:
+            integer: The number of hosts with active failures.
+
+        """
+        return self._data.get('hosts_with_active_failures')
+
+    def get_host_by_name(self, name):
+        """Retrieves a host.
 
         Args:
-            name: The name of the group to create.
-            description: The description of the group.
-            variables: A json with the variables that will be set on the created group.
+            name: The name of the host to retrieve.
 
         Returns:
-            Group: The created group is successful, None otherwise.
+            host (Host): returns a host if found else None.
 
         Raises:
-            InvalidVariables: The variables provided as argument is not valid json.
+            InvalidHost: The host provided as argument does not exist.
 
         """
-        if not validate_json(variables):
-            raise InvalidVariables(variables)
-        url = '{api}/groups/'.format(api=self._tower.api)
-        payload = {'name': name,
-                   'description': description,
-                   'inventory': self.id,
-                   'variables': variables}
-        response = self._tower.session.post(url, json=payload)
-        if not response.ok:
-            self._logger.error('Error creating group "%s", response was "%s"', name, response.text)
-        return Group(self._tower, response.json()) if response.ok else None
-
-    def delete_group(self, name):
-        """Deletes the group.
-
-        Args:
-            name: The name of the group to delete.
-
-        Returns:
-            bool: True on success, False otherwise.
-
-        Raises:
-            InvalidGroup: The group provided as argument does not exist.
-
-        """
-        group = next(self._tower.groups.filter({'inventory': self.id, 'name__iexact': name}), None)
-        if not group:
-            raise InvalidGroup(name)
-        return group.delete()
+        return next(self._tower.hosts.filter({'inventory': self.id, 'name__iexact': name}), None)
 
     def create_host(self, name, description, variables='{}'):
         """Creates a host.
@@ -450,6 +366,36 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
             raise InvalidHost(name)
         return host.delete()
 
+    @property
+    def groups(self):
+        """The groups of the inventory.
+
+        Returns:
+            list of Group: The groups of the inventory.
+
+        """
+        return self._tower.groups.filter({'inventory': self.id})
+
+    @property
+    def total_groups_count(self):
+        """The number of groups.
+
+        Returns:
+            integer: The number of groups.
+
+        """
+        return self._data.get('total_groups')
+
+    @property
+    def groups_with_active_failures_count(self):
+        """The number of groups with active failures.
+
+        Returns:
+            integer: The number of groups with active failures.
+
+        """
+        return self._data.get('groups_with_active_failures')
+
     def get_group_by_name(self, name):
         """Retrieves the group.
 
@@ -465,32 +411,47 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         """
         return next(self._tower.groups.filter({'inventory': self.id, 'name__iexact': name}), None)
 
-    def get_host_by_name(self, name):
-        """Retrieves a host.
+    def create_group(self, name, description, variables='{}'):
+        """Creates a group.
 
         Args:
-            name: The name of the host to retrieve.
+            name: The name of the group to create.
+            description: The description of the group.
+            variables: A json with the variables that will be set on the created group.
 
         Returns:
-            host (Host): returns a host if found else None.
+            Group: The created group is successful, None otherwise.
 
         Raises:
-            InvalidHost: The host provided as argument does not exist.
+            InvalidVariables: The variables provided as argument is not valid json.
 
         """
-        return next(self._tower.hosts.filter({'inventory': self.id, 'name__iexact': name}), None)
+        if not validate_json(variables):
+            raise InvalidVariables(variables)
+        url = '{api}/groups/'.format(api=self._tower.api)
+        payload = {'name': name,
+                   'description': description,
+                   'inventory': self.id,
+                   'variables': variables}
+        response = self._tower.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error creating group "%s", response was "%s"', name, response.text)
+        return Group(self._tower, response.json()) if response.ok else None
 
-    def get_project_by_name(self, name):
-        """Retrieves a project.
+    def delete_group(self, name):
+        """Deletes the group.
 
         Args:
-            name: The name of the project to retrieve.
+            name: The name of the group to delete.
 
         Returns:
-            project (Project): returns a project if found else None.
+            bool: True on success, False otherwise.
 
         Raises:
-            InvalidProject: The project provided as argument does not exist.
+            InvalidGroup: The group provided as argument does not exist.
 
         """
-        return next(self._tower.projects.filter({'inventory': self.id, 'name__iexact': name}), None)
+        group = next(self._tower.groups.filter({'inventory': self.id, 'name__iexact': name}), None)
+        if not group:
+            raise InvalidGroup(name)
+        return group.delete()
