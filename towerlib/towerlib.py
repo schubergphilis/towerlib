@@ -1844,3 +1844,16 @@ class Tower:  # pylint: disable=too-many-public-methods
                              entity_name='notification_templates',
                              entity_object='NotificationTemplate',
                              primary_match_field='name')
+
+    @property
+    def inventory_sources(self):
+        """A manager object for the inventory_sources in tower.
+
+        Returns:
+            EntityManager: The manager object for inventory_sources.
+
+        """
+        return EntityManager(self,
+                             entity_name='inventory_sources',
+                             entity_object='InventorySource',
+                             primary_match_field='name')
