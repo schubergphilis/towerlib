@@ -77,7 +77,8 @@ from .entities import (Organization,  # NOQA
                        ProjectUpdateJob,
                        ObjectRole,
                        NotificationTemplate,
-                       Notification)
+                       Notification,
+                       InventorySource)
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -127,3 +128,4 @@ assert Instance
 assert InstanceGroup
 assert CredentialType
 assert Credential
+assert InventorySource
