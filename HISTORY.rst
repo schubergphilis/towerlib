@@ -110,3 +110,9 @@ History
 ------------------
 
 * Fixed inventory host deletion.
+
+
+3.0.0 (18-10-2019)
+------------------
+
+* Fixed the references to all the objects to be identified by their parent relationship to avoid ambiguity. Full test coverage.
