@@ -546,3 +546,76 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         if not response.ok:
             self._logger.error('Error creating source "%s", response was "%s"', name, response.text)
         return InventorySource(self._tower, response.json()) if response.ok else None
+
+    def create_source_with_credential_id(self,
+                                         name,
+                                         description,
+                                         credential_id,
+                                         source='scm',
+                                         source_path='',
+                                         source_script=None,
+                                         source_vars='',
+                                         source_regions='',
+                                         instance_filters='',
+                                         group_by='',
+                                         overwrite=True,
+                                         overwrite_vars=True,
+                                         timeout=0,
+                                         verbosity=1,
+                                         update_on_launch=True,
+                                         update_cache_timeout=0,
+                                         source_project='',
+                                         update_on_project_update=False):
+        """
+
+        Args:
+            name ():
+            description ():
+            credential_id ():
+            source ():
+            source_path ():
+            source_script ():
+            source_vars ():
+            source_regions ():
+            instance_filters ():
+            group_by ():
+            overwrite ():
+            overwrite_vars ():
+            timeout ():
+            verbosity ():
+            update_on_launch ():
+            update_cache_timeout ():
+            source_project ():
+            update_on_project_update ():
+
+        Returns:
+
+        """
+        project = self.organization.get_project_by_name(source_project)
+        if not project:
+            raise InvalidProject(source_project)
+        url = '{api}/inventory_sources/'.format(api=self._tower.api)
+        payload = {'name': name,
+                   'description': description,
+                   'source': source,
+                   'source_path': source_path,
+                   'source_script': source_script,
+                   'source_vars': source_vars,
+                   'credential': credential_id,
+                   'source_regions': source_regions,
+                   'instance_filters': instance_filters,
+                   'group_by': group_by,
+                   'overwrite': overwrite,
+                   'overwrite_vars': overwrite_vars,
+                   'timeout': timeout,
+                   'verbosity': verbosity,
+                   'inventory': self.id,
+                   'update_on_launch': update_on_launch,
+                   'update_cache_timeout': update_cache_timeout,
+                   'source_project': project.id,
+                   'update_on_project_update': update_on_project_update}
+        response = self._tower.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error creating source "%s", response was "%s"', name, response.text)
+        return InventorySource(self._tower, response.json()) if response.ok else None
+
