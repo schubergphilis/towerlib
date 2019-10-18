@@ -33,9 +33,7 @@ Main code for organization.
 
 import logging
 
-from towerlib.towerlibexceptions import (InvalidUserLevel,
-                                         InvalidUser,
-                                         InvalidTeam,
+from towerlib.towerlibexceptions import (InvalidTeam,
                                          InvalidVariables,
                                          InvalidInventory,
                                          InvalidCredential,
@@ -43,14 +41,12 @@ from towerlib.towerlibexceptions import (InvalidUserLevel,
                                          InvalidCredentialType,
                                          InvalidValue)
 from .core import (Entity,
-                   USER_LEVELS,
                    EntityManager,
                    validate_max_length,
                    validate_json)
 from .inventory import Inventory
 from .project import Project
 from .team import Team
-from .user import User
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -70,6 +66,8 @@ LOGGER.addHandler(logging.NullHandler())
 
 class Organization(Entity):  # pylint: disable=too-many-public-methods
     """Models the organization entity of ansible tower."""
+
+    DEFAULT_MEMBER_ROLE = 'Member'
 
     def __init__(self, tower_instance, data):
         Entity.__init__(self, tower_instance, data)
@@ -168,6 +166,21 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         url = self._data.get('related', {}).get('modified_by')
         return self._tower._get_object_by_url('User', url)  # pylint: disable=protected-access
 
+    def _get_object_role_id(self, name):
+        """
+        Returns the object role ID for a given member.
+
+        Args:
+            name: The role we want to get the id for
+
+        Returns:
+            int: The ID of the role
+            None: If the role is not found
+
+        """
+        return next((obj.id for obj in self.object_roles
+                     if obj.name.lower() == name.lower()), None)
+
     @property
     def object_roles(self):
         """The object roles.
@@ -193,6 +206,17 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         return [object_role.name for object_role in self.object_roles]
 
     @property
+    def _related_field_counts(self):
+        """
+        Get the related fields counts.
+
+        Returns:
+            dict: A dictionary of all the related field counts
+
+        """
+        return self._data.get('summary_fields', {}).get('related_field_counts', {})
+
+    @property
     def job_templates_count(self):
         """The number of job templates of the organization.
 
@@ -200,27 +224,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             integer: The count of the job templates on the organization.
 
         """
-        return self._data.get('related_field_counts', {}).get('job_templates', 0)
-
-    @property
-    def users_count(self):
-        """The number of user of the organization.
-
-        Returns:
-            integer: The count of the users on the organization.
-
-        """
-        return self._data.get('related_field_counts', {}).get('users', 0)
-
-    @property
-    def teams_count(self):
-        """The number of teams of the organization.
-
-        Returns:
-            integer: The count of the teams on the organization.
-
-        """
-        return self._data.get('related_field_counts', {}).get('teams', 0)
+        return self._related_field_counts.get('job_templates', 0)
 
     @property
     def admins_count(self):
@@ -230,27 +234,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             integer: The count of the administrators on the organization.
 
         """
-        return self._data.get('related_field_counts', {}).get('admins', 0)
-
-    @property
-    def inventories_count(self):
-        """The number of inventories of the organization.
-
-        Returns:
-            integer: The count of the inventories on the organization.
-
-        """
-        return self._data.get('related_field_counts', {}).get('inventories', 0)
-
-    @property
-    def projects_count(self):
-        """The number of projects of the organization.
-
-        Returns:
-            integer: The count of the projects on the organization.
-
-        """
-        return self._data.get('related_field_counts', {}).get('projects', 0)
+        return self._related_field_counts.get('admins', 0)
 
     @property
     def projects(self):
@@ -265,6 +249,29 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                              entity_object='Project',
                              primary_match_field='name',
                              url=url)
+
+    @property
+    def projects_count(self):
+        """The number of projects of the organization.
+
+        Returns:
+            integer: The count of the projects on the organization.
+
+        """
+        return self._related_field_counts.get('projects', 0)
+
+    def get_project_by_name(self, name):
+        """Retrieves a project.
+
+        Args:
+            name: The name of the project to retrieve.
+
+        Returns:
+            project (Project): project on success else None.
+
+        """
+        return next(self._tower.projects.filter({'organization': self.id, 'name__iexact': name}), None)\
+
 
     def create_project(self,  # pylint: disable=too-many-arguments, too-many-locals
                        name,
@@ -302,6 +309,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             InvalidCredential: The credential provided as argument does not exist.
 
         """
+        # Credential Type 2 = SCM
         url = '{api}/projects/'.format(api=self._tower.api)
         credential_ = self.get_credential_by_name_with_type_id(credential, credential_type_id=2)
         if not credential_:
@@ -321,6 +329,8 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                    'scm_update_on_launch': scm_update_on_launch,
                    'scm_update_cache_timeout': scm_update_cache_timeout}
         response = self._tower.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error creating project, response was: "%s"', response.text)
         return Project(self._tower, response.json()) if response.ok else None
 
     def delete_project(self, name):
@@ -355,72 +365,15 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                              primary_match_field='username',
                              url=url)
 
-    def create_user(self,  # pylint: disable=too-many-arguments
-                    first_name,
-                    last_name,
-                    email,
-                    username,
-                    password,
-                    level='standard'):
-        """Creates a user under the organization.
-
-        Args:
-            first_name: The first name of the user.
-            last_name: The last name of the user.
-            email: The email of the user.
-            username: The username to create for the user.
-            password: The password to set for the user.
-            level: The type of the account (standard|system_auditor|system_administrator).
+    @property
+    def users_count(self):
+        """The number of user of the organization.
 
         Returns:
-            User: The created User object on success, None otherwise.
-
-        Raises:
-            InvalidUserLevel: The user access level provided is invalid.
+            integer: The count of the users on the organization.
 
         """
-        if level not in USER_LEVELS:
-            raise InvalidUserLevel(level)
-        url = '{organization}users/'.format(organization=self.url)
-        payload = {'first_name': first_name,
-                   'last_name': last_name,
-                   'organization': self.id,
-                   'email': email,
-                   'username': username,
-                   'password': password,
-                   'password_confirm': password,
-                   'user_type': {'type': 'normal',
-                                 'label': 'Normal User'},
-                   'is_superuser': False,
-                   'is_system_auditor': False}
-        if level == 'system_auditor':
-            payload['user_type'] = {'type': 'system_auditor',
-                                    'label': 'System Auditor'}
-            payload['is_system_auditor'] = True
-        elif level == 'system_administrator':
-            payload['user_type'] = {'type': 'system_administrator',
-                                    'label': 'System Administrator'}
-            payload['is_superuser'] = True
-        response = self._tower.session.post(url, json=payload)
-        return User(self._tower, response.json()) if response.ok else None
-
-    def delete_user(self, username):
-        """Deletes a user by username.
-
-        Args:
-            username: The username of the user to delete.
-
-        Returns:
-            bool: True on success, False otherwise.
-
-        Raises:
-            InvalidUser: The username provided as argument does not exist.
-
-        """
-        user = self._tower.get_user_by_username(username)
-        if not user:
-            raise InvalidUser(username)
-        return user.delete()
+        return self._related_field_counts.get('users', 0)
 
     @property
     def teams(self):
@@ -435,6 +388,28 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                              entity_object='Team',
                              primary_match_field='name',
                              url=url)
+
+    @property
+    def teams_count(self):
+        """The number of teams of the organization.
+
+        Returns:
+            integer: The count of the teams on the organization.
+
+        """
+        return self._related_field_counts.get('teams', 0)
+
+    def get_team_by_name(self, name):
+        """Retrieves a team.
+
+        Args:
+            name: The name of the team to retrieve.
+
+        Returns:
+            team (Team): team on success else None.
+
+        """
+        return next(self._tower.teams.filter({'organization': self.id, 'name__iexact': name}), None)
 
     def create_team(self, name, description):
         """Creates a team.
@@ -452,6 +427,8 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                    'organization': self.id}
         url = '{api}/teams/'.format(api=self._tower.api)
         response = self._tower.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error creating team "%s", response was : "%s"', name, response.text)
         return Team(self._tower, response.json()) if response.ok else None
 
     def delete_team(self, name):
@@ -486,6 +463,28 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                              primary_match_field='name',
                              url=url)
 
+    @property
+    def inventories_count(self):
+        """The number of inventories of the organization.
+
+        Returns:
+            integer: The count of the inventories on the organization.
+
+        """
+        return self._related_field_counts.get('inventories', 0)
+
+    def get_inventory_by_name(self, name):
+        """Retrieves an inventory.
+
+        Args:
+            name: The name of the inventory to retrieve.
+
+        Returns:
+            inventory(Inventory): inventory on success else None.
+
+        """
+        return next(self._tower.inventories.filter({'organization': self.id, 'name__iexact': name}), None)
+
     def create_inventory(self, name, description, variables='{}'):
         """Creates an inventory.
 
@@ -509,6 +508,8 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                    'variables': variables}
         url = '{api}/inventories/'.format(api=self._tower.api)
         response = self._tower.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error creating inventory "%s", response was "%s"', name, response.text)
         return Inventory(self._tower, response.json()) if response.ok else None
 
     def delete_inventory(self, name):
@@ -590,39 +591,3 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return next(self.credentials.filter({'id': id_}), None)
-
-    def get_project_by_name(self, name):
-        """Retrieves a project.
-
-        Args:
-            name: The name of the project to retrieve.
-
-        Returns:
-            project (Project): project on success else None.
-
-        """
-        return next(self._tower.projects.filter({'organization': self.id, 'name__iexact': name}), None)
-
-    def get_team_by_name(self, name):
-        """Retrieves a team.
-
-        Args:
-            name: The name of the team to retrieve.
-
-        Returns:
-            team (Team): team on success else None.
-
-        """
-        return next(self._tower.teams.filter({'organization': self.id, 'name__iexact': name}), None)
-
-    def get_inventory_by_name(self, name):
-        """Retrieves an inventory.
-
-        Args:
-            name: The name of the inventory to retrieve.
-
-        Returns:
-            inventory(Inventory): inventory on success else None.
-
-        """
-        return next(self._tower.inventories.filter({'organization': self.id, 'name__iexact': name}), None)

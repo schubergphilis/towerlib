@@ -50,12 +50,12 @@ __email__ = '''<ctyfoxylos@schubergphilis.com>'''
 __status__ = '''Development'''  # "Prototype", "Development", "Production".
 
 # This is the main prefix used for logging
-LOGGER_BASENAME = '''misc'''
+LOGGER_BASENAME = '''core'''
 LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
 
 USER_LEVELS = (u'standard', u'system_auditor', u'system_administrator')
-CERTIFICATE_TYPE_KINDS = (u'scm', u'ssh', u'vault', u'net', u'cloud', u'insights')
+VALID_CREDENTIAL_TYPES = (u'net', u'cloud')
 JOB_TYPES = (u'run', u'check')
 VERBOSITY_LEVELS = (0, 1, 2, 3, 4)
 
@@ -319,6 +319,8 @@ class Entity(DateParserMixin):
 
         """
         response = self._tower.session.delete(self.url)
+        if not response.ok:
+            self._logger.error('Error deleting, response was: "%s"', response.text)
         return response.ok
 
     def _update_values(self, attribute, value, parent_attribute=None):
@@ -328,6 +330,13 @@ class Entity(DateParserMixin):
             self._data.update(response.json())
         else:
             self._logger.error('Error updating variables, response was: %s', response.text)
+
+    def _refresh_state(self):
+        response = self._tower.session.get(self.url)
+        if response.ok:
+            self._data.update(response.json())
+        else:
+            self._logger.error('Error getting updated state, response was: %s', response.text)
 
 
 class EntityManager:

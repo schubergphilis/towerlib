@@ -36,6 +36,7 @@ import logging
 from bs4 import BeautifulSoup as Bfs
 from dateutil.parser import parse
 
+from towerlib.towerlibexceptions import InvalidCredential
 from .core import Entity, EntityManager
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
@@ -791,27 +792,26 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
                              primary_match_field='name',
                              url=url)
 
-    def add_extra_credentials(self, credentials):
-        """Adds credentials by name.
+    def add_credential(self, credential):
+        """Adds credential by name.
 
         Args:
-            credentials: A list or tuple or a single string of a credential.
+            credential (str): A single string of a credential.
+            credential_type_id (int): The type of the credential.
 
         """
-        if not isinstance(credentials, (list, tuple)):
-            credentials = [credentials]
-        organization = self.inventory.organization
-        for credential in credentials:
-            extra_credential = organization.get_credential_by_name(credential)
-            if not extra_credential:
-                self._logger.warning('No credential with name {}'.format(credential))
-            else:
-                payload = {'id': extra_credential.id}
-                url = '{api}/job_templates/{id}/extra_credentials/'.format(api=self._tower.api,
-                                                                           id=self.id)
-                response = self._tower.session.post(url, json=payload)
-                if not response.ok:
-                    self._logger.error('Failed to add credential {}'.format(credential))
+        # if not isinstance(credentials, (list, tuple)):
+        #     credentials = [credentials]
+        extra_credential = self.inventory.organization.get_credential_by_name_with_type_id(credential, 1)
+        if not extra_credential:
+            raise InvalidCredential(credential)
+        payload = {'id': extra_credential.id}
+        url = '{api}/job_templates/{id}/credentials/'.format(api=self._tower.api,
+                                                             id=self.id)
+        response = self._tower.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Failed to add credential {}'.format(credential))
+        return response.ok
 
     @property
     def object_roles(self):

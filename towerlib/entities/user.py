@@ -33,7 +33,7 @@ Main code for user.
 
 import logging
 
-from towerlib.towerlibexceptions import InvalidValue
+from towerlib.towerlibexceptions import InvalidValue, InvalidRole, InvalidOrganization
 from .core import (Entity,
                    EntityManager,
                    validate_max_length,
@@ -329,3 +329,63 @@ class User(Entity):
                              entity_object='Credential',
                              primary_match_field='name',
                              url=url)
+
+    @property
+    def last_login(self):
+        """The last time the user logged in to the system.
+
+        Returns:
+            datetime: The datetime object of the date and time of the last login for the user.
+            None: If there is no entry for the last login date.
+
+        """
+        return self._to_datetime(self._data.get('last_login'))
+
+    def _assign_permission_role(self, role_id, disassociate=False):
+        payload = {'id': role_id}
+        if disassociate:
+            payload['disassociate'] = True
+        url = '{host}{url_}'.format(host=self._tower.host, url_=self._data.get('related', {}).get('roles'))
+        response = self._tower.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error editing the role permissions for user "%s", response was :"%s"', self.username,
+                               response.text)
+        return response.ok
+
+    def associate_with_organization_role(self, organization, role):
+        """Associate a user to an organizational role.
+
+        Args:
+            organization: The organization that we want to assign to
+            role: The role we want to assign to the object
+
+        Returns:
+            bool: If it managed to associate the user to the organization
+
+        """
+        organization_ = self._tower.get_organization_by_name(organization)
+        if not organization_:
+            raise InvalidOrganization(organization)
+        role_id = organization_._get_object_role_id(role)  # pylint: disable=protected-access
+        if role_id is None:
+            raise InvalidRole(role)
+        return self._assign_permission_role(role_id)
+
+    def disassociate_from_organization_role(self, organization, role):
+        """Disassociate a user to an organizational role.
+
+        Args:
+            organization: The organization object that we want to assign to
+            role: The role we want to assign to the object
+
+        Returns:
+            bool: If it managed to disassociate the user to the organization
+
+        """
+        organization_ = self._tower.get_organization_by_name(organization)
+        if not organization_:
+            raise InvalidOrganization(organization)
+        role_id = organization_._get_object_role_id(role) # pylint: disable=protected-access
+        if role_id is None:
+            raise InvalidRole(role)
+        return self._assign_permission_role(role_id, disassociate=True)

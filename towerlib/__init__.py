@@ -38,7 +38,6 @@ from .towerlibexceptions import (AuthFailed,
                                  InvalidOrganization,
                                  InvalidVariables,
                                  InvalidInventory,
-                                 InvalidCredentialTypeKind,
                                  InvalidUser,
                                  InvalidTeam,
                                  InvalidCredential,
@@ -51,7 +50,9 @@ from .towerlibexceptions import (AuthFailed,
                                  InvalidJobType,
                                  InvalidVerbosity,
                                  InvalidJobTemplate,
-                                 PermissionNotFound)
+                                 PermissionNotFound,
+                                 InvalidRole,
+                                 InvalidValue)
 
 from .towerlib import Tower
 from .entities import (Organization,  # NOQA
@@ -96,7 +97,6 @@ assert InvalidUserLevel
 assert InvalidOrganization
 assert InvalidVariables
 assert InvalidInventory
-assert InvalidCredentialTypeKind
 assert InvalidUser
 assert InvalidTeam
 assert InvalidCredential
@@ -110,6 +110,8 @@ assert InvalidJobType
 assert InvalidVerbosity
 assert InvalidJobTemplate
 assert PermissionNotFound
+assert InvalidValue
+assert InvalidRole
 
 # assert objects
 assert Tower

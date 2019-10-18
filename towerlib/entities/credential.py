@@ -31,6 +31,7 @@ Main code for credentials.
 
 """
 
+import importlib
 import logging
 
 from towerlib.towerlibexceptions import (InvalidOrganization,
@@ -38,8 +39,7 @@ from towerlib.towerlibexceptions import (InvalidOrganization,
                                          InvalidCredentialType)
 from .core import (Entity,
                    EntityManager,
-                   validate_max_length,
-                   validate_json)
+                   validate_max_length)
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -149,10 +149,10 @@ class CredentialType(Entity):
             None:
 
         """
-        if validate_json(value):
+        if isinstance(value, dict):
             self._update_values('inputs', value)
         else:
-            raise InvalidValue('Value is not valid json received: {value}'.format(value=value))
+            raise InvalidValue('Value is not valid dictionary received: {value}'.format(value=value))
 
     @property
     def injectors(self):
@@ -172,23 +172,28 @@ class CredentialType(Entity):
             None:
 
         """
-        if validate_json(value):
+        if isinstance(value, dict):
             self._update_values('injectors', value)
         else:
-            raise InvalidValue('Value is not valid json received: {value}'.format(value=value))
+            raise InvalidValue('Value is not valid dictionary received: {value}'.format(value=value))
 
 
 class Credential:  # pylint: disable=too-few-public-methods
     """Credential factory to handle the different credential types returned."""
 
     def __new__(cls, tower_instance, data):
-        entity_type = data.get('credential_type')
-        if entity_type == 1:  # pylint: disable=no-else-return
-            return MachineCredential(tower_instance, data)
-        elif entity_type == 14:
-            return VaultCredential(tower_instance, data)
-        else:
-            return GenericCredential(tower_instance, data)
+        try:
+            credential_type_name = tower_instance.get_credential_type_by_id(data.get('credential_type')).name
+            credential_type_name = ''.join(credential_type_name.split())
+            credential_type = '{credential_type}Credential'.format(credential_type=credential_type_name)
+            CredentialType_ = getattr(importlib.import_module('towerlib.entities.credential'),  # pylint: disable=invalid-name
+                                      credential_type)
+            credential = CredentialType_(tower_instance, data)
+        except Exception:  # pylint: disable=broad-except
+            LOGGER.warning('Could not dynamically load credential with type : "%s", trying a generic one.',
+                           credential_type)
+            credential = GenericCredential(tower_instance, data)
+        return credential
 
 
 class GenericCredential(Entity):
@@ -394,7 +399,7 @@ class GenericCredential(Entity):
             None:
 
         """
-        if validate_json(value):
+        if isinstance(value, dict):
             self._update_values('inputs', value)
         else:
             raise InvalidValue('Value is not valid json received: {value}'.format(value=value))
@@ -447,8 +452,8 @@ class MachineCredential(GenericCredential):
         self._update_values('password', value, parent_attribute='inputs')
 
 
-class VaultCredential(GenericCredential):
-    """Models the machine credential."""
+class HashicorpVaultCredential(GenericCredential):
+    """Models the hashicorp vault credential."""
 
     def __init__(self, tower_instance, data):
         GenericCredential.__init__(self, tower_instance, data)

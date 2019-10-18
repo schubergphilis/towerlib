@@ -31,14 +31,14 @@ Main code for towerlib.
 
 """
 
+import concurrent.futures
 import json
 import logging
-import sys
 import math
-import concurrent.futures
+import sys
 
-from requests import Session
 from cachetools import TTLCache, cached
+from requests import Session
 
 from towerlib.entities.core import validate_json
 from .entities import (Config,  # pylint: disable=unused-import  # NOQA
@@ -54,18 +54,16 @@ from .entities import (Config,  # pylint: disable=unused-import  # NOQA
                        CredentialType,
                        Credential,
                        JobTemplate,
-                       CERTIFICATE_TYPE_KINDS,
+                       VALID_CREDENTIAL_TYPES,
                        JOB_TYPES,
                        VERBOSITY_LEVELS,
                        Cluster,
                        ClusterInstance,
-                       EntityManager,
-                       NotificationTemplate)
+                       EntityManager)
 from .towerlibexceptions import (AuthFailed,
                                  InvalidOrganization,
                                  InvalidInventory,
                                  InvalidVariables,
-                                 InvalidCredentialTypeKind,
                                  InvalidUser,
                                  InvalidTeam,
                                  InvalidCredential,
@@ -90,7 +88,7 @@ __email__ = '''<ctyfoxylos@schubergphilis.com>'''
 __status__ = '''Development'''  # 'Prototype', 'Development', 'Production'.
 
 # This is the main prefix used for logging
-LOGGER_BASENAME = '''towerlib'''
+LOGGER_BASENAME = 'towerlib'
 LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
 
@@ -108,21 +106,29 @@ class Tower:  # pylint: disable=too-many-public-methods
         logger_name = u'{base}.{suffix}'.format(base=LOGGER_BASENAME,
                                                 suffix=self.__class__.__name__)
         self._logger = logging.getLogger(logger_name)
-        protocol = 'https' if secure else 'http'
-        self.host = '{protocol}://{host}'.format(protocol=protocol, host=host)
+        self.host = self._generate_host_name(host, secure)
         self.api = '{host}/api/v2'.format(host=self.host)
         self.username = username
         self.password = password
-        self.session = self._setup_session(secure, ssl_verify)
+        self.session = self._get_authenticated_session(secure, ssl_verify)
 
-    def _setup_session(self, secure, ssl_verify):
+    @staticmethod
+    def _generate_host_name(host, secure):
+        protocol = 'https' if secure else 'http'
+        return '{protocol}://{host}'.format(protocol=protocol, host=host)
+
+    def _get_authenticated_session(self, secure, ssl_verify):
         session = Session()
         if secure:
             session.verify = ssl_verify
-        session.get(self.host)
-        session.auth = (self.username, self.password)
+        return self._authenticate(session, self.host, self.username, self.password, self.api)
+
+    @staticmethod
+    def _authenticate(session, host, username, password, api_url):
+        session.get(host)
+        session.auth = (username, password)
         session.headers.update({'content-type': 'application/json'})
-        url = '{api}/me/'.format(api=self.api)
+        url = '{api}/me/'.format(api=api_url)
         response = session.get(url)
         if response.status_code == 401:
             raise AuthFailed(response.content)
@@ -220,7 +226,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.organizations.filter({'id': id_}), None)
 
-    def create_organization(self, name, description):
+    def create_organization(self, name, description=""):
         """Creates an organization in tower.
 
         Args:
@@ -235,6 +241,8 @@ class Tower:  # pylint: disable=too-many-public-methods
         payload = {'name': name,
                    'description': description}
         response = self.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error creating organization, response was: "%s"', response.text)
         return Organization(self, response.json()) if response.ok else None
 
     def delete_organization(self, name):
@@ -352,8 +360,46 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.users.filter({'id': id_}), None)
 
+    def create_user(self,  # pylint: disable=too-many-arguments
+                    username,
+                    password,
+                    first_name="",
+                    last_name="",
+                    email="",
+                    is_superuser=False,
+                    is_system_auditor=False,
+                    ):
+        """Creates a user in AWX/Tower.
+
+        Args:
+            username: The username to create for the user.
+            password: The password to set for the user.
+            first_name: The first name of the user.
+            last_name: The last name of the user.
+            email: The email of the user.
+            is_superuser: Is the user a super user
+            is_system_auditor: Is the user an auditor
+
+        Returns:
+            User: The created User object on success, None otherwise.
+
+        """
+        url = '{api}/users/'.format(api=self.api)
+        payload = {
+            'username': username,
+            'first_name': first_name,
+            'last_name': last_name,
+            'email': email,
+            'password': password,
+            'is_superuser': is_superuser,
+            'is_system_auditor': is_system_auditor}
+        response = self.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error creating user, response was: "%s"', response.text)
+        return User(self, response.json()) if response.ok else None
+
     def delete_user(self, username):
-        """Deletes a user from tower.
+        """Deletes a user by username.
 
         Args:
             username: The username of the user to delete.
@@ -362,7 +408,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             bool: True on success, False otherwise.
 
         Raises:
-            InvalidUser: The user provided as argument does not exist.
+            InvalidUser: The username provided as argument does not exist.
 
         """
         user = self.get_user_by_username(username)
@@ -372,22 +418,21 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     def create_user_in_organization(self,  # pylint: disable=too-many-arguments
                                     organization,
-                                    first_name,
-                                    last_name,
-                                    email,
                                     username,
                                     password,
-                                    level='standard'):
+                                    first_name,
+                                    last_name,
+                                    email):
         """Creates a user in an organization.
 
         Args:
             organization: The name of the organization to create the user under.
+            username: The user's username.
+            password: The user's password.
             first_name: The user's first name.
             last_name: The user's last name.
             email: The user's email.
-            username: The user's username.
-            password: The user's password.
-            level: The user's level. Accepted values are ('standard', 'system_auditor', 'system_administrator').
+
 
         Returns:
             User: The user on success, None otherwise.
@@ -399,7 +444,15 @@ class Tower:  # pylint: disable=too-many-public-methods
         organization_ = self.get_organization_by_name(organization)
         if not organization_:
             raise InvalidOrganization(organization)
-        return organization_.create_user(first_name, last_name, email, username, password, level)
+        user = self.create_user(username,
+                                password,
+                                first_name=first_name,
+                                last_name=last_name,
+                                email=email)
+        if not user:
+            return False
+        user.associate_with_organization_role(organization, Organization.DEFAULT_MEMBER_ROLE)
+        return user
 
     @property
     def projects(self):
@@ -508,12 +561,11 @@ class Tower:  # pylint: disable=too-many-public-methods
                                             scm_update_on_launch,
                                             scm_update_cache_timeout)
 
-    def delete_inventory_project(self, organization, inventory, name):
+    def delete_organization_project(self, organization, name):
         """Deletes a project from tower.
 
         Args:
             organization: The organization the inventory belongs to.
-            inventory: The inventory the project belongs to.
             name: The name of the project to delete.
 
         Returns:
@@ -523,10 +575,10 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidProject: The project provided as argument does not exist.
 
         """
-        inventory_ = self.get_organization_inventory_by_name(organization, inventory)
-        if not inventory_:
-            raise InvalidInventory(inventory_)
-        project = inventory_.get_project_by_name(name)
+        organization_ = self.get_organization_by_name(organization)
+        if not organization_:
+            raise InvalidOrganization(organization_)
+        project = organization_.get_project_by_name(name)
         if not project:
             raise InvalidProject(name)
         return project.delete()
@@ -587,7 +639,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.teams.filter({'id': id_}), None)
 
-    def create_team_in_organization(self, organization, team_name, description):
+    def create_team_in_organization(self, organization, team_name, description=""):
         """Creates a team under an organization.
 
         Args:
@@ -675,6 +727,28 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.groups.filter({'id': id_}), None)
 
+    def create_inventory_group(self, organization, inventory, name, description, variables='{}'):  # pylint: disable=too-many-arguments
+        """Creates a group in an inventory in tower.
+
+        Args:
+            organization: The organization the inventory belongs to.
+            inventory: The name of the inventory to create the group in.
+            name: The name of the group to create.
+            description (str): The description of the group to create.
+            variables (str): The Variables of the group in a json string format.
+
+        Returns:
+            bool: True on success, False otherwise.
+
+        Raises:
+            InvalidGroup: The group provided as argument does not exist.
+
+        """
+        inventory_ = self.get_organization_inventory_by_name(organization, inventory)
+        if not inventory_:
+            raise InvalidInventory(inventory)
+        return inventory_.create_group(name, description, variables)
+
     def delete_inventory_group(self, organization, inventory, name):
         """Deletes a group from tower.
 
@@ -751,11 +825,11 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.inventories.filter({'id': id_}), None)
 
-    def create_inventory_in_organization(self,
-                                         organization,
-                                         name,
-                                         description,
-                                         variables='{}'):
+    def create_organization_inventory(self,
+                                      organization,
+                                      name,
+                                      description,
+                                      variables='{}'):
         """Creates an inventory under an organization.
 
         Args:
@@ -1030,7 +1104,7 @@ class Tower:  # pylint: disable=too-many-public-methods
     def create_credential_type(self,  # pylint: disable=too-many-arguments
                                name,
                                description,
-                               kind,
+                               type_,
                                inputs_='{}',
                                injectors='{}'):
         """Creates a credential type in tower.
@@ -1038,7 +1112,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         Args:
             name: The name of the credential type.
             description: The description of the credential type.
-            kind: The kind of credential type.Valid values (u'scm', u'ssh', u'vault', u'net', u'cloud', u'insights').
+            type_: The kind of credential type.Valid values (u'scm', u'ssh', u'vault', u'net', u'cloud', u'insights').
             inputs_ (str): A json of the inputs to set to the credential type.
             injectors (str): A json of the injectors to set to the credential type.
 
@@ -1050,11 +1124,11 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidVariables: The inputs or injectors provided as argument is not valid json.
 
         """
-        if kind.lower() not in CERTIFICATE_TYPE_KINDS:
-            raise InvalidCredentialTypeKind(kind)
+        if type_.lower() not in VALID_CREDENTIAL_TYPES:
+            raise InvalidCredentialType(type_)
         payload = {'name': name,
                    'description': description,
-                   'kind': kind.lower()}
+                   'kind': type_.lower()}
         if not validate_json(inputs_):
             raise InvalidVariables(inputs_)
         if not validate_json(injectors):
@@ -1063,6 +1137,8 @@ class Tower:  # pylint: disable=too-many-public-methods
         payload['injectors'] = json.loads(injectors)
         url = '{api}/credential_types/'.format(api=self.api)
         response = self.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error creating credential type "%s", response was: "%s"', type_, response.text)
         return CredentialType(self, response.json()) if response.ok else None
 
     def delete_credential_type(self, name):
@@ -1127,7 +1203,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         # return self.credentials.filter({'name__iexact': name})
         credential_type_ = self.get_credential_type_by_name(credential_type)
         if not credential_type_:
-            raise InvalidCredentialType(name)
+            raise InvalidCredentialType(credential_type)
         organization_ = self.get_organization_by_name(organization)
         if not organization_:
             raise InvalidOrganization(organization)
@@ -1170,7 +1246,46 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.credentials.filter({'id': id_}), None)
 
-    def create_credential_in_organization(self,  # pylint: disable=too-many-arguments,too-many-locals
+    def create_credential_with_credential_type_id(self,  # pylint: disable=too-many-arguments
+                                                  name: str,
+                                                  credential_type_id: int,
+                                                  description='',
+                                                  organization_id=None,
+                                                  user_id=None,
+                                                  team_id=None,
+                                                  inputs='{}'):
+        """Creates a credential using the id  of the provided credential type.
+
+        Args:
+            name (str): The name of the credential
+            credential_type_id (int): The number of the credential type
+            description (str): The description of the credential
+            organization_id (int): The id of the organization
+            user_id (int): The id of the user
+            team_id (int): The id of the team
+            inputs (str): The input to provide to the credential as json in a string format
+
+        Returns:
+            credential (Credential|None): A credential object on success, false otherwise.
+
+        """
+        payload = {
+            'name': name,
+            'description': description,
+            'credential_type': credential_type_id,
+            'organization': organization_id,
+            'user': user_id,
+            'team': team_id,
+            'inputs': json.loads(inputs)
+        }
+
+        url = '{api}/credentials/'.format(api=self.api)
+        response = self.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error creating credential "%s", response was: "%s"', name, response.text)
+        return Credential(self, response.json()) if response.ok else None
+
+    def create_credential_in_organization(self,  # pylint: disable=too-many-arguments
                                           organization,
                                           name,
                                           description,
@@ -1203,7 +1318,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         organization_ = self.get_organization_by_name(organization)
         if not organization_:
             raise InvalidOrganization(organization)
-        user_ = organization_.get_user_by_username(user)
+        user_ = self.get_user_by_username(user)
         if not user_:
             raise InvalidUser(user)
         team_ = organization_.get_team_by_name(team)
@@ -1212,18 +1327,16 @@ class Tower:  # pylint: disable=too-many-public-methods
         credential_type_ = self.get_credential_type_by_name(credential_type)
         if not credential_type_:
             raise InvalidCredentialType(credential_type)
-        payload = {'name': name,
-                   'description': description,
-                   'organization': organization_.id,
-                   'user': user_.id,
-                   'team': team_.id,
-                   'credential_type': credential_type_.id}
         if not validate_json(inputs_):
             raise InvalidVariables(inputs_)
-        payload['inputs'] = json.loads(inputs_)
-        url = '{api}/credentials/'.format(api=self.api)
-        response = self.session.post(url, json=payload)
-        return Credential(self, response.json()) if response.ok else None
+        return self.create_credential_with_credential_type_id(name,
+                                                              credential_type_.id,
+                                                              description=description,
+                                                              user_id=user_.id,
+                                                              team_id=team_.id,
+                                                              organization_id=organization_.id,
+                                                              inputs=inputs_
+                                                              )
 
     def create_credential_in_organization_with_type_id(self,  # pylint: disable=too-many-arguments
                                                        organization,
@@ -1241,7 +1354,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             description (str): The description of the credential to create.
             user (str): The username of the user to assign to the credential.
             team (str): The name of the team to assign to the credential.
-            credential_type (int): The number of the type of the credential.
+            credential_type_id (int): The number of the type of the credential.
             inputs_ s(str): A json with the values to set to the credential according to what is required by its type.
 
         Returns:
@@ -1257,7 +1370,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         organization_ = self.get_organization_by_name(organization)
         if not organization_:
             raise InvalidOrganization(organization)
-        user_ = organization_.get_user_by_username(user)
+        user_ = self.get_user_by_username(user)
         if not user_:
             raise InvalidUser(user)
         team_ = organization_.get_team_by_name(team)
@@ -1274,6 +1387,8 @@ class Tower:  # pylint: disable=too-many-public-methods
         payload['inputs'] = json.loads(inputs_)
         url = '{api}/credentials/'.format(api=self.api)
         response = self.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error creating credential "%s", response was: "%s"', name, response.text)
         return Credential(self, response.json()) if response.ok else None
 
     def delete_organization_credential_by_name(self, organization, name, credential_type):
@@ -1295,7 +1410,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         credential_type_ = self.get_credential_type_by_name(credential_type)
         if not credential_type_:
-            raise InvalidCredentialType(name)
+            raise InvalidCredentialType(credential_type)
         organization_ = self.get_organization_by_name(organization)
         if not organization_:
             raise InvalidOrganization(organization)
@@ -1331,6 +1446,156 @@ class Tower:  # pylint: disable=too-many-public-methods
         if not credential:
             raise InvalidCredential(name)
         return credential.delete()
+
+    @property
+    def jobs(self):
+        """The jobs executed in tower.
+
+        Returns:
+            EntityManager: The manager object for jobs.
+
+        """
+        return EntityManager(self,
+                             entity_name='jobs',
+                             entity_object='Job',
+                             primary_match_field='name')
+
+    @property
+    def unified_jobs(self):
+        """The unified jobs executed in tower.
+
+        Returns:
+            EntityManager: The manager object for unified jobs.
+
+        """
+        return EntityManager(self,
+                             entity_name='unified_jobs',
+                             entity_object='Job',
+                             primary_match_field='name')
+
+    def get_unified_job_by_id(self, id_):
+        """Retrieves a job  by id.
+
+        Args:
+            id_: The id of the job  to retrieve.
+
+        Returns:
+            Host: The job if a match is found else None.
+
+        """
+        return next(self.unified_jobs.filter({'id': id_}), None)
+
+    def get_unified_jobs_by_name(self, name):
+        """Retrieves all unified jobs matching a certain name.
+
+        Args:
+            name: The name of the unified job(s) to retrieve.
+
+        Returns:
+            UnifiedJob (Generator): A unified job generator.
+
+        """
+        return self.unified_jobs.filter({'name__iexact': name})
+
+    @property
+    def unified_job_templates(self):
+        """The unified job templates configured in tower.
+
+        Returns:
+            EntityManager: The manager object for unified job templates.
+
+        """
+        return EntityManager(self,
+                             entity_name='unified_job_templates',
+                             entity_object='JobTemplate',
+                             primary_match_field='name')
+
+    @property
+    def workflow_jobs(self):
+        """The workflow jobs executed in tower.
+
+        Returns:
+            EntityManager: The manager object for workflow jobs.
+
+        """
+        return EntityManager(self,
+                             entity_name='workflow_jobs',
+                             entity_object='Job',
+                             primary_match_field='name')
+
+    def get_workflow_job_by_id(self, id_):
+        """Retrieves a job  by id.
+
+        Args:
+            id_: The id of the job  to retrieve.
+
+        Returns:
+            Host: The job if a match is found else None.
+
+        """
+        return next(self.workflow_jobs.filter({'id': id_}), None)
+
+    def get_workflow_jobs_by_name(self, name):
+        """Retrieves all workflow jobs matching a certain name.
+
+        Args:
+            name: The name of the workflow job(s) to retrieve.
+
+        Returns:
+            UnifiedJob (Generator): A workflow job generator.
+
+        """
+        return self.workflow_jobs.filter({'name__iexact': name})
+
+    @property
+    def workflow_job_templates(self):
+        """The workflow job templates configured in tower.
+
+        Returns:
+            EntityManager: The manager object for workflow job templates.
+
+        """
+        return EntityManager(self,
+                             entity_name='workflow_job_templates',
+                             entity_object='JobTemplate',
+                             primary_match_field='name')
+
+    @property
+    def system_jobs(self):
+        """The system jobs executed in tower.
+
+        Returns:
+            EntityManager: The manager object for system jobs.
+
+        """
+        return EntityManager(self,
+                             entity_name='system_jobs',
+                             entity_object='Job',
+                             primary_match_field='name')
+
+    def get_system_job_by_id(self, id_):
+        """Retrieves a job  by id.
+
+        Args:
+            id_: The id of the job  to retrieve.
+
+        Returns:
+            Host: The job if a match is found else None.
+
+        """
+        return next(self.system_jobs.filter({'id': id_}), None)
+
+    def get_system_jobs_by_name(self, name):
+        """Retrieves all system jobs matching a certain name.
+
+        Args:
+            name: The name of the system job(s) to retrieve.
+
+        Returns:
+            UnifiedJob (Generator): A system job generator.
+
+        """
+        return self.system_jobs.filter({'name__iexact': name})
 
     @property
     def job_templates(self):
@@ -1369,24 +1634,6 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.job_templates.filter({'id': id_}), None)
 
-    def delete_job_template(self, name):
-        """Deletes a job template from tower.
-
-        Args:
-            name: The name of the job template to delete.
-
-        Returns:
-            bool: True on success, False otherwise.
-
-        Raises:
-            InvalidJobTemplate: The job template provided as argument does not exist.
-
-        """
-        job_template = self.get_job_template_by_name(name)
-        if not job_template:
-            raise InvalidJobTemplate(name)
-        return job_template.delete()
-
     def create_job_template(self,  # pylint: disable=too-many-arguments,too-many-locals
                             name,
                             description,
@@ -1394,7 +1641,8 @@ class Tower:  # pylint: disable=too-many-public-methods
                             inventory,
                             project,
                             playbook,
-                            credential,
+                            credential=None,
+                            credential_type=None,
                             instance_groups=None,
                             host_config_key=None,
                             job_type='run',
@@ -1432,6 +1680,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             project: The project to use for the template.
             playbook: The playbook to run for the template.
             credential: The credential to use for the template.
+            credential_type: The type of the credential to use for the template.
             instance_groups: The instance groups to associate to the template.
             host_config_key: A host config key.
             job_type: The job type. Valid values are 'run' and 'check'.
@@ -1470,6 +1719,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidInstanceGroup: The instance group provided as argument does not exist.
             InvalidJobType: The job type provided as argument does not exist.
             InvalidVerbosity: The verbosity provided is not in valid range of 0-4.
+            InvalidCredentialType: The credential type is invalid.
 
         """
         inventory_ = self.get_organization_inventory_by_name(organization, inventory)
@@ -1480,8 +1730,13 @@ class Tower:  # pylint: disable=too-many-public-methods
             raise InvalidProject(project)
         if playbook not in project_.playbooks:
             raise InvalidPlaybook(playbook)
-        credential_ = inventory_.organization.get_credential_by_name(credential)
-        if not credential_:
+        if all([credential, credential_type]):
+            credential_ = inventory_.organization.get_credential_by_name(credential, credential_type)
+            if not credential_:
+                raise InvalidCredential(credential)
+            credential = credential_.id
+        elif any([credential, credential_type]):
+            self._logger.error('Both credential and credential type should be provided.')
             raise InvalidCredential(credential)
         instance_group_ids = []
         if instance_groups:
@@ -1505,7 +1760,7 @@ class Tower:  # pylint: disable=too-many-public-methods
                    'inventory': inventory_.id,
                    'project': project_.id,
                    'playbook': playbook,
-                   'credential': credential_.id,
+                   'credential': credential,
                    'instance_groups': instance_group_ids,
                    'job_type': job_type,
                    'vault_credential': vault_credential,
@@ -1535,7 +1790,27 @@ class Tower:  # pylint: disable=too-many-public-methods
                    'allow_simultaneous': allow_simultaneous}
         url = '{api}/job_templates/'.format(api=self.api)
         response = self.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error creating job template, response was: "%s"', response.text)
         return JobTemplate(self, response.json()) if response.ok else None
+
+    def delete_job_template(self, name):
+        """Deletes a job template from tower.
+
+        Args:
+            name: The name of the job template to delete.
+
+        Returns:
+            bool: True on success, False otherwise.
+
+        Raises:
+            InvalidJobTemplate: The job template provided as argument does not exist.
+
+        """
+        job_template = self.get_job_template_by_name(name)
+        if not job_template:
+            raise InvalidJobTemplate(name)
+        return job_template.delete()
 
     @property
     def roles(self):

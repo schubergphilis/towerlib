@@ -69,13 +69,6 @@ class InvalidCredentialType(Exception):
     """The credential type provided is invalid."""
 
 
-class InvalidCredentialTypeKind(Exception):
-    """The credential type kind provided is invalid.
-
-    Valid values (u'scm', u'ssh', u'vault', u'net', u'cloud', u'insights')
-    """
-
-
 class InvalidUser(Exception):
     """The user provided is invalid."""
 
@@ -126,3 +119,7 @@ class PermissionNotFound(Exception):
 
 class InvalidValue(Exception):
     """The value is not valid for the field."""
+
+
+class InvalidRole(Exception):
+    """The role is not valid for this organization."""
