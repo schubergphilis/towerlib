@@ -122,3 +122,9 @@ History
 ------------------
 
 * bumped dependencies
+
+
+3.1.0 (18-10-2019)
+------------------
+
+* Implemented basic inventory source addition functionality
