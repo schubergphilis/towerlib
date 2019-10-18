@@ -116,3 +116,9 @@ History
 ------------------
 
 * Fixed the references to all the objects to be identified by their parent relationship to avoid ambiguity. Full test coverage.
+
+
+3.0.1 (18-10-2019)
+------------------
+
+* bumped dependencies
