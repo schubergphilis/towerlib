@@ -1,0 +1,1865 @@
+{
+  "http_interactions": [
+    {
+      "recorded_at": "2019-09-24T12:32:45",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/job_templates/?page_size=25&name__iexact=Demo+Job+Template"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":7,\"type\":\"job_template\",\"url\":\"/api/v2/job_templates/7/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"labels\":\"/api/v2/job_templates/7/labels/\",\"inventory\":\"/api/v2/inventories/1/\",\"project\":\"/api/v2/projects/6/\",\"extra_credentials\":\"/api/v2/job_templates/7/extra_credentials/\",\"credentials\":\"/api/v2/job_templates/7/credentials/\",\"last_job\":\"/api/v2/jobs/146/\",\"jobs\":\"/api/v2/job_templates/7/jobs/\",\"schedules\":\"/api/v2/job_templates/7/schedules/\",\"activity_stream\":\"/api/v2/job_templates/7/activity_stream/\",\"launch\":\"/api/v2/job_templates/7/launch/\",\"notification_templates_started\":\"/api/v2/job_templates/7/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/job_templates/7/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/job_templates/7/notification_templates_error/\",\"access_list\":\"/api/v2/job_templates/7/access_list/\",\"survey_spec\":\"/api/v2/job_templates/7/survey_spec/\",\"object_roles\":\"/api/v2/job_templates/7/object_roles/\",\"instance_groups\":\"/api/v2/job_templates/7/instance_groups/\",\"slice_workflow_jobs\":\"/api/v2/job_templates/7/slice_workflow_jobs/\",\"copy\":\"/api/v2/job_templates/7/copy/\"},\"summary_fields\":{\"inventory\":{\"id\":1,\"name\":\"Demo Inventory\",\"description\":\"\",\"has_active_failures\":false,\"total_hosts\":1,\"hosts_with_active_failures\":0,\"total_groups\":0,\"groups_with_active_failures\":0,\"has_inventory_sources\":false,\"total_inventory_sources\":0,\"inventory_sources_with_failures\":0,\"organization_id\":1,\"kind\":\"\"},\"project\":{\"id\":6,\"name\":\"Demo Project\",\"description\":\"\",\"status\":\"successful\",\"scm_type\":\"git\"},\"last_job\":{\"id\":146,\"name\":\"Demo Job Template\",\"description\":\"\",\"finished\":\"2019-09-24T09:42:38.908828Z\",\"status\":\"successful\",\"failed\":false},\"last_update\":{\"id\":146,\"name\":\"Demo Job Template\",\"description\":\"\",\"status\":\"successful\",\"failed\":false},\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the job template\",\"name\":\"Admin\",\"id\":26},\"execute_role\":{\"description\":\"May run the job template\",\"name\":\"Execute\",\"id\":27},\"read_role\":{\"description\":\"May view settings for the job template\",\"name\":\"Read\",\"id\":28}},\"user_capabilities\":{\"edit\":true,\"delete\":true,\"start\":true,\"schedule\":true,\"copy\":true},\"labels\":{\"count\":0,\"results\":[]},\"recent_jobs\":[{\"id\":146,\"status\":\"successful\",\"finished\":\"2019-09-24T09:42:38.908828Z\",\"type\":\"job\"},{\"id\":137,\"status\":\"successful\",\"finished\":\"2019-09-24T09:26:30.815987Z\",\"type\":\"job\"},{\"id\":134,\"status\":\"successful\",\"finished\":\"2019-09-24T09:20:22.544706Z\",\"type\":\"job\"},{\"id\":131,\"status\":\"successful\",\"finished\":\"2019-09-24T09:05:46.612558Z\",\"type\":\"job\"},{\"id\":128,\"status\":\"successful\",\"finished\":\"2019-09-24T09:00:07.639335Z\",\"type\":\"job\"}],\"credentials\":[{\"id\":1,\"name\":\"Demo Credential\",\"description\":\"\",\"kind\":\"ssh\",\"cloud\":false}]},\"created\":\"2019-08-14T11:37:13.441871Z\",\"modified\":\"2019-08-14T11:37:13.441885Z\",\"name\":\"Demo Job Template\",\"description\":\"\",\"job_type\":\"run\",\"inventory\":1,\"project\":6,\"playbook\":\"hello_world.yml\",\"forks\":0,\"limit\":\"\",\"verbosity\":0,\"extra_vars\":\"\",\"job_tags\":\"\",\"force_handlers\":false,\"skip_tags\":\"\",\"start_at_task\":\"\",\"timeout\":0,\"use_fact_cache\":false,\"last_job_run\":\"2019-09-24T09:42:38.908828Z\",\"last_job_failed\":false,\"next_job_run\":null,\"status\":\"successful\",\"host_config_key\":\"\",\"ask_diff_mode_on_launch\":false,\"ask_variables_on_launch\":false,\"ask_limit_on_launch\":false,\"ask_tags_on_launch\":false,\"ask_skip_tags_on_launch\":false,\"ask_job_type_on_launch\":false,\"ask_verbosity_on_launch\":false,\"ask_inventory_on_launch\":false,\"ask_credential_on_launch\":false,\"survey_enabled\":false,\"become_enabled\":false,\"diff_mode\":false,\"allow_simultaneous\":false,\"custom_virtualenv\":null,\"job_slice_count\":1}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "3920"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:32:45 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.566s"
+          ],
+          "X-API-Total-Time": [
+            "0.639s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/job_templates/?page_size=25&name__iexact=Demo+Job+Template"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:32:45",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/users/1/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"id\":1,\"type\":\"user\",\"url\":\"/api/v2/users/1/\",\"related\":{\"named_url\":\"/api/v2/users/boss/\",\"teams\":\"/api/v2/users/1/teams/\",\"organizations\":\"/api/v2/users/1/organizations/\",\"admin_of_organizations\":\"/api/v2/users/1/admin_of_organizations/\",\"projects\":\"/api/v2/users/1/projects/\",\"credentials\":\"/api/v2/users/1/credentials/\",\"roles\":\"/api/v2/users/1/roles/\",\"activity_stream\":\"/api/v2/users/1/activity_stream/\",\"access_list\":\"/api/v2/users/1/access_list/\",\"tokens\":\"/api/v2/users/1/tokens/\",\"authorized_tokens\":\"/api/v2/users/1/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/1/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":false}},\"created\":\"2019-08-14T11:37:07.225284Z\",\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-19T14:04:42.193879Z\",\"external_account\":null,\"auth\":[]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "920"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:32:45 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.212s"
+          ],
+          "X-API-Total-Time": [
+            "0.308s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/users/1/"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:32:46",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/users/1/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"id\":1,\"type\":\"user\",\"url\":\"/api/v2/users/1/\",\"related\":{\"named_url\":\"/api/v2/users/boss/\",\"teams\":\"/api/v2/users/1/teams/\",\"organizations\":\"/api/v2/users/1/organizations/\",\"admin_of_organizations\":\"/api/v2/users/1/admin_of_organizations/\",\"projects\":\"/api/v2/users/1/projects/\",\"credentials\":\"/api/v2/users/1/credentials/\",\"roles\":\"/api/v2/users/1/roles/\",\"activity_stream\":\"/api/v2/users/1/activity_stream/\",\"access_list\":\"/api/v2/users/1/access_list/\",\"tokens\":\"/api/v2/users/1/tokens/\",\"authorized_tokens\":\"/api/v2/users/1/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/1/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":false}},\"created\":\"2019-08-14T11:37:07.225284Z\",\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-19T14:04:42.193879Z\",\"external_account\":null,\"auth\":[]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "920"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:32:46 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.269s"
+          ],
+          "X-API-Total-Time": [
+            "0.352s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/users/1/"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:32:46",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/inventories/1/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"id\":1,\"type\":\"inventory\",\"url\":\"/api/v2/inventories/1/\",\"related\":{\"named_url\":\"/api/v2/inventories/Demo Inventory++Default/\",\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"hosts\":\"/api/v2/inventories/1/hosts/\",\"groups\":\"/api/v2/inventories/1/groups/\",\"root_groups\":\"/api/v2/inventories/1/root_groups/\",\"variable_data\":\"/api/v2/inventories/1/variable_data/\",\"script\":\"/api/v2/inventories/1/script/\",\"tree\":\"/api/v2/inventories/1/tree/\",\"inventory_sources\":\"/api/v2/inventories/1/inventory_sources/\",\"update_inventory_sources\":\"/api/v2/inventories/1/update_inventory_sources/\",\"activity_stream\":\"/api/v2/inventories/1/activity_stream/\",\"job_templates\":\"/api/v2/inventories/1/job_templates/\",\"ad_hoc_commands\":\"/api/v2/inventories/1/ad_hoc_commands/\",\"access_list\":\"/api/v2/inventories/1/access_list/\",\"object_roles\":\"/api/v2/inventories/1/object_roles/\",\"instance_groups\":\"/api/v2/inventories/1/instance_groups/\",\"copy\":\"/api/v2/inventories/1/copy/\",\"organization\":\"/api/v2/organizations/1/\"},\"summary_fields\":{\"organization\":{\"id\":1,\"name\":\"Default\",\"description\":\"\"},\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the inventory\",\"name\":\"Admin\",\"id\":21},\"update_role\":{\"description\":\"May update the inventory\",\"name\":\"Update\",\"id\":22},\"adhoc_role\":{\"description\":\"May run ad hoc commands on the inventory\",\"name\":\"Ad Hoc\",\"id\":23},\"use_role\":{\"description\":\"Can use the inventory in a job template\",\"name\":\"Use\",\"id\":24},\"read_role\":{\"description\":\"May view settings for the inventory\",\"name\":\"Read\",\"id\":25}},\"user_capabilities\":{\"edit\":true,\"delete\":true,\"copy\":true,\"adhoc\":true}},\"created\":\"2019-08-14T11:37:12.809745Z\",\"modified\":\"2019-08-14T11:37:12.809759Z\",\"name\":\"Demo Inventory\",\"description\":\"\",\"organization\":1,\"kind\":\"\",\"host_filter\":null,\"variables\":\"\",\"has_active_failures\":false,\"total_hosts\":1,\"hosts_with_active_failures\":0,\"total_groups\":0,\"groups_with_active_failures\":0,\"has_inventory_sources\":false,\"total_inventory_sources\":0,\"inventory_sources_with_failures\":0,\"insights_credential\":null,\"pending_deletion\":false}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2225"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:32:46 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.249s"
+          ],
+          "X-API-Total-Time": [
+            "0.334s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/inventories/1/"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:32:47",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/projects/6/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"id\":6,\"type\":\"project\",\"url\":\"/api/v2/projects/6/\",\"related\":{\"named_url\":\"/api/v2/projects/Demo Project++Default/\",\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"last_job\":\"/api/v2/project_updates/147/\",\"teams\":\"/api/v2/projects/6/teams/\",\"playbooks\":\"/api/v2/projects/6/playbooks/\",\"inventory_files\":\"/api/v2/projects/6/inventories/\",\"update\":\"/api/v2/projects/6/update/\",\"project_updates\":\"/api/v2/projects/6/project_updates/\",\"scm_inventory_sources\":\"/api/v2/projects/6/scm_inventory_sources/\",\"schedules\":\"/api/v2/projects/6/schedules/\",\"activity_stream\":\"/api/v2/projects/6/activity_stream/\",\"notification_templates_started\":\"/api/v2/projects/6/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/projects/6/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/projects/6/notification_templates_error/\",\"access_list\":\"/api/v2/projects/6/access_list/\",\"object_roles\":\"/api/v2/projects/6/object_roles/\",\"copy\":\"/api/v2/projects/6/copy/\",\"organization\":\"/api/v2/organizations/1/\",\"last_update\":\"/api/v2/project_updates/147/\"},\"summary_fields\":{\"organization\":{\"id\":1,\"name\":\"Default\",\"description\":\"\"},\"last_job\":{\"id\":147,\"name\":\"Demo Project\",\"description\":\"\",\"finished\":\"2019-09-24T09:42:07.860687Z\",\"status\":\"successful\",\"failed\":false},\"last_update\":{\"id\":147,\"name\":\"Demo Project\",\"description\":\"\",\"status\":\"successful\",\"failed\":false},\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the project\",\"name\":\"Admin\",\"id\":14},\"use_role\":{\"description\":\"Can use the project in a job template\",\"name\":\"Use\",\"id\":15},\"update_role\":{\"description\":\"May update the project\",\"name\":\"Update\",\"id\":16},\"read_role\":{\"description\":\"May view settings for the project\",\"name\":\"Read\",\"id\":17}},\"user_capabilities\":{\"edit\":true,\"delete\":true,\"start\":true,\"schedule\":true,\"copy\":true}},\"created\":\"2019-08-14T11:37:12.056677Z\",\"modified\":\"2019-09-24T09:42:07.651530Z\",\"name\":\"Demo Project\",\"description\":\"\",\"local_path\":\"_6__demo_project\",\"scm_type\":\"git\",\"scm_url\":\"https://github.com/ansible/ansible-tower-samples\",\"scm_branch\":\"\",\"scm_clean\":false,\"scm_delete_on_update\":false,\"credential\":null,\"timeout\":0,\"last_job_run\":\"2019-09-24T09:42:07.860687Z\",\"last_job_failed\":false,\"next_job_run\":null,\"status\":\"successful\",\"organization\":1,\"scm_update_on_launch\":true,\"scm_update_cache_timeout\":0,\"scm_revision\":\"347e44fea036c94d5f60e544de006453ee5c71ad\",\"custom_virtualenv\":null,\"last_update_failed\":false,\"last_updated\":\"2019-09-24T09:42:07.860687Z\"}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2667"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:32:47 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.325s"
+          ],
+          "X-API-Total-Time": [
+            "0.416s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/projects/6/"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:32:48",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": "{}"
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "2"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "POST",
+        "uri": "http://localhost:8052/api/v2/job_templates/7/launch/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"job\":156,\"ignored_fields\":{},\"id\":156,\"type\":\"job\",\"url\":\"/api/v2/jobs/156/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"labels\":\"/api/v2/jobs/156/labels/\",\"inventory\":\"/api/v2/inventories/1/\",\"project\":\"/api/v2/projects/6/\",\"extra_credentials\":\"/api/v2/jobs/156/extra_credentials/\",\"credentials\":\"/api/v2/jobs/156/credentials/\",\"unified_job_template\":\"/api/v2/job_templates/7/\",\"stdout\":\"/api/v2/jobs/156/stdout/\",\"job_events\":\"/api/v2/jobs/156/job_events/\",\"job_host_summaries\":\"/api/v2/jobs/156/job_host_summaries/\",\"activity_stream\":\"/api/v2/jobs/156/activity_stream/\",\"notifications\":\"/api/v2/jobs/156/notifications/\",\"create_schedule\":\"/api/v2/jobs/156/create_schedule/\",\"job_template\":\"/api/v2/job_templates/7/\",\"cancel\":\"/api/v2/jobs/156/cancel/\",\"relaunch\":\"/api/v2/jobs/156/relaunch/\"},\"summary_fields\":{\"inventory\":{\"id\":1,\"name\":\"Demo Inventory\",\"description\":\"\",\"has_active_failures\":false,\"total_hosts\":1,\"hosts_with_active_failures\":0,\"total_groups\":0,\"groups_with_active_failures\":0,\"has_inventory_sources\":false,\"total_inventory_sources\":0,\"inventory_sources_with_failures\":0,\"organization_id\":1,\"kind\":\"\"},\"project\":{\"id\":6,\"name\":\"Demo Project\",\"description\":\"\",\"status\":\"successful\",\"scm_type\":\"git\"},\"job_template\":{\"id\":7,\"name\":\"Demo Job Template\",\"description\":\"\"},\"unified_job_template\":{\"id\":7,\"name\":\"Demo Job Template\",\"description\":\"\",\"unified_job_type\":\"job\"},\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"user_capabilities\":{\"delete\":true,\"start\":true},\"labels\":{\"count\":0,\"results\":[]},\"extra_credentials\":[],\"credentials\":[{\"id\":1,\"name\":\"Demo Credential\",\"description\":\"\",\"kind\":\"ssh\",\"cloud\":false}]},\"created\":\"2019-09-24T12:32:47.532417Z\",\"modified\":\"2019-09-24T12:32:47.816011Z\",\"name\":\"Demo Job Template\",\"description\":\"\",\"job_type\":\"run\",\"inventory\":1,\"project\":6,\"playbook\":\"hello_world.yml\",\"forks\":0,\"limit\":\"\",\"verbosity\":0,\"extra_vars\":\"{}\",\"job_tags\":\"\",\"force_handlers\":false,\"skip_tags\":\"\",\"start_at_task\":\"\",\"timeout\":0,\"use_fact_cache\":false,\"unified_job_template\":7,\"launch_type\":\"manual\",\"status\":\"pending\",\"failed\":false,\"started\":null,\"finished\":null,\"elapsed\":0.0,\"job_args\":\"\",\"job_cwd\":\"\",\"job_env\":{},\"job_explanation\":\"\",\"execution_node\":\"\",\"controller_node\":\"\",\"result_traceback\":\"\",\"event_processing_finished\":false,\"job_template\":7,\"passwords_needed_to_start\":[],\"allow_simultaneous\":false,\"artifacts\":{},\"scm_revision\":\"\",\"instance_group\":null,\"diff_mode\":false,\"job_slice_number\":0,\"job_slice_count\":1}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2599"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:32:48 GMT"
+          ],
+          "Location": [
+            "/api/v2/jobs/156/"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.998s"
+          ],
+          "X-API-Total-Time": [
+            "1.255s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 201,
+          "message": "Created"
+        },
+        "url": "http://localhost:8052/api/v2/job_templates/7/launch/"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:32:49",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": "{\"inventory\": \"Bogus\"}"
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "22"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "POST",
+        "uri": "http://localhost:8052/api/v2/job_templates/7/launch/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"inventory\":[\"Incorrect type. Expected pk value, received str.\"]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "66"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:32:49 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.553s"
+          ],
+          "X-API-Total-Time": [
+            "0.719s"
+          ]
+        },
+        "status": {
+          "code": 400,
+          "message": "Bad Request"
+        },
+        "url": "http://localhost:8052/api/v2/job_templates/7/launch/"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:53:11",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/job_templates/?page_size=25&name__iexact=Demo+Job+Template"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":7,\"type\":\"job_template\",\"url\":\"/api/v2/job_templates/7/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"labels\":\"/api/v2/job_templates/7/labels/\",\"inventory\":\"/api/v2/inventories/1/\",\"project\":\"/api/v2/projects/6/\",\"extra_credentials\":\"/api/v2/job_templates/7/extra_credentials/\",\"credentials\":\"/api/v2/job_templates/7/credentials/\",\"last_job\":\"/api/v2/jobs/156/\",\"jobs\":\"/api/v2/job_templates/7/jobs/\",\"schedules\":\"/api/v2/job_templates/7/schedules/\",\"activity_stream\":\"/api/v2/job_templates/7/activity_stream/\",\"launch\":\"/api/v2/job_templates/7/launch/\",\"notification_templates_started\":\"/api/v2/job_templates/7/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/job_templates/7/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/job_templates/7/notification_templates_error/\",\"access_list\":\"/api/v2/job_templates/7/access_list/\",\"survey_spec\":\"/api/v2/job_templates/7/survey_spec/\",\"object_roles\":\"/api/v2/job_templates/7/object_roles/\",\"instance_groups\":\"/api/v2/job_templates/7/instance_groups/\",\"slice_workflow_jobs\":\"/api/v2/job_templates/7/slice_workflow_jobs/\",\"copy\":\"/api/v2/job_templates/7/copy/\"},\"summary_fields\":{\"inventory\":{\"id\":1,\"name\":\"Demo Inventory\",\"description\":\"\",\"has_active_failures\":false,\"total_hosts\":1,\"hosts_with_active_failures\":0,\"total_groups\":0,\"groups_with_active_failures\":0,\"has_inventory_sources\":false,\"total_inventory_sources\":0,\"inventory_sources_with_failures\":0,\"organization_id\":1,\"kind\":\"\"},\"project\":{\"id\":6,\"name\":\"Demo Project\",\"description\":\"\",\"status\":\"successful\",\"scm_type\":\"git\"},\"last_job\":{\"id\":156,\"name\":\"Demo Job Template\",\"description\":\"\",\"finished\":\"2019-09-24T12:34:14.249395Z\",\"status\":\"successful\",\"failed\":false},\"last_update\":{\"id\":156,\"name\":\"Demo Job Template\",\"description\":\"\",\"status\":\"successful\",\"failed\":false},\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the job template\",\"name\":\"Admin\",\"id\":26},\"execute_role\":{\"description\":\"May run the job template\",\"name\":\"Execute\",\"id\":27},\"read_role\":{\"description\":\"May view settings for the job template\",\"name\":\"Read\",\"id\":28}},\"user_capabilities\":{\"edit\":true,\"delete\":true,\"start\":true,\"schedule\":true,\"copy\":true},\"labels\":{\"count\":0,\"results\":[]},\"recent_jobs\":[{\"id\":156,\"status\":\"successful\",\"finished\":\"2019-09-24T12:34:14.249395Z\",\"type\":\"job\"},{\"id\":146,\"status\":\"successful\",\"finished\":\"2019-09-24T09:42:38.908828Z\",\"type\":\"job\"},{\"id\":137,\"status\":\"successful\",\"finished\":\"2019-09-24T09:26:30.815987Z\",\"type\":\"job\"},{\"id\":134,\"status\":\"successful\",\"finished\":\"2019-09-24T09:20:22.544706Z\",\"type\":\"job\"},{\"id\":131,\"status\":\"successful\",\"finished\":\"2019-09-24T09:05:46.612558Z\",\"type\":\"job\"},{\"id\":128,\"status\":\"successful\",\"finished\":\"2019-09-24T09:00:07.639335Z\",\"type\":\"job\"}],\"credentials\":[{\"id\":1,\"name\":\"Demo Credential\",\"description\":\"\",\"kind\":\"ssh\",\"cloud\":false}]},\"created\":\"2019-08-14T11:37:13.441871Z\",\"modified\":\"2019-08-14T11:37:13.441885Z\",\"name\":\"Demo Job Template\",\"description\":\"\",\"job_type\":\"run\",\"inventory\":1,\"project\":6,\"playbook\":\"hello_world.yml\",\"forks\":0,\"limit\":\"\",\"verbosity\":0,\"extra_vars\":\"\",\"job_tags\":\"\",\"force_handlers\":false,\"skip_tags\":\"\",\"start_at_task\":\"\",\"timeout\":0,\"use_fact_cache\":false,\"last_job_run\":\"2019-09-24T12:34:14.249395Z\",\"last_job_failed\":false,\"next_job_run\":null,\"status\":\"successful\",\"host_config_key\":\"\",\"ask_diff_mode_on_launch\":false,\"ask_variables_on_launch\":false,\"ask_limit_on_launch\":false,\"ask_tags_on_launch\":false,\"ask_skip_tags_on_launch\":false,\"ask_job_type_on_launch\":false,\"ask_verbosity_on_launch\":false,\"ask_inventory_on_launch\":false,\"ask_credential_on_launch\":false,\"survey_enabled\":false,\"become_enabled\":false,\"diff_mode\":false,\"allow_simultaneous\":false,\"custom_virtualenv\":null,\"job_slice_count\":1}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "4007"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:53:11 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.675s"
+          ],
+          "X-API-Total-Time": [
+            "0.770s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/job_templates/?page_size=25&name__iexact=Demo+Job+Template"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:53:12",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/users/1/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"id\":1,\"type\":\"user\",\"url\":\"/api/v2/users/1/\",\"related\":{\"named_url\":\"/api/v2/users/boss/\",\"teams\":\"/api/v2/users/1/teams/\",\"organizations\":\"/api/v2/users/1/organizations/\",\"admin_of_organizations\":\"/api/v2/users/1/admin_of_organizations/\",\"projects\":\"/api/v2/users/1/projects/\",\"credentials\":\"/api/v2/users/1/credentials/\",\"roles\":\"/api/v2/users/1/roles/\",\"activity_stream\":\"/api/v2/users/1/activity_stream/\",\"access_list\":\"/api/v2/users/1/access_list/\",\"tokens\":\"/api/v2/users/1/tokens/\",\"authorized_tokens\":\"/api/v2/users/1/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/1/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":false}},\"created\":\"2019-08-14T11:37:07.225284Z\",\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-19T14:04:42.193879Z\",\"external_account\":null,\"auth\":[]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "920"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:53:12 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.346s"
+          ],
+          "X-API-Total-Time": [
+            "0.468s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/users/1/"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:53:12",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/users/1/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"id\":1,\"type\":\"user\",\"url\":\"/api/v2/users/1/\",\"related\":{\"named_url\":\"/api/v2/users/boss/\",\"teams\":\"/api/v2/users/1/teams/\",\"organizations\":\"/api/v2/users/1/organizations/\",\"admin_of_organizations\":\"/api/v2/users/1/admin_of_organizations/\",\"projects\":\"/api/v2/users/1/projects/\",\"credentials\":\"/api/v2/users/1/credentials/\",\"roles\":\"/api/v2/users/1/roles/\",\"activity_stream\":\"/api/v2/users/1/activity_stream/\",\"access_list\":\"/api/v2/users/1/access_list/\",\"tokens\":\"/api/v2/users/1/tokens/\",\"authorized_tokens\":\"/api/v2/users/1/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/1/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":false}},\"created\":\"2019-08-14T11:37:07.225284Z\",\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-08-19T14:04:42.193879Z\",\"external_account\":null,\"auth\":[]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "920"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:53:12 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.378s"
+          ],
+          "X-API-Total-Time": [
+            "0.508s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/users/1/"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:53:13",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/inventories/1/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"id\":1,\"type\":\"inventory\",\"url\":\"/api/v2/inventories/1/\",\"related\":{\"named_url\":\"/api/v2/inventories/Demo Inventory++Default/\",\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"hosts\":\"/api/v2/inventories/1/hosts/\",\"groups\":\"/api/v2/inventories/1/groups/\",\"root_groups\":\"/api/v2/inventories/1/root_groups/\",\"variable_data\":\"/api/v2/inventories/1/variable_data/\",\"script\":\"/api/v2/inventories/1/script/\",\"tree\":\"/api/v2/inventories/1/tree/\",\"inventory_sources\":\"/api/v2/inventories/1/inventory_sources/\",\"update_inventory_sources\":\"/api/v2/inventories/1/update_inventory_sources/\",\"activity_stream\":\"/api/v2/inventories/1/activity_stream/\",\"job_templates\":\"/api/v2/inventories/1/job_templates/\",\"ad_hoc_commands\":\"/api/v2/inventories/1/ad_hoc_commands/\",\"access_list\":\"/api/v2/inventories/1/access_list/\",\"object_roles\":\"/api/v2/inventories/1/object_roles/\",\"instance_groups\":\"/api/v2/inventories/1/instance_groups/\",\"copy\":\"/api/v2/inventories/1/copy/\",\"organization\":\"/api/v2/organizations/1/\"},\"summary_fields\":{\"organization\":{\"id\":1,\"name\":\"Default\",\"description\":\"\"},\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the inventory\",\"name\":\"Admin\",\"id\":21},\"update_role\":{\"description\":\"May update the inventory\",\"name\":\"Update\",\"id\":22},\"adhoc_role\":{\"description\":\"May run ad hoc commands on the inventory\",\"name\":\"Ad Hoc\",\"id\":23},\"use_role\":{\"description\":\"Can use the inventory in a job template\",\"name\":\"Use\",\"id\":24},\"read_role\":{\"description\":\"May view settings for the inventory\",\"name\":\"Read\",\"id\":25}},\"user_capabilities\":{\"edit\":true,\"delete\":true,\"copy\":true,\"adhoc\":true}},\"created\":\"2019-08-14T11:37:12.809745Z\",\"modified\":\"2019-08-14T11:37:12.809759Z\",\"name\":\"Demo Inventory\",\"description\":\"\",\"organization\":1,\"kind\":\"\",\"host_filter\":null,\"variables\":\"\",\"has_active_failures\":false,\"total_hosts\":1,\"hosts_with_active_failures\":0,\"total_groups\":0,\"groups_with_active_failures\":0,\"has_inventory_sources\":false,\"total_inventory_sources\":0,\"inventory_sources_with_failures\":0,\"insights_credential\":null,\"pending_deletion\":false}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2225"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:53:13 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.664s"
+          ],
+          "X-API-Total-Time": [
+            "0.744s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/inventories/1/"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:53:14",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/projects/6/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"id\":6,\"type\":\"project\",\"url\":\"/api/v2/projects/6/\",\"related\":{\"named_url\":\"/api/v2/projects/Demo Project++Default/\",\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"last_job\":\"/api/v2/project_updates/157/\",\"teams\":\"/api/v2/projects/6/teams/\",\"playbooks\":\"/api/v2/projects/6/playbooks/\",\"inventory_files\":\"/api/v2/projects/6/inventories/\",\"update\":\"/api/v2/projects/6/update/\",\"project_updates\":\"/api/v2/projects/6/project_updates/\",\"scm_inventory_sources\":\"/api/v2/projects/6/scm_inventory_sources/\",\"schedules\":\"/api/v2/projects/6/schedules/\",\"activity_stream\":\"/api/v2/projects/6/activity_stream/\",\"notification_templates_started\":\"/api/v2/projects/6/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/projects/6/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/projects/6/notification_templates_error/\",\"access_list\":\"/api/v2/projects/6/access_list/\",\"object_roles\":\"/api/v2/projects/6/object_roles/\",\"copy\":\"/api/v2/projects/6/copy/\",\"organization\":\"/api/v2/organizations/1/\",\"last_update\":\"/api/v2/project_updates/157/\"},\"summary_fields\":{\"organization\":{\"id\":1,\"name\":\"Default\",\"description\":\"\"},\"last_job\":{\"id\":157,\"name\":\"Demo Project\",\"description\":\"\",\"finished\":\"2019-09-24T12:33:17.809913Z\",\"status\":\"successful\",\"failed\":false},\"last_update\":{\"id\":157,\"name\":\"Demo Project\",\"description\":\"\",\"status\":\"successful\",\"failed\":false},\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the project\",\"name\":\"Admin\",\"id\":14},\"use_role\":{\"description\":\"Can use the project in a job template\",\"name\":\"Use\",\"id\":15},\"update_role\":{\"description\":\"May update the project\",\"name\":\"Update\",\"id\":16},\"read_role\":{\"description\":\"May view settings for the project\",\"name\":\"Read\",\"id\":17}},\"user_capabilities\":{\"edit\":true,\"delete\":true,\"start\":true,\"schedule\":true,\"copy\":true}},\"created\":\"2019-08-14T11:37:12.056677Z\",\"modified\":\"2019-09-24T12:33:17.437274Z\",\"name\":\"Demo Project\",\"description\":\"\",\"local_path\":\"_6__demo_project\",\"scm_type\":\"git\",\"scm_url\":\"https://github.com/ansible/ansible-tower-samples\",\"scm_branch\":\"\",\"scm_clean\":false,\"scm_delete_on_update\":false,\"credential\":null,\"timeout\":0,\"last_job_run\":\"2019-09-24T12:33:17.809913Z\",\"last_job_failed\":false,\"next_job_run\":null,\"status\":\"successful\",\"organization\":1,\"scm_update_on_launch\":true,\"scm_update_cache_timeout\":0,\"scm_revision\":\"347e44fea036c94d5f60e544de006453ee5c71ad\",\"custom_virtualenv\":null,\"last_update_failed\":false,\"last_updated\":\"2019-09-24T12:33:17.809913Z\"}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2667"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:53:14 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.381s"
+          ],
+          "X-API-Total-Time": [
+            "0.459s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/projects/6/"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:53:16",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": "{}"
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "2"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "POST",
+        "uri": "http://localhost:8052/api/v2/job_templates/7/launch/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"job\":165,\"ignored_fields\":{},\"id\":165,\"type\":\"job\",\"url\":\"/api/v2/jobs/165/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"labels\":\"/api/v2/jobs/165/labels/\",\"inventory\":\"/api/v2/inventories/1/\",\"project\":\"/api/v2/projects/6/\",\"extra_credentials\":\"/api/v2/jobs/165/extra_credentials/\",\"credentials\":\"/api/v2/jobs/165/credentials/\",\"unified_job_template\":\"/api/v2/job_templates/7/\",\"stdout\":\"/api/v2/jobs/165/stdout/\",\"job_events\":\"/api/v2/jobs/165/job_events/\",\"job_host_summaries\":\"/api/v2/jobs/165/job_host_summaries/\",\"activity_stream\":\"/api/v2/jobs/165/activity_stream/\",\"notifications\":\"/api/v2/jobs/165/notifications/\",\"create_schedule\":\"/api/v2/jobs/165/create_schedule/\",\"job_template\":\"/api/v2/job_templates/7/\",\"cancel\":\"/api/v2/jobs/165/cancel/\",\"relaunch\":\"/api/v2/jobs/165/relaunch/\"},\"summary_fields\":{\"inventory\":{\"id\":1,\"name\":\"Demo Inventory\",\"description\":\"\",\"has_active_failures\":false,\"total_hosts\":1,\"hosts_with_active_failures\":0,\"total_groups\":0,\"groups_with_active_failures\":0,\"has_inventory_sources\":false,\"total_inventory_sources\":0,\"inventory_sources_with_failures\":0,\"organization_id\":1,\"kind\":\"\"},\"project\":{\"id\":6,\"name\":\"Demo Project\",\"description\":\"\",\"status\":\"successful\",\"scm_type\":\"git\"},\"job_template\":{\"id\":7,\"name\":\"Demo Job Template\",\"description\":\"\"},\"unified_job_template\":{\"id\":7,\"name\":\"Demo Job Template\",\"description\":\"\",\"unified_job_type\":\"job\"},\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"user_capabilities\":{\"delete\":true,\"start\":true},\"labels\":{\"count\":0,\"results\":[]},\"extra_credentials\":[],\"credentials\":[{\"id\":1,\"name\":\"Demo Credential\",\"description\":\"\",\"kind\":\"ssh\",\"cloud\":false}]},\"created\":\"2019-09-24T12:53:14.942767Z\",\"modified\":\"2019-09-24T12:53:15.429923Z\",\"name\":\"Demo Job Template\",\"description\":\"\",\"job_type\":\"run\",\"inventory\":1,\"project\":6,\"playbook\":\"hello_world.yml\",\"forks\":0,\"limit\":\"\",\"verbosity\":0,\"extra_vars\":\"{}\",\"job_tags\":\"\",\"force_handlers\":false,\"skip_tags\":\"\",\"start_at_task\":\"\",\"timeout\":0,\"use_fact_cache\":false,\"unified_job_template\":7,\"launch_type\":\"manual\",\"status\":\"pending\",\"failed\":false,\"started\":null,\"finished\":null,\"elapsed\":0.0,\"job_args\":\"\",\"job_cwd\":\"\",\"job_env\":{},\"job_explanation\":\"\",\"execution_node\":\"\",\"controller_node\":\"\",\"result_traceback\":\"\",\"event_processing_finished\":false,\"job_template\":7,\"passwords_needed_to_start\":[],\"allow_simultaneous\":false,\"artifacts\":{},\"scm_revision\":\"\",\"instance_group\":null,\"diff_mode\":false,\"job_slice_number\":0,\"job_slice_count\":1}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2599"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:53:16 GMT"
+          ],
+          "Location": [
+            "/api/v2/jobs/165/"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "1.758s"
+          ],
+          "X-API-Total-Time": [
+            "2.001s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 201,
+          "message": "Created"
+        },
+        "url": "http://localhost:8052/api/v2/job_templates/7/launch/"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:53:16",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": "{\"inventory\": \"Bogus\"}"
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "22"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "POST",
+        "uri": "http://localhost:8052/api/v2/job_templates/7/launch/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"inventory\":[\"Incorrect type. Expected pk value, received str.\"]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "66"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:53:16 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.624s"
+          ],
+          "X-API-Total-Time": [
+            "0.773s"
+          ]
+        },
+        "status": {
+          "code": 400,
+          "message": "Bad Request"
+        },
+        "url": "http://localhost:8052/api/v2/job_templates/7/launch/"
+      }
+    },
+    {
+      "recorded_at": "2019-10-18T08:54:41",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/job_templates/?page_size=25&name__iexact=Demo+Job+Template"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":7,\"type\":\"job_template\",\"url\":\"/api/v2/job_templates/7/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"labels\":\"/api/v2/job_templates/7/labels/\",\"inventory\":\"/api/v2/inventories/1/\",\"project\":\"/api/v2/projects/6/\",\"extra_credentials\":\"/api/v2/job_templates/7/extra_credentials/\",\"credentials\":\"/api/v2/job_templates/7/credentials/\",\"last_job\":\"/api/v2/jobs/165/\",\"jobs\":\"/api/v2/job_templates/7/jobs/\",\"schedules\":\"/api/v2/job_templates/7/schedules/\",\"activity_stream\":\"/api/v2/job_templates/7/activity_stream/\",\"launch\":\"/api/v2/job_templates/7/launch/\",\"notification_templates_started\":\"/api/v2/job_templates/7/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/job_templates/7/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/job_templates/7/notification_templates_error/\",\"access_list\":\"/api/v2/job_templates/7/access_list/\",\"survey_spec\":\"/api/v2/job_templates/7/survey_spec/\",\"object_roles\":\"/api/v2/job_templates/7/object_roles/\",\"instance_groups\":\"/api/v2/job_templates/7/instance_groups/\",\"slice_workflow_jobs\":\"/api/v2/job_templates/7/slice_workflow_jobs/\",\"copy\":\"/api/v2/job_templates/7/copy/\"},\"summary_fields\":{\"inventory\":{\"id\":1,\"name\":\"Demo Inventory\",\"description\":\"\",\"has_active_failures\":false,\"total_hosts\":1,\"hosts_with_active_failures\":0,\"total_groups\":0,\"groups_with_active_failures\":0,\"has_inventory_sources\":false,\"total_inventory_sources\":0,\"inventory_sources_with_failures\":0,\"organization_id\":1,\"kind\":\"\"},\"project\":{\"id\":6,\"name\":\"Demo Project\",\"description\":\"\",\"status\":\"successful\",\"scm_type\":\"git\"},\"last_job\":{\"id\":165,\"name\":\"Demo Job Template\",\"description\":\"\",\"finished\":\"2019-09-24T12:54:38.988493Z\",\"status\":\"successful\",\"failed\":false},\"last_update\":{\"id\":165,\"name\":\"Demo Job Template\",\"description\":\"\",\"status\":\"successful\",\"failed\":false},\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the job template\",\"name\":\"Admin\",\"id\":26},\"execute_role\":{\"description\":\"May run the job template\",\"name\":\"Execute\",\"id\":27},\"read_role\":{\"description\":\"May view settings for the job template\",\"name\":\"Read\",\"id\":28}},\"user_capabilities\":{\"edit\":true,\"delete\":true,\"start\":true,\"schedule\":true,\"copy\":true},\"labels\":{\"count\":0,\"results\":[]},\"recent_jobs\":[{\"id\":165,\"status\":\"successful\",\"finished\":\"2019-09-24T12:54:38.988493Z\",\"type\":\"job\"},{\"id\":156,\"status\":\"successful\",\"finished\":\"2019-09-24T12:34:14.249395Z\",\"type\":\"job\"},{\"id\":146,\"status\":\"successful\",\"finished\":\"2019-09-24T09:42:38.908828Z\",\"type\":\"job\"},{\"id\":137,\"status\":\"successful\",\"finished\":\"2019-09-24T09:26:30.815987Z\",\"type\":\"job\"},{\"id\":134,\"status\":\"successful\",\"finished\":\"2019-09-24T09:20:22.544706Z\",\"type\":\"job\"},{\"id\":131,\"status\":\"successful\",\"finished\":\"2019-09-24T09:05:46.612558Z\",\"type\":\"job\"},{\"id\":128,\"status\":\"successful\",\"finished\":\"2019-09-24T09:00:07.639335Z\",\"type\":\"job\"}],\"credentials\":[{\"id\":1,\"name\":\"Demo Credential\",\"description\":\"\",\"kind\":\"ssh\",\"cloud\":false}]},\"created\":\"2019-08-14T11:37:13.441871Z\",\"modified\":\"2019-09-24T12:59:14.167262Z\",\"name\":\"Demo Job Template\",\"description\":\"\",\"job_type\":\"run\",\"inventory\":1,\"project\":6,\"playbook\":\"hello_world.yml\",\"forks\":0,\"limit\":\"\",\"verbosity\":0,\"extra_vars\":\"\",\"job_tags\":\"\",\"force_handlers\":false,\"skip_tags\":\"\",\"start_at_task\":\"\",\"timeout\":0,\"use_fact_cache\":false,\"last_job_run\":\"2019-09-24T12:54:38.988493Z\",\"last_job_failed\":false,\"next_job_run\":null,\"status\":\"successful\",\"host_config_key\":\"\",\"ask_diff_mode_on_launch\":false,\"ask_variables_on_launch\":false,\"ask_limit_on_launch\":false,\"ask_tags_on_launch\":false,\"ask_skip_tags_on_launch\":false,\"ask_job_type_on_launch\":false,\"ask_verbosity_on_launch\":false,\"ask_inventory_on_launch\":false,\"ask_credential_on_launch\":false,\"survey_enabled\":false,\"become_enabled\":false,\"diff_mode\":false,\"allow_simultaneous\":false,\"custom_virtualenv\":null,\"job_slice_count\":1}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "4094"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Fri, 18 Oct 2019 08:54:41 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.613s"
+          ],
+          "X-API-Total-Time": [
+            "0.734s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/job_templates/?page_size=25&name__iexact=Demo+Job+Template"
+      }
+    },
+    {
+      "recorded_at": "2019-10-18T08:54:41",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/users/1/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"id\":1,\"type\":\"user\",\"url\":\"/api/v2/users/1/\",\"related\":{\"named_url\":\"/api/v2/users/boss/\",\"teams\":\"/api/v2/users/1/teams/\",\"organizations\":\"/api/v2/users/1/organizations/\",\"admin_of_organizations\":\"/api/v2/users/1/admin_of_organizations/\",\"projects\":\"/api/v2/users/1/projects/\",\"credentials\":\"/api/v2/users/1/credentials/\",\"roles\":\"/api/v2/users/1/roles/\",\"activity_stream\":\"/api/v2/users/1/activity_stream/\",\"access_list\":\"/api/v2/users/1/access_list/\",\"tokens\":\"/api/v2/users/1/tokens/\",\"authorized_tokens\":\"/api/v2/users/1/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/1/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":false}},\"created\":\"2019-08-14T11:37:07.225284Z\",\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-10-18T08:52:11.218874Z\",\"external_account\":null,\"auth\":[]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "920"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Fri, 18 Oct 2019 08:54:41 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.245s"
+          ],
+          "X-API-Total-Time": [
+            "0.356s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/users/1/"
+      }
+    },
+    {
+      "recorded_at": "2019-10-18T08:54:42",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/users/1/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"id\":1,\"type\":\"user\",\"url\":\"/api/v2/users/1/\",\"related\":{\"named_url\":\"/api/v2/users/boss/\",\"teams\":\"/api/v2/users/1/teams/\",\"organizations\":\"/api/v2/users/1/organizations/\",\"admin_of_organizations\":\"/api/v2/users/1/admin_of_organizations/\",\"projects\":\"/api/v2/users/1/projects/\",\"credentials\":\"/api/v2/users/1/credentials/\",\"roles\":\"/api/v2/users/1/roles/\",\"activity_stream\":\"/api/v2/users/1/activity_stream/\",\"access_list\":\"/api/v2/users/1/access_list/\",\"tokens\":\"/api/v2/users/1/tokens/\",\"authorized_tokens\":\"/api/v2/users/1/authorized_tokens/\",\"personal_tokens\":\"/api/v2/users/1/personal_tokens/\"},\"summary_fields\":{\"user_capabilities\":{\"edit\":true,\"delete\":false}},\"created\":\"2019-08-14T11:37:07.225284Z\",\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\",\"email\":\"root@localhost\",\"is_superuser\":true,\"is_system_auditor\":false,\"ldap_dn\":\"\",\"last_login\":\"2019-10-18T08:52:11.218874Z\",\"external_account\":null,\"auth\":[]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "920"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Fri, 18 Oct 2019 08:54:42 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.326s"
+          ],
+          "X-API-Total-Time": [
+            "0.460s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/users/1/"
+      }
+    },
+    {
+      "recorded_at": "2019-10-18T08:54:42",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/inventories/1/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"id\":1,\"type\":\"inventory\",\"url\":\"/api/v2/inventories/1/\",\"related\":{\"named_url\":\"/api/v2/inventories/Demo Inventory++Default/\",\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"hosts\":\"/api/v2/inventories/1/hosts/\",\"groups\":\"/api/v2/inventories/1/groups/\",\"root_groups\":\"/api/v2/inventories/1/root_groups/\",\"variable_data\":\"/api/v2/inventories/1/variable_data/\",\"script\":\"/api/v2/inventories/1/script/\",\"tree\":\"/api/v2/inventories/1/tree/\",\"inventory_sources\":\"/api/v2/inventories/1/inventory_sources/\",\"update_inventory_sources\":\"/api/v2/inventories/1/update_inventory_sources/\",\"activity_stream\":\"/api/v2/inventories/1/activity_stream/\",\"job_templates\":\"/api/v2/inventories/1/job_templates/\",\"ad_hoc_commands\":\"/api/v2/inventories/1/ad_hoc_commands/\",\"access_list\":\"/api/v2/inventories/1/access_list/\",\"object_roles\":\"/api/v2/inventories/1/object_roles/\",\"instance_groups\":\"/api/v2/inventories/1/instance_groups/\",\"copy\":\"/api/v2/inventories/1/copy/\",\"organization\":\"/api/v2/organizations/1/\"},\"summary_fields\":{\"organization\":{\"id\":1,\"name\":\"Default\",\"description\":\"\"},\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the inventory\",\"name\":\"Admin\",\"id\":21},\"update_role\":{\"description\":\"May update the inventory\",\"name\":\"Update\",\"id\":22},\"adhoc_role\":{\"description\":\"May run ad hoc commands on the inventory\",\"name\":\"Ad Hoc\",\"id\":23},\"use_role\":{\"description\":\"Can use the inventory in a job template\",\"name\":\"Use\",\"id\":24},\"read_role\":{\"description\":\"May view settings for the inventory\",\"name\":\"Read\",\"id\":25}},\"user_capabilities\":{\"edit\":true,\"delete\":true,\"copy\":true,\"adhoc\":true}},\"created\":\"2019-08-14T11:37:12.809745Z\",\"modified\":\"2019-08-14T11:37:12.809759Z\",\"name\":\"Demo Inventory\",\"description\":\"\",\"organization\":1,\"kind\":\"\",\"host_filter\":null,\"variables\":\"\",\"has_active_failures\":false,\"total_hosts\":1,\"hosts_with_active_failures\":0,\"total_groups\":0,\"groups_with_active_failures\":0,\"has_inventory_sources\":false,\"total_inventory_sources\":0,\"inventory_sources_with_failures\":0,\"insights_credential\":null,\"pending_deletion\":false}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2225"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Fri, 18 Oct 2019 08:54:43 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.477s"
+          ],
+          "X-API-Total-Time": [
+            "0.600s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/inventories/1/"
+      }
+    },
+    {
+      "recorded_at": "2019-10-18T08:54:43",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/projects/6/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"id\":6,\"type\":\"project\",\"url\":\"/api/v2/projects/6/\",\"related\":{\"named_url\":\"/api/v2/projects/Demo Project++Default/\",\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"last_job\":\"/api/v2/project_updates/166/\",\"teams\":\"/api/v2/projects/6/teams/\",\"playbooks\":\"/api/v2/projects/6/playbooks/\",\"inventory_files\":\"/api/v2/projects/6/inventories/\",\"update\":\"/api/v2/projects/6/update/\",\"project_updates\":\"/api/v2/projects/6/project_updates/\",\"scm_inventory_sources\":\"/api/v2/projects/6/scm_inventory_sources/\",\"schedules\":\"/api/v2/projects/6/schedules/\",\"activity_stream\":\"/api/v2/projects/6/activity_stream/\",\"notification_templates_started\":\"/api/v2/projects/6/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/projects/6/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/projects/6/notification_templates_error/\",\"access_list\":\"/api/v2/projects/6/access_list/\",\"object_roles\":\"/api/v2/projects/6/object_roles/\",\"copy\":\"/api/v2/projects/6/copy/\",\"organization\":\"/api/v2/organizations/1/\",\"last_update\":\"/api/v2/project_updates/166/\"},\"summary_fields\":{\"organization\":{\"id\":1,\"name\":\"Default\",\"description\":\"\"},\"last_job\":{\"id\":166,\"name\":\"Demo Project\",\"description\":\"\",\"finished\":\"2019-09-24T12:53:50.762758Z\",\"status\":\"successful\",\"failed\":false},\"last_update\":{\"id\":166,\"name\":\"Demo Project\",\"description\":\"\",\"status\":\"successful\",\"failed\":false},\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the project\",\"name\":\"Admin\",\"id\":14},\"use_role\":{\"description\":\"Can use the project in a job template\",\"name\":\"Use\",\"id\":15},\"update_role\":{\"description\":\"May update the project\",\"name\":\"Update\",\"id\":16},\"read_role\":{\"description\":\"May view settings for the project\",\"name\":\"Read\",\"id\":17}},\"user_capabilities\":{\"edit\":true,\"delete\":true,\"start\":true,\"schedule\":true,\"copy\":true}},\"created\":\"2019-08-14T11:37:12.056677Z\",\"modified\":\"2019-09-24T12:53:50.416804Z\",\"name\":\"Demo Project\",\"description\":\"\",\"local_path\":\"_6__demo_project\",\"scm_type\":\"git\",\"scm_url\":\"https://github.com/ansible/ansible-tower-samples\",\"scm_branch\":\"\",\"scm_clean\":false,\"scm_delete_on_update\":false,\"credential\":null,\"timeout\":0,\"last_job_run\":\"2019-09-24T12:53:50.762758Z\",\"last_job_failed\":false,\"next_job_run\":null,\"status\":\"successful\",\"organization\":1,\"scm_update_on_launch\":true,\"scm_update_cache_timeout\":0,\"scm_revision\":\"347e44fea036c94d5f60e544de006453ee5c71ad\",\"custom_virtualenv\":null,\"last_update_failed\":false,\"last_updated\":\"2019-09-24T12:53:50.762758Z\"}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2667"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Fri, 18 Oct 2019 08:54:43 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.319s"
+          ],
+          "X-API-Total-Time": [
+            "0.447s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/projects/6/"
+      }
+    },
+    {
+      "recorded_at": "2019-10-18T08:54:45",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": "{}"
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "2"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "POST",
+        "uri": "http://localhost:8052/api/v2/job_templates/7/launch/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"job\":174,\"ignored_fields\":{},\"id\":174,\"type\":\"job\",\"url\":\"/api/v2/jobs/174/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"labels\":\"/api/v2/jobs/174/labels/\",\"inventory\":\"/api/v2/inventories/1/\",\"project\":\"/api/v2/projects/6/\",\"extra_credentials\":\"/api/v2/jobs/174/extra_credentials/\",\"credentials\":\"/api/v2/jobs/174/credentials/\",\"unified_job_template\":\"/api/v2/job_templates/7/\",\"stdout\":\"/api/v2/jobs/174/stdout/\",\"job_events\":\"/api/v2/jobs/174/job_events/\",\"job_host_summaries\":\"/api/v2/jobs/174/job_host_summaries/\",\"activity_stream\":\"/api/v2/jobs/174/activity_stream/\",\"notifications\":\"/api/v2/jobs/174/notifications/\",\"create_schedule\":\"/api/v2/jobs/174/create_schedule/\",\"job_template\":\"/api/v2/job_templates/7/\",\"cancel\":\"/api/v2/jobs/174/cancel/\",\"relaunch\":\"/api/v2/jobs/174/relaunch/\"},\"summary_fields\":{\"inventory\":{\"id\":1,\"name\":\"Demo Inventory\",\"description\":\"\",\"has_active_failures\":false,\"total_hosts\":1,\"hosts_with_active_failures\":0,\"total_groups\":0,\"groups_with_active_failures\":0,\"has_inventory_sources\":false,\"total_inventory_sources\":0,\"inventory_sources_with_failures\":0,\"organization_id\":1,\"kind\":\"\"},\"project\":{\"id\":6,\"name\":\"Demo Project\",\"description\":\"\",\"status\":\"successful\",\"scm_type\":\"git\"},\"job_template\":{\"id\":7,\"name\":\"Demo Job Template\",\"description\":\"\"},\"unified_job_template\":{\"id\":7,\"name\":\"Demo Job Template\",\"description\":\"\",\"unified_job_type\":\"job\"},\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"user_capabilities\":{\"delete\":true,\"start\":true},\"labels\":{\"count\":0,\"results\":[]},\"extra_credentials\":[],\"credentials\":[{\"id\":1,\"name\":\"Demo Credential\",\"description\":\"\",\"kind\":\"ssh\",\"cloud\":false}]},\"created\":\"2019-10-18T08:54:44.038354Z\",\"modified\":\"2019-10-18T08:54:44.485521Z\",\"name\":\"Demo Job Template\",\"description\":\"\",\"job_type\":\"run\",\"inventory\":1,\"project\":6,\"playbook\":\"hello_world.yml\",\"forks\":0,\"limit\":\"\",\"verbosity\":0,\"extra_vars\":\"{}\",\"job_tags\":\"\",\"force_handlers\":false,\"skip_tags\":\"\",\"start_at_task\":\"\",\"timeout\":0,\"use_fact_cache\":false,\"unified_job_template\":7,\"launch_type\":\"manual\",\"status\":\"pending\",\"failed\":false,\"started\":null,\"finished\":null,\"elapsed\":0.0,\"job_args\":\"\",\"job_cwd\":\"\",\"job_env\":{},\"job_explanation\":\"\",\"execution_node\":\"\",\"controller_node\":\"\",\"result_traceback\":\"\",\"event_processing_finished\":false,\"job_template\":7,\"passwords_needed_to_start\":[],\"allow_simultaneous\":false,\"artifacts\":{},\"scm_revision\":\"\",\"instance_group\":null,\"diff_mode\":false,\"job_slice_number\":0,\"job_slice_count\":1}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2599"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Fri, 18 Oct 2019 08:54:45 GMT"
+          ],
+          "Location": [
+            "/api/v2/jobs/174/"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "1.319s"
+          ],
+          "X-API-Total-Time": [
+            "1.721s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 201,
+          "message": "Created"
+        },
+        "url": "http://localhost:8052/api/v2/job_templates/7/launch/"
+      }
+    },
+    {
+      "recorded_at": "2019-10-18T08:54:45",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": "{\"inventory\": \"Bogus\"}"
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "22"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "POST",
+        "uri": "http://localhost:8052/api/v2/job_templates/7/launch/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"inventory\":[\"Incorrect type. Expected pk value, received str.\"]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "66"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Fri, 18 Oct 2019 08:54:45 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.550s"
+          ],
+          "X-API-Total-Time": [
+            "0.746s"
+          ]
+        },
+        "status": {
+          "code": 400,
+          "message": "Bad Request"
+        },
+        "url": "http://localhost:8052/api/v2/job_templates/7/launch/"
+      }
+    }
+  ],
+  "recorded_with": "betamax/0.8.1"
+}

@@ -1,0 +1,2693 @@
+{
+  "http_interactions": [
+    {
+      "recorded_at": "2019-09-24T12:37:09",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=workflow"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":2,\"type\":\"organization\",\"url\":\"/api/v2/organizations/2/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/organizations/2/projects/\",\"inventories\":\"/api/v2/organizations/2/inventories/\",\"workflow_job_templates\":\"/api/v2/organizations/2/workflow_job_templates/\",\"users\":\"/api/v2/organizations/2/users/\",\"admins\":\"/api/v2/organizations/2/admins/\",\"teams\":\"/api/v2/organizations/2/teams/\",\"credentials\":\"/api/v2/organizations/2/credentials/\",\"applications\":\"/api/v2/organizations/2/applications/\",\"activity_stream\":\"/api/v2/organizations/2/activity_stream/\",\"notification_templates\":\"/api/v2/organizations/2/notification_templates/\",\"notification_templates_started\":\"/api/v2/organizations/2/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/organizations/2/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/organizations/2/notification_templates_error/\",\"object_roles\":\"/api/v2/organizations/2/object_roles/\",\"access_list\":\"/api/v2/organizations/2/access_list/\",\"instance_groups\":\"/api/v2/organizations/2/instance_groups/\"},\"summary_fields\":{\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the organization\",\"name\":\"Admin\",\"id\":29},\"execute_role\":{\"description\":\"May run any executable resources in the organization\",\"name\":\"Execute\",\"id\":30},\"project_admin_role\":{\"description\":\"Can manage all projects of the organization\",\"name\":\"Project Admin\",\"id\":31},\"inventory_admin_role\":{\"description\":\"Can manage all inventories of the organization\",\"name\":\"Inventory Admin\",\"id\":32},\"credential_admin_role\":{\"description\":\"Can manage all credentials of the organization\",\"name\":\"Credential Admin\",\"id\":33},\"workflow_admin_role\":{\"description\":\"Can manage all workflows of the organization\",\"name\":\"Workflow Admin\",\"id\":34},\"notification_admin_role\":{\"description\":\"Can manage all notifications of the organization\",\"name\":\"Notification Admin\",\"id\":35},\"job_template_admin_role\":{\"description\":\"Can manage all job templates of the organization\",\"name\":\"Job Template Admin\",\"id\":36},\"auditor_role\":{\"description\":\"Can view all aspects of the organization\",\"name\":\"Auditor\",\"id\":37},\"member_role\":{\"description\":\"User is a member of the organization\",\"name\":\"Member\",\"id\":38},\"read_role\":{\"description\":\"May view settings for the organization\",\"name\":\"Read\",\"id\":39}},\"user_capabilities\":{\"edit\":true,\"delete\":true},\"related_field_counts\":{\"inventories\":1,\"teams\":1,\"users\":2,\"job_templates\":0,\"admins\":1,\"projects\":1}},\"created\":\"2019-08-19T13:55:48.815916Z\",\"modified\":\"2019-09-24T12:33:28.348437Z\",\"name\":\"workflow\",\"description\":\"\",\"max_hosts\":0,\"custom_virtualenv\":null}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2883"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:37:09 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.516s"
+          ],
+          "X-API-Total-Time": [
+            "0.596s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=workflow"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:37:09",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/teams/?page_size=25&organization=2&name__iexact=workflow_team"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"team\",\"url\":\"/api/v2/teams/1/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/teams/1/projects/\",\"users\":\"/api/v2/teams/1/users/\",\"credentials\":\"/api/v2/teams/1/credentials/\",\"roles\":\"/api/v2/teams/1/roles/\",\"object_roles\":\"/api/v2/teams/1/object_roles/\",\"activity_stream\":\"/api/v2/teams/1/activity_stream/\",\"access_list\":\"/api/v2/teams/1/access_list/\",\"organization\":\"/api/v2/organizations/2/\"},\"summary_fields\":{\"organization\":{\"id\":2,\"name\":\"workflow\",\"description\":\"\"},\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the team\",\"name\":\"Admin\",\"id\":40},\"member_role\":{\"description\":\"User is a member of the team\",\"name\":\"Member\",\"id\":41},\"read_role\":{\"description\":\"May view settings for the team\",\"name\":\"Read\",\"id\":42}},\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:53.694016Z\",\"modified\":\"2019-09-24T12:37:08.160321Z\",\"name\":\"workflow_team\",\"description\":\"\",\"organization\":2}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "1194"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:37:09 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.210s"
+          ],
+          "X-API-Total-Time": [
+            "0.291s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/teams/?page_size=25&organization=2&name__iexact=workflow_team"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:37:10",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/organizations/?page_size=25&id=2"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":2,\"type\":\"organization\",\"url\":\"/api/v2/organizations/2/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/organizations/2/projects/\",\"inventories\":\"/api/v2/organizations/2/inventories/\",\"workflow_job_templates\":\"/api/v2/organizations/2/workflow_job_templates/\",\"users\":\"/api/v2/organizations/2/users/\",\"admins\":\"/api/v2/organizations/2/admins/\",\"teams\":\"/api/v2/organizations/2/teams/\",\"credentials\":\"/api/v2/organizations/2/credentials/\",\"applications\":\"/api/v2/organizations/2/applications/\",\"activity_stream\":\"/api/v2/organizations/2/activity_stream/\",\"notification_templates\":\"/api/v2/organizations/2/notification_templates/\",\"notification_templates_started\":\"/api/v2/organizations/2/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/organizations/2/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/organizations/2/notification_templates_error/\",\"object_roles\":\"/api/v2/organizations/2/object_roles/\",\"access_list\":\"/api/v2/organizations/2/access_list/\",\"instance_groups\":\"/api/v2/organizations/2/instance_groups/\"},\"summary_fields\":{\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the organization\",\"name\":\"Admin\",\"id\":29},\"execute_role\":{\"description\":\"May run any executable resources in the organization\",\"name\":\"Execute\",\"id\":30},\"project_admin_role\":{\"description\":\"Can manage all projects of the organization\",\"name\":\"Project Admin\",\"id\":31},\"inventory_admin_role\":{\"description\":\"Can manage all inventories of the organization\",\"name\":\"Inventory Admin\",\"id\":32},\"credential_admin_role\":{\"description\":\"Can manage all credentials of the organization\",\"name\":\"Credential Admin\",\"id\":33},\"workflow_admin_role\":{\"description\":\"Can manage all workflows of the organization\",\"name\":\"Workflow Admin\",\"id\":34},\"notification_admin_role\":{\"description\":\"Can manage all notifications of the organization\",\"name\":\"Notification Admin\",\"id\":35},\"job_template_admin_role\":{\"description\":\"Can manage all job templates of the organization\",\"name\":\"Job Template Admin\",\"id\":36},\"auditor_role\":{\"description\":\"Can view all aspects of the organization\",\"name\":\"Auditor\",\"id\":37},\"member_role\":{\"description\":\"User is a member of the organization\",\"name\":\"Member\",\"id\":38},\"read_role\":{\"description\":\"May view settings for the organization\",\"name\":\"Read\",\"id\":39}},\"user_capabilities\":{\"edit\":true,\"delete\":true},\"related_field_counts\":{\"inventories\":1,\"teams\":1,\"users\":2,\"job_templates\":0,\"admins\":1,\"projects\":1}},\"created\":\"2019-08-19T13:55:48.815916Z\",\"modified\":\"2019-09-24T12:33:28.348437Z\",\"name\":\"workflow\",\"description\":\"\",\"max_hosts\":0,\"custom_virtualenv\":null}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2883"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:37:10 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.666s"
+          ],
+          "X-API-Total-Time": [
+            "0.738s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/organizations/?page_size=25&id=2"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:37:10",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=NoOrgBroken"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":0,\"next\":null,\"previous\":null,\"results\":[]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "52"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:37:10 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.456s"
+          ],
+          "X-API-Total-Time": [
+            "0.541s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=NoOrgBroken"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:37:11",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=Default"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"organization\",\"url\":\"/api/v2/organizations/1/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/organizations/1/projects/\",\"inventories\":\"/api/v2/organizations/1/inventories/\",\"workflow_job_templates\":\"/api/v2/organizations/1/workflow_job_templates/\",\"users\":\"/api/v2/organizations/1/users/\",\"admins\":\"/api/v2/organizations/1/admins/\",\"teams\":\"/api/v2/organizations/1/teams/\",\"credentials\":\"/api/v2/organizations/1/credentials/\",\"applications\":\"/api/v2/organizations/1/applications/\",\"activity_stream\":\"/api/v2/organizations/1/activity_stream/\",\"notification_templates\":\"/api/v2/organizations/1/notification_templates/\",\"notification_templates_started\":\"/api/v2/organizations/1/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/organizations/1/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/organizations/1/notification_templates_error/\",\"object_roles\":\"/api/v2/organizations/1/object_roles/\",\"access_list\":\"/api/v2/organizations/1/access_list/\",\"instance_groups\":\"/api/v2/organizations/1/instance_groups/\"},\"summary_fields\":{\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the organization\",\"name\":\"Admin\",\"id\":2},\"execute_role\":{\"description\":\"May run any executable resources in the organization\",\"name\":\"Execute\",\"id\":3},\"project_admin_role\":{\"description\":\"Can manage all projects of the organization\",\"name\":\"Project Admin\",\"id\":4},\"inventory_admin_role\":{\"description\":\"Can manage all inventories of the organization\",\"name\":\"Inventory Admin\",\"id\":5},\"credential_admin_role\":{\"description\":\"Can manage all credentials of the organization\",\"name\":\"Credential Admin\",\"id\":6},\"workflow_admin_role\":{\"description\":\"Can manage all workflows of the organization\",\"name\":\"Workflow Admin\",\"id\":7},\"notification_admin_role\":{\"description\":\"Can manage all notifications of the organization\",\"name\":\"Notification Admin\",\"id\":8},\"job_template_admin_role\":{\"description\":\"Can manage all job templates of the organization\",\"name\":\"Job Template Admin\",\"id\":9},\"auditor_role\":{\"description\":\"Can view all aspects of the organization\",\"name\":\"Auditor\",\"id\":10},\"member_role\":{\"description\":\"User is a member of the organization\",\"name\":\"Member\",\"id\":11},\"read_role\":{\"description\":\"May view settings for the organization\",\"name\":\"Read\",\"id\":12}},\"user_capabilities\":{\"edit\":true,\"delete\":true},\"related_field_counts\":{\"inventories\":1,\"teams\":0,\"users\":0,\"job_templates\":1,\"admins\":0,\"projects\":1}},\"created\":\"2019-08-14T11:37:11.372826Z\",\"modified\":\"2019-08-14T11:37:11.372845Z\",\"name\":\"Default\",\"description\":\"\",\"max_hosts\":0,\"custom_virtualenv\":null}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2874"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:37:11 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.604s"
+          ],
+          "X-API-Total-Time": [
+            "0.691s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=Default"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:37:12",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": "{\"organization\": 1}"
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "19"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "PATCH",
+        "uri": "http://localhost:8052/api/v2/teams/1/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"id\":1,\"type\":\"team\",\"url\":\"/api/v2/teams/1/\",\"related\":{\"named_url\":\"/api/v2/teams/workflow_team++Default/\",\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/teams/1/projects/\",\"users\":\"/api/v2/teams/1/users/\",\"credentials\":\"/api/v2/teams/1/credentials/\",\"roles\":\"/api/v2/teams/1/roles/\",\"object_roles\":\"/api/v2/teams/1/object_roles/\",\"activity_stream\":\"/api/v2/teams/1/activity_stream/\",\"access_list\":\"/api/v2/teams/1/access_list/\",\"organization\":\"/api/v2/organizations/1/\"},\"summary_fields\":{\"organization\":{\"id\":1,\"name\":\"Default\",\"description\":\"\"},\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the team\",\"name\":\"Admin\",\"id\":40},\"member_role\":{\"description\":\"User is a member of the team\",\"name\":\"Member\",\"id\":41},\"read_role\":{\"description\":\"May view settings for the team\",\"name\":\"Read\",\"id\":42}},\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:53.694016Z\",\"modified\":\"2019-09-24T12:37:12.008710Z\",\"name\":\"workflow_team\",\"description\":\"\",\"organization\":1}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "1193"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:37:12 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.883s"
+          ],
+          "X-API-Total-Time": [
+            "1.119s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/teams/1/"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:37:13",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/organizations/?page_size=25&id=1"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"organization\",\"url\":\"/api/v2/organizations/1/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/organizations/1/projects/\",\"inventories\":\"/api/v2/organizations/1/inventories/\",\"workflow_job_templates\":\"/api/v2/organizations/1/workflow_job_templates/\",\"users\":\"/api/v2/organizations/1/users/\",\"admins\":\"/api/v2/organizations/1/admins/\",\"teams\":\"/api/v2/organizations/1/teams/\",\"credentials\":\"/api/v2/organizations/1/credentials/\",\"applications\":\"/api/v2/organizations/1/applications/\",\"activity_stream\":\"/api/v2/organizations/1/activity_stream/\",\"notification_templates\":\"/api/v2/organizations/1/notification_templates/\",\"notification_templates_started\":\"/api/v2/organizations/1/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/organizations/1/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/organizations/1/notification_templates_error/\",\"object_roles\":\"/api/v2/organizations/1/object_roles/\",\"access_list\":\"/api/v2/organizations/1/access_list/\",\"instance_groups\":\"/api/v2/organizations/1/instance_groups/\"},\"summary_fields\":{\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the organization\",\"name\":\"Admin\",\"id\":2},\"execute_role\":{\"description\":\"May run any executable resources in the organization\",\"name\":\"Execute\",\"id\":3},\"project_admin_role\":{\"description\":\"Can manage all projects of the organization\",\"name\":\"Project Admin\",\"id\":4},\"inventory_admin_role\":{\"description\":\"Can manage all inventories of the organization\",\"name\":\"Inventory Admin\",\"id\":5},\"credential_admin_role\":{\"description\":\"Can manage all credentials of the organization\",\"name\":\"Credential Admin\",\"id\":6},\"workflow_admin_role\":{\"description\":\"Can manage all workflows of the organization\",\"name\":\"Workflow Admin\",\"id\":7},\"notification_admin_role\":{\"description\":\"Can manage all notifications of the organization\",\"name\":\"Notification Admin\",\"id\":8},\"job_template_admin_role\":{\"description\":\"Can manage all job templates of the organization\",\"name\":\"Job Template Admin\",\"id\":9},\"auditor_role\":{\"description\":\"Can view all aspects of the organization\",\"name\":\"Auditor\",\"id\":10},\"member_role\":{\"description\":\"User is a member of the organization\",\"name\":\"Member\",\"id\":11},\"read_role\":{\"description\":\"May view settings for the organization\",\"name\":\"Read\",\"id\":12}},\"user_capabilities\":{\"edit\":true,\"delete\":true},\"related_field_counts\":{\"inventories\":1,\"teams\":1,\"users\":0,\"job_templates\":1,\"admins\":0,\"projects\":1}},\"created\":\"2019-08-14T11:37:11.372826Z\",\"modified\":\"2019-08-14T11:37:11.372845Z\",\"name\":\"Default\",\"description\":\"\",\"max_hosts\":0,\"custom_virtualenv\":null}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2874"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:37:13 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.656s"
+          ],
+          "X-API-Total-Time": [
+            "0.753s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/organizations/?page_size=25&id=1"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:37:14",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=workflow"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":2,\"type\":\"organization\",\"url\":\"/api/v2/organizations/2/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/organizations/2/projects/\",\"inventories\":\"/api/v2/organizations/2/inventories/\",\"workflow_job_templates\":\"/api/v2/organizations/2/workflow_job_templates/\",\"users\":\"/api/v2/organizations/2/users/\",\"admins\":\"/api/v2/organizations/2/admins/\",\"teams\":\"/api/v2/organizations/2/teams/\",\"credentials\":\"/api/v2/organizations/2/credentials/\",\"applications\":\"/api/v2/organizations/2/applications/\",\"activity_stream\":\"/api/v2/organizations/2/activity_stream/\",\"notification_templates\":\"/api/v2/organizations/2/notification_templates/\",\"notification_templates_started\":\"/api/v2/organizations/2/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/organizations/2/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/organizations/2/notification_templates_error/\",\"object_roles\":\"/api/v2/organizations/2/object_roles/\",\"access_list\":\"/api/v2/organizations/2/access_list/\",\"instance_groups\":\"/api/v2/organizations/2/instance_groups/\"},\"summary_fields\":{\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the organization\",\"name\":\"Admin\",\"id\":29},\"execute_role\":{\"description\":\"May run any executable resources in the organization\",\"name\":\"Execute\",\"id\":30},\"project_admin_role\":{\"description\":\"Can manage all projects of the organization\",\"name\":\"Project Admin\",\"id\":31},\"inventory_admin_role\":{\"description\":\"Can manage all inventories of the organization\",\"name\":\"Inventory Admin\",\"id\":32},\"credential_admin_role\":{\"description\":\"Can manage all credentials of the organization\",\"name\":\"Credential Admin\",\"id\":33},\"workflow_admin_role\":{\"description\":\"Can manage all workflows of the organization\",\"name\":\"Workflow Admin\",\"id\":34},\"notification_admin_role\":{\"description\":\"Can manage all notifications of the organization\",\"name\":\"Notification Admin\",\"id\":35},\"job_template_admin_role\":{\"description\":\"Can manage all job templates of the organization\",\"name\":\"Job Template Admin\",\"id\":36},\"auditor_role\":{\"description\":\"Can view all aspects of the organization\",\"name\":\"Auditor\",\"id\":37},\"member_role\":{\"description\":\"User is a member of the organization\",\"name\":\"Member\",\"id\":38},\"read_role\":{\"description\":\"May view settings for the organization\",\"name\":\"Read\",\"id\":39}},\"user_capabilities\":{\"edit\":true,\"delete\":true},\"related_field_counts\":{\"inventories\":1,\"teams\":0,\"users\":2,\"job_templates\":0,\"admins\":1,\"projects\":1}},\"created\":\"2019-08-19T13:55:48.815916Z\",\"modified\":\"2019-09-24T12:33:28.348437Z\",\"name\":\"workflow\",\"description\":\"\",\"max_hosts\":0,\"custom_virtualenv\":null}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2883"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:37:14 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.522s"
+          ],
+          "X-API-Total-Time": [
+            "0.605s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=workflow"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:37:15",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": "{\"organization\": 2}"
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "19"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "PATCH",
+        "uri": "http://localhost:8052/api/v2/teams/1/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"id\":1,\"type\":\"team\",\"url\":\"/api/v2/teams/1/\",\"related\":{\"named_url\":\"/api/v2/teams/workflow_team++workflow/\",\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/teams/1/projects/\",\"users\":\"/api/v2/teams/1/users/\",\"credentials\":\"/api/v2/teams/1/credentials/\",\"roles\":\"/api/v2/teams/1/roles/\",\"object_roles\":\"/api/v2/teams/1/object_roles/\",\"activity_stream\":\"/api/v2/teams/1/activity_stream/\",\"access_list\":\"/api/v2/teams/1/access_list/\",\"organization\":\"/api/v2/organizations/2/\"},\"summary_fields\":{\"organization\":{\"id\":2,\"name\":\"workflow\",\"description\":\"\"},\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the team\",\"name\":\"Admin\",\"id\":40},\"member_role\":{\"description\":\"User is a member of the team\",\"name\":\"Member\",\"id\":41},\"read_role\":{\"description\":\"May view settings for the team\",\"name\":\"Read\",\"id\":42}},\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:53.694016Z\",\"modified\":\"2019-09-24T12:37:14.521217Z\",\"name\":\"workflow_team\",\"description\":\"\",\"organization\":2}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "1195"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:37:15 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.803s"
+          ],
+          "X-API-Total-Time": [
+            "1.042s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/teams/1/"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:37:15",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/organizations/?page_size=25&id=2"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":2,\"type\":\"organization\",\"url\":\"/api/v2/organizations/2/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/organizations/2/projects/\",\"inventories\":\"/api/v2/organizations/2/inventories/\",\"workflow_job_templates\":\"/api/v2/organizations/2/workflow_job_templates/\",\"users\":\"/api/v2/organizations/2/users/\",\"admins\":\"/api/v2/organizations/2/admins/\",\"teams\":\"/api/v2/organizations/2/teams/\",\"credentials\":\"/api/v2/organizations/2/credentials/\",\"applications\":\"/api/v2/organizations/2/applications/\",\"activity_stream\":\"/api/v2/organizations/2/activity_stream/\",\"notification_templates\":\"/api/v2/organizations/2/notification_templates/\",\"notification_templates_started\":\"/api/v2/organizations/2/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/organizations/2/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/organizations/2/notification_templates_error/\",\"object_roles\":\"/api/v2/organizations/2/object_roles/\",\"access_list\":\"/api/v2/organizations/2/access_list/\",\"instance_groups\":\"/api/v2/organizations/2/instance_groups/\"},\"summary_fields\":{\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the organization\",\"name\":\"Admin\",\"id\":29},\"execute_role\":{\"description\":\"May run any executable resources in the organization\",\"name\":\"Execute\",\"id\":30},\"project_admin_role\":{\"description\":\"Can manage all projects of the organization\",\"name\":\"Project Admin\",\"id\":31},\"inventory_admin_role\":{\"description\":\"Can manage all inventories of the organization\",\"name\":\"Inventory Admin\",\"id\":32},\"credential_admin_role\":{\"description\":\"Can manage all credentials of the organization\",\"name\":\"Credential Admin\",\"id\":33},\"workflow_admin_role\":{\"description\":\"Can manage all workflows of the organization\",\"name\":\"Workflow Admin\",\"id\":34},\"notification_admin_role\":{\"description\":\"Can manage all notifications of the organization\",\"name\":\"Notification Admin\",\"id\":35},\"job_template_admin_role\":{\"description\":\"Can manage all job templates of the organization\",\"name\":\"Job Template Admin\",\"id\":36},\"auditor_role\":{\"description\":\"Can view all aspects of the organization\",\"name\":\"Auditor\",\"id\":37},\"member_role\":{\"description\":\"User is a member of the organization\",\"name\":\"Member\",\"id\":38},\"read_role\":{\"description\":\"May view settings for the organization\",\"name\":\"Read\",\"id\":39}},\"user_capabilities\":{\"edit\":true,\"delete\":true},\"related_field_counts\":{\"inventories\":1,\"teams\":1,\"users\":2,\"job_templates\":0,\"admins\":1,\"projects\":1}},\"created\":\"2019-08-19T13:55:48.815916Z\",\"modified\":\"2019-09-24T12:33:28.348437Z\",\"name\":\"workflow\",\"description\":\"\",\"max_hosts\":0,\"custom_virtualenv\":null}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2883"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:37:15 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.585s"
+          ],
+          "X-API-Total-Time": [
+            "0.671s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/organizations/?page_size=25&id=2"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:58:53",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=workflow"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":2,\"type\":\"organization\",\"url\":\"/api/v2/organizations/2/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/organizations/2/projects/\",\"inventories\":\"/api/v2/organizations/2/inventories/\",\"workflow_job_templates\":\"/api/v2/organizations/2/workflow_job_templates/\",\"users\":\"/api/v2/organizations/2/users/\",\"admins\":\"/api/v2/organizations/2/admins/\",\"teams\":\"/api/v2/organizations/2/teams/\",\"credentials\":\"/api/v2/organizations/2/credentials/\",\"applications\":\"/api/v2/organizations/2/applications/\",\"activity_stream\":\"/api/v2/organizations/2/activity_stream/\",\"notification_templates\":\"/api/v2/organizations/2/notification_templates/\",\"notification_templates_started\":\"/api/v2/organizations/2/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/organizations/2/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/organizations/2/notification_templates_error/\",\"object_roles\":\"/api/v2/organizations/2/object_roles/\",\"access_list\":\"/api/v2/organizations/2/access_list/\",\"instance_groups\":\"/api/v2/organizations/2/instance_groups/\"},\"summary_fields\":{\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the organization\",\"name\":\"Admin\",\"id\":29},\"execute_role\":{\"description\":\"May run any executable resources in the organization\",\"name\":\"Execute\",\"id\":30},\"project_admin_role\":{\"description\":\"Can manage all projects of the organization\",\"name\":\"Project Admin\",\"id\":31},\"inventory_admin_role\":{\"description\":\"Can manage all inventories of the organization\",\"name\":\"Inventory Admin\",\"id\":32},\"credential_admin_role\":{\"description\":\"Can manage all credentials of the organization\",\"name\":\"Credential Admin\",\"id\":33},\"workflow_admin_role\":{\"description\":\"Can manage all workflows of the organization\",\"name\":\"Workflow Admin\",\"id\":34},\"notification_admin_role\":{\"description\":\"Can manage all notifications of the organization\",\"name\":\"Notification Admin\",\"id\":35},\"job_template_admin_role\":{\"description\":\"Can manage all job templates of the organization\",\"name\":\"Job Template Admin\",\"id\":36},\"auditor_role\":{\"description\":\"Can view all aspects of the organization\",\"name\":\"Auditor\",\"id\":37},\"member_role\":{\"description\":\"User is a member of the organization\",\"name\":\"Member\",\"id\":38},\"read_role\":{\"description\":\"May view settings for the organization\",\"name\":\"Read\",\"id\":39}},\"user_capabilities\":{\"edit\":true,\"delete\":true},\"related_field_counts\":{\"inventories\":1,\"teams\":1,\"users\":2,\"job_templates\":0,\"admins\":1,\"projects\":1}},\"created\":\"2019-08-19T13:55:48.815916Z\",\"modified\":\"2019-09-24T12:54:06.314520Z\",\"name\":\"workflow\",\"description\":\"\",\"max_hosts\":0,\"custom_virtualenv\":null}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2883"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:58:53 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.833s"
+          ],
+          "X-API-Total-Time": [
+            "0.910s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=workflow"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:58:54",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/teams/?page_size=25&organization=2&name__iexact=workflow_team"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"team\",\"url\":\"/api/v2/teams/1/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/teams/1/projects/\",\"users\":\"/api/v2/teams/1/users/\",\"credentials\":\"/api/v2/teams/1/credentials/\",\"roles\":\"/api/v2/teams/1/roles/\",\"object_roles\":\"/api/v2/teams/1/object_roles/\",\"activity_stream\":\"/api/v2/teams/1/activity_stream/\",\"access_list\":\"/api/v2/teams/1/access_list/\",\"organization\":\"/api/v2/organizations/2/\"},\"summary_fields\":{\"organization\":{\"id\":2,\"name\":\"workflow\",\"description\":\"\"},\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the team\",\"name\":\"Admin\",\"id\":40},\"member_role\":{\"description\":\"User is a member of the team\",\"name\":\"Member\",\"id\":41},\"read_role\":{\"description\":\"May view settings for the team\",\"name\":\"Read\",\"id\":42}},\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:53.694016Z\",\"modified\":\"2019-09-24T12:58:52.181268Z\",\"name\":\"workflow_team\",\"description\":\"\",\"organization\":2}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "1194"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:58:54 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.281s"
+          ],
+          "X-API-Total-Time": [
+            "0.383s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/teams/?page_size=25&organization=2&name__iexact=workflow_team"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:58:55",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/organizations/?page_size=25&id=2"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":2,\"type\":\"organization\",\"url\":\"/api/v2/organizations/2/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/organizations/2/projects/\",\"inventories\":\"/api/v2/organizations/2/inventories/\",\"workflow_job_templates\":\"/api/v2/organizations/2/workflow_job_templates/\",\"users\":\"/api/v2/organizations/2/users/\",\"admins\":\"/api/v2/organizations/2/admins/\",\"teams\":\"/api/v2/organizations/2/teams/\",\"credentials\":\"/api/v2/organizations/2/credentials/\",\"applications\":\"/api/v2/organizations/2/applications/\",\"activity_stream\":\"/api/v2/organizations/2/activity_stream/\",\"notification_templates\":\"/api/v2/organizations/2/notification_templates/\",\"notification_templates_started\":\"/api/v2/organizations/2/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/organizations/2/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/organizations/2/notification_templates_error/\",\"object_roles\":\"/api/v2/organizations/2/object_roles/\",\"access_list\":\"/api/v2/organizations/2/access_list/\",\"instance_groups\":\"/api/v2/organizations/2/instance_groups/\"},\"summary_fields\":{\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the organization\",\"name\":\"Admin\",\"id\":29},\"execute_role\":{\"description\":\"May run any executable resources in the organization\",\"name\":\"Execute\",\"id\":30},\"project_admin_role\":{\"description\":\"Can manage all projects of the organization\",\"name\":\"Project Admin\",\"id\":31},\"inventory_admin_role\":{\"description\":\"Can manage all inventories of the organization\",\"name\":\"Inventory Admin\",\"id\":32},\"credential_admin_role\":{\"description\":\"Can manage all credentials of the organization\",\"name\":\"Credential Admin\",\"id\":33},\"workflow_admin_role\":{\"description\":\"Can manage all workflows of the organization\",\"name\":\"Workflow Admin\",\"id\":34},\"notification_admin_role\":{\"description\":\"Can manage all notifications of the organization\",\"name\":\"Notification Admin\",\"id\":35},\"job_template_admin_role\":{\"description\":\"Can manage all job templates of the organization\",\"name\":\"Job Template Admin\",\"id\":36},\"auditor_role\":{\"description\":\"Can view all aspects of the organization\",\"name\":\"Auditor\",\"id\":37},\"member_role\":{\"description\":\"User is a member of the organization\",\"name\":\"Member\",\"id\":38},\"read_role\":{\"description\":\"May view settings for the organization\",\"name\":\"Read\",\"id\":39}},\"user_capabilities\":{\"edit\":true,\"delete\":true},\"related_field_counts\":{\"inventories\":1,\"teams\":1,\"users\":2,\"job_templates\":0,\"admins\":1,\"projects\":1}},\"created\":\"2019-08-19T13:55:48.815916Z\",\"modified\":\"2019-09-24T12:54:06.314520Z\",\"name\":\"workflow\",\"description\":\"\",\"max_hosts\":0,\"custom_virtualenv\":null}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2883"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:58:55 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.777s"
+          ],
+          "X-API-Total-Time": [
+            "0.864s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/organizations/?page_size=25&id=2"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:58:56",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=NoOrgBroken"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":0,\"next\":null,\"previous\":null,\"results\":[]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "52"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:58:56 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.730s"
+          ],
+          "X-API-Total-Time": [
+            "0.935s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=NoOrgBroken"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:58:57",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=Default"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"organization\",\"url\":\"/api/v2/organizations/1/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/organizations/1/projects/\",\"inventories\":\"/api/v2/organizations/1/inventories/\",\"workflow_job_templates\":\"/api/v2/organizations/1/workflow_job_templates/\",\"users\":\"/api/v2/organizations/1/users/\",\"admins\":\"/api/v2/organizations/1/admins/\",\"teams\":\"/api/v2/organizations/1/teams/\",\"credentials\":\"/api/v2/organizations/1/credentials/\",\"applications\":\"/api/v2/organizations/1/applications/\",\"activity_stream\":\"/api/v2/organizations/1/activity_stream/\",\"notification_templates\":\"/api/v2/organizations/1/notification_templates/\",\"notification_templates_started\":\"/api/v2/organizations/1/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/organizations/1/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/organizations/1/notification_templates_error/\",\"object_roles\":\"/api/v2/organizations/1/object_roles/\",\"access_list\":\"/api/v2/organizations/1/access_list/\",\"instance_groups\":\"/api/v2/organizations/1/instance_groups/\"},\"summary_fields\":{\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the organization\",\"name\":\"Admin\",\"id\":2},\"execute_role\":{\"description\":\"May run any executable resources in the organization\",\"name\":\"Execute\",\"id\":3},\"project_admin_role\":{\"description\":\"Can manage all projects of the organization\",\"name\":\"Project Admin\",\"id\":4},\"inventory_admin_role\":{\"description\":\"Can manage all inventories of the organization\",\"name\":\"Inventory Admin\",\"id\":5},\"credential_admin_role\":{\"description\":\"Can manage all credentials of the organization\",\"name\":\"Credential Admin\",\"id\":6},\"workflow_admin_role\":{\"description\":\"Can manage all workflows of the organization\",\"name\":\"Workflow Admin\",\"id\":7},\"notification_admin_role\":{\"description\":\"Can manage all notifications of the organization\",\"name\":\"Notification Admin\",\"id\":8},\"job_template_admin_role\":{\"description\":\"Can manage all job templates of the organization\",\"name\":\"Job Template Admin\",\"id\":9},\"auditor_role\":{\"description\":\"Can view all aspects of the organization\",\"name\":\"Auditor\",\"id\":10},\"member_role\":{\"description\":\"User is a member of the organization\",\"name\":\"Member\",\"id\":11},\"read_role\":{\"description\":\"May view settings for the organization\",\"name\":\"Read\",\"id\":12}},\"user_capabilities\":{\"edit\":true,\"delete\":true},\"related_field_counts\":{\"inventories\":1,\"teams\":0,\"users\":0,\"job_templates\":1,\"admins\":0,\"projects\":1}},\"created\":\"2019-08-14T11:37:11.372826Z\",\"modified\":\"2019-08-14T11:37:11.372845Z\",\"name\":\"Default\",\"description\":\"\",\"max_hosts\":0,\"custom_virtualenv\":null}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2874"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:58:57 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.762s"
+          ],
+          "X-API-Total-Time": [
+            "0.865s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=Default"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:58:58",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": "{\"organization\": 1}"
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "19"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "PATCH",
+        "uri": "http://localhost:8052/api/v2/teams/1/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"id\":1,\"type\":\"team\",\"url\":\"/api/v2/teams/1/\",\"related\":{\"named_url\":\"/api/v2/teams/workflow_team++Default/\",\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/teams/1/projects/\",\"users\":\"/api/v2/teams/1/users/\",\"credentials\":\"/api/v2/teams/1/credentials/\",\"roles\":\"/api/v2/teams/1/roles/\",\"object_roles\":\"/api/v2/teams/1/object_roles/\",\"activity_stream\":\"/api/v2/teams/1/activity_stream/\",\"access_list\":\"/api/v2/teams/1/access_list/\",\"organization\":\"/api/v2/organizations/1/\"},\"summary_fields\":{\"organization\":{\"id\":1,\"name\":\"Default\",\"description\":\"\"},\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the team\",\"name\":\"Admin\",\"id\":40},\"member_role\":{\"description\":\"User is a member of the team\",\"name\":\"Member\",\"id\":41},\"read_role\":{\"description\":\"May view settings for the team\",\"name\":\"Read\",\"id\":42}},\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:53.694016Z\",\"modified\":\"2019-09-24T12:58:57.433627Z\",\"name\":\"workflow_team\",\"description\":\"\",\"organization\":1}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "1193"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:58:58 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.975s"
+          ],
+          "X-API-Total-Time": [
+            "1.297s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/teams/1/"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:58:59",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/organizations/?page_size=25&id=1"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"organization\",\"url\":\"/api/v2/organizations/1/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/organizations/1/projects/\",\"inventories\":\"/api/v2/organizations/1/inventories/\",\"workflow_job_templates\":\"/api/v2/organizations/1/workflow_job_templates/\",\"users\":\"/api/v2/organizations/1/users/\",\"admins\":\"/api/v2/organizations/1/admins/\",\"teams\":\"/api/v2/organizations/1/teams/\",\"credentials\":\"/api/v2/organizations/1/credentials/\",\"applications\":\"/api/v2/organizations/1/applications/\",\"activity_stream\":\"/api/v2/organizations/1/activity_stream/\",\"notification_templates\":\"/api/v2/organizations/1/notification_templates/\",\"notification_templates_started\":\"/api/v2/organizations/1/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/organizations/1/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/organizations/1/notification_templates_error/\",\"object_roles\":\"/api/v2/organizations/1/object_roles/\",\"access_list\":\"/api/v2/organizations/1/access_list/\",\"instance_groups\":\"/api/v2/organizations/1/instance_groups/\"},\"summary_fields\":{\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the organization\",\"name\":\"Admin\",\"id\":2},\"execute_role\":{\"description\":\"May run any executable resources in the organization\",\"name\":\"Execute\",\"id\":3},\"project_admin_role\":{\"description\":\"Can manage all projects of the organization\",\"name\":\"Project Admin\",\"id\":4},\"inventory_admin_role\":{\"description\":\"Can manage all inventories of the organization\",\"name\":\"Inventory Admin\",\"id\":5},\"credential_admin_role\":{\"description\":\"Can manage all credentials of the organization\",\"name\":\"Credential Admin\",\"id\":6},\"workflow_admin_role\":{\"description\":\"Can manage all workflows of the organization\",\"name\":\"Workflow Admin\",\"id\":7},\"notification_admin_role\":{\"description\":\"Can manage all notifications of the organization\",\"name\":\"Notification Admin\",\"id\":8},\"job_template_admin_role\":{\"description\":\"Can manage all job templates of the organization\",\"name\":\"Job Template Admin\",\"id\":9},\"auditor_role\":{\"description\":\"Can view all aspects of the organization\",\"name\":\"Auditor\",\"id\":10},\"member_role\":{\"description\":\"User is a member of the organization\",\"name\":\"Member\",\"id\":11},\"read_role\":{\"description\":\"May view settings for the organization\",\"name\":\"Read\",\"id\":12}},\"user_capabilities\":{\"edit\":true,\"delete\":true},\"related_field_counts\":{\"inventories\":1,\"teams\":1,\"users\":0,\"job_templates\":1,\"admins\":0,\"projects\":1}},\"created\":\"2019-08-14T11:37:11.372826Z\",\"modified\":\"2019-08-14T11:37:11.372845Z\",\"name\":\"Default\",\"description\":\"\",\"max_hosts\":0,\"custom_virtualenv\":null}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2874"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:58:59 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.617s"
+          ],
+          "X-API-Total-Time": [
+            "0.804s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/organizations/?page_size=25&id=1"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:59:00",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=workflow"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":2,\"type\":\"organization\",\"url\":\"/api/v2/organizations/2/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/organizations/2/projects/\",\"inventories\":\"/api/v2/organizations/2/inventories/\",\"workflow_job_templates\":\"/api/v2/organizations/2/workflow_job_templates/\",\"users\":\"/api/v2/organizations/2/users/\",\"admins\":\"/api/v2/organizations/2/admins/\",\"teams\":\"/api/v2/organizations/2/teams/\",\"credentials\":\"/api/v2/organizations/2/credentials/\",\"applications\":\"/api/v2/organizations/2/applications/\",\"activity_stream\":\"/api/v2/organizations/2/activity_stream/\",\"notification_templates\":\"/api/v2/organizations/2/notification_templates/\",\"notification_templates_started\":\"/api/v2/organizations/2/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/organizations/2/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/organizations/2/notification_templates_error/\",\"object_roles\":\"/api/v2/organizations/2/object_roles/\",\"access_list\":\"/api/v2/organizations/2/access_list/\",\"instance_groups\":\"/api/v2/organizations/2/instance_groups/\"},\"summary_fields\":{\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the organization\",\"name\":\"Admin\",\"id\":29},\"execute_role\":{\"description\":\"May run any executable resources in the organization\",\"name\":\"Execute\",\"id\":30},\"project_admin_role\":{\"description\":\"Can manage all projects of the organization\",\"name\":\"Project Admin\",\"id\":31},\"inventory_admin_role\":{\"description\":\"Can manage all inventories of the organization\",\"name\":\"Inventory Admin\",\"id\":32},\"credential_admin_role\":{\"description\":\"Can manage all credentials of the organization\",\"name\":\"Credential Admin\",\"id\":33},\"workflow_admin_role\":{\"description\":\"Can manage all workflows of the organization\",\"name\":\"Workflow Admin\",\"id\":34},\"notification_admin_role\":{\"description\":\"Can manage all notifications of the organization\",\"name\":\"Notification Admin\",\"id\":35},\"job_template_admin_role\":{\"description\":\"Can manage all job templates of the organization\",\"name\":\"Job Template Admin\",\"id\":36},\"auditor_role\":{\"description\":\"Can view all aspects of the organization\",\"name\":\"Auditor\",\"id\":37},\"member_role\":{\"description\":\"User is a member of the organization\",\"name\":\"Member\",\"id\":38},\"read_role\":{\"description\":\"May view settings for the organization\",\"name\":\"Read\",\"id\":39}},\"user_capabilities\":{\"edit\":true,\"delete\":true},\"related_field_counts\":{\"inventories\":1,\"teams\":0,\"users\":2,\"job_templates\":0,\"admins\":1,\"projects\":1}},\"created\":\"2019-08-19T13:55:48.815916Z\",\"modified\":\"2019-09-24T12:54:06.314520Z\",\"name\":\"workflow\",\"description\":\"\",\"max_hosts\":0,\"custom_virtualenv\":null}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2883"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:59:00 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.820s"
+          ],
+          "X-API-Total-Time": [
+            "0.956s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=workflow"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:59:01",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": "{\"organization\": 2}"
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "19"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "PATCH",
+        "uri": "http://localhost:8052/api/v2/teams/1/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"id\":1,\"type\":\"team\",\"url\":\"/api/v2/teams/1/\",\"related\":{\"named_url\":\"/api/v2/teams/workflow_team++workflow/\",\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/teams/1/projects/\",\"users\":\"/api/v2/teams/1/users/\",\"credentials\":\"/api/v2/teams/1/credentials/\",\"roles\":\"/api/v2/teams/1/roles/\",\"object_roles\":\"/api/v2/teams/1/object_roles/\",\"activity_stream\":\"/api/v2/teams/1/activity_stream/\",\"access_list\":\"/api/v2/teams/1/access_list/\",\"organization\":\"/api/v2/organizations/2/\"},\"summary_fields\":{\"organization\":{\"id\":2,\"name\":\"workflow\",\"description\":\"\"},\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the team\",\"name\":\"Admin\",\"id\":40},\"member_role\":{\"description\":\"User is a member of the team\",\"name\":\"Member\",\"id\":41},\"read_role\":{\"description\":\"May view settings for the team\",\"name\":\"Read\",\"id\":42}},\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:53.694016Z\",\"modified\":\"2019-09-24T12:59:00.723292Z\",\"name\":\"workflow_team\",\"description\":\"\",\"organization\":2}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "1195"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:59:01 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "1.140s"
+          ],
+          "X-API-Total-Time": [
+            "1.441s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/teams/1/"
+      }
+    },
+    {
+      "recorded_at": "2019-09-24T12:59:02",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/organizations/?page_size=25&id=2"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":2,\"type\":\"organization\",\"url\":\"/api/v2/organizations/2/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/organizations/2/projects/\",\"inventories\":\"/api/v2/organizations/2/inventories/\",\"workflow_job_templates\":\"/api/v2/organizations/2/workflow_job_templates/\",\"users\":\"/api/v2/organizations/2/users/\",\"admins\":\"/api/v2/organizations/2/admins/\",\"teams\":\"/api/v2/organizations/2/teams/\",\"credentials\":\"/api/v2/organizations/2/credentials/\",\"applications\":\"/api/v2/organizations/2/applications/\",\"activity_stream\":\"/api/v2/organizations/2/activity_stream/\",\"notification_templates\":\"/api/v2/organizations/2/notification_templates/\",\"notification_templates_started\":\"/api/v2/organizations/2/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/organizations/2/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/organizations/2/notification_templates_error/\",\"object_roles\":\"/api/v2/organizations/2/object_roles/\",\"access_list\":\"/api/v2/organizations/2/access_list/\",\"instance_groups\":\"/api/v2/organizations/2/instance_groups/\"},\"summary_fields\":{\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the organization\",\"name\":\"Admin\",\"id\":29},\"execute_role\":{\"description\":\"May run any executable resources in the organization\",\"name\":\"Execute\",\"id\":30},\"project_admin_role\":{\"description\":\"Can manage all projects of the organization\",\"name\":\"Project Admin\",\"id\":31},\"inventory_admin_role\":{\"description\":\"Can manage all inventories of the organization\",\"name\":\"Inventory Admin\",\"id\":32},\"credential_admin_role\":{\"description\":\"Can manage all credentials of the organization\",\"name\":\"Credential Admin\",\"id\":33},\"workflow_admin_role\":{\"description\":\"Can manage all workflows of the organization\",\"name\":\"Workflow Admin\",\"id\":34},\"notification_admin_role\":{\"description\":\"Can manage all notifications of the organization\",\"name\":\"Notification Admin\",\"id\":35},\"job_template_admin_role\":{\"description\":\"Can manage all job templates of the organization\",\"name\":\"Job Template Admin\",\"id\":36},\"auditor_role\":{\"description\":\"Can view all aspects of the organization\",\"name\":\"Auditor\",\"id\":37},\"member_role\":{\"description\":\"User is a member of the organization\",\"name\":\"Member\",\"id\":38},\"read_role\":{\"description\":\"May view settings for the organization\",\"name\":\"Read\",\"id\":39}},\"user_capabilities\":{\"edit\":true,\"delete\":true},\"related_field_counts\":{\"inventories\":1,\"teams\":1,\"users\":2,\"job_templates\":0,\"admins\":1,\"projects\":1}},\"created\":\"2019-08-19T13:55:48.815916Z\",\"modified\":\"2019-09-24T12:54:06.314520Z\",\"name\":\"workflow\",\"description\":\"\",\"max_hosts\":0,\"custom_virtualenv\":null}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2883"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Tue, 24 Sep 2019 12:59:02 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.690s"
+          ],
+          "X-API-Total-Time": [
+            "0.802s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/organizations/?page_size=25&id=2"
+      }
+    },
+    {
+      "recorded_at": "2019-10-18T09:02:41",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=workflow"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":2,\"type\":\"organization\",\"url\":\"/api/v2/organizations/2/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/organizations/2/projects/\",\"inventories\":\"/api/v2/organizations/2/inventories/\",\"workflow_job_templates\":\"/api/v2/organizations/2/workflow_job_templates/\",\"users\":\"/api/v2/organizations/2/users/\",\"admins\":\"/api/v2/organizations/2/admins/\",\"teams\":\"/api/v2/organizations/2/teams/\",\"credentials\":\"/api/v2/organizations/2/credentials/\",\"applications\":\"/api/v2/organizations/2/applications/\",\"activity_stream\":\"/api/v2/organizations/2/activity_stream/\",\"notification_templates\":\"/api/v2/organizations/2/notification_templates/\",\"notification_templates_started\":\"/api/v2/organizations/2/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/organizations/2/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/organizations/2/notification_templates_error/\",\"object_roles\":\"/api/v2/organizations/2/object_roles/\",\"access_list\":\"/api/v2/organizations/2/access_list/\",\"instance_groups\":\"/api/v2/organizations/2/instance_groups/\"},\"summary_fields\":{\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the organization\",\"name\":\"Admin\",\"id\":29},\"execute_role\":{\"description\":\"May run any executable resources in the organization\",\"name\":\"Execute\",\"id\":30},\"project_admin_role\":{\"description\":\"Can manage all projects of the organization\",\"name\":\"Project Admin\",\"id\":31},\"inventory_admin_role\":{\"description\":\"Can manage all inventories of the organization\",\"name\":\"Inventory Admin\",\"id\":32},\"credential_admin_role\":{\"description\":\"Can manage all credentials of the organization\",\"name\":\"Credential Admin\",\"id\":33},\"workflow_admin_role\":{\"description\":\"Can manage all workflows of the organization\",\"name\":\"Workflow Admin\",\"id\":34},\"notification_admin_role\":{\"description\":\"Can manage all notifications of the organization\",\"name\":\"Notification Admin\",\"id\":35},\"job_template_admin_role\":{\"description\":\"Can manage all job templates of the organization\",\"name\":\"Job Template Admin\",\"id\":36},\"auditor_role\":{\"description\":\"Can view all aspects of the organization\",\"name\":\"Auditor\",\"id\":37},\"member_role\":{\"description\":\"User is a member of the organization\",\"name\":\"Member\",\"id\":38},\"read_role\":{\"description\":\"May view settings for the organization\",\"name\":\"Read\",\"id\":39}},\"user_capabilities\":{\"edit\":true,\"delete\":true},\"related_field_counts\":{\"inventories\":1,\"teams\":1,\"users\":2,\"job_templates\":0,\"admins\":1,\"projects\":1}},\"created\":\"2019-08-19T13:55:48.815916Z\",\"modified\":\"2019-10-18T08:55:29.070034Z\",\"name\":\"workflow\",\"description\":\"\",\"max_hosts\":0,\"custom_virtualenv\":null}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2883"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Fri, 18 Oct 2019 09:02:41 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "1.203s"
+          ],
+          "X-API-Total-Time": [
+            "1.333s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=workflow"
+      }
+    },
+    {
+      "recorded_at": "2019-10-18T09:02:42",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/teams/?page_size=25&organization=2&name__iexact=workflow_team"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"team\",\"url\":\"/api/v2/teams/1/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/teams/1/projects/\",\"users\":\"/api/v2/teams/1/users/\",\"credentials\":\"/api/v2/teams/1/credentials/\",\"roles\":\"/api/v2/teams/1/roles/\",\"object_roles\":\"/api/v2/teams/1/object_roles/\",\"activity_stream\":\"/api/v2/teams/1/activity_stream/\",\"access_list\":\"/api/v2/teams/1/access_list/\",\"organization\":\"/api/v2/organizations/2/\"},\"summary_fields\":{\"organization\":{\"id\":2,\"name\":\"workflow\",\"description\":\"\"},\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the team\",\"name\":\"Admin\",\"id\":40},\"member_role\":{\"description\":\"User is a member of the team\",\"name\":\"Member\",\"id\":41},\"read_role\":{\"description\":\"May view settings for the team\",\"name\":\"Read\",\"id\":42}},\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:53.694016Z\",\"modified\":\"2019-10-18T09:02:39.183124Z\",\"name\":\"workflow_team\",\"description\":\"\",\"organization\":2}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "1194"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Fri, 18 Oct 2019 09:02:42 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.574s"
+          ],
+          "X-API-Total-Time": [
+            "0.744s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/teams/?page_size=25&organization=2&name__iexact=workflow_team"
+      }
+    },
+    {
+      "recorded_at": "2019-10-18T09:02:44",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/organizations/?page_size=25&id=2"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":2,\"type\":\"organization\",\"url\":\"/api/v2/organizations/2/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/organizations/2/projects/\",\"inventories\":\"/api/v2/organizations/2/inventories/\",\"workflow_job_templates\":\"/api/v2/organizations/2/workflow_job_templates/\",\"users\":\"/api/v2/organizations/2/users/\",\"admins\":\"/api/v2/organizations/2/admins/\",\"teams\":\"/api/v2/organizations/2/teams/\",\"credentials\":\"/api/v2/organizations/2/credentials/\",\"applications\":\"/api/v2/organizations/2/applications/\",\"activity_stream\":\"/api/v2/organizations/2/activity_stream/\",\"notification_templates\":\"/api/v2/organizations/2/notification_templates/\",\"notification_templates_started\":\"/api/v2/organizations/2/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/organizations/2/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/organizations/2/notification_templates_error/\",\"object_roles\":\"/api/v2/organizations/2/object_roles/\",\"access_list\":\"/api/v2/organizations/2/access_list/\",\"instance_groups\":\"/api/v2/organizations/2/instance_groups/\"},\"summary_fields\":{\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the organization\",\"name\":\"Admin\",\"id\":29},\"execute_role\":{\"description\":\"May run any executable resources in the organization\",\"name\":\"Execute\",\"id\":30},\"project_admin_role\":{\"description\":\"Can manage all projects of the organization\",\"name\":\"Project Admin\",\"id\":31},\"inventory_admin_role\":{\"description\":\"Can manage all inventories of the organization\",\"name\":\"Inventory Admin\",\"id\":32},\"credential_admin_role\":{\"description\":\"Can manage all credentials of the organization\",\"name\":\"Credential Admin\",\"id\":33},\"workflow_admin_role\":{\"description\":\"Can manage all workflows of the organization\",\"name\":\"Workflow Admin\",\"id\":34},\"notification_admin_role\":{\"description\":\"Can manage all notifications of the organization\",\"name\":\"Notification Admin\",\"id\":35},\"job_template_admin_role\":{\"description\":\"Can manage all job templates of the organization\",\"name\":\"Job Template Admin\",\"id\":36},\"auditor_role\":{\"description\":\"Can view all aspects of the organization\",\"name\":\"Auditor\",\"id\":37},\"member_role\":{\"description\":\"User is a member of the organization\",\"name\":\"Member\",\"id\":38},\"read_role\":{\"description\":\"May view settings for the organization\",\"name\":\"Read\",\"id\":39}},\"user_capabilities\":{\"edit\":true,\"delete\":true},\"related_field_counts\":{\"inventories\":1,\"teams\":1,\"users\":2,\"job_templates\":0,\"admins\":1,\"projects\":1}},\"created\":\"2019-08-19T13:55:48.815916Z\",\"modified\":\"2019-10-18T08:55:29.070034Z\",\"name\":\"workflow\",\"description\":\"\",\"max_hosts\":0,\"custom_virtualenv\":null}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2883"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Fri, 18 Oct 2019 09:02:44 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "1.833s"
+          ],
+          "X-API-Total-Time": [
+            "2.041s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/organizations/?page_size=25&id=2"
+      }
+    },
+    {
+      "recorded_at": "2019-10-18T09:02:46",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=NoOrgBroken"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":0,\"next\":null,\"previous\":null,\"results\":[]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "52"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Fri, 18 Oct 2019 09:02:46 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "1.380s"
+          ],
+          "X-API-Total-Time": [
+            "1.514s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=NoOrgBroken"
+      }
+    },
+    {
+      "recorded_at": "2019-10-18T09:02:48",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=Default"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"organization\",\"url\":\"/api/v2/organizations/1/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/organizations/1/projects/\",\"inventories\":\"/api/v2/organizations/1/inventories/\",\"workflow_job_templates\":\"/api/v2/organizations/1/workflow_job_templates/\",\"users\":\"/api/v2/organizations/1/users/\",\"admins\":\"/api/v2/organizations/1/admins/\",\"teams\":\"/api/v2/organizations/1/teams/\",\"credentials\":\"/api/v2/organizations/1/credentials/\",\"applications\":\"/api/v2/organizations/1/applications/\",\"activity_stream\":\"/api/v2/organizations/1/activity_stream/\",\"notification_templates\":\"/api/v2/organizations/1/notification_templates/\",\"notification_templates_started\":\"/api/v2/organizations/1/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/organizations/1/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/organizations/1/notification_templates_error/\",\"object_roles\":\"/api/v2/organizations/1/object_roles/\",\"access_list\":\"/api/v2/organizations/1/access_list/\",\"instance_groups\":\"/api/v2/organizations/1/instance_groups/\"},\"summary_fields\":{\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the organization\",\"name\":\"Admin\",\"id\":2},\"execute_role\":{\"description\":\"May run any executable resources in the organization\",\"name\":\"Execute\",\"id\":3},\"project_admin_role\":{\"description\":\"Can manage all projects of the organization\",\"name\":\"Project Admin\",\"id\":4},\"inventory_admin_role\":{\"description\":\"Can manage all inventories of the organization\",\"name\":\"Inventory Admin\",\"id\":5},\"credential_admin_role\":{\"description\":\"Can manage all credentials of the organization\",\"name\":\"Credential Admin\",\"id\":6},\"workflow_admin_role\":{\"description\":\"Can manage all workflows of the organization\",\"name\":\"Workflow Admin\",\"id\":7},\"notification_admin_role\":{\"description\":\"Can manage all notifications of the organization\",\"name\":\"Notification Admin\",\"id\":8},\"job_template_admin_role\":{\"description\":\"Can manage all job templates of the organization\",\"name\":\"Job Template Admin\",\"id\":9},\"auditor_role\":{\"description\":\"Can view all aspects of the organization\",\"name\":\"Auditor\",\"id\":10},\"member_role\":{\"description\":\"User is a member of the organization\",\"name\":\"Member\",\"id\":11},\"read_role\":{\"description\":\"May view settings for the organization\",\"name\":\"Read\",\"id\":12}},\"user_capabilities\":{\"edit\":true,\"delete\":true},\"related_field_counts\":{\"inventories\":1,\"teams\":0,\"users\":0,\"job_templates\":1,\"admins\":0,\"projects\":1}},\"created\":\"2019-08-14T11:37:11.372826Z\",\"modified\":\"2019-08-14T11:37:11.372845Z\",\"name\":\"Default\",\"description\":\"\",\"max_hosts\":0,\"custom_virtualenv\":null}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2874"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Fri, 18 Oct 2019 09:02:48 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "2.023s"
+          ],
+          "X-API-Total-Time": [
+            "2.235s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=Default"
+      }
+    },
+    {
+      "recorded_at": "2019-10-18T09:02:50",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": "{\"organization\": 1}"
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "19"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "PATCH",
+        "uri": "http://localhost:8052/api/v2/teams/1/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"id\":1,\"type\":\"team\",\"url\":\"/api/v2/teams/1/\",\"related\":{\"named_url\":\"/api/v2/teams/workflow_team++Default/\",\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/teams/1/projects/\",\"users\":\"/api/v2/teams/1/users/\",\"credentials\":\"/api/v2/teams/1/credentials/\",\"roles\":\"/api/v2/teams/1/roles/\",\"object_roles\":\"/api/v2/teams/1/object_roles/\",\"activity_stream\":\"/api/v2/teams/1/activity_stream/\",\"access_list\":\"/api/v2/teams/1/access_list/\",\"organization\":\"/api/v2/organizations/1/\"},\"summary_fields\":{\"organization\":{\"id\":1,\"name\":\"Default\",\"description\":\"\"},\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the team\",\"name\":\"Admin\",\"id\":40},\"member_role\":{\"description\":\"User is a member of the team\",\"name\":\"Member\",\"id\":41},\"read_role\":{\"description\":\"May view settings for the team\",\"name\":\"Read\",\"id\":42}},\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:53.694016Z\",\"modified\":\"2019-10-18T09:02:49.233673Z\",\"name\":\"workflow_team\",\"description\":\"\",\"organization\":1}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "1193"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Fri, 18 Oct 2019 09:02:50 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "1.458s"
+          ],
+          "X-API-Total-Time": [
+            "1.654s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/teams/1/"
+      }
+    },
+    {
+      "recorded_at": "2019-10-18T09:02:51",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/organizations/?page_size=25&id=1"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":1,\"type\":\"organization\",\"url\":\"/api/v2/organizations/1/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/organizations/1/projects/\",\"inventories\":\"/api/v2/organizations/1/inventories/\",\"workflow_job_templates\":\"/api/v2/organizations/1/workflow_job_templates/\",\"users\":\"/api/v2/organizations/1/users/\",\"admins\":\"/api/v2/organizations/1/admins/\",\"teams\":\"/api/v2/organizations/1/teams/\",\"credentials\":\"/api/v2/organizations/1/credentials/\",\"applications\":\"/api/v2/organizations/1/applications/\",\"activity_stream\":\"/api/v2/organizations/1/activity_stream/\",\"notification_templates\":\"/api/v2/organizations/1/notification_templates/\",\"notification_templates_started\":\"/api/v2/organizations/1/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/organizations/1/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/organizations/1/notification_templates_error/\",\"object_roles\":\"/api/v2/organizations/1/object_roles/\",\"access_list\":\"/api/v2/organizations/1/access_list/\",\"instance_groups\":\"/api/v2/organizations/1/instance_groups/\"},\"summary_fields\":{\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the organization\",\"name\":\"Admin\",\"id\":2},\"execute_role\":{\"description\":\"May run any executable resources in the organization\",\"name\":\"Execute\",\"id\":3},\"project_admin_role\":{\"description\":\"Can manage all projects of the organization\",\"name\":\"Project Admin\",\"id\":4},\"inventory_admin_role\":{\"description\":\"Can manage all inventories of the organization\",\"name\":\"Inventory Admin\",\"id\":5},\"credential_admin_role\":{\"description\":\"Can manage all credentials of the organization\",\"name\":\"Credential Admin\",\"id\":6},\"workflow_admin_role\":{\"description\":\"Can manage all workflows of the organization\",\"name\":\"Workflow Admin\",\"id\":7},\"notification_admin_role\":{\"description\":\"Can manage all notifications of the organization\",\"name\":\"Notification Admin\",\"id\":8},\"job_template_admin_role\":{\"description\":\"Can manage all job templates of the organization\",\"name\":\"Job Template Admin\",\"id\":9},\"auditor_role\":{\"description\":\"Can view all aspects of the organization\",\"name\":\"Auditor\",\"id\":10},\"member_role\":{\"description\":\"User is a member of the organization\",\"name\":\"Member\",\"id\":11},\"read_role\":{\"description\":\"May view settings for the organization\",\"name\":\"Read\",\"id\":12}},\"user_capabilities\":{\"edit\":true,\"delete\":true},\"related_field_counts\":{\"inventories\":1,\"teams\":1,\"users\":0,\"job_templates\":1,\"admins\":0,\"projects\":1}},\"created\":\"2019-08-14T11:37:11.372826Z\",\"modified\":\"2019-08-14T11:37:11.372845Z\",\"name\":\"Default\",\"description\":\"\",\"max_hosts\":0,\"custom_virtualenv\":null}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2874"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Fri, 18 Oct 2019 09:02:51 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "1.041s"
+          ],
+          "X-API-Total-Time": [
+            "1.235s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/organizations/?page_size=25&id=1"
+      }
+    },
+    {
+      "recorded_at": "2019-10-18T09:02:52",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=workflow"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":2,\"type\":\"organization\",\"url\":\"/api/v2/organizations/2/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/organizations/2/projects/\",\"inventories\":\"/api/v2/organizations/2/inventories/\",\"workflow_job_templates\":\"/api/v2/organizations/2/workflow_job_templates/\",\"users\":\"/api/v2/organizations/2/users/\",\"admins\":\"/api/v2/organizations/2/admins/\",\"teams\":\"/api/v2/organizations/2/teams/\",\"credentials\":\"/api/v2/organizations/2/credentials/\",\"applications\":\"/api/v2/organizations/2/applications/\",\"activity_stream\":\"/api/v2/organizations/2/activity_stream/\",\"notification_templates\":\"/api/v2/organizations/2/notification_templates/\",\"notification_templates_started\":\"/api/v2/organizations/2/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/organizations/2/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/organizations/2/notification_templates_error/\",\"object_roles\":\"/api/v2/organizations/2/object_roles/\",\"access_list\":\"/api/v2/organizations/2/access_list/\",\"instance_groups\":\"/api/v2/organizations/2/instance_groups/\"},\"summary_fields\":{\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the organization\",\"name\":\"Admin\",\"id\":29},\"execute_role\":{\"description\":\"May run any executable resources in the organization\",\"name\":\"Execute\",\"id\":30},\"project_admin_role\":{\"description\":\"Can manage all projects of the organization\",\"name\":\"Project Admin\",\"id\":31},\"inventory_admin_role\":{\"description\":\"Can manage all inventories of the organization\",\"name\":\"Inventory Admin\",\"id\":32},\"credential_admin_role\":{\"description\":\"Can manage all credentials of the organization\",\"name\":\"Credential Admin\",\"id\":33},\"workflow_admin_role\":{\"description\":\"Can manage all workflows of the organization\",\"name\":\"Workflow Admin\",\"id\":34},\"notification_admin_role\":{\"description\":\"Can manage all notifications of the organization\",\"name\":\"Notification Admin\",\"id\":35},\"job_template_admin_role\":{\"description\":\"Can manage all job templates of the organization\",\"name\":\"Job Template Admin\",\"id\":36},\"auditor_role\":{\"description\":\"Can view all aspects of the organization\",\"name\":\"Auditor\",\"id\":37},\"member_role\":{\"description\":\"User is a member of the organization\",\"name\":\"Member\",\"id\":38},\"read_role\":{\"description\":\"May view settings for the organization\",\"name\":\"Read\",\"id\":39}},\"user_capabilities\":{\"edit\":true,\"delete\":true},\"related_field_counts\":{\"inventories\":1,\"teams\":0,\"users\":2,\"job_templates\":0,\"admins\":1,\"projects\":1}},\"created\":\"2019-08-19T13:55:48.815916Z\",\"modified\":\"2019-10-18T08:55:29.070034Z\",\"name\":\"workflow\",\"description\":\"\",\"max_hosts\":0,\"custom_virtualenv\":null}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2883"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Fri, 18 Oct 2019 09:02:52 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "0.801s"
+          ],
+          "X-API-Total-Time": [
+            "1.073s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/organizations/?page_size=25&name__iexact=workflow"
+      }
+    },
+    {
+      "recorded_at": "2019-10-18T09:02:54",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": "{\"organization\": 2}"
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "19"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "PATCH",
+        "uri": "http://localhost:8052/api/v2/teams/1/"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"id\":1,\"type\":\"team\",\"url\":\"/api/v2/teams/1/\",\"related\":{\"named_url\":\"/api/v2/teams/workflow_team++workflow/\",\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/teams/1/projects/\",\"users\":\"/api/v2/teams/1/users/\",\"credentials\":\"/api/v2/teams/1/credentials/\",\"roles\":\"/api/v2/teams/1/roles/\",\"object_roles\":\"/api/v2/teams/1/object_roles/\",\"activity_stream\":\"/api/v2/teams/1/activity_stream/\",\"access_list\":\"/api/v2/teams/1/access_list/\",\"organization\":\"/api/v2/organizations/2/\"},\"summary_fields\":{\"organization\":{\"id\":2,\"name\":\"workflow\",\"description\":\"\"},\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the team\",\"name\":\"Admin\",\"id\":40},\"member_role\":{\"description\":\"User is a member of the team\",\"name\":\"Member\",\"id\":41},\"read_role\":{\"description\":\"May view settings for the team\",\"name\":\"Read\",\"id\":42}},\"user_capabilities\":{\"edit\":true,\"delete\":true}},\"created\":\"2019-08-19T13:55:53.694016Z\",\"modified\":\"2019-10-18T09:02:53.268661Z\",\"name\":\"workflow_team\",\"description\":\"\",\"organization\":2}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, PUT, PATCH, DELETE, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "1195"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Fri, 18 Oct 2019 09:02:54 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "1.706s"
+          ],
+          "X-API-Total-Time": [
+            "2.189s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/teams/1/"
+      }
+    },
+    {
+      "recorded_at": "2019-10-18T09:02:56",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic Ym9zczpwYXNzd29yZA=="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.22.0"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8052/api/v2/organizations/?page_size=25&id=2"
+      },
+      "response": {
+        "body": {
+          "encoding": null,
+          "string": "{\"count\":1,\"next\":null,\"previous\":null,\"results\":[{\"id\":2,\"type\":\"organization\",\"url\":\"/api/v2/organizations/2/\",\"related\":{\"created_by\":\"/api/v2/users/1/\",\"modified_by\":\"/api/v2/users/1/\",\"projects\":\"/api/v2/organizations/2/projects/\",\"inventories\":\"/api/v2/organizations/2/inventories/\",\"workflow_job_templates\":\"/api/v2/organizations/2/workflow_job_templates/\",\"users\":\"/api/v2/organizations/2/users/\",\"admins\":\"/api/v2/organizations/2/admins/\",\"teams\":\"/api/v2/organizations/2/teams/\",\"credentials\":\"/api/v2/organizations/2/credentials/\",\"applications\":\"/api/v2/organizations/2/applications/\",\"activity_stream\":\"/api/v2/organizations/2/activity_stream/\",\"notification_templates\":\"/api/v2/organizations/2/notification_templates/\",\"notification_templates_started\":\"/api/v2/organizations/2/notification_templates_started/\",\"notification_templates_success\":\"/api/v2/organizations/2/notification_templates_success/\",\"notification_templates_error\":\"/api/v2/organizations/2/notification_templates_error/\",\"object_roles\":\"/api/v2/organizations/2/object_roles/\",\"access_list\":\"/api/v2/organizations/2/access_list/\",\"instance_groups\":\"/api/v2/organizations/2/instance_groups/\"},\"summary_fields\":{\"created_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"modified_by\":{\"id\":1,\"username\":\"boss\",\"first_name\":\"\",\"last_name\":\"\"},\"object_roles\":{\"admin_role\":{\"description\":\"Can manage all aspects of the organization\",\"name\":\"Admin\",\"id\":29},\"execute_role\":{\"description\":\"May run any executable resources in the organization\",\"name\":\"Execute\",\"id\":30},\"project_admin_role\":{\"description\":\"Can manage all projects of the organization\",\"name\":\"Project Admin\",\"id\":31},\"inventory_admin_role\":{\"description\":\"Can manage all inventories of the organization\",\"name\":\"Inventory Admin\",\"id\":32},\"credential_admin_role\":{\"description\":\"Can manage all credentials of the organization\",\"name\":\"Credential Admin\",\"id\":33},\"workflow_admin_role\":{\"description\":\"Can manage all workflows of the organization\",\"name\":\"Workflow Admin\",\"id\":34},\"notification_admin_role\":{\"description\":\"Can manage all notifications of the organization\",\"name\":\"Notification Admin\",\"id\":35},\"job_template_admin_role\":{\"description\":\"Can manage all job templates of the organization\",\"name\":\"Job Template Admin\",\"id\":36},\"auditor_role\":{\"description\":\"Can view all aspects of the organization\",\"name\":\"Auditor\",\"id\":37},\"member_role\":{\"description\":\"User is a member of the organization\",\"name\":\"Member\",\"id\":38},\"read_role\":{\"description\":\"May view settings for the organization\",\"name\":\"Read\",\"id\":39}},\"user_capabilities\":{\"edit\":true,\"delete\":true},\"related_field_counts\":{\"inventories\":1,\"teams\":1,\"users\":2,\"job_templates\":0,\"admins\":1,\"projects\":1}},\"created\":\"2019-08-19T13:55:48.815916Z\",\"modified\":\"2019-10-18T08:55:29.070034Z\",\"name\":\"workflow\",\"description\":\"\",\"max_hosts\":0,\"custom_virtualenv\":null}]}"
+        },
+        "headers": {
+          "Allow": [
+            "GET, POST, HEAD, OPTIONS"
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Language": [
+            "en"
+          ],
+          "Content-Length": [
+            "2883"
+          ],
+          "Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Date": [
+            "Fri, 18 Oct 2019 09:02:56 GMT"
+          ],
+          "Server": [
+            "nginx/1.12.2"
+          ],
+          "Strict-Transport-Security": [
+            "max-age=15768000"
+          ],
+          "Vary": [
+            "Accept, Accept-Language, Origin, Cookie"
+          ],
+          "X-API-Node": [
+            "awx"
+          ],
+          "X-API-Time": [
+            "1.350s"
+          ],
+          "X-API-Total-Time": [
+            "1.500s"
+          ],
+          "X-Content-Security-Policy": [
+            "default-src 'self'; connect-src 'self' ws: wss:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' cdn.pendo.io; img-src 'self' data:; report-uri /csp-violation/"
+          ],
+          "X-Frame-Options": [
+            "DENY"
+          ]
+        },
+        "status": {
+          "code": 200,
+          "message": "OK"
+        },
+        "url": "http://localhost:8052/api/v2/organizations/?page_size=25&id=2"
+      }
+    }
+  ],
+  "recorded_with": "betamax/0.8.1"
+}
