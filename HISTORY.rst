@@ -128,3 +128,9 @@ History
 ------------------
 
 * Implemented basic inventory source addition functionality
+
+
+3.2.0 (18-10-2019)
+------------------
+
+* Implemented helper method to create inventory source with an existing credential id.
