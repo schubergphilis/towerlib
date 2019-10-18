@@ -49,12 +49,12 @@ __status__ = '''Development'''  # "Prototype", "Development", "Production".
 
 def b64_string(input_string):
     """Return a base64 encoded string (not bytes) from input_string."""
-    return b64encode(input_string.encode("utf-8")).decode("utf-8")
+    return b64encode(input_string.encode('utf-8')).decode('utf-8')
 
 
 def get_environment_variable(key):
     """Return environment variable or placeholder string."""
-    return os.environ.get("TOWERLIB_{}".format(key.upper()), "placeholder_{}".format(key))
+    return os.environ.get('TOWERLIB_{}'.format(key.upper()), 'placeholder_{}'.format(key))
 
 
 placeholders = {value: get_environment_variable(value)
@@ -64,16 +64,16 @@ placeholders['basic_auth'] = b64_string('{}:{}'.format(placeholders['username'],
 
 betamax.Betamax.register_serializer(pretty_json.PrettyJSONSerializer)
 with betamax.Betamax.configure() as config:
-    config.cassette_library_dir = "tests/integration/cassettes"
-    config.default_cassette_options["serialize_with"] = "prettyjson"
-    config.default_cassette_options["record_mode"] = "once"
+    config.cassette_library_dir = 'tests/integration/cassettes'
+    config.default_cassette_options['serialize_with'] = 'prettyjson'
+    config.default_cassette_options['record_mode'] = 'new_episodes'
+    config.default_cassette_options['match_requests_on'] = ['method', 'uri', 'body']
     for key, value in placeholders.items():
-        if key == "username":
+        if key == 'username':
             continue
-        if key == "password":
+        if key == 'password':
             value = quote_plus(value)
-        config.define_cassette_placeholder("<{}>".format(key.upper()), value)
 
 
-if platform == "darwin":  # Work around issue with betamax on OS X
-    socket.gethostbyname = lambda x: "127.0.0.1"
+if platform == 'darwin':  # Work around issue with betamax on OS X
+    socket.gethostbyname = lambda x: '127.0.0.1'

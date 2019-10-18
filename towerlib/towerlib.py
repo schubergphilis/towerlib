@@ -88,7 +88,7 @@ __email__ = '''<ctyfoxylos@schubergphilis.com>'''
 __status__ = '''Development'''  # 'Prototype', 'Development', 'Production'.
 
 # This is the main prefix used for logging
-LOGGER_BASENAME = '''towerlib'''
+LOGGER_BASENAME = 'towerlib'
 LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
 
@@ -1448,6 +1448,156 @@ class Tower:  # pylint: disable=too-many-public-methods
         return credential.delete()
 
     @property
+    def jobs(self):
+        """The jobs executed in tower.
+
+        Returns:
+            EntityManager: The manager object for jobs.
+
+        """
+        return EntityManager(self,
+                             entity_name='jobs',
+                             entity_object='Job',
+                             primary_match_field='name')
+
+    @property
+    def unified_jobs(self):
+        """The unified jobs executed in tower.
+
+        Returns:
+            EntityManager: The manager object for unified jobs.
+
+        """
+        return EntityManager(self,
+                             entity_name='unified_jobs',
+                             entity_object='Job',
+                             primary_match_field='name')
+
+    def get_unified_job_by_id(self, id_):
+        """Retrieves a job  by id.
+
+        Args:
+            id_: The id of the job  to retrieve.
+
+        Returns:
+            Host: The job if a match is found else None.
+
+        """
+        return next(self.unified_jobs.filter({'id': id_}), None)
+
+    def get_unified_jobs_by_name(self, name):
+        """Retrieves all unified jobs matching a certain name.
+
+        Args:
+            name: The name of the unified job(s) to retrieve.
+
+        Returns:
+            UnifiedJob (Generator): A unified job generator.
+
+        """
+        return self.unified_jobs.filter({'name__iexact': name})
+
+    @property
+    def unified_job_templates(self):
+        """The unified job templates configured in tower.
+
+        Returns:
+            EntityManager: The manager object for unified job templates.
+
+        """
+        return EntityManager(self,
+                             entity_name='unified_job_templates',
+                             entity_object='JobTemplate',
+                             primary_match_field='name')
+
+    @property
+    def workflow_jobs(self):
+        """The workflow jobs executed in tower.
+
+        Returns:
+            EntityManager: The manager object for workflow jobs.
+
+        """
+        return EntityManager(self,
+                             entity_name='workflow_jobs',
+                             entity_object='Job',
+                             primary_match_field='name')
+
+    def get_workflow_job_by_id(self, id_):
+        """Retrieves a job  by id.
+
+        Args:
+            id_: The id of the job  to retrieve.
+
+        Returns:
+            Host: The job if a match is found else None.
+
+        """
+        return next(self.workflow_jobs.filter({'id': id_}), None)
+
+    def get_workflow_jobs_by_name(self, name):
+        """Retrieves all workflow jobs matching a certain name.
+
+        Args:
+            name: The name of the workflow job(s) to retrieve.
+
+        Returns:
+            UnifiedJob (Generator): A workflow job generator.
+
+        """
+        return self.workflow_jobs.filter({'name__iexact': name})
+
+    @property
+    def workflow_job_templates(self):
+        """The workflow job templates configured in tower.
+
+        Returns:
+            EntityManager: The manager object for workflow job templates.
+
+        """
+        return EntityManager(self,
+                             entity_name='workflow_job_templates',
+                             entity_object='JobTemplate',
+                             primary_match_field='name')
+
+    @property
+    def system_jobs(self):
+        """The system jobs executed in tower.
+
+        Returns:
+            EntityManager: The manager object for system jobs.
+
+        """
+        return EntityManager(self,
+                             entity_name='system_jobs',
+                             entity_object='Job',
+                             primary_match_field='name')
+
+    def get_system_job_by_id(self, id_):
+        """Retrieves a job  by id.
+
+        Args:
+            id_: The id of the job  to retrieve.
+
+        Returns:
+            Host: The job if a match is found else None.
+
+        """
+        return next(self.system_jobs.filter({'id': id_}), None)
+
+    def get_system_jobs_by_name(self, name):
+        """Retrieves all system jobs matching a certain name.
+
+        Args:
+            name: The name of the system job(s) to retrieve.
+
+        Returns:
+            UnifiedJob (Generator): A system job generator.
+
+        """
+        return self.system_jobs.filter({'name__iexact': name})
+
+    @property
     def job_templates(self):
         """The job templates configured in tower.
 
@@ -1484,24 +1634,6 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.job_templates.filter({'id': id_}), None)
 
-    def delete_job_template(self, name):
-        """Deletes a job template from tower.
-
-        Args:
-            name: The name of the job template to delete.
-
-        Returns:
-            bool: True on success, False otherwise.
-
-        Raises:
-            InvalidJobTemplate: The job template provided as argument does not exist.
-
-        """
-        job_template = self.get_job_template_by_name(name)
-        if not job_template:
-            raise InvalidJobTemplate(name)
-        return job_template.delete()
-
     def create_job_template(self,  # pylint: disable=too-many-arguments,too-many-locals
                             name,
                             description,
@@ -1509,8 +1641,8 @@ class Tower:  # pylint: disable=too-many-public-methods
                             inventory,
                             project,
                             playbook,
-                            credential,
-                            credential_type,
+                            credential=None,
+                            credential_type=None,
                             instance_groups=None,
                             host_config_key=None,
                             job_type='run',
@@ -1548,6 +1680,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             project: The project to use for the template.
             playbook: The playbook to run for the template.
             credential: The credential to use for the template.
+            credential_type: The type of the credential to use for the template.
             instance_groups: The instance groups to associate to the template.
             host_config_key: A host config key.
             job_type: The job type. Valid values are 'run' and 'check'.
@@ -1597,8 +1730,13 @@ class Tower:  # pylint: disable=too-many-public-methods
             raise InvalidProject(project)
         if playbook not in project_.playbooks:
             raise InvalidPlaybook(playbook)
-        credential_ = inventory_.organization.get_credential_by_name(credential, credential_type)
-        if not credential_:
+        if all([credential, credential_type]):
+            credential_ = inventory_.organization.get_credential_by_name(credential, credential_type)
+            if not credential_:
+                raise InvalidCredential(credential)
+            credential = credential_.id
+        elif any([credential, credential_type]):
+            self._logger.error('Both credential and credential type should be provided.')
             raise InvalidCredential(credential)
         instance_group_ids = []
         if instance_groups:
@@ -1622,7 +1760,7 @@ class Tower:  # pylint: disable=too-many-public-methods
                    'inventory': inventory_.id,
                    'project': project_.id,
                    'playbook': playbook,
-                   'credential': credential_.id,
+                   'credential': credential,
                    'instance_groups': instance_group_ids,
                    'job_type': job_type,
                    'vault_credential': vault_credential,
@@ -1655,6 +1793,24 @@ class Tower:  # pylint: disable=too-many-public-methods
         if not response.ok:
             self._logger.error('Error creating job template, response was: "%s"', response.text)
         return JobTemplate(self, response.json()) if response.ok else None
+
+    def delete_job_template(self, name):
+        """Deletes a job template from tower.
+
+        Args:
+            name: The name of the job template to delete.
+
+        Returns:
+            bool: True on success, False otherwise.
+
+        Raises:
+            InvalidJobTemplate: The job template provided as argument does not exist.
+
+        """
+        job_template = self.get_job_template_by_name(name)
+        if not job_template:
+            raise InvalidJobTemplate(name)
+        return job_template.delete()
 
     @property
     def roles(self):

@@ -648,7 +648,6 @@ class TestTowerlib(IntegrationTest):
                          project='Test Project',
                          playbook='hello_world.yml',
                          credential='Test Credential',
-                         credential_type='Source Control',
                          instance_groups=None,
                          host_config_key=None,
                          job_type='run',
