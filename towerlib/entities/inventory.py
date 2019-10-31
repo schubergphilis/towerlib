@@ -469,7 +469,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._tower.inventory_sources.filter({'inventory': self.id})
 
-    def create_source(self,
+    def create_source(self,  # pylint: disable=too-many-arguments
                       name,
                       description,
                       source='scm',
