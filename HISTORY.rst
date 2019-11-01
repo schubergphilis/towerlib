@@ -134,3 +134,9 @@ History
 ------------------
 
 * Implemented helper method to create inventory source with an existing credential id.
+
+
+3.2.1 (01-11-2019)
+------------------
+
+* fixed add_credential
