@@ -33,11 +33,9 @@ Main code for inventory_source.
 
 import logging
 
-from towerlib.towerlibexceptions import InvalidValue, InvalidRole, InvalidOrganization
+from towerlib.towerlibexceptions import InvalidValue
 from .core import (Entity,
-                   EntityManager,
-                   validate_max_length,
-                   validate_characters)
+                   validate_max_length)
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -103,10 +101,9 @@ class InventorySource(Entity):
         """Update the first name of the inventory source.
 
         Returns:
-            None:
+            None
 
         """
-
         self._update_values('description', value)
 
     @property
@@ -258,4 +255,3 @@ class InventorySource(Entity):
 
         """
         return self._data.get('inventory')
-
