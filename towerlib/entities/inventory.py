@@ -469,7 +469,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._tower.inventory_sources.filter({'inventory': self.id})
 
-    def create_source(self,
+    def create_source(self,  # pylint: disable=too-many-locals, too-many-arguments
                       name,
                       description,
                       source='scm',
@@ -489,7 +489,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
                       update_cache_timeout=0,
                       source_project='',
                       update_on_project_update=False):
-        """
+        """Creates Source.
 
         Args:
             name ():
@@ -547,7 +547,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
             self._logger.error('Error creating source "%s", response was "%s"', name, response.text)
         return InventorySource(self._tower, response.json()) if response.ok else None
 
-    def create_source_with_credential_id(self,
+    def create_source_with_credential_id(self, # pylint: disable=too-many-locals, too-many-arguments
                                          name,
                                          description,
                                          credential_id,
@@ -566,7 +566,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
                                          update_cache_timeout=0,
                                          source_project='',
                                          update_on_project_update=False):
-        """
+        """Creates Source with credential id.
 
         Args:
             name ():
@@ -618,4 +618,3 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         if not response.ok:
             self._logger.error('Error creating source "%s", response was "%s"', name, response.text)
         return InventorySource(self._tower, response.json()) if response.ok else None
-

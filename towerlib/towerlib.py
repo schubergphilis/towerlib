@@ -1634,7 +1634,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.job_templates.filter({'id': id_}), None)
 
-    def create_job_template(self,  # pylint: disable=too-many-arguments,too-many-locals
+    def create_job_template(self,  # pylint: disable=too-many-arguments, too-many-locals, too-many-branches
                             name,
                             description,
                             organization,

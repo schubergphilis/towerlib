@@ -792,7 +792,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
                              primary_match_field='name',
                              url=url)
 
-    def add_credential(self, credential):
+    def add_credential(self, credential, credential_type='Machine'):
         """Adds credential by name.
 
         Args:
@@ -802,7 +802,8 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         """
         # if not isinstance(credentials, (list, tuple)):
         #     credentials = [credentials]
-        extra_credential = self.inventory.organization.get_credential_by_name_with_type_id(credential, 1)
+        extra_credential = self.inventory.organization.get_credential_by_name(credential,
+                                                                              credential_type)
         if not extra_credential:
             raise InvalidCredential(credential)
         payload = {'id': extra_credential.id}
