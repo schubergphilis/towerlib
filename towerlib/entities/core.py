@@ -351,9 +351,9 @@ class EntityManager:
         self._name = entity_name
         self._next_state = None
         if entity_name:
-            self._url = '{api}/{entity_name}'.format(api=self._tower.api, entity_name=entity_name)
+            self._url = '{api}/{entity_name}__iexact'.format(api=self._tower.api, entity_name=entity_name)
         else:
-            self._url = '{host}{url}'.format(host=self._tower.host, url=url)
+            self._url = '{host}{url}__iexact'.format(host=self._tower.host, url=url)
 
     @property
     def _objects(self):
