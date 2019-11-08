@@ -369,7 +369,7 @@ class EntityManager:
         return self._objects
 
     def __contains__(self, value):
-        return next(self.filter({self._primary_match_field: value}), False)
+        return next(self.filter({f"{self._primary_match_field}__iexact": value}), False)
 
     def filter(self, params):
         """Implements filtering based on the filtering capabilities of tower.
