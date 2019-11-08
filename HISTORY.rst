@@ -140,3 +140,9 @@ History
 ------------------
 
 * fixed add_credential
+
+
+3.2.2 (08-11-2019)
+------------------
+
+* Added case incensitive search
