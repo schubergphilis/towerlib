@@ -351,9 +351,9 @@ class EntityManager:
         self._name = entity_name
         self._next_state = None
         if entity_name:
-            self._url = '{api}/{entity_name}__iexact'.format(api=self._tower.api, entity_name=entity_name)
+            self._url = '{api}/{entity_name}'.format(api=self._tower.api, entity_name=entity_name)
         else:
-            self._url = '{host}{url}__iexact'.format(host=self._tower.host, url=url)
+            self._url = '{host}{url}'.format(host=self._tower.host, url=url)
 
     @property
     def _objects(self):
@@ -369,7 +369,7 @@ class EntityManager:
         return self._objects
 
     def __contains__(self, value):
-        return next(self.filter({self._primary_match_field: value}), False)
+        return next(self.filter({f"{self._primary_match_field}__iexact": value}), False)
 
     def filter(self, params):
         """Implements filtering based on the filtering capabilities of tower.
