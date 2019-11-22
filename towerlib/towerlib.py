@@ -749,6 +749,28 @@ class Tower:  # pylint: disable=too-many-public-methods
             raise InvalidInventory(inventory)
         return inventory_.create_group(name, description, variables)
 
+    def create_inventory_group(self, organization, inventory, name, description, variables='{}'):  # pylint: disable=too-many-arguments
+        """Creates a group in an inventory in tower.
+
+        Args:
+            organization: The organization the inventory belongs to.
+            inventory: The name of the inventory to create the group in.
+            name: The name of the group to create.
+            description (str): The description of the group to create.
+            variables (str): The Variables of the group in a json string format.
+
+        Returns:
+            bool: True on success, False otherwise.
+
+        Raises:
+            InvalidGroup: The group provided as argument does not exist.
+
+        """
+        inventory_ = self.get_organization_inventory_by_name(organization, inventory)
+        if not inventory_:
+            raise InvalidInventory(inventory)
+        return inventory_.create_group(name, description, variables)
+
     def delete_inventory_group(self, organization, inventory, name):
         """Deletes a group from tower.
 
@@ -850,6 +872,43 @@ class Tower:  # pylint: disable=too-many-public-methods
             raise InvalidOrganization(organization)
         return organization_.create_inventory(name, description, variables)
 
+    @property
+    def inventories_scripts(self):
+        """The inventory scripts configured in tower.
+
+        Returns:
+            list of inventory scripts: The inventory scripts configured in tower.
+
+        """
+        return EntityManager(self,
+                             entity_name='inventory_scripts',
+                             entity_object='InventoryScript',
+                             primary_match_field='name')
+
+    def create_organization_inventory_script(self,
+                                             organization,
+                                             name,
+                                             description,
+                                             script):
+        """Creates an inventory script under an organization.
+
+        Args:
+            organization: The name of the organization to create the inventory under
+            name: Name of the inventory script
+            description: The description of the inventory script
+            script: The script of the inventory script
+
+        Returns:
+            Inventory_script: The created inventory script is successful, None otherwise.
+
+        Raises:
+            InvalidOrganization: The organization provided as argument does not exist.
+
+        """
+        organization_ = self.get_organization_by_name(organization)
+        if not organization_:
+            raise InvalidOrganization(organization)
+        return organization_.create_inventory_script(name, description, script)
     def delete_organization_inventory(self, organization, name):
         """Deletes an inventory from tower.
 
@@ -1634,7 +1693,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.job_templates.filter({'id': id_}), None)
 
-    def create_job_template(self,  # pylint: disable=too-many-arguments,too-many-locals
+    def create_job_template(self,  # pylint: disable=too-many-arguments,too-many-locals, too-many-branches
                             name,
                             description,
                             organization,
