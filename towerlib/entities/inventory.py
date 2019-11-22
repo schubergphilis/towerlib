@@ -491,7 +491,6 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
                       update_on_project_update=False):
         """Creates a source.
 
-
         Args:
             name ():
             description ():
