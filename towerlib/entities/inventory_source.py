@@ -101,7 +101,7 @@ class InventorySource(Entity):
         """Update the first name of the inventory source.
 
         Returns:
-            None:
+            None
 
         """
         self._update_values('description', value)
