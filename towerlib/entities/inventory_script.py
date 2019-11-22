@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # File: inventory source.py
 #
-# Copyright 2018 Yorick Hoorneman
+# Copyright 2019 Yorick Hoorneman
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to
@@ -39,8 +39,8 @@ from .core import (Entity,
 
 __author__ = '''Yorick Hoorneman <yhoorneman@schubergphilis.com>'''
 __docformat__ = '''google'''
-__date__ = '''2018-01-03'''
-__copyright__ = '''Copyright 2018, Yorick Hoorneman'''
+__date__ = '''2019-11-22'''
+__copyright__ = '''Copyright 2019, Yorick Hoorneman'''
 __credits__ = ["Yorick Hoorneman"]
 __license__ = '''MIT'''
 __maintainer__ = '''Yorick Hoorneman'''
@@ -125,28 +125,3 @@ class InventoryScript(Entity):
 
         """
         self._update_values('script', value)
-
-    def create_inventory_script(self, name, description, script, organization):
-        """Creates a custom inventory script.
-
-        Args:
-            name: Name of the inventory script.
-            description: The description of the inventory script.
-            script: The script of the inventory script.
-            organization: The organization the inventory script is part of.
-
-        Returns:
-            Inventory_script: The created inventory script is successful, None otherwise.
-
-        """
-        url = '{api}/inventory_scripts/'.format(api=self._tower.api)
-        payload = {'name': name,
-                   'description': description,
-                   'inventory': self.id,
-                   'script': script,
-                   'organization': organization
-                   }
-        response = self._tower.session.post(url, json=payload)
-        if not response.ok:
-            self._logger.error('Error creating host "%s", response was "%s"', name, response.text)
-        return response.json() if response.ok else None
