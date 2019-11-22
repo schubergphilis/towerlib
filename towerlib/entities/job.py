@@ -56,7 +56,7 @@ LOGGER.addHandler(logging.NullHandler())
 
 
 class Job:  # pylint: disable=too-few-public-methods
-    """Job factory to handle the different job types returned."""
+    """Job factory to handle the different jod types returned."""
 
     def __new__(cls, tower_instance, data):
         entity_type = data.get('type')
@@ -1736,60 +1736,3 @@ class AdHocCommandJob(SystemJob):
 #              u'notifications': u'/api/v2/ad_hoc_commands/4979/notifications/',
 #              u'relaunch': u'/api/v2/ad_hoc_commands/4979/relaunch/',
 #              u'stdout': u'/api/v2/ad_hoc_commands/4979/stdout/'},
-
-
-class Workflow(Entity):  # pylint: disable=too-many-public-methods
-    """Models the Job Template entity of ansible tower."""
-
-    def __init__(self, tower_instance, data):
-        Entity.__init__(self, tower_instance, data)
-        self._object_roles = None
-
-# add workflow_jobs
-# add workflow_job_template_nodes
-
-# step 1. Create workflow
-# step 2. Create Nodes
-# step 3. Associate nodes with each other
-
-
-    def add_workflow_nodes_to_workflow_template(self,
-                                                workflow_template,
-                                                unified_job_template):
-        """Adds workflow nodes to a workflow.
-        """
-        payload = {'unified_job_template': unified_job_template
-        }
-        url = '{api}/workflow_job_templates/{workflow_template}/workflow_nodes/'.format(api=self.api, workflow_template=workflow_template)
-        response = self.session.post(url, json=payload)
-        if not response.ok:
-            self._logger.error('Error adding workflow node to job template, response was: "%s"', response.text)
-        return Workflow(self, response.json()) if response.ok else None
-
-
-    def add_workflow_job_template_nodes(self,
-                                        workflow_template,
-                                        unified_job_template):
-        """Creates a workflow job template node.
-        """
-        payload = {'workflow_job_template': workflow_template,
-                   'unified_job_template': unified_job_template
-        }
-        url = '{api}/workflow_job_template_nodes/'.format(api=self.api)
-        response = self.session.post(url, json=payload)
-        if not response.ok:
-            self._logger.error('Error creating a workflow job template node, response was: "%s"', response.text)
-        return Workflow(self, response.json()) if response.ok else None
-
-    def add_workflow_job_template_nodes_to_workflow_job_template_node(self,
-                                                                      first_node,
-                                                                      second_node):
-        """Associate an existing workflow job template node with this workflow job template node.
-        """
-        payload = {'associate': True, 'id': second_node}
-        url = '{api}/workflow_job_template_nodes/{node}/success_nodes/'.format(api=self.api, node=first_node)
-        response = self.session.post(url, json=payload)
-        if not response.ok:
-            self._logger.error('Error adding workflow node to job template, response was: "%s"', response.text)
-        return Workflow(self, response.json()) if response.ok else None
-

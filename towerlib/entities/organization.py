@@ -45,7 +45,6 @@ from .core import (Entity,
                    validate_max_length,
                    validate_json)
 from .inventory import Inventory
-from .inventory_script import InventoryScript
 from .project import Project
 from .team import Team
 
@@ -512,45 +511,6 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         if not response.ok:
             self._logger.error('Error creating inventory "%s", response was "%s"', name, response.text)
         return Inventory(self._tower, response.json()) if response.ok else None
-
-    @property
-    def inventory_scripts(self):
-        """The inventory scripts of the organization.
-
-        Returns:
-            EntityManager: EntityManager of the inventory scripts of the organization.
-
-        """
-        url = '{organization}inventory_scripts/'.format(organization=self.api_url)
-        return EntityManager(self._tower,
-                             entity_object='inventory_scripts',
-                             primary_match_field='name',
-                             url=url)
-
-    def create_inventory_script(self, name, description, script):
-        """Creates a custom inventory script.
-
-        Args:
-            name: Name of the inventory script.
-            description: The description of the inventory script.
-            script: The script of the inventory script.
-
-        Returns:
-            Inventory_script: The created inventory script is successful, None otherwise.
-
-        """
-        url = '{api}/inventory_scripts/'.format(api=self._tower.api)
-        payload = {'name': name,
-                   'description': description,
-                   'inventory': self.id,
-                   'script': script,
-                   'organization': self.id
-                   }
-        response = self._tower.session.post(url, json=payload)
-        if not response.ok:
-            self._logger.error('Error creating host "%s", response was "%s"', name, response.text)
-        return InventoryScript
-        # return response.json() if response.ok else None
 
     def delete_inventory(self, name):
         """Deletes an inventory by name.
