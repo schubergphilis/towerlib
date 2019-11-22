@@ -850,6 +850,19 @@ class Tower:  # pylint: disable=too-many-public-methods
             raise InvalidOrganization(organization)
         return organization_.create_inventory(name, description, variables)
 
+    @property
+    def inventories_scripts(self):
+        """The inventories configured in tower.
+
+        Returns:
+            list of Inventory: The inventories configured in tower.`
+
+        """
+        return EntityManager(self,
+                             entity_name='inventory_scripts',
+                             entity_object='InventoryScript',
+                             primary_match_field='name')
+
     def create_organization_inventory_script(self,
                                 name,
                                 description,
