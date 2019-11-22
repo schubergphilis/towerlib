@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # File: inventory source.py
 #
-# Copyright 2018 Costas Tyfoxylos
+# Copyright 2018 Yorick Hoorneman
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to
@@ -37,14 +37,14 @@ from towerlib.towerlibexceptions import InvalidValue
 from .core import (Entity,
                    validate_max_length)
 
-__author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
+__author__ = '''Yorick Hoorneman <yhoorneman@schubergphilis.com>'''
 __docformat__ = '''google'''
 __date__ = '''2018-01-03'''
-__copyright__ = '''Copyright 2018, Costas Tyfoxylos'''
-__credits__ = ["Costas Tyfoxylos"]
+__copyright__ = '''Copyright 2018, Yorick Hoorneman'''
+__credits__ = ["Yorick Hoorneman"]
 __license__ = '''MIT'''
-__maintainer__ = '''Costas Tyfoxylos'''
-__email__ = '''<ctyfoxylos@schubergphilis.com>'''
+__maintainer__ = '''Yorick Hoorneman'''
+__email__ = '''<yhoorneman@schubergphilis.com>'''
 __status__ = '''Development'''  # "Prototype", "Development", "Production".
 
 # This is the main prefix used for logging
