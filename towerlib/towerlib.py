@@ -885,6 +885,24 @@ class Tower:  # pylint: disable=too-many-public-methods
             raise InvalidOrganization(organization)
         return organization_.create_inventory_script(name, description, script)
 
+    def get_organization_inventory_script_by_name(self, organization, name):
+        """Retrieves an custom inventory script by name from an organization.
+
+        Args:
+            organization: The name of the organization to retrieve the custom inventory script from.
+            name: The name of the custom inventory script to retrieve.
+
+        Returns:
+            Inventory: The custom inventory script if a match is found else None.
+
+        Raises:
+            InvalidOrganization: The organization provided as argument does not exist.
+
+        """
+        organization_ = self.get_organization_by_name(organization)
+        if not organization_:
+            raise InvalidOrganization(organization)
+        return organization_.get_inventory_script_by_name(name)
     def delete_organization_inventory(self, organization, name):
         """Deletes an inventory from tower.
 

@@ -527,6 +527,18 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                              primary_match_field='name',
                              url=url)
 
+    def get_inventory_script_by_name(self, name):
+        """Retrieves an custom inventory script.
+
+        Args:
+            name: The name of the custom inventory script to retrieve.
+
+        Returns:
+            inventory(Inventory): custom inventory script on success else None.
+
+        """
+        return next(self._tower.inventories_scripts.filter({'organization': self.id, 'name__iexact': name}), None)
+
     def create_inventory_script(self, name, description, script):
         """Creates a custom inventory script.
 
