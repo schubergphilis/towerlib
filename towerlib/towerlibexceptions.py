@@ -64,8 +64,10 @@ class InvalidVariables(Exception):
 class InvalidInventory(Exception):
     """The inventory provided is invalid."""
 
+
 class InvalidInventoryScript(Exception):
     """The inventory script provided is invalid."""
+
 
 class InvalidCredentialType(Exception):
     """The credential type provided is invalid."""
