@@ -59,7 +59,8 @@ from .entities import (Config,  # pylint: disable=unused-import  # NOQA
                        VERBOSITY_LEVELS,
                        Cluster,
                        ClusterInstance,
-                       EntityManager)
+                       EntityManager,
+                       Workflow)
 from .towerlibexceptions import (AuthFailed,
                                  InvalidOrganization,
                                  InvalidInventory,
@@ -75,7 +76,9 @@ from .towerlibexceptions import (AuthFailed,
                                  InvalidInstanceGroup,
                                  InvalidJobType,
                                  InvalidVerbosity,
-                                 InvalidJobTemplate)
+                                 InvalidJobTemplate,
+                                 InvalidInventoryScript,
+                                 InvalidWorkflowTemplate)
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -1557,8 +1560,126 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return EntityManager(self,
                              entity_name='workflow_job_templates',
-                             entity_object='JobTemplate',
+                             entity_object='Workflow',
                              primary_match_field='name')
+
+    def get_workflow_job_template_by_name(self, name):
+        """Retrieves all workflow job templates matching a certain name.
+
+        Args:
+            name: The name of the workflow job(s) templates to retrieve.
+
+        Returns:
+            UnifiedJob (Generator): A workflow job template generator.
+
+        """
+        return next(self.workflow_job_templates.filter({'name__iexact': name}), None)
+
+    def create_workflow_template(self,  # pylint: disable=too-many-arguments, too-many-locals
+                                 name,
+                                 description,
+                                 organization,
+                                 project,
+                                 inventory,
+                                 extra_vars='',
+                                 limit='',
+                                 scm_branch='',
+                                 webhook_service='',
+                                 webhook_credential='',
+                                 survey_enabled=False,
+                                 allow_simultaneous=False,
+                                 ask_variables_on_launch=False,
+                                 ask_inventory_on_launch=False,
+                                 ask_scm_branch_on_launch=False,
+                                 ask_limit_on_launch=False,
+                                 ):
+        """Creates a workflow job template.
+
+        Args:
+            name: The name of the workflow job template to create.
+            description: The description of the workflow job template to create.
+            organization: The organization the inventory belongs to.
+            project: The project to use for the template.
+            inventory: Select an inventory for the workflow.
+                This inventory is applied to all job template nodes that prompt for an inventory.
+            extra_vars: Pass extra command line variables to the playbook.
+                This is the -e or --extra-vars command line parameter for ansible-playbook.
+                Provide key/value pairs using JSON.
+            limit: A host pattern to constrain the list of hosts that will be managed or affected by the workflow.
+                This limit is applied to all job template nodes that prompt for a limit.
+            scm_branch: Specify a SCM branch for the workflow.
+                its applied to all job template nodes that prompt for a branch.
+            webhook_service: Option to enable a webhook for the workflow job template.
+            webhook_credential: Select the credential to use with the webhook service.
+            survey_enabled: Option to add a survey that is prompted at job launch with questions related to the job.
+                This allows for variables to be defined that affect the playbook run at time of launch.
+            allow_simultaneous:
+            ask_variables_on_launch:
+            ask_inventory_on_launch:
+            ask_scm_branch_on_launch:
+            ask_limit_on_launch:
+
+        Returns:
+            Workflow: The created workflow job template if successful, None otherwise.
+
+        Raises:
+            InvalidInventory: The inventory provided as argument does not exist.
+            InvalidProject: The project provided as argument does not exist.
+            InvalidPlaybook: The playbook provided as argument does not exist in project.
+            InvalidInstanceGroup: The instance group provided as argument does not exist.
+            InvalidJobType: The job type provided as argument does not exist.
+            InvalidVerbosity: The verbosity provided is not in valid range of 0-4.
+            InvalidCredentialType: The credential type is invalid.
+
+        """
+        if inventory:
+            inventory_ = self.get_organization_inventory_by_name(organization, inventory)
+            if not inventory_:
+                raise InvalidInventory(inventory)
+            else:
+                inventory = inventory_.id
+        project_ = self.get_organization_project_by_name(organization, project)
+        if not project_:
+            raise InvalidProject(project)
+        payload = {'name': name,
+                   'description': description,
+                   'inventory': inventory,
+                   'project': project_.id,
+                   'extra_vars': extra_vars,
+                   'limit': limit,
+                   'scm_branch': scm_branch,
+                   'scm_branch': scm_branch,
+                   'webhook_service': webhook_service,
+                   'webhook_credential': webhook_credential,
+                   'survey_enabled': survey_enabled,
+                   'allow_simultaneous': allow_simultaneous,
+                   'ask_variables_on_launch': ask_variables_on_launch,
+                   'ask_inventory_on_launch': ask_inventory_on_launch,
+                   'ask_scm_branch_on_launch': ask_scm_branch_on_launch,
+                   'ask_limit_on_launch': ask_limit_on_launch}
+        url = '{api}/workflow_job_templates/'.format(api=self.api)
+        response = self.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error creating workflow job template, response was: "%s"', response.text)
+        return Workflow(self, response.json()) if response.ok else None
+
+    def delete_workflow_template(self, name):
+        """Deletes a workflow job template from tower.
+
+        Args:
+            name: The name of the workflow job template to delete.
+
+        Returns:
+            bool: True on success, False otherwise.
+
+        Raises:
+            InvalidJobTemplate: The job template provided as argument does not exist.
+
+        """
+        workflow_job_template = self.get_workflow_job_template_by_name(name)
+        if not workflow_job_template:
+            raise InvalidWorkflowTemplate(name)
+        return workflow_job_template.delete()
 
     @property
     def system_jobs(self):
