@@ -554,7 +554,6 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         url = '{api}/inventory_scripts/'.format(api=self._tower.api)
         payload = {'name': name,
                    'description': description,
-                   'inventory': self.id,
                    'script': script,
                    'organization': self.id
                    }
