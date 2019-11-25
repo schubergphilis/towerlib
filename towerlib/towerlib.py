@@ -864,17 +864,17 @@ class Tower:  # pylint: disable=too-many-public-methods
                              primary_match_field='name')
 
     def create_organization_inventory_script(self,
-                                name,
-                                description,
-                                script,
-                                organization):
+                                             organization,
+                                             name,
+                                             description,
+                                             script):
         """Creates a custom inventory script.
 
         Args:
+            organization: The organization the inventory script is part of.
             name: Name of the inventory script.
             description: The description of the inventory script.
             script: The script of the inventory script.
-            organization: The organization the inventory script is part of.
 
         Returns:
             Inventory_script: The created inventory script is successful, None otherwise.
