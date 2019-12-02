@@ -59,7 +59,8 @@ from .entities import (Config,  # pylint: disable=unused-import  # NOQA
                        VERBOSITY_LEVELS,
                        Cluster,
                        ClusterInstance,
-                       EntityManager)
+                       EntityManager,
+                       Settings)
 from .towerlibexceptions import (AuthFailed,
                                  InvalidOrganization,
                                  InvalidInventory,
@@ -1270,26 +1271,23 @@ class Tower:  # pylint: disable=too-many-public-methods
             EntityManager: The manager object for settings.
 
         """
-        return EntityManager(self,
-                             entity_name='settings',
-                             entity_object='Settings',
-                             primary_match_field='name')
+        return Settings(self)
 
-    @property
-    def saml(self):
-        """The saml settings in tower.
+    # @property
+    # def saml(self):
+    #     """The saml settings in tower.
 
-        Returns:
-            Saml: The saml settings in tower.
+    #     Returns:
+    #         Saml: The saml settings in tower.
 
-        """
-        url = '{api}/settings/saml/'.format(api=self.api)
-        response = self.session.get(url)
-        response
-        # return EntityManager(self,
-        #                      entity_object='Saml',
-        #                      primary_match_field='name',
-        #                      url=url)
+    #     """
+    #     url = '{api}/settings/saml/'.format(api=self.api)
+    #     response = self.session.get(url)
+    #     response
+    #     # return EntityManager(self,
+    #     #                      entity_object='Saml',
+    #     #                      primary_match_field='name',
+    #     #                      url=url)
 
     def get_organization_credential_by_name(self, organization, name, credential_type):
         """Retrieves all credentials matching a certain name.
