@@ -50,11 +50,19 @@ LOGGER_BASENAME = '''settings'''
 LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
 
-class Settings(Entity):
+class Settings:
     """Models the settings entity of ansible tower."""
 
-    def __init__(self, tower_instance, data):
-        Entity.__init__(self, tower_instance, data)
+    def __init__(self, tower_instance):
+        self._tower = tower_instance
+
+    def _get_settings_data(self, setting_type):
+        url = '{api}/settings/{type}/'.format(api=self._tower.api, type=setting_type)
+        response = self._tower.session.get(url)
+        if not response.ok:
+            LOGGER.error('Error getting setting type "%s", response was: "%s"', setting_type, response.text)
+        # think about whether we should raise an exception here or instantiate with empty default values
+        return response.json() if response.ok else {}
 
     @property
     def saml(self):
@@ -64,16 +72,23 @@ class Settings(Entity):
             Saml: The saml settings in tower.
 
         """
-        url = '/api/v2/settings/saml/'
-        return EntityManager(self,
-                             entity_object='Saml',
-                             primary_match_field='name',
-                             url=url)
+        setting_type = 'saml'
+        data = self._get_settings_data(setting_type)
+        return Saml(self._tower, data)
 
+    def configure_saml(self, payload):
+        return self.saml.configure(payload)
 
 class Saml(Entity):
     """Models the saml entity of ansible tower."""
 
     def __init__(self, tower_instance, data):
         Entity.__init__(self, tower_instance, data)
+
+    @property
+    def organization_information(self):
+        return self._data.get('SOCIAL_AUTH_SAML_ORG_INFO')
+
+    def configure(self, payload):
+        pass
 
