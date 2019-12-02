@@ -533,7 +533,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             inventory(Inventory): custom inventory script on success else None.
 
         """
-        return next(self._tower.inventories_scripts.filter({'organization': self.id, 'name__iexact': name}), None)
+        return next(self._tower.inventory_scripts.filter({'organization': self.id, 'name__iexact': name}), None)
 
     def create_inventory_script(self, name, description, script):
         """Creates a custom inventory script.
