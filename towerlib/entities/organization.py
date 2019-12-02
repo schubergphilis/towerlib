@@ -521,11 +521,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             EntityManager: EntityManager of the inventory scripts of the organization.
 
         """
-        url = '{organization}inventory_scripts/'.format(organization=self.api_url)
-        return EntityManager(self._tower,
-                             entity_object='inventory_scripts',
-                             primary_match_field='name',
-                             url=url)
+        return self._tower.inventory_scripts.filter({'organization': self.id})
 
     def get_inventory_script_by_name(self, name):
         """Retrieves an custom inventory script.

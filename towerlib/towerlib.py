@@ -851,7 +851,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         return organization_.create_inventory(name, description, variables)
 
     @property
-    def inventories_scripts(self):
+    def inventory_scripts(self):
         """The inventories configured in tower.
 
         Returns:
