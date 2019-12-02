@@ -1262,6 +1262,35 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return self.credentials.filter({'name__iexact': name})
 
+    @property
+    def settings(self):
+        """The settings part of tower.
+
+        Returns:
+            EntityManager: The manager object for settings.
+
+        """
+        return EntityManager(self,
+                             entity_name='settings',
+                             entity_object='Settings',
+                             primary_match_field='name')
+
+    @property
+    def saml(self):
+        """The saml settings in tower.
+
+        Returns:
+            Saml: The saml settings in tower.
+
+        """
+        url = '{api}/settings/saml/'.format(api=self.api)
+        response = self.session.get(url)
+        response
+        # return EntityManager(self,
+        #                      entity_object='Saml',
+        #                      primary_match_field='name',
+        #                      url=url)
+
     def get_organization_credential_by_name(self, organization, name, credential_type):
         """Retrieves all credentials matching a certain name.
 
