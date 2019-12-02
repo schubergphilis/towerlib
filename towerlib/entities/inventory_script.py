@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# File: inventory source.py
+# File: inventory_script.py
 #
 # Copyright 2019 Yorick Hoorneman
 #
