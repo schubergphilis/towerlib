@@ -79,8 +79,7 @@ from .entities import (Organization,  # NOQA
                        NotificationTemplate,
                        Notification,
                        InventorySource,
-                       InventoryScript,
-                       saml)
+                       InventoryScript)
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
