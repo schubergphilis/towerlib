@@ -32,7 +32,7 @@ Main code for inventory_script.
 """
 
 import logging
-
+import re
 from towerlib.towerlibexceptions import InvalidValue
 from .core import (Entity,
                    validate_max_length)
@@ -124,4 +124,9 @@ class InventoryScript(Entity):
             None:
 
         """
-        self._update_values('script', value)
+        pattern = '(#!/(usr|bin)/(sh|bash|bin)(/)?(make|env)?)'
+        conditions = re.match(pattern, value)
+        if conditions:
+            self._update_values('script', value)
+        else:
+            raise InvalidValue(f'Script content is invalid, it should start with a shebang.')
