@@ -39,7 +39,8 @@ from towerlib.towerlibexceptions import (InvalidTeam,
                                          InvalidCredential,
                                          InvalidProject,
                                          InvalidCredentialType,
-                                         InvalidValue)
+                                         InvalidValue,
+                                         InvalidInventoryScript)
 from .core import (Entity,
                    EntityManager,
                    validate_max_length,
@@ -558,6 +559,24 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             self._logger.error('Error creating host "%s", response was "%s"', name, response.text)
         return InventoryScript(self._tower, response.json()) if response.ok else None
 
+    def delete_inventory_script(self, name):
+        """Deletes a custom inventory script.
+
+        Args:
+            name: The name of the custom inventory script to delete.
+
+        Returns:
+            bool: True on success, False otherwise.
+
+        Raises:
+            InvalidInventoryScript: The inventory_script provided as argument does not exist.
+
+        """
+        inventory_script = self.get_inventory_script_by_name(name)
+        if not inventory_script:
+            raise InvalidInventoryScript(name)
+        return inventory_script.delete()
+
     def delete_inventory(self, name):
         """Deletes an inventory by name.
 
@@ -568,7 +587,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             bool: True on success, False otherwise.
 
         Raises:
-            InvalidHInventory: The inventory provided as argument does not exist.
+            InvalidInventory: The inventory provided as argument does not exist.
 
         """
         inventory = self.get_inventory_by_name(name)
