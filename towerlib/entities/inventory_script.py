@@ -129,4 +129,4 @@ class InventoryScript(Entity):
         if conditions:
             self._update_values('script', value)
         else:
-            raise InvalidValue(f'Script content is invalid, it should start with a shebang.')
+            raise InvalidValue('Script content is invalid, it should start with a shebang.')
