@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# File: inventory source.py
+# File: settings.py
 #
 # Copyright 2019 Yorick Hoorneman
 #
@@ -86,8 +86,68 @@ class Saml(Entity):
         Entity.__init__(self, tower_instance, data)
 
     @property
+    def callback_url(self):
+        return self._data.get('SOCIAL_AUTH_SAML_CALLBACK_URL')
+
+    @property
+    def enabled_idps(self):
+        return self._data.get('SOCIAL_AUTH_SAML_ENABLED_IDPS')
+
+    @property
+    def extra_data(self):
+        return self._data.get('SOCIAL_AUTH_SAML_EXTRA_DATA')
+
+    @property
+    def metadata_url(self):
+        return self._data.get('SOCIAL_AUTH_SAML_METADATA_URL')
+
+    @property
+    def organization_attributes(self):
+        return self._data.get('SOCIAL_AUTH_SAML_ORGANIZATION_ATTR')
+
+    @property
+    def organization_map(self):
+        return self._data.get('SOCIAL_AUTH_SAML_ORGANIZATION_MAP')
+
+    @property
     def organization_information(self):
         return self._data.get('SOCIAL_AUTH_SAML_ORG_INFO')
+
+    @property
+    def security_config(self):
+        return self._data.get('SOCIAL_AUTH_SAML_SECURITY_CONFIG')
+
+    @property
+    def sp_entity_id(self):
+        return self._data.get('SOCIAL_AUTH_SAML_SP_ENTITY_ID')
+
+    @property
+    def sp_extra(self):
+        return self._data.get('SOCIAL_AUTH_SAML_SP_EXTRA')
+
+    @property
+    def sp_private_key(self):
+        return self._data.get('SOCIAL_AUTH_SAML_SP_PRIVATE_KEY')
+
+    @property
+    def sp_public_cert(self):
+        return self._data.get('SOCIAL_AUTH_SAML_SP_PUBLIC_CERT')
+
+    @property
+    def support_contact(self):
+        return self._data.get('SOCIAL_AUTH_SAML_SUPPORT_CONTACT')
+
+    @property
+    def team_attributes(self):
+        return self._data.get('SOCIAL_AUTH_SAML_TEAM_ATTR')
+
+    @property
+    def team_map(self):
+        return self._data.get('SOCIAL_AUTH_SAML_TEAM_MAP')
+
+    @property
+    def technical_contact(self):
+        return self._data.get('SOCIAL_AUTH_SAML_TECHNICAL_CONTACT')
 
     def configure(self, payload):
         pass
