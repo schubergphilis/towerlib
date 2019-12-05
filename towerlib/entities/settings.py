@@ -93,9 +93,31 @@ class Saml(Entity):
     def enabled_idps(self):
         return self._data.get('SOCIAL_AUTH_SAML_ENABLED_IDPS')
 
+    @enabled_idps.setter
+    def enabled_idps(self, value):
+        """Update the Entity ID, SSO URL and certificate for each identity provider (IdP) in use.
+
+        Returns:
+            None:
+
+        """
+        self._data['url'] = '/api/v2/settings/saml/'
+        self._update_values('SOCIAL_AUTH_SAML_ENABLED_IDPS', value)
+
     @property
     def extra_data(self):
         return self._data.get('SOCIAL_AUTH_SAML_EXTRA_DATA')
+
+    @extra_data.setter
+    def extra_data(self, value):
+        """Update the IDP attributes that are mapped to extra_attributes.
+
+        Returns:
+            None:
+
+        """
+        self._data['url'] = '/api/v2/settings/saml/'
+        self._update_values('SOCIAL_AUTH_SAML_EXTRA_DATA', value)
 
     @property
     def metadata_url(self):
@@ -105,50 +127,188 @@ class Saml(Entity):
     def organization_attributes(self):
         return self._data.get('SOCIAL_AUTH_SAML_ORGANIZATION_ATTR')
 
+    @organization_attributes.setter
+    def organization_attributes(self, value):
+        """Update the translation of user organization membership into Tower.
+
+        Returns:
+            None:
+
+        """
+        self._data['url'] = '/api/v2/settings/saml/'
+        self._update_values('SOCIAL_AUTH_SAML_ORGANIZATION_ATTR', value)
+
     @property
     def organization_map(self):
         return self._data.get('SOCIAL_AUTH_SAML_ORGANIZATION_MAP')
+
+    @organization_map.setter
+    def organization_map(self, value):
+        """Update the mapping to organization admins/users from social auth accounts.
+        Control which users are placed into which Tower organizations based on their username and email address.
+
+        Returns:
+            None:
+
+        """
+        self._data['url'] = '/api/v2/settings/saml/'
+        self._update_values('SOCIAL_AUTH_SAML_ORGANIZATION_MAP', value)
 
     @property
     def organization_information(self):
         return self._data.get('SOCIAL_AUTH_SAML_ORG_INFO')
 
+    @organization_information.setter
+    def organization_information(self, value):
+        """Update the organization information url.
+
+        Returns:
+            None:
+
+        """
+        self._data['url'] = '/api/v2/settings/saml/'
+        self._update_values('SOCIAL_AUTH_SAML_ORG_INFO', value)
+
     @property
     def security_config(self):
         return self._data.get('SOCIAL_AUTH_SAML_SECURITY_CONFIG')
+
+    @security_config.setter
+    def security_config(self, value):
+        """Update the saml security config.
+
+        Returns:
+            None:
+
+        """
+        self._data['url'] = '/api/v2/settings/saml/'
+        self._update_values('SOCIAL_AUTH_SAML_SECURITY_CONFIG', value)
 
     @property
     def sp_entity_id(self):
         return self._data.get('SOCIAL_AUTH_SAML_SP_ENTITY_ID')
 
+    @sp_entity_id.setter
+    def sp_entity_id(self, value):
+        """Update the application-defined unique identifier for SAML service provider (SP) configuration.
+
+        Returns:
+            None:
+
+        """
+        self._data['url'] = '/api/v2/settings/saml/'
+        self._update_values('SOCIAL_AUTH_SAML_SP_ENTITY_ID', value)
+
     @property
     def sp_extra(self):
         return self._data.get('SOCIAL_AUTH_SAML_SP_EXTRA')
+
+    @sp_extra.setter
+    def sp_extra(self, value):
+        """Update the Service Provider configuration setting.
+
+        Returns:
+            None:
+
+        """
+        self._data['url'] = '/api/v2/settings/saml/'
+        self._update_values('SOCIAL_AUTH_SAML_SP_EXTRA', value)
 
     @property
     def sp_private_key(self):
         return self._data.get('SOCIAL_AUTH_SAML_SP_PRIVATE_KEY')
 
+    @sp_private_key.setter
+    def sp_private_key(self, value):
+        """Update the private key.
+
+        Returns:
+            None:
+
+        """
+        self._data['url'] = '/api/v2/settings/saml/'
+        self._update_values('SOCIAL_AUTH_SAML_SP_PRIVATE_KEY', value)
+
     @property
     def sp_public_cert(self):
         return self._data.get('SOCIAL_AUTH_SAML_SP_PUBLIC_CERT')
+
+    @sp_public_cert.setter
+    def sp_public_cert(self, value):
+        """Update the public certificate.
+
+        Returns:
+            None:
+
+        """
+        self._data['url'] = '/api/v2/settings/saml/'
+        self._update_values('SOCIAL_AUTH_SAML_SP_PUBLIC_CERT', value)
 
     @property
     def support_contact(self):
         return self._data.get('SOCIAL_AUTH_SAML_SUPPORT_CONTACT')
 
+    @support_contact.setter
+    def support_contact(self, value):
+        """Update the support contact information.
+
+        Returns:
+            None:
+
+        """
+        self._data['url'] = '/api/v2/settings/saml/'
+        self._update_values('SOCIAL_AUTH_SAML_SUPPORT_CONTACT', value)
+
     @property
     def team_attributes(self):
         return self._data.get('SOCIAL_AUTH_SAML_TEAM_ATTR')
+
+    @team_attributes.setter
+    def team_attributes(self, value):
+        """Update the translation of user team membership into Tower.
+
+        Returns:
+            None:
+
+        """
+        self._data['url'] = '/api/v2/settings/saml/'
+        self._update_values('SOCIAL_AUTH_SAML_TEAM_ATTR', value)
 
     @property
     def team_map(self):
         return self._data.get('SOCIAL_AUTH_SAML_TEAM_MAP')
 
+    @team_map.setter
+    def team_map(self, value):
+        """Update the mapping of team members (users) from social auth accounts.
+
+        Returns:
+            None:
+
+        """
+        self._data['url'] = '/api/v2/settings/saml/'
+        self._update_values('SOCIAL_AUTH_SAML_TEAM_MAP', value)
+
     @property
     def technical_contact(self):
         return self._data.get('SOCIAL_AUTH_SAML_TECHNICAL_CONTACT')
 
-    def configure(self, payload):
-        pass
+    @technical_contact.setter
+    def technical_contact(self, value):
+        """Update the technical contact information.
 
+        Returns:
+            None:
+
+        """
+        self._data['url'] = '/api/v2/settings/saml/'
+        self._update_values('SOCIAL_AUTH_SAML_TECHNICAL_CONTACT', value)
+
+    def configure(self, payload):
+        """Function to set the whole saml configuration in one go.
+
+        Returns:
+            None:
+
+        """
+        pass
