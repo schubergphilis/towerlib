@@ -133,3 +133,4 @@ assert NotificationEmail
 assert NotificationSlack
 assert NotificationTemplate
 assert InventorySource
+assert InventoryScript

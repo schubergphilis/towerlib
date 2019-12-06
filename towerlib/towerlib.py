@@ -75,7 +75,8 @@ from .towerlibexceptions import (AuthFailed,
                                  InvalidInstanceGroup,
                                  InvalidJobType,
                                  InvalidVerbosity,
-                                 InvalidJobTemplate)
+                                 InvalidJobTemplate,
+                                 InvalidInventoryScript)
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -291,8 +292,12 @@ class Tower:  # pylint: disable=too-many-public-methods
             yield result
         if page_count:
             with concurrent.futures.ThreadPoolExecutor(max_workers=30) as executor:
-                futures = [executor.submit(self.session.get, url, params={'page': index})
-                           for index in range(page_count, 1, -1)]
+                futures = []
+                if not params:
+                    params = {}
+                for index in range(page_count, 1, -1):
+                    params.update({'page': index})
+                    futures.append(executor.submit(self.session.get, url, params=params))
                 for future in concurrent.futures.as_completed(futures):
                     try:
                         response = future.result()
@@ -565,7 +570,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         """Deletes a project from tower.
 
         Args:
-            organization: The organization the inventory belongs to.
+            organization: The organization the project belongs to.
             name: The name of the project to delete.
 
         Returns:
