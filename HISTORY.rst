@@ -146,3 +146,9 @@ History
 ------------------
 
 * Added case incensitive search
+
+
+3.2.3 (06-12-2019)
+------------------
+
+* Fix pagination for filtering.
