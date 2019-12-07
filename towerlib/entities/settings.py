@@ -34,8 +34,7 @@ Main code for settings.
 import logging
 
 from towerlib.towerlibexceptions import InvalidValue
-from .core import (Entity,
-                   validate_max_length)
+from .core import (Entity)
 
 __author__ = '''Yorick Hoorneman <yhoorneman@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -59,12 +58,31 @@ class Settings:
         self._tower = tower_instance
 
     def _get_settings_data(self, setting_type):
-        url = '{api}/settings/{type}/'.format(api=self._tower.api, type=setting_type)
-        response = self._tower.session.get(url)
-        if not response.ok:
-            LOGGER.error('Error getting setting type "%s", response was: "%s"', setting_type, response.text)
-        # think about whether we should raise an exception here or instantiate with empty default values
-        return response.json() if response.ok else {}
+        setting_types = ['all',
+                         'authentication',
+                         'azuread-oauth2',
+                         'changed', 'github',
+                         'github-org',
+                         'github-team',
+                         'google-oauth2',
+                         'jobs',
+                         'ldap',
+                         'logging',
+                         'named-url',
+                         'radius',
+                         'saml',
+                         'system',
+                         'tacacsplus',
+                         'ui']
+        condition = setting_type.lower() in setting_types
+        if condition:
+            url = '{api}/settings/{type}/'.format(api=self._tower.api, type=setting_type)
+            response = self._tower.session.get(url)
+            if not response.ok:
+                LOGGER.error('Error getting setting type "%s", response was: "%s"', setting_type, response.text)
+            return response.json() if response.ok else {}
+        raise InvalidValue(('{value} is invalid. The following setting types are allowed:'
+                            '{setting_types}').format(value=setting_type, setting_types=setting_types))
 
     @property
     def saml(self):
@@ -79,6 +97,12 @@ class Settings:
         return Saml(self._tower, data)
 
     def configure_saml(self, payload):
+        """Function to set the whole saml configuration in one go.
+
+        Returns:
+            None:
+
+        """
         return self.saml.configure(payload)
 
 class Saml(Entity):
@@ -89,10 +113,22 @@ class Saml(Entity):
 
     @property
     def callback_url(self):
+        """The saml callback url.
+
+        Returns:
+            string: The saml callback url.
+
+        """
         return self._data.get('SOCIAL_AUTH_SAML_CALLBACK_URL')
 
     @property
     def enabled_idps(self):
+        """The configured IDPS as a dictionary.
+
+        Returns:
+            string: The configured IDPS as a dictionary.
+
+        """
         return self._data.get('SOCIAL_AUTH_SAML_ENABLED_IDPS')
 
     @enabled_idps.setter
@@ -108,6 +144,12 @@ class Saml(Entity):
 
     @property
     def extra_data(self):
+        """The IDP attributes that are mapped to extra_attributes.
+
+        Returns:
+            string: The IDP attributes that are mapped to extra_attributes.
+
+        """
         return self._data.get('SOCIAL_AUTH_SAML_EXTRA_DATA')
 
     @extra_data.setter
@@ -123,10 +165,22 @@ class Saml(Entity):
 
     @property
     def metadata_url(self):
+        """The saml metadata url.
+
+        Returns:
+            string: The saml metadata url.
+
+        """
         return self._data.get('SOCIAL_AUTH_SAML_METADATA_URL')
 
     @property
     def organization_attributes(self):
+        """The saml callback url.
+
+        Returns:
+            string: The saml callback url.
+
+        """
         return self._data.get('SOCIAL_AUTH_SAML_ORGANIZATION_ATTR')
 
     @organization_attributes.setter
@@ -142,6 +196,12 @@ class Saml(Entity):
 
     @property
     def organization_map(self):
+        """The mapping to organization admins/users from social auth accounts.
+
+        Returns:
+            string: The mapping to organization admins/users from social auth accounts.
+
+        """
         return self._data.get('SOCIAL_AUTH_SAML_ORGANIZATION_MAP')
 
     @organization_map.setter
@@ -159,6 +219,12 @@ class Saml(Entity):
 
     @property
     def organization_information(self):
+        """The organization information url.
+
+        Returns:
+            string: The organization information url.
+
+        """
         return self._data.get('SOCIAL_AUTH_SAML_ORG_INFO')
 
     @organization_information.setter
@@ -174,6 +240,12 @@ class Saml(Entity):
 
     @property
     def security_config(self):
+        """The saml security config.
+
+        Returns:
+            string: The saml security config.
+
+        """
         return self._data.get('SOCIAL_AUTH_SAML_SECURITY_CONFIG')
 
     @security_config.setter
@@ -189,6 +261,12 @@ class Saml(Entity):
 
     @property
     def sp_entity_id(self):
+        """The application-defined unique identifier for SAML service provider (SP) configuration.
+
+        Returns:
+            string: The application-defined unique identifier for SAML service provider (SP) configuration.
+
+        """
         return self._data.get('SOCIAL_AUTH_SAML_SP_ENTITY_ID')
 
     @sp_entity_id.setter
@@ -204,6 +282,12 @@ class Saml(Entity):
 
     @property
     def sp_extra(self):
+        """The Service Provider configuration setting.
+
+        Returns:
+            string: The Service Provider configuration setting.
+
+        """
         return self._data.get('SOCIAL_AUTH_SAML_SP_EXTRA')
 
     @sp_extra.setter
@@ -219,6 +303,12 @@ class Saml(Entity):
 
     @property
     def sp_private_key(self):
+        """The private key.
+
+        Returns:
+            string: The private key.
+
+        """
         return self._data.get('SOCIAL_AUTH_SAML_SP_PRIVATE_KEY')
 
     @sp_private_key.setter
@@ -234,6 +324,12 @@ class Saml(Entity):
 
     @property
     def sp_public_cert(self):
+        """The public certificate.
+
+        Returns:
+            string: The public certificate.
+
+        """
         return self._data.get('SOCIAL_AUTH_SAML_SP_PUBLIC_CERT')
 
     @sp_public_cert.setter
@@ -249,6 +345,12 @@ class Saml(Entity):
 
     @property
     def support_contact(self):
+        """The support contact information.
+
+        Returns:
+            string: The support contact information.
+
+        """
         return self._data.get('SOCIAL_AUTH_SAML_SUPPORT_CONTACT')
 
     @support_contact.setter
@@ -264,6 +366,12 @@ class Saml(Entity):
 
     @property
     def team_attributes(self):
+        """The translation of user team membership into Tower.
+
+        Returns:
+            string: The translation of user team membership into Tower.
+
+        """
         return self._data.get('SOCIAL_AUTH_SAML_TEAM_ATTR')
 
     @team_attributes.setter
@@ -279,6 +387,12 @@ class Saml(Entity):
 
     @property
     def team_map(self):
+        """The mapping of team members (users) from social auth accounts.
+
+        Returns:
+            string: The mapping of team members (users) from social auth accounts.
+
+        """
         return self._data.get('SOCIAL_AUTH_SAML_TEAM_MAP')
 
     @team_map.setter
@@ -294,6 +408,12 @@ class Saml(Entity):
 
     @property
     def technical_contact(self):
+        """The technical contact information.
+
+        Returns:
+            string: The technical contact information.
+
+        """
         return self._data.get('SOCIAL_AUTH_SAML_TECHNICAL_CONTACT')
 
     @technical_contact.setter
