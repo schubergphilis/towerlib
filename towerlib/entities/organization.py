@@ -462,7 +462,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                              entity_object='Inventory',
                              primary_match_field='name',
                              url=url)
-    
+
     @property
     def inventories_count(self):
         """The number of inventories of the organization.
