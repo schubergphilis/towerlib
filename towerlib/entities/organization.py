@@ -452,6 +452,20 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         return team.delete()
 
     @property
+    def inventories(self):
+        """The inventories of the organization.
+
+        Returns:
+            EntityManager: EntityManager of the inventories of the organization.
+
+        """
+        url = '{organization}inventories/'.format(organization=self.api_url)
+        return EntityManager(self._tower,
+                             entity_object='Inventory',
+                             primary_match_field='name',
+                             url=url)
+
+    @property
     def inventories_count(self):
         """The number of inventories of the organization.
 
