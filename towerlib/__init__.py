@@ -79,7 +79,6 @@ from .entities import (Organization,  # NOQA
                        NotificationTemplate,
                        Notification,
                        InventorySource,
-                       InventoryScript,
                        Settings,
                        Saml)
 
