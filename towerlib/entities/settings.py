@@ -25,8 +25,10 @@
 
 """
 Main code for settings.
+
 .. _Google Python Style Guide:
    http://google.github.io/styleguide/pyguide.html
+
 """
 
 import logging
@@ -145,6 +147,7 @@ class Saml(Entity):
     @organization_map.setter
     def organization_map(self, value):
         """Update the mapping to organization admins/users from social auth accounts.
+
         Control which users are placed into which Tower organizations based on their username and email address.
 
         Returns:
