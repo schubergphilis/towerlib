@@ -291,13 +291,13 @@ class Tower:  # pylint: disable=too-many-public-methods
         for result in response_data.get('results', []):
             yield result
         if page_count:
-            with concurrent.futures.ThreadPoolExecutor(max_workers=30) as executor:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=25) as executor:
                 futures = []
                 if not params:
                     params = {}
                 for index in range(page_count, 1, -1):
                     params.update({'page': index})
-                    futures.append(executor.submit(self.session.get, url, params=params))
+                    futures.append(executor.submit(self.session.get, url, params=params.copy()))
                 for future in concurrent.futures.as_completed(futures):
                     try:
                         response = future.result()
