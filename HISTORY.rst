@@ -152,3 +152,9 @@ History
 ------------------
 
 * Fix pagination for filtering.
+
+
+3.2.4 (12-12-2019)
+------------------
+
+* fixed pagination!!
