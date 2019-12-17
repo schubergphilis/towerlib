@@ -38,6 +38,7 @@ from collections import namedtuple
 
 from dateutil.parser import parse
 from cachetools import TTLCache, cached
+from copy import deepcopy
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -324,7 +325,12 @@ class Entity(DateParserMixin):
         return response.ok
 
     def _update_values(self, attribute, value, parent_attribute=None):
-        payload = {parent_attribute: {attribute: value}} if parent_attribute else {attribute: value}
+        if parent_attribute:
+            parent_data = deepcopy(self._data.get(parent_attribute))
+            parent_data.update({attribute: value})
+            payload = {parent_attribute: parent_data}
+        else:
+            payload = {attribute: value}
         response = self._tower.session.patch(self.url, json=payload)
         if response.ok:
             self._data.update(response.json())
