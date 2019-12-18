@@ -38,7 +38,6 @@ from collections import namedtuple
 
 from dateutil.parser import parse
 from cachetools import TTLCache, cached
-from copy import deepcopy
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
