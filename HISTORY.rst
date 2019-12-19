@@ -158,3 +158,9 @@ History
 ------------------
 
 * fixed pagination!!
+
+
+3.2.5 (19-12-2019)
+------------------
+
+* Fixed underlying _update_values method to prevent overwrite of nested dicts in AWX 9.0.1.
