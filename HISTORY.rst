@@ -164,3 +164,9 @@ History
 ------------------
 
 * Fixed underlying _update_values method to prevent overwrite of nested dicts in AWX 9.0.1.
+
+
+3.2.6 (19-12-2019)
+------------------
+
+* Linting and pipfile dependency fixes.
