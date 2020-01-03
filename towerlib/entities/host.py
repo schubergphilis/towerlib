@@ -182,7 +182,8 @@ class Host(Entity):
         if all(conditions):
             self._update_values('variables', value)
         else:
-            raise InvalidValue('{value} is not valid json.'.format(value=value))
+            raise InvalidValue(
+                '{value} is not valid json.'.format(value=value))
 
     @property
     def has_active_failures(self):
@@ -280,6 +281,27 @@ class Host(Entity):
         """
         return self._data.get('summary_fields', {}).get('recent_jobs')
 
+    @property
+    def ansible_facts(self):
+        """Returns ansible facts gathered about the host in json.
+
+        Args: None
+
+        Returns:
+            json: Json representation of ansible facts
+
+        Raises: None
+        """
+        url = '{api}/hosts/{id}/ansible_facts'.format(
+            api=self._tower.api, id=self.id)
+        response = self._tower.session.get(url)
+        if response.ok:
+            return response.json
+        else:
+            self._logger.error('Error finding ansible facts for {name}.'.format(
+                name=self._data.get('name')))
+            return '{}'
+
     def associate_with_groups(self, groups):
         """Associate the host with the provided groups.
 
@@ -297,7 +319,8 @@ class Host(Entity):
         if not isinstance(groups, (list, tuple)):
             groups = [groups]
         inventory_groups = [group for group in self.inventory.groups]
-        lower_inventory_group_names = [group.name.lower() for group in inventory_groups]
+        lower_inventory_group_names = [
+            group.name.lower() for group in inventory_groups]
         missing_groups = [group_name for group_name in groups
                           if group_name.lower() not in lower_inventory_group_names]
         if missing_groups:
