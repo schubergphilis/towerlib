@@ -85,6 +85,16 @@ class Host(Entity):
                                '{max_characters}'.format(value=value, max_characters=max_characters))
 
     @property
+    def id(self):
+        """The id of the host.
+
+        Returns:
+            string: The id of the host.
+
+        """
+        return self._data.get('id')
+
+    @property
     def description(self):
         """The description of the host.
 
