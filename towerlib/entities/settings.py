@@ -34,7 +34,7 @@ Main code for settings.
 import logging
 
 from towerlib.towerlibexceptions import InvalidValue
-from .core import (Entity)
+from .core import Entity
 
 __author__ = '''Yorick Hoorneman <yhoorneman@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -74,15 +74,15 @@ class Settings:
                          'system',
                          'tacacsplus',
                          'ui']
-        condition = setting_type.lower() in setting_types
-        if condition:
-            url = '{api}/settings/{type}/'.format(api=self._tower.api, type=setting_type)
-            response = self._tower.session.get(url)
-            if not response.ok:
-                LOGGER.error('Error getting setting type "%s", response was: "%s"', setting_type, response.text)
-            return response.json() if response.ok else {}
-        raise InvalidValue(('{value} is invalid. The following setting types are allowed:'
-                            '{setting_types}').format(value=setting_type, setting_types=setting_types))
+        if not setting_type.lower() in setting_types:
+            raise InvalidValue(('{value} is invalid. The following setting types are allowed:'
+                                '{setting_types}').format(value=setting_type, setting_types=setting_types))
+        url = '{api}/settings/{type_}/'.format(api=self._tower.api, type_=setting_type)
+        response = self._tower.session.get(url)
+        if not response.ok:
+            LOGGER.error('Error getting setting type "%s", response was: "%s"', setting_type, response.text)
+        return response.json() if response.ok else {}
+
 
     @property
     def saml(self):
@@ -112,6 +112,10 @@ class Saml(Entity):
         Entity.__init__(self, tower_instance, data)
 
     @property
+    def url(self):
+        return self._tower.host + '/api/v2/settings/saml/'
+
+    @property
     def callback_url(self):
         """The saml callback url.
 
@@ -139,7 +143,6 @@ class Saml(Entity):
             None:
 
         """
-        self._data['url'] = '/api/v2/settings/saml/'
         self._update_values('SOCIAL_AUTH_SAML_ENABLED_IDPS', value)
 
     @property
@@ -160,7 +163,6 @@ class Saml(Entity):
             None:
 
         """
-        self._data['url'] = '/api/v2/settings/saml/'
         self._update_values('SOCIAL_AUTH_SAML_EXTRA_DATA', value)
 
     @property
@@ -191,7 +193,6 @@ class Saml(Entity):
             None:
 
         """
-        self._data['url'] = '/api/v2/settings/saml/'
         self._update_values('SOCIAL_AUTH_SAML_ORGANIZATION_ATTR', value)
 
     @property
@@ -214,7 +215,6 @@ class Saml(Entity):
             None:
 
         """
-        self._data['url'] = '/api/v2/settings/saml/'
         self._update_values('SOCIAL_AUTH_SAML_ORGANIZATION_MAP', value)
 
     @property
@@ -235,7 +235,6 @@ class Saml(Entity):
             None:
 
         """
-        self._data['url'] = '/api/v2/settings/saml/'
         self._update_values('SOCIAL_AUTH_SAML_ORG_INFO', value)
 
     @property
@@ -256,7 +255,6 @@ class Saml(Entity):
             None:
 
         """
-        self._data['url'] = '/api/v2/settings/saml/'
         self._update_values('SOCIAL_AUTH_SAML_SECURITY_CONFIG', value)
 
     @property
@@ -277,7 +275,6 @@ class Saml(Entity):
             None:
 
         """
-        self._data['url'] = '/api/v2/settings/saml/'
         self._update_values('SOCIAL_AUTH_SAML_SP_ENTITY_ID', value)
 
     @property
@@ -298,7 +295,6 @@ class Saml(Entity):
             None:
 
         """
-        self._data['url'] = '/api/v2/settings/saml/'
         self._update_values('SOCIAL_AUTH_SAML_SP_EXTRA', value)
 
     @property
@@ -319,7 +315,6 @@ class Saml(Entity):
             None:
 
         """
-        self._data['url'] = '/api/v2/settings/saml/'
         self._update_values('SOCIAL_AUTH_SAML_SP_PRIVATE_KEY', value)
 
     @property
@@ -340,7 +335,6 @@ class Saml(Entity):
             None:
 
         """
-        self._data['url'] = '/api/v2/settings/saml/'
         self._update_values('SOCIAL_AUTH_SAML_SP_PUBLIC_CERT', value)
 
     @property
@@ -361,7 +355,6 @@ class Saml(Entity):
             None:
 
         """
-        self._data['url'] = '/api/v2/settings/saml/'
         self._update_values('SOCIAL_AUTH_SAML_SUPPORT_CONTACT', value)
 
     @property
@@ -382,7 +375,6 @@ class Saml(Entity):
             None:
 
         """
-        self._data['url'] = '/api/v2/settings/saml/'
         self._update_values('SOCIAL_AUTH_SAML_TEAM_ATTR', value)
 
     @property
@@ -403,7 +395,6 @@ class Saml(Entity):
             None:
 
         """
-        self._data['url'] = '/api/v2/settings/saml/'
         self._update_values('SOCIAL_AUTH_SAML_TEAM_MAP', value)
 
     @property
@@ -424,7 +415,6 @@ class Saml(Entity):
             None:
 
         """
-        self._data['url'] = '/api/v2/settings/saml/'
         self._update_values('SOCIAL_AUTH_SAML_TECHNICAL_CONTACT', value)
 
     def configure(self, payload):
