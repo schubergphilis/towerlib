@@ -59,7 +59,8 @@ from .entities import (Config,  # pylint: disable=unused-import  # NOQA
                        VERBOSITY_LEVELS,
                        Cluster,
                        ClusterInstance,
-                       EntityManager)
+                       EntityManager,
+                       Settings)
 from .towerlibexceptions import (AuthFailed,
                                  InvalidOrganization,
                                  InvalidInventory,
@@ -1261,6 +1262,16 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         """
         return self.credentials.filter({'name__iexact': name})
+
+    @property
+    def settings(self):
+        """The settings part of tower.
+
+        Returns:
+            EntityManager: The manager object for settings.
+
+        """
+        return Settings(self)
 
     def get_organization_credential_by_name(self, organization, name, credential_type):
         """Retrieves all credentials matching a certain name.

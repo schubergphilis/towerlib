@@ -61,6 +61,7 @@ from towerlib.entities.organization import Organization
 from towerlib.entities.project import Project
 from towerlib.entities.team import Team
 from towerlib.entities.user import User
+from towerlib.entities.settings import Settings, Saml
 from towerlib.entities.inventory_source import InventorySource
 from towerlib.entities.inventory_script import InventoryScript
 from towerlib.entities.notification import (Notification,
