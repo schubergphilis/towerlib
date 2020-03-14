@@ -170,3 +170,9 @@ History
 ------------------
 
 * Linting and pipfile dependency fixes.
+
+
+3.2.7 (14-03-2020)
+------------------
+
+* Added support for python 3.6 by adding dataclasses package with marker
