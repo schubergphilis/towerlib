@@ -34,7 +34,7 @@ setup(
     author='''Costas Tyfoxylos''',
     author_email='''ctyfoxylos@schubergphilis.com''',
     url='''https://github.com/schubergphilis/towerlib.git''',
-    packages=find_packages(where='.', exclude=('tests', 'hooks')),
+    packages=find_packages(where='.', exclude=('tests', 'hooks', '_CI*')),
     package_dir={'''towerlib''':
                  '''towerlib'''},
     include_package_data=True,
