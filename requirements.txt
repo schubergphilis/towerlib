@@ -9,5 +9,5 @@
 #
 requests~=2.22.0
 dateutils~=0.6.7
-beautifulsoup4~=4.8.1
+beautifulsoup4~=4.8.2
 cachetools~=3.1.1
