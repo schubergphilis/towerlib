@@ -59,7 +59,8 @@ from .entities import (Config,  # pylint: disable=unused-import  # NOQA
                        VERBOSITY_LEVELS,
                        Cluster,
                        ClusterInstance,
-                       EntityManager)
+                       EntityManager,
+                       Settings)
 from .towerlibexceptions import (AuthFailed,
                                  InvalidOrganization,
                                  InvalidInventory,
@@ -75,7 +76,8 @@ from .towerlibexceptions import (AuthFailed,
                                  InvalidInstanceGroup,
                                  InvalidJobType,
                                  InvalidVerbosity,
-                                 InvalidJobTemplate)
+                                 InvalidJobTemplate,
+                                 InvalidInventoryScript)
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -290,9 +292,13 @@ class Tower:  # pylint: disable=too-many-public-methods
         for result in response_data.get('results', []):
             yield result
         if page_count:
-            with concurrent.futures.ThreadPoolExecutor(max_workers=30) as executor:
-                futures = [executor.submit(self.session.get, url, params={'page': index})
-                           for index in range(page_count, 1, -1)]
+            with concurrent.futures.ThreadPoolExecutor(max_workers=25) as executor:
+                futures = []
+                if not params:
+                    params = {}
+                for index in range(page_count, 1, -1):
+                    params.update({'page': index})
+                    futures.append(executor.submit(self.session.get, url, params=params.copy()))
                 for future in concurrent.futures.as_completed(futures):
                     try:
                         response = future.result()
@@ -565,7 +571,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         """Deletes a project from tower.
 
         Args:
-            organization: The organization the inventory belongs to.
+            organization: The organization the project belongs to.
             name: The name of the project to delete.
 
         Returns:
@@ -849,6 +855,79 @@ class Tower:  # pylint: disable=too-many-public-methods
         if not organization_:
             raise InvalidOrganization(organization)
         return organization_.create_inventory(name, description, variables)
+
+    @property
+    def inventory_scripts(self):
+        """The inventories configured in tower.
+
+        Returns:
+            list of Inventory: The inventories configured in tower.`
+
+        """
+        return EntityManager(self,
+                             entity_name='inventory_scripts',
+                             entity_object='InventoryScript',
+                             primary_match_field='name')
+
+    def create_organization_inventory_script(self,
+                                             organization,
+                                             name,
+                                             description,
+                                             script):
+        """Creates a custom inventory script.
+
+        Args:
+            organization: The organization the inventory script is part of.
+            name: Name of the inventory script.
+            description: The description of the inventory script.
+            script: The script of the inventory script.
+
+        Returns:
+            Inventory_script: The created inventory script is successful, None otherwise.
+
+        """
+        organization_ = self.get_organization_by_name(organization)
+        if not organization_:
+            raise InvalidOrganization(organization)
+        return organization_.create_inventory_script(name, description, script)
+
+    def get_organization_inventory_script_by_name(self, organization, name):
+        """Retrieves an custom inventory script by name from an organization.
+
+        Args:
+            organization: The name of the organization to retrieve the custom inventory script from.
+            name: The name of the custom inventory script to retrieve.
+
+        Returns:
+            Inventory: The custom inventory script if a match is found else None.
+
+        Raises:
+            InvalidOrganization: The organization provided as argument does not exist.
+
+        """
+        organization_ = self.get_organization_by_name(organization)
+        if not organization_:
+            raise InvalidOrganization(organization)
+        return organization_.get_inventory_script_by_name(name)
+
+    def delete_organization_inventory_script(self, organization, name):
+        """Deletes an custom inventory script from tower.
+
+        Args:
+            organization: The organization the custom inventory script is a member of.
+            name: The name of the custom inventory script to delete.
+
+        Returns:
+            bool: True on success, False otherwise.
+
+        Raises:
+            InvalidInventory: The custom inventory script provided as argument does not exist.
+
+        """
+        inventory_script = self.get_organization_inventory_script_by_name(organization, name)
+        if not inventory_script:
+            raise InvalidInventoryScript(name)
+        return inventory_script.delete()
 
     def delete_organization_inventory(self, organization, name):
         """Deletes an inventory from tower.
@@ -1183,6 +1262,16 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         """
         return self.credentials.filter({'name__iexact': name})
+
+    @property
+    def settings(self):
+        """The settings part of tower.
+
+        Returns:
+            EntityManager: The manager object for settings.
+
+        """
+        return Settings(self)
 
     def get_organization_credential_by_name(self, organization, name, credential_type):
         """Retrieves all credentials matching a certain name.

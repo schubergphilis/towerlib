@@ -324,7 +324,12 @@ class Entity(DateParserMixin):
         return response.ok
 
     def _update_values(self, attribute, value, parent_attribute=None):
-        payload = {parent_attribute: {attribute: value}} if parent_attribute else {attribute: value}
+        if parent_attribute:
+            child_data = self._data.get(parent_attribute)
+            child_data.update({attribute: value})
+            payload = {parent_attribute: child_data}
+        else:
+            payload = {attribute: value}
         response = self._tower.session.patch(self.url, json=payload)
         if response.ok:
             self._data.update(response.json())

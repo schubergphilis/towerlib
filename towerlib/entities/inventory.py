@@ -489,7 +489,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
                       update_cache_timeout=0,
                       source_project='',
                       update_on_project_update=False):
-        """Creates Source.
+        """Creates a source.
 
         Args:
             name ():
@@ -589,6 +589,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
             update_on_project_update ():
 
         Returns:
+            bool
 
         """
         project = self.organization.get_project_by_name(source_project)

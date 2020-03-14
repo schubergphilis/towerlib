@@ -797,7 +797,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
 
         Args:
             credential (str): A single string of a credential.
-            credential_type_id (int): The type of the credential.
+            credential_type (int): The type of the credential.
 
         """
         # if not isinstance(credentials, (list, tuple)):
