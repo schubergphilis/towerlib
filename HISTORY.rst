@@ -176,3 +176,9 @@ History
 ------------------
 
 * Added support for python 3.6 by adding dataclasses package with marker
+
+
+3.2.8 (14-03-2020)
+------------------
+
+* Removed unwanted development files from the final package.
