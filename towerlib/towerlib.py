@@ -60,7 +60,8 @@ from .entities import (Config,  # pylint: disable=unused-import  # NOQA
                        Cluster,
                        ClusterInstance,
                        EntityManager,
-                       Settings)
+                       Settings,
+                       Schedule)
 from .towerlibexceptions import (AuthFailed,
                                  InvalidOrganization,
                                  InvalidInventory,

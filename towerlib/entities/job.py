@@ -816,6 +816,20 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
             self._logger.error('Failed to add credential {}'.format(credential))
         return response.ok
 
+    @property
+    def schedules(self):
+        """The schedules that the job template uses.
+
+        Returns:
+            EntityManager: EntityManager of the schedules.
+
+        """
+        url = self._data.get('related', {}).get('schedules')
+        return EntityManager(self._tower,
+                             entity_object='Schedule',
+                             primary_match_field='name',
+                             url=url)
+
     def add_schedule(self, # pylint: disable=too-many-arguments
                      name,
                      start_date,

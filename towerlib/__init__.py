@@ -80,7 +80,8 @@ from .entities import (Organization,  # NOQA
                        Notification,
                        InventorySource,
                        Settings,
-                       Saml)
+                       Saml,
+                       Schedule)
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
