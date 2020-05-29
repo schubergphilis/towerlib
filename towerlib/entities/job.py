@@ -32,11 +32,12 @@ Main code for jobs.
 """
 
 import logging
+import datetime
 
 from bs4 import BeautifulSoup as Bfs
 from dateutil.parser import parse
 
-from towerlib.towerlibexceptions import InvalidCredential
+from towerlib.towerlibexceptions import InvalidCredential, InvalidValue
 from .core import Entity, EntityManager
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
@@ -754,6 +755,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         url = self._data.get('related', {}).get('project')
         return self._tower._get_object_by_url('Project', url)  # pylint: disable=protected-access
 
+
     @property
     def playbook(self):
         """The playbook of the job template.
@@ -812,6 +814,60 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Failed to add credential {}'.format(credential))
+        return response.ok
+
+    @property
+    def schedules(self):
+        """The schedules that the job template uses.
+
+        Returns:
+            EntityManager: EntityManager of the schedules.
+
+        """
+        url = self._data.get('related', {}).get('schedules')
+        return EntityManager(self._tower,
+                             entity_object='Schedule',
+                             primary_match_field='name',
+                             url=url)
+
+    def add_schedule(self, # pylint: disable=too-many-arguments
+                     name,
+                     start_date,
+                     start_time,
+                     limit='',
+                     description='',
+                     time_zone='Europe/Berlin',
+                     repeat_frequency='DAILY',
+                     interval=1):
+        """Adds a schedule to a job template.
+
+        Args:
+            name (str): A name of the schedule.
+            start_date (datetime.date): The start date of the schedule
+            start_time (datetime.time): Start time of the schedule
+            limit (str): Limit of the schedule
+            description (str): Description of the schedule
+            time_zone (str): The time zone assigned to the schedule
+            repeat_frequency (str): How frequently the job will be run
+            interval (int): Interval of the Job
+
+        """
+        if not isinstance(start_date, datetime.date):
+            raise InvalidValue
+        if not isinstance(start_time, datetime.time):
+            raise InvalidValue
+        schedule_datetime = f"20{datetime.datetime.combine(start_date,start_time).strftime('%y%m%dT%H%M%S')}"
+        payload = {
+            'description':description,
+            'limit':limit,
+            'name':name,
+            'rrule':f'DTSTART;TZID={time_zone}:{schedule_datetime} RRULE:FREQ={repeat_frequency};INTERVAL={interval}'
+        }
+        url = '{api}/job_templates/{id}/schedules/'.format(api=self._tower.api,
+                                                           id=self.id)
+        response = self._tower.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Failed to add schedule {name}. Error: {error}'.format(name=name, error=response.json()))
         return response.ok
 
     @property

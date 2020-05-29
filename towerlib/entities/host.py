@@ -283,7 +283,7 @@ class Host(Entity):
 
     @property
     def ansible_facts(self):
-        """Returns ansible facts gathered about the host in json.
+        """Ansible facts gathered about the host in json.
 
         Args: None
 
@@ -291,16 +291,16 @@ class Host(Entity):
             json: Json representation of ansible facts
 
         Raises: None
+
         """
         url = '{api}/hosts/{id}/ansible_facts'.format(
             api=self._tower.api, id=self.id)
         response = self._tower.session.get(url)
-        if response.ok:
-            return response.json
-        else:
+        if not response.ok:
             self._logger.error('Error finding ansible facts for {name}.'.format(
                 name=self._data.get('name')))
-            return '{}'
+        return response.json() if response.ok else '{}'
+
 
     def associate_with_groups(self, groups):
         """Associate the host with the provided groups.

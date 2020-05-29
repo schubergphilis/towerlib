@@ -127,3 +127,7 @@ class InvalidValue(Exception):
 
 class InvalidRole(Exception):
     """The role is not valid for this organization."""
+
+
+class InvalidSchedule(Exception):
+    """The schedule is not valid for this job template."""

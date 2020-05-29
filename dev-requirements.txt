@@ -21,4 +21,4 @@ gitwrapperlib~=0.9.1
 twine~=1.13.0
 coloredlogs~=10.0
 emoji~=0.5.4
-toml~=0.10.0
+toml~=0.10.1
