@@ -1947,3 +1947,41 @@ class Tower:  # pylint: disable=too-many-public-methods
                              entity_name='inventory_sources',
                              entity_object='InventorySource',
                              primary_match_field='name')
+
+
+    @property
+    def schedules(self):
+        """The schedules configured in tower.
+
+        Returns:
+            EntityManager: The manager object for schedules.
+
+        """
+        return EntityManager(self,
+                             entity_name='schedules',
+                             entity_object='Schedule',
+                             primary_match_field='name')
+
+    def get_schedule_by_id(self, id_):
+        """Retrieves a schedule by id.
+
+        Args:
+            id_: The id of the schedule to retrieve.
+
+        Returns:
+            Schedule: The schedule if a match is found else None.
+
+        """
+        return next(self.schedules.filter({'id': id_}), None)
+
+    def get_schedule_by_name(self, name):
+        """Retrieves an schedule by name.
+
+        Args:
+            name: The name of the schedule to retrieve.
+
+        Returns:
+            Schedule: The schedule if a match is found else None.
+
+        """
+        return next(self.schedules.filter({'name__iexact': name}), None)
