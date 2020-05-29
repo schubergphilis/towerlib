@@ -31,10 +31,10 @@ Main code for Schedule.
 
 """
 
-from .core import Entity, JOB_TYPES
 from towerlib.towerlibexceptions import (InvalidJobType,
-                                 InvalidVerbosity,
-                                 InvalidJobTemplate)
+                                         InvalidVerbosity)
+from .core import Entity, JOB_TYPES, VERBOSITY_LEVELS
+from .inventory import Inventory
 
 
 class Schedule(Entity):
@@ -45,10 +45,10 @@ class Schedule(Entity):
 
     @property
     def rrule(self):
-        """The rrule of the schedule.
+        """A value representing the schedules iCal recurrence rule.
 
         Returns:
-            string: The rrule of the schedule.
+            string: A value representing the schedules iCal recurrence rule.
 
         """
         return self._data.get('rrule')
@@ -168,10 +168,11 @@ class Schedule(Entity):
         """Unified job template.
 
         Returns:
-            string: Unified job template .
+            JobTemplate: Unified job template .
 
         """
-        return self._data.get('unified_job_template')
+        url = self._data.get('related', {}).get('unified_job_template')
+        return self._tower._get_object_by_url('JobTemplate', url)  # pylint: disable=protected-access
 
     @property
     def enabled(self):
@@ -274,8 +275,8 @@ class Schedule(Entity):
             InvalidJobType: The job type provided as argument does not exist.
 
         """
-        if job_type not in JOB_TYPES:
-            raise InvalidJobType(job_type)
+        if value not in JOB_TYPES:
+            raise InvalidJobType(value)
 
         self._update_values('job_type', value)
 
@@ -289,31 +290,93 @@ class Schedule(Entity):
         """
         self._update_values('job_tags', value)
 
+    @verbosity.setter
+    def verbosity(self, value):
+        """Verbosity of the job to schedule.
 
-# @TODO: Editable
-# The following fields are updateable
+        Returns:
+            None.
 
-# 'rrule':f'DTSTART;TZID={time_zone}:{schedule_datetime} RRULE:FREQ={repeat_frequency};INTERVAL={interval}'
-#
-# * `rrule`: A value representing the schedules iCal recurrence rule. (string, required)
-# * `name`: Name of this schedule. (string, required)
-# * `description`: Optional description of this schedule. (string, default=`\"\"`)
-# * `extra_data`:  (json, default=`{}`)
-# * `inventory`: Inventory applied as a prompt, assuming job template prompts for inventory (id, default=``)
-# * `scm_branch`:  (string, default=`\"\"`)
-# * `job_type`:  (choice)
-#     - `run`: Run
-#     - `check`: Check
-# * `job_tags`:  (string, default=`\"\"`)
-# * `skip_tags`:  (string, default=`\"\"`)
-# * `limit`:  (string, default=`\"\"`)
-# * `diff_mode`:  (boolean, default=`None`)
-# * `verbosity`:  (choice)
-#     - `0`: 0 (Normal)
-#     - `1`: 1 (Verbose)
-#     - `2`: 2 (More Verbose)
-#     - `3`: 3 (Debug)
-#     - `4`: 4 (Connection Debug)
-#     - `5`: 5 (WinRM Debug)
-# * `unified_job_template`:  (id, required)
-# * `enabled`: Enables processing of this schedule. (boolean, default=`True`)
+        Raises:
+            InvalidVerbosity: The verbosity provided as argument does not exist.
+
+        """
+        if value not in VERBOSITY_LEVELS:
+            raise InvalidVerbosity(value)
+
+        self._update_values('verbosity', value)
+
+    @inventory.setter
+    def inventory(self, value):
+        """Inventory applied as a prompt, assuming job template prompts for inventory.
+
+        Returns:
+            None.
+
+        """
+        inventory_id = value
+        if isinstance(value, Inventory):
+            inventory_id = value.id
+
+        self._update_values('inventory', inventory_id)
+        self._refresh_state()
+
+    @skip_tags.setter
+    def skip_tags(self, value):
+        """Skip tags to use.
+
+        Returns:
+            None.
+
+        """
+        self._update_values('skip_tags', value)
+
+    @limit.setter
+    def limit(self, value):
+        """Limit to use.
+
+        Returns:
+            None.
+
+        """
+        self._update_values('limit', value)
+
+    @diff_mode.setter
+    def diff_mode(self, value):
+        """If enabled, show the changes made by Ansible tasks.
+
+        Returns:
+            None.
+
+        """
+        self._update_values('diff_mode', value)
+
+    @enabled.setter
+    def enabled(self, value):
+        """Enables processing of this schedule.
+
+        Returns:
+            None.
+
+        """
+        self._update_values('enabled', value)
+
+    @extra_data.setter
+    def extra_data(self, value):
+        """Extra data to pass to the execution as a json.
+
+        Returns:
+            None.
+
+        """
+        self._update_values('enabled', value)
+
+    @rrule.setter
+    def rrule(self, value):
+        """A value representing the schedules iCal recurrence rule (string).
+
+        Returns:
+            None.
+
+        """
+        self._update_values('rrule', value)

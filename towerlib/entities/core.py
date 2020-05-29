@@ -57,7 +57,7 @@ LOGGER.addHandler(logging.NullHandler())
 USER_LEVELS = (u'standard', u'system_auditor', u'system_administrator')
 VALID_CREDENTIAL_TYPES = (u'net', u'cloud')
 JOB_TYPES = (u'run', u'check')
-VERBOSITY_LEVELS = (0, 1, 2, 3, 4)
+VERBOSITY_LEVELS = (0, 1, 2, 3, 4, 5)
 
 Config = namedtuple('Config', ['eula',
                                'license_info',

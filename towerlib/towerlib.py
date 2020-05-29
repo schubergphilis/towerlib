@@ -1948,7 +1948,6 @@ class Tower:  # pylint: disable=too-many-public-methods
                              entity_object='InventorySource',
                              primary_match_field='name')
 
-
     @property
     def schedules(self):
         """The schedules configured in tower.
