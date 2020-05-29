@@ -182,3 +182,9 @@ History
 ------------------
 
 * Removed unwanted development files from the final package.
+
+
+3.2.9 (29-05-2020)
+------------------
+
+* Added support for Schedules
