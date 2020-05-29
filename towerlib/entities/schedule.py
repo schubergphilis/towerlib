@@ -44,7 +44,7 @@ class Schedule(Entity):
         Entity.__init__(self, tower_instance, data)
 
     @property
-    def rrule(self):
+    def recurrence_rule(self):
         """A value representing the schedules iCal recurrence rule.
 
         Returns:
@@ -185,7 +185,7 @@ class Schedule(Entity):
         return self._data.get('enabled')
 
     @property
-    def dtstart(self):
+    def datetime_start(self):
         """The first occurrence of the schedule occurs on or after this time.
 
         Returns:
@@ -195,7 +195,7 @@ class Schedule(Entity):
         return self._data.get('dtstart')
 
     @property
-    def dtend(self):
+    def datetime_end(self):
         """The last occurrence of the schedule occurs before this time, aftewards the schedule expires.
 
         Returns:
@@ -371,8 +371,8 @@ class Schedule(Entity):
         """
         self._update_values('enabled', value)
 
-    @rrule.setter
-    def rrule(self, value):
+    @recurrence_rule.setter
+    def recurrence_rule(self, value):
         """A value representing the schedules iCal recurrence rule (string).
 
         Returns:

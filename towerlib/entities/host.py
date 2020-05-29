@@ -299,7 +299,7 @@ class Host(Entity):
         if not response.ok:
             self._logger.error('Error finding ansible facts for {name}.'.format(
                 name=self._data.get('name')))
-        return response.json if response.ok else '{}'
+        return response.json() if response.ok else '{}'
 
 
     def associate_with_groups(self, groups):
