@@ -31,7 +31,10 @@ Main code for Schedule.
 
 """
 
-from .core import Entity
+from .core import Entity, JOB_TYPES
+from towerlib.towerlibexceptions import (InvalidJobType,
+                                 InvalidVerbosity,
+                                 InvalidJobTemplate)
 
 
 class Schedule(Entity):
@@ -225,24 +228,92 @@ class Schedule(Entity):
         """Until when does the schedule run?
 
         Returns:
-            datetime: Until when does the schedule run?
+            string: Until when does the schedule run?
 
         """
         return self._data.get('until')
 
+    @name.setter
+    def name(self, value):
+        """The name of the schedule.
+
+        Returns:
+            None.
+
+        """
+        self._update_values('name', value)
+
+    @description.setter
+    def description(self, value):
+        """Optional description of this schedule.
+
+        Returns:
+            None.
+
+        """
+        self._update_values('description', value)
+
+    @scm_branch.setter
+    def scm_branch(self, value):
+        """Optional description of this schedule.
+
+        Returns:
+            None.
+
+        """
+        self._update_values('scm_branch', value)
+
+    @job_type.setter
+    def job_type(self, value):
+        """Job type of the schedule to run.
+
+        Returns:
+            None.
+
+        Raises:
+            InvalidJobType: The job type provided as argument does not exist.
+
+        """
+        if job_type not in JOB_TYPES:
+            raise InvalidJobType(job_type)
+
+        self._update_values('job_type', value)
+
+    @job_tags.setter
+    def job_tags(self, value):
+        """Job tags to use.
+
+        Returns:
+            None.
+
+        """
+        self._update_values('job_tags', value)
+
+
 # @TODO: Editable
+# The following fields are updateable
+
+# 'rrule':f'DTSTART;TZID={time_zone}:{schedule_datetime} RRULE:FREQ={repeat_frequency};INTERVAL={interval}'
 #
-# rrule
-# name
-# description
-# extra_data
-# inventory
-# scm_branch
-# job_type (Choice list)
-# job_tags
-# skip_tags
-# limit
-# diff_mode (Boolean)
-# verbosity (Choice list)
-# unified_job_template
-# enabled
+# * `rrule`: A value representing the schedules iCal recurrence rule. (string, required)
+# * `name`: Name of this schedule. (string, required)
+# * `description`: Optional description of this schedule. (string, default=`\"\"`)
+# * `extra_data`:  (json, default=`{}`)
+# * `inventory`: Inventory applied as a prompt, assuming job template prompts for inventory (id, default=``)
+# * `scm_branch`:  (string, default=`\"\"`)
+# * `job_type`:  (choice)
+#     - `run`: Run
+#     - `check`: Check
+# * `job_tags`:  (string, default=`\"\"`)
+# * `skip_tags`:  (string, default=`\"\"`)
+# * `limit`:  (string, default=`\"\"`)
+# * `diff_mode`:  (boolean, default=`None`)
+# * `verbosity`:  (choice)
+#     - `0`: 0 (Normal)
+#     - `1`: 1 (Verbose)
+#     - `2`: 2 (More Verbose)
+#     - `3`: 3 (Debug)
+#     - `4`: 4 (Connection Debug)
+#     - `5`: 5 (WinRM Debug)
+# * `unified_job_template`:  (id, required)
+# * `enabled`: Enables processing of this schedule. (boolean, default=`True`)
