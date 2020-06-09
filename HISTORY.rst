@@ -188,3 +188,9 @@ History
 ------------------
 
 * Added support for Schedules
+
+
+3.2.10 (09-06-2020)
+-------------------
+
+* bumped requests
