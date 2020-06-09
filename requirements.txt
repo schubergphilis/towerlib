@@ -7,7 +7,7 @@
 #
 # Please use Pipfile to update the requirements.
 #
-requests~=2.22.0
+requests~=2.23.0
 dateutils~=0.6.8
 beautifulsoup4~=4.8.2
 cachetools~=3.1.1
