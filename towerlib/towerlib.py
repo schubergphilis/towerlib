@@ -61,7 +61,8 @@ from .entities import (Config,  # pylint: disable=unused-import  # NOQA
                        ClusterInstance,
                        EntityManager,
                        Settings,
-                       Schedule)
+                       Schedule,
+                       NotificationTemplate, )
 from .towerlibexceptions import (AuthFailed,
                                  InvalidOrganization,
                                  InvalidInventory,
@@ -170,6 +171,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             Cluster: The information about the state of the cluster.
 
         """
+
         def get_instance(name, instance_list):
             """Getting an instance nametuple from an instance list."""
             node = next((instance for instance in instance_list
@@ -734,7 +736,8 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.groups.filter({'id': id_}), None)
 
-    def create_inventory_group(self, organization, inventory, name, description, variables='{}'):  # pylint: disable=too-many-arguments
+    def create_inventory_group(self, organization, inventory, name, description,
+                               variables='{}'):  # pylint: disable=too-many-arguments
         """Creates a group in an inventory in tower.
 
         Args:
@@ -1934,6 +1937,83 @@ class Tower:  # pylint: disable=too-many-public-methods
                              entity_name='notification_templates',
                              entity_object='NotificationTemplate',
                              primary_match_field='name')
+
+
+    def get_notification_template_by_name(self, name):
+        """Retrieves a notification by name.
+
+        Args:
+            name: The name of the notification to retrieve.
+
+        Returns:
+            NotificationTemplate: The notification if a match is found else None.
+
+        """
+        return next(self.notification_templates.filter({'name__iexact': name}), None)
+
+    def get_notification_template_by_id(self, id_):
+        """Retrieves an notification by id.
+
+        Args:
+            id_: The id of the notification to retrieve.
+
+        Returns:
+            NotificationTemplate: The notification if a match is found else None.
+
+        """
+        return next(self.notification_templates.filter({'id': id_}), None)
+
+    def create_notification_template(self, name,
+                                     organization,
+                                     description="",
+                                     notification_type="",
+                                     notification_configuration="{}",
+                                     messages="{}"):
+        """Creates a notification in tower.
+
+        Args:
+            name: The name of the notification to create.
+            description: The description of the notification to create.
+            organization: Name of the organization.
+            notification_type: Any value in []
+            notification_configuration: Notification configuration
+            messages: Custom message to be sent in the notification.
+
+        Returns:
+            NotificationTemplate: The notification on success, None otherwise.
+
+        """
+        url = '{api}/notification_templates/'.format(api=self.api)
+        payload = {'name': name,
+                   'description': description,
+                   'organization': organization,
+                   'notification_type': notification_type,
+                   }
+        payload["notification_configuration"] = json.loads(notification_configuration)
+        payload["messages"] = json.loads(messages)
+        response = self.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error creating notification_template, response was: "%s"', response.text)
+        return NotificationTemplate(self, response.json()) if response.ok else None
+
+    def delete_notification_template(self, name):
+        """Deletes an organization from tower.
+
+        Args:
+            name: The name of the organization to delete.
+
+        Returns:
+            bool: True on success, False otherwise.
+
+        Raises:
+            InvalidOrganization: The organization provided as argument does not exist.
+
+        """
+        organization = self.get_organization_by_name(name)
+        if not organization:
+            raise InvalidOrganization(name)
+        return organization.delete()
+
 
     @property
     def inventory_sources(self):
