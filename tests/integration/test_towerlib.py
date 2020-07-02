@@ -47,7 +47,8 @@ from towerlib.entities import (Cluster,
                                Host,
                                CredentialType,
                                GenericCredential,
-                               JobTemplate)
+                               JobTemplate,
+                               NotificationTemplate, )
 from towerlib.towerlibexceptions import (AuthFailed,
                                          InvalidOrganization,
                                          InvalidUser,
@@ -63,7 +64,7 @@ from towerlib.towerlibexceptions import (AuthFailed,
                                          InvalidInstanceGroup,
                                          InvalidJobType,
                                          InvalidJobTemplate,
-                                         InvalidVerbosity)
+                                         InvalidVerbosity, InvalidNotificationTemplate)
 from . import IntegrationTest, placeholders
 from .common import Timeout, TIMEOUT_IN_SECONDS
 
@@ -723,6 +724,24 @@ class TestTowerlib(IntegrationTest):
     def test_notification_templates(self):
         with self.recorder:
             self.assertIsInstance(self.tower.notification_templates, EntityManager)
+
+    def test_notification_templates_lifecycle(self):
+        with self.recorder:
+            org = self.tower.get_organization_by_name('Default')
+            notification_template = self.tower.create_notification_template('Test_Notification_Template',
+                                                                            'Test Notification_Template description',
+                                                                            org.id,
+                                                                            "webhook",
+                                                                            '{"username": "test@example.com","password": "password","url": "https://google.com","disable_ssl_verification": false,"http_method": "POST","headers": {}}',
+                                                                            "{}",
+                                                                            )
+            self.assertIsInstance(notification_template, NotificationTemplate)
+            self.assertIsNone(
+                self.tower.create_notification_template('Test_Notification', 'Test Notification description', org.id,
+                                                        "webhook", "{}", "{}"))
+            self.assertTrue(self.tower.delete_notification_template('Test_Notification_Template'))
+            with self.assertRaises(InvalidNotificationTemplate):
+                self.assertFalse(self.tower.delete_notification_template('Test_Notification_Template'))
 
     def test_object_by_url(self):
         url = '/api/v2/users/23/'

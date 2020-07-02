@@ -79,7 +79,8 @@ from .towerlibexceptions import (AuthFailed,
                                  InvalidJobType,
                                  InvalidVerbosity,
                                  InvalidJobTemplate,
-                                 InvalidInventoryScript)
+                                 InvalidInventoryScript,
+                                 InvalidNotificationTemplate)
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -1938,7 +1939,6 @@ class Tower:  # pylint: disable=too-many-public-methods
                              entity_object='NotificationTemplate',
                              primary_match_field='name')
 
-
     def get_notification_template_by_name(self, name):
         """Retrieves a notification by name.
 
@@ -1964,8 +1964,8 @@ class Tower:  # pylint: disable=too-many-public-methods
         return next(self.notification_templates.filter({'id': id_}), None)
 
     def create_notification_template(self, name,
-                                     organization,
                                      description="",
+                                     organization=None,
                                      notification_type="",
                                      notification_configuration="{}",
                                      messages="{}"):
@@ -2000,20 +2000,19 @@ class Tower:  # pylint: disable=too-many-public-methods
         """Deletes an organization from tower.
 
         Args:
-            name: The name of the organization to delete.
+            name: The name of the notification_template to delete.
 
         Returns:
             bool: True on success, False otherwise.
 
         Raises:
-            InvalidOrganization: The organization provided as argument does not exist.
+            InvalidNotification: The notification_template provided as argument does not exist.
 
         """
-        organization = self.get_organization_by_name(name)
-        if not organization:
-            raise InvalidOrganization(name)
-        return organization.delete()
-
+        notification_template = self.get_notification_template_by_name(name)
+        if not notification_template:
+            raise InvalidNotificationTemplate(name)
+        return notification_template.delete()
 
     @property
     def inventory_sources(self):

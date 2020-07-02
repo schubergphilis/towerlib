@@ -131,3 +131,6 @@ class InvalidRole(Exception):
 
 class InvalidSchedule(Exception):
     """The schedule is not valid for this job template."""
+
+class InvalidNotificationTemplate(Exception):
+    """The notification template provided is not valid."""
