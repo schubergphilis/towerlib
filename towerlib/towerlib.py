@@ -1984,10 +1984,13 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         """
         url = '{api}/notification_templates/'.format(api=self.api)
-        payload = {'name': name, 'description': description, 'organization': organization,
+        payload = {'name': name,
+                   'description': description,
+                   'organization': organization,
                    'notification_type': notification_type,
-                   "notification_configuration": json.loads(notification_configuration),
-                   "messages": json.loads(messages)}
+                   }
+        payload["notification_configuration"] = json.loads(notification_configuration)
+        payload["messages"] = json.loads(messages)
         response = self.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating notification_template, response was: "%s"', response.text)
