@@ -194,3 +194,9 @@ History
 -------------------
 
 * bumped requests
+
+
+3.3.0 (06-07-2020)
+------------------
+
+* Implemented capabilities to add organization object roles to team permissions.
