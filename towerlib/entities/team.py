@@ -40,8 +40,7 @@ from towerlib.towerlibexceptions import (InvalidUser,
                                          InvalidInventory,
                                          InvalidCredential,
                                          InvalidValue,
-                                         InvalidOrganization,
-                                         InvalidRole)
+                                         InvalidOrganization)
 from .core import (Entity,
                    EntityManager,
                    validate_max_length)
