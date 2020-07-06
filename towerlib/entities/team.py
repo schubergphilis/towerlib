@@ -40,7 +40,8 @@ from towerlib.towerlibexceptions import (InvalidUser,
                                          InvalidInventory,
                                          InvalidCredential,
                                          InvalidValue,
-                                         InvalidOrganization)
+                                         InvalidOrganization,
+                                         InvalidRole)
 from .core import (Entity,
                    EntityManager,
                    validate_max_length)
@@ -283,7 +284,7 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
     @staticmethod
     def _get_permission(role_name, object_roles):
         permission = next((role for role in object_roles
-                           if role.name.lower() == role_name.lower()))
+                           if role.name.lower() == role_name.lower()), None)
         if not permission:
             raise PermissionNotFound(role_name)
         return permission
@@ -575,6 +576,38 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._post_credential_permission(credential_name, credential_type, 'use', remove=True)
+
+    def add_organization_role_by_name(self, organization_name, role_name):
+        """Adds an organization role to the team.
+
+        Args:
+            organization_name (str): The name of the organization to search roles for.
+            role_name (str): The name of the role to add.
+
+        Returns:
+            True on success, False otherwise.
+
+        """
+        return self._post_organization_role(organization_name, role_name)
+
+    def remove_organization_role_by_name(self, organization_name, role_name):
+        """Removes an organization role from the team.
+
+        Args:
+            organization_name (str): The name of the organization to search roles for.
+            role_name (str): The name of the role to add.
+
+        Returns:
+            True on success, False otherwise.
+
+        """
+        return self._post_organization_role(organization_name, role_name, remove=True)
+
+    def _post_organization_role(self, organization_name, role_name, remove=False):
+        organization = self._tower.get_organization_by_name(organization_name)
+        if not organization:
+            raise InvalidOrganization(organization_name)
+        return self._post_permission(organization.object_roles, role_name, remove)
 
     def _post_project_permission(self, project_name, permission_name, remove=False):
         project = self.organization.get_project_by_name(project_name)
