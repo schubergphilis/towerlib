@@ -328,9 +328,9 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                    'scm_update_cache_timeout': scm_update_cache_timeout}
         if credential:
             credential_ = self.get_credential_by_name_with_type_id(credential, credential_type_id=2)
-            payload['credential'] = credential_.id
             if not credential_:
                 raise InvalidCredential(credential)
+            payload['credential'] = credential_.id
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating project, response was: "%s"', response.text)
