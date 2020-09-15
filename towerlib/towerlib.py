@@ -1650,6 +1650,30 @@ class Tower:  # pylint: disable=too-many-public-methods
                              entity_object='JobTemplate',
                              primary_match_field='name')
 
+    def get_workflow_job_template_by_id(self, id_):
+        """Retrieves a workflow template job by id.
+
+        Args:
+            id_: The id of the workflow template job to retrieve.
+
+        Returns:
+            Host: The job if a match is found else None.
+
+        """
+        return next(self.workflow_job_templates.filter({'id': id_}), None)
+
+    def get_workflow_job_templates_by_name(self, name):
+        """Retrieves all workflow template jobs matching a certain name.
+
+        Args:
+            name: The name of the workflow template job(s) to retrieve.
+
+        Returns:
+            UnifiedJob (Generator): A workflow template job generator.
+
+        """
+        return self.workflow_job_templates.filter({'name__iexact': name})
+
     @property
     def system_jobs(self):
         """The system jobs executed in tower.
