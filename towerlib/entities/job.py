@@ -57,12 +57,14 @@ LOGGER.addHandler(logging.NullHandler())
 
 
 class Job:  # pylint: disable=too-few-public-methods
-    """Job factory to handle the different jod types returned."""
+    """Job factory to handle the different job types returned."""
 
     def __new__(cls, tower_instance, data):
         entity_type = data.get('type')
         if entity_type == 'job':
             obj = JobRun(tower_instance, data)
+        elif entity_type == 'workflow_job':
+            obj = WorkflowJobRun(tower_instance, data)
         elif entity_type == 'project_update':
             obj = ProjectUpdateJob(tower_instance, data)
         elif entity_type == 'system_job':
@@ -672,6 +674,28 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._data.get('job_type')
+
+
+class WorkflowJobRun(JobRun):  # pylint: disable=too-many-public-methods
+    """Models the Workflow Job Run entity of ansible tower."""
+
+
+    def _get_dynamic_value(self, variable):
+        url = '{api}/workflow_jobs/{id}'.format(api=self._tower.api, id=self.id)
+        response = self._tower.session.get(url)
+        return response.json().get(variable) if response.ok else None
+
+    def cancel(self):
+        """Cancels the running or pending job.
+
+        Returns:
+            True on success, False otherwise.
+
+        """
+        url = '{api}/workflow_jobs/{id}/cancel/'.format(api=self._tower.api, id=self.id)
+        response = self._tower.session.post(url)
+        return response.ok
+
 
 
 class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
