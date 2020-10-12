@@ -1038,6 +1038,32 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         return self._to_datetime(self._data.get('next_job_run'))
 
     @property
+    def recent_jobs(self):
+        """The most recent jobs on the template.
+
+        Returns:
+            list if dict: The most recent jobs run on the template.
+
+        """
+        return self._data.get('summary_fields', {}).get('recent_jobs')
+
+    @property
+    def last_job_run_id(self):
+        """The id of most recent job run on the template.
+        Returns:
+            int/None: The id of the most recent job run on the template
+
+        """
+        recent_jobs =  self._data.get('summary_fields', {}).get('recent_jobs')
+        ids = []
+        for job in recent_jobs:
+            for k, v in job.items():
+                if k == 'id':
+                    ids.append(v)
+        ids.sort()
+        return ids[-1]
+
+    @property
     def status(self):
         """The status of the job template.
 
