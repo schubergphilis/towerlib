@@ -39,6 +39,7 @@ from dateutil.parser import parse
 
 from towerlib.towerlibexceptions import InvalidCredential, InvalidValue
 from .core import Entity, EntityManager
+from .inventory import Inventory
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -1202,6 +1203,21 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
             self._logger.error('Error launching job %s, response was :%s', self.name, response.text)
             return None
         return Job(self._tower, response.json())
+
+    @inventory.setter
+    def inventory(self, value):
+        """Inventory applied as a prompt, assuming job template prompts for inventory.
+
+        Returns:
+            None.
+
+        """
+        inventory_id = value
+        if isinstance(value, Inventory):
+            inventory_id = value.id
+
+        self._update_values('inventory', inventory_id)
+        self._refresh_state()
 
 
 class SystemJob(Entity):
