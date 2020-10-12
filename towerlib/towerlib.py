@@ -1585,7 +1585,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             UnifiedJob (Generator): A unified job generator.
 
         """
-        return self.unified_jobs.filter({'name__iexact': name})
+        return next(self.unified_jobs.filter({'name__iexact': name}), None)
 
     @property
     def unified_job_templates(self):
@@ -1635,7 +1635,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             UnifiedJob (Generator): A workflow job generator.
 
         """
-        return self.workflow_jobs.filter({'name__iexact': name})
+        return next(self.workflow_jobs.filter({'name__iexact': name}), None)
 
     @property
     def workflow_job_templates(self):
@@ -1709,7 +1709,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             UnifiedJob (Generator): A system job generator.
 
         """
-        return self.system_jobs.filter({'name__iexact': name})
+        return next(self.system_jobs.filter({'name__iexact': name}), None)
 
     @property
     def job_templates(self):
