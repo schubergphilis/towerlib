@@ -63,7 +63,7 @@ class Job:  # pylint: disable=too-few-public-methods
         entity_type = data.get('type')
         if entity_type == 'job':
             obj = JobRun(tower_instance, data)
-        if entity_type == 'workflow_job':
+        elif entity_type == 'workflow_job':
             obj = WorkflowJobRun(tower_instance, data)
         elif entity_type == 'project_update':
             obj = ProjectUpdateJob(tower_instance, data)
