@@ -1055,11 +1055,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
 
         """
         recent_jobs =  self._data.get('summary_fields', {}).get('recent_jobs')
-        ids = []
-        for job in recent_jobs:
-            for k, v in job.items():
-                if k == 'id':
-                    ids.append(v)
+        ids = [v for job in recent_jobs for k, v in job.items() if k == 'id']
         ids.sort()
         return ids[-1]
 
