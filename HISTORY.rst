@@ -206,3 +206,9 @@ History
 ------------------
 
 * bump requests
+
+
+3.4.1 (16-10-2020)
+------------------
+
+* Bumped dependencies
