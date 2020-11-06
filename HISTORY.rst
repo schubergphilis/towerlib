@@ -212,3 +212,9 @@ History
 ------------------
 
 * Bumped dependencies
+
+
+3.4.2 (06-11-2020)
+------------------
+
+* Added missing development dependency and bumped dependencies to latest patch versions.
