@@ -429,7 +429,10 @@ class Tower:  # pylint: disable=too-many-public-methods
                                     password,
                                     first_name,
                                     last_name,
-                                    email):
+                                    email,
+                                    is_superuser=False,
+                                    is_system_auditor=False,
+                                    ):
         """Creates a user in an organization.
 
         Args:
@@ -439,6 +442,8 @@ class Tower:  # pylint: disable=too-many-public-methods
             first_name: The user's first name.
             last_name: The user's last name.
             email: The user's email.
+            is_superuser: Is the user a super user
+            is_system_auditor: Is the user an auditor
 
 
         Returns:
@@ -451,15 +456,19 @@ class Tower:  # pylint: disable=too-many-public-methods
         organization_ = self.get_organization_by_name(organization)
         if not organization_:
             raise InvalidOrganization(organization)
-        user = self.create_user(username,
-                                password,
-                                first_name=first_name,
-                                last_name=last_name,
-                                email=email)
-        if not user:
-            return False
-        user.associate_with_organization_role(organization, Organization.DEFAULT_MEMBER_ROLE)
-        return user
+        url = '{api}/organizations/{org_id}/users/'.format(api=self.api, org_id=organization_.id)
+        payload = {
+            'username': username,
+            'first_name': first_name,
+            'last_name': last_name,
+            'email': email,
+            'password': password,
+            'is_superuser': is_superuser,
+            'is_system_auditor': is_system_auditor}
+        response = self.session.post(url, json=payload)
+        if not response.ok:
+            self._logger.error('Error creating user, response was: "%s"', response.text)
+        return User(self, response.json()) if response.ok else None
 
     @property
     def projects(self):
