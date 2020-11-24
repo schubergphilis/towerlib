@@ -53,6 +53,9 @@ To use towerlib in a project:
     # using https with a custom certificate authority (pick one)
     tower = Tower('ansible.domain.com', 'username', 'password', secure=True, ssl_verify='/etc/ssl/certs/example.com.ca.crt')
 
+    # using https with an OAUTH2 token (pick one)
+    tower = Tower('ansible.domain.com', None, None, secure=True, token="token-data-here")
+
     # access hosts
     for host in tower.hosts:
         print(host.name)
