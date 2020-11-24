@@ -105,7 +105,8 @@ CONFIGURATION_STATE_CACHE = TTLCache(maxsize=1, ttl=CONFIGURATION_STATE_CACHING_
 class Tower:  # pylint: disable=too-many-public-methods
     """Models the api of ansible tower."""
 
-    def __init__(self, host, username, password, secure=False, ssl_verify=True):  # pylint: disable=too-many-arguments
+    def __init__(self, host, username, password, secure=False, ssl_verify=True, token=None):  # pylint:
+        # disable=too-many-arguments
         logger_name = u'{base}.{suffix}'.format(base=LOGGER_BASENAME,
                                                 suffix=self.__class__.__name__)
         self._logger = logging.getLogger(logger_name)
@@ -113,6 +114,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         self.api = '{host}/api/v2'.format(host=self.host)
         self.username = username
         self.password = password
+        self.token = token
         self.session = self._get_authenticated_session(secure, ssl_verify)
 
     @staticmethod
@@ -124,14 +126,17 @@ class Tower:  # pylint: disable=too-many-public-methods
         session = Session()
         if secure:
             session.verify = ssl_verify
-        return self._authenticate(session, self.host, self.username, self.password, self.api)
+        return self._authenticate(session, self.host, self.username, self.password, self.api, self.token)
 
     @staticmethod
-    def _authenticate(session, host, username, password, api_url):
+    def _authenticate(session, host, username, password, api_url, token):
         session.get(host)
-        session.auth = (username, password)
         session.headers.update({'content-type': 'application/json'})
         url = '{api}/me/'.format(api=api_url)
+        if token:
+            session.headers.update({"Authorization": "Bearer " + str(token)})
+        else:
+            session.auth = (username, password)
         response = session.get(url)
         if response.status_code == 401:
             raise AuthFailed(response.content)
