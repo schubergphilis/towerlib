@@ -38,7 +38,7 @@ from bs4 import BeautifulSoup as Bfs
 from dateutil.parser import parse
 
 from towerlib.towerlibexceptions import InvalidCredential, InvalidValue
-from .core import Entity, EntityManager
+from .core import Entity, EntityManager, validate_max_length
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -439,6 +439,16 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
         return response.ok
 
     @property
+    def extra_vars(self):
+        """The extra_vars of the job
+
+                Returns:
+                    extra_vars: The extra_vars of the job
+
+                """
+        return self._get_dynamic_value('extra_vars')
+
+    @property
     def modified_at(self):
         """The modification datetime of the job.
 
@@ -714,6 +724,23 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._data.get('name')
+
+    @name.setter
+    def name(self, value):
+        """Update the name of the template
+
+        Returns:
+            None:
+
+        """
+        max_characters = 512
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('name', value)
+        else:
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
+
 
     @property
     def description(self):
