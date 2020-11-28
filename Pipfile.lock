@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b02836122663ea9c14a359109932870f8888ce8d7839a6d1577e832567213a73"
+            "sha256": "de9f6a7e645708e8274dbd4db11b3475610150f8731eb8a5bcb47c8b9254cc76"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -155,6 +155,14 @@
             ],
             "index": "pypi",
             "version": "==0.8.1"
+        },
+        "betamax-serializers": {
+            "hashes": [
+                "sha256:1b23c46429c40a8873682854c88d805c787c72d252f3fa0c858e9c300682ceac",
+                "sha256:345c419b1b73171f2951c62ac3c701775ac4b76e13e86464ebf0ff2a978e4949"
+            ],
+            "index": "pypi",
+            "version": "==0.2.1"
         },
         "bleach": {
             "hashes": [
@@ -716,6 +724,7 @@
             ],
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==4.53.0"
+
         },
         "twine": {
             "hashes": [
@@ -776,6 +785,7 @@
             ],
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==20.2.1"
+
         },
         "webencodings": {
             "hashes": [
