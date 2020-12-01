@@ -1403,11 +1403,23 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidVariables: The inputs provided as argument is not valid json.
 
         """
+        team_id = None
+        user_id = None
         organization_ = self.get_organization_by_name(organization)
         if not organization_:
             raise InvalidOrganization(organization)
-        user_id = self.get_user_by_username(user).id if user else None
-        team_id = organization_.get_team_by_name(team).id if team else None
+        if user:
+            user_ = self.get_user_by_username(user)
+            if not user_:
+                raise InvalidUser(user)
+            else:
+                user_id = user_.id
+        if team:
+            team_ = organization_.get_team_by_name(team)
+            if not team_:
+                raise InvalidTeam(team)
+            else:
+                team_id = team_.id
         credential_type_ = self.get_credential_type_by_name(credential_type)
         if not credential_type_:
             raise InvalidCredentialType(credential_type)
