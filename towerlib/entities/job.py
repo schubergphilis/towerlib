@@ -498,7 +498,6 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._get_dynamic_value('result_traceback')
 
-
     @property
     def inventory(self):
         """The inventory this job belongs to.
@@ -676,9 +675,8 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
         return self._data.get('job_type')
 
 
-class WorkflowJobRun(JobRun):  # pylint: disable=too-many-public-methods
+class WorkflowJobRun(JobRun):
     """Models the Workflow Job Run entity of ansible tower."""
-
 
     def _get_dynamic_value(self, variable):
         url = '{api}/workflow_jobs/{id}'.format(api=self._tower.api, id=self.id)
@@ -695,8 +693,6 @@ class WorkflowJobRun(JobRun):  # pylint: disable=too-many-public-methods
         url = '{api}/workflow_jobs/{id}/cancel/'.format(api=self._tower.api, id=self.id)
         response = self._tower.session.post(url)
         return response.ok
-
-
 
 class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
     """Models the Job Template entity of ansible tower."""
@@ -779,7 +775,6 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         url = self._data.get('related', {}).get('project')
         return self._tower._get_object_by_url('Project', url)  # pylint: disable=protected-access
 
-
     @property
     def playbook(self):
         """The playbook of the job template.
@@ -854,7 +849,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
                              primary_match_field='name',
                              url=url)
 
-    def add_schedule(self, # pylint: disable=too-many-arguments
+    def add_schedule(self,  # pylint: disable=too-many-arguments
                      name,
                      start_date,
                      start_time,
@@ -882,10 +877,10 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
             raise InvalidValue
         schedule_datetime = f"20{datetime.datetime.combine(start_date,start_time).strftime('%y%m%dT%H%M%S')}"
         payload = {
-            'description':description,
-            'limit':limit,
-            'name':name,
-            'rrule':f'DTSTART;TZID={time_zone}:{schedule_datetime} RRULE:FREQ={repeat_frequency};INTERVAL={interval}'
+            'description': description,
+            'limit': limit,
+            'name': name,
+            'rrule': f'DTSTART;TZID={time_zone}:{schedule_datetime} RRULE:FREQ={repeat_frequency};INTERVAL={interval}'
         }
         url = '{api}/job_templates/{id}/schedules/'.format(api=self._tower.api,
                                                            id=self.id)

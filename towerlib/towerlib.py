@@ -514,7 +514,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.projects.filter({'id': id_}), None)
 
-    def create_project_in_organization(self,  # pylint: disable=too-many-locals,too-many-arguments
+    def create_project_in_organization(self,  # pylint: disable=too-many-arguments
                                        organization,
                                        name,
                                        description,
@@ -1379,9 +1379,9 @@ class Tower:  # pylint: disable=too-many-public-methods
                                           organization,
                                           name,
                                           description,
-                                          user,
-                                          team,
                                           credential_type,
+                                          user=None,
+                                          team=None,
                                           inputs_='{}'):
         """Creates a credential under an organization.
 
@@ -1399,21 +1399,15 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         Raises:
             InvalidOrganization: The organization provided as argument does not exist.
-            InvalidUser: The user provided as argument does not exist.
-            InvalidTeam: The team provided as argument does not exist.
             InvalidCredentialType: The credential type provided as argument does not exist.
             InvalidVariables: The inputs provided as argument is not valid json.
 
         """
-        organization_ = self.get_organization_by_name(organization)
+        organization_ = self.get_organization_by_name(organization) if organization else None
         if not organization_:
             raise InvalidOrganization(organization)
-        user_ = self.get_user_by_username(user)
-        if not user_:
-            raise InvalidUser(user)
-        team_ = organization_.get_team_by_name(team)
-        if not team_:
-            raise InvalidTeam(team)
+        user_id = self.get_user_by_username(user).id if user else None
+        team_id = organization_.get_team_by_name(team).id if team else None
         credential_type_ = self.get_credential_type_by_name(credential_type)
         if not credential_type_:
             raise InvalidCredentialType(credential_type)
@@ -1422,8 +1416,8 @@ class Tower:  # pylint: disable=too-many-public-methods
         return self.create_credential_with_credential_type_id(name,
                                                               credential_type_.id,
                                                               description=description,
-                                                              user_id=user_.id,
-                                                              team_id=team_.id,
+                                                              user_id=user_id,
+                                                              team_id=team_id,
                                                               organization_id=organization_.id,
                                                               inputs=inputs_
                                                               )
@@ -1856,7 +1850,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         if instance_groups:
             if not isinstance(instance_groups, (list, tuple)):
                 instance_groups = [instance_groups]
-            tower_instance_groups = [group_ for group_ in self.instance_groups]
+            tower_instance_groups = self.instance_groups
             tower_instance_groups_names = [group.name for group in tower_instance_groups]
             invalid = set(instance_groups) - set(tower_instance_groups_names)
             if invalid:

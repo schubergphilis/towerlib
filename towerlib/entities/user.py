@@ -385,7 +385,7 @@ class User(Entity):
         organization_ = self._tower.get_organization_by_name(organization)
         if not organization_:
             raise InvalidOrganization(organization)
-        role_id = organization_._get_object_role_id(role) # pylint: disable=protected-access
+        role_id = organization_._get_object_role_id(role)  # pylint: disable=protected-access
         if role_id is None:
             raise InvalidRole(role)
         return self._assign_permission_role(role_id, disassociate=True)
