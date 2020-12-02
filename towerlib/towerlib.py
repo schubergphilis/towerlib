@@ -1401,6 +1401,8 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidOrganization: The organization provided as argument does not exist.
             InvalidCredentialType: The credential type provided as argument does not exist.
             InvalidVariables: The inputs provided as argument is not valid json.
+            InvalidUser: The user provided as argument does not exist.
+            InvalidTeam: The team provided as argument does not exist.
 
         """
         team_id = None
@@ -1412,14 +1414,12 @@ class Tower:  # pylint: disable=too-many-public-methods
             user_ = self.get_user_by_username(user)
             if not user_:
                 raise InvalidUser(user)
-            else:
-                user_id = user_.id
+            user_id = user_.id
         if team:
             team_ = organization_.get_team_by_name(team)
             if not team_:
                 raise InvalidTeam(team)
-            else:
-                team_id = team_.id
+            team_id = team_.id
         credential_type_ = self.get_credential_type_by_name(credential_type)
         if not credential_type_:
             raise InvalidCredentialType(credential_type)
@@ -1862,13 +1862,12 @@ class Tower:  # pylint: disable=too-many-public-methods
         if instance_groups:
             if not isinstance(instance_groups, (list, tuple)):
                 instance_groups = [instance_groups]
-            tower_instance_groups = self.instance_groups
-            tower_instance_groups_names = [group.name for group in tower_instance_groups]
+            tower_instance_groups_names = [group.name for group in self.instance_groups]
             invalid = set(instance_groups) - set(tower_instance_groups_names)
             if invalid:
                 raise InvalidInstanceGroup(invalid)
             for instance_group in set(instance_groups):
-                group = next((group for group in tower_instance_groups
+                group = next((group for group in self.instance_groups
                               if group.name == instance_group), None)
                 instance_group_ids.append(group.id)
         if job_type not in JOB_TYPES:
