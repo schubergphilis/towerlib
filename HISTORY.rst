@@ -218,3 +218,9 @@ History
 ------------------
 
 * Added missing development dependency and bumped dependencies to latest patch versions.
+
+
+3.5.0 (02-12-2020)
+------------------
+
+* Changed the credential creation process to make team and Owner name optional
