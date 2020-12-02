@@ -463,7 +463,6 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._post_inventory_permission(inventory_name, 'use')
 
-
     def remove_inventory_permission_use(self, inventory_name):
         """Removes an inventory with use permissions.
 

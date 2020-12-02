@@ -121,7 +121,7 @@ def validate_characters(value, alpha=True, numbers=True, extra_chars=None):
     valid_characters = '^[{alphas}{nums}{extra_characters}]+$'.format(alphas=alphas,
                                                                       nums=nums,
                                                                       extra_characters=extra_characters)
-    return True if re.search(valid_characters, value) else False
+    return bool(re.search(valid_characters, value))
 
 
 def validate_range(value, start, stop):
