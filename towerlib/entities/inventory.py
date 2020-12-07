@@ -547,7 +547,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
             self._logger.error('Error creating source "%s", response was "%s"', name, response.text)
         return InventorySource(self._tower, response.json()) if response.ok else None
 
-    def create_source_with_credential_id(self, # pylint: disable=too-many-locals, too-many-arguments
+    def create_source_with_credential_id(self,  # pylint: disable=too-many-locals, too-many-arguments
                                          name,
                                          description,
                                          credential_id,

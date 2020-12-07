@@ -301,7 +301,6 @@ class Host(Entity):
                 name=self._data.get('name')))
         return response.json() if response.ok else '{}'
 
-
     def associate_with_groups(self, groups):
         """Associate the host with the provided groups.
 
@@ -318,15 +317,14 @@ class Host(Entity):
         """
         if not isinstance(groups, (list, tuple)):
             groups = [groups]
-        inventory_groups = [group for group in self.inventory.groups]
         lower_inventory_group_names = [
-            group.name.lower() for group in inventory_groups]
+            group.name.lower() for group in self.inventory.groups]
         missing_groups = [group_name for group_name in groups
                           if group_name.lower() not in lower_inventory_group_names]
         if missing_groups:
             raise InvalidGroup(missing_groups)
         lower_group_names = [name.lower() for name in groups]
-        final_groups = [group for group in inventory_groups
+        final_groups = [group for group in self.inventory.groups
                         if group.name.lower() in lower_group_names]
         return all([group._add_host_by_id(self.id)  # pylint: disable=protected-access
                     for group in final_groups])
