@@ -41,16 +41,11 @@ from cachetools import TTLCache, cached
 from requests import Session
 
 from towerlib.entities.core import validate_json
-from .entities import (Config,  # pylint: disable=unused-import  # NOQA
+from .entities import (Config,
                        LicenseInfo,
                        LicenseFeatures,
                        Organization,
                        User,
-                       Project,
-                       Team,
-                       Group,
-                       Inventory,
-                       Host,
                        CredentialType,
                        Credential,
                        JobTemplate,
@@ -60,8 +55,7 @@ from .entities import (Config,  # pylint: disable=unused-import  # NOQA
                        Cluster,
                        ClusterInstance,
                        EntityManager,
-                       Settings,
-                       Schedule)
+                       Settings)
 from .towerlibexceptions import (AuthFailed,
                                  InvalidOrganization,
                                  InvalidInventory,
@@ -105,13 +99,11 @@ CONFIGURATION_STATE_CACHE = TTLCache(maxsize=1, ttl=CONFIGURATION_STATE_CACHING_
 class Tower:  # pylint: disable=too-many-public-methods
     """Models the api of ansible tower."""
 
-    def __init__(self, host, username, password, secure=False, ssl_verify=True, token=None):  # pylint:
-        # disable=too-many-arguments
-        logger_name = u'{base}.{suffix}'.format(base=LOGGER_BASENAME,
-                                                suffix=self.__class__.__name__)
-        self._logger = logging.getLogger(logger_name)
+    # pylint: disable=too-many-arguments
+    def __init__(self, host, username, password, secure=False, ssl_verify=True, token=None):
+        self._logger = logging.getLogger(f'{LOGGER_BASENAME}.{self.__class__.__name__}')
         self.host = self._generate_host_name(host, secure)
-        self.api = '{host}/api/v2'.format(host=self.host)
+        self.api = f'{self.host}/api/v2'
         self.username = username
         self.password = password
         self.token = token
@@ -119,8 +111,7 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     @staticmethod
     def _generate_host_name(host, secure):
-        protocol = 'https' if secure else 'http'
-        return '{protocol}://{host}'.format(protocol=protocol, host=host)
+        return f'{"https" if secure else "http"}://{host}'
 
     def _get_authenticated_session(self, secure, ssl_verify):
         session = Session()
@@ -132,7 +123,7 @@ class Tower:  # pylint: disable=too-many-public-methods
     def _authenticate(session, host, username, password, api_url, token):
         session.get(host)
         session.headers.update({'content-type': 'application/json'})
-        url = '{api}/me/'.format(api=api_url)
+        url = f'{api_url}/me/'
         if token:
             session.headers.update({"Authorization": "Bearer " + str(token)})
         else:
@@ -151,7 +142,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             Config: The configuration of the tower instance.
 
         """
-        url = '{api}/config/'.format(api=self.api)
+        url = f'{self.api}/config/'
         results = self.session.get(url)
         config = results.json()
         features = [config.get('license_info',
@@ -182,7 +173,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             data = [node.get(key_) for key_ in ('node', 'heartbeat')]
             return ClusterInstance(self, *data)
 
-        url = '{api}/ping/'.format(api=self.api)
+        url = f'{self.api}/ping/'
         results = self.session.get(url)
         ping = results.json()
         instance_groups = ping.get('instance_groups', [])[0]
@@ -245,7 +236,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             Organization: The organization on success, None otherwise.
 
         """
-        url = '{api}/organizations/'.format(api=self.api)
+        url = f'{self.api}/organizations/'
         payload = {'name': name,
                    'description': description}
         response = self.session.post(url, json=payload)
@@ -294,7 +285,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         response_data = self._get_first_page(url, params)
         count = response_data.get('count', 0)
         page_count = int(math.ceil(float(count) / PAGINATION_LIMIT))
-        self._logger.debug('Calculated that there are {} pages to get'.format(page_count))
+        self._logger.debug('Calculated that there are %s pages to get', page_count)
         for result in response_data.get('results', []):
             yield result
         if page_count:
@@ -396,7 +387,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             User: The created User object on success, None otherwise.
 
         """
-        url = '{api}/users/'.format(api=self.api)
+        url = f'{self.api}/users/'
         payload = {
             'username': username,
             'first_name': first_name,
@@ -739,7 +730,8 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.groups.filter({'id': id_}), None)
 
-    def create_inventory_group(self, organization, inventory, name, description, variables='{}'):  # pylint: disable=too-many-arguments
+    # pylint: disable=too-many-arguments
+    def create_inventory_group(self, organization, inventory, name, description, variables='{}'):
         """Creates a group in an inventory in tower.
 
         Args:
@@ -1220,7 +1212,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             raise InvalidVariables(injectors)
         payload['inputs'] = json.loads(inputs_)
         payload['injectors'] = json.loads(injectors)
-        url = '{api}/credential_types/'.format(api=self.api)
+        url = f'{self.api}/credential_types/'
         response = self.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating credential type "%s", response was: "%s"', type_, response.text)
@@ -1374,7 +1366,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             'inputs': json.loads(inputs)
         }
 
-        url = '{api}/credentials/'.format(api=self.api)
+        url = f'{self.api}/credentials/'
         response = self.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating credential "%s", response was: "%s"', name, response.text)
@@ -1456,7 +1448,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             user (str): The username of the user to assign to the credential.
             team (str): The name of the team to assign to the credential.
             credential_type_id (int): The number of the type of the credential.
-            inputs_ s(str): A json with the values to set to the credential according to what is required by its type.
+            inputs_ (str): A json with the values to set to the credential according to what is required by its type.
 
         Returns:
             Credential: The created credential upon success, None otherwise.
@@ -1486,7 +1478,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         if not validate_json(inputs_):
             raise InvalidVariables(inputs_)
         payload['inputs'] = json.loads(inputs_)
-        url = '{api}/credentials/'.format(api=self.api)
+        url = f'{self.api}/credentials/'
         response = self.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating credential "%s", response was: "%s"', name, response.text)
@@ -1912,7 +1904,7 @@ class Tower:  # pylint: disable=too-many-public-methods
                    'become_enabled': become_enabled,
                    'diff_mode': diff_mode,
                    'allow_simultaneous': allow_simultaneous}
-        url = '{api}/job_templates/'.format(api=self.api)
+        url = f'{self.api}/job_templates/'
         response = self.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating job template, response was: "%s"', response.text)
@@ -1950,7 +1942,7 @@ class Tower:  # pylint: disable=too-many-public-methods
                              primary_match_field='name')
 
     def _get_object_by_url(self, object_type, url):
-        url = '{host}{url}'.format(host=self.host, url=url)
+        url = f'{self.host}{url}'
         response = self.session.get(url)
         entities = sys.modules['towerlib.entities']
         obj = getattr(entities, object_type)

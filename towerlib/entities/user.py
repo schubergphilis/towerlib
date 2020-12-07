@@ -86,11 +86,8 @@ class User(Entity):
         if all(conditions):
             self._update_values('username', value)
         else:
-            raise InvalidValue(('{value} is invalid. Condition max_characters must be less or equal to {max_characters}'
-                                ' and valid character are only alphanums and '
-                                '{valid_metacharacters}').format(value=value,
-                                                                 max_characters=max_characters,
-                                                                 valid_metacharacters=valid_metacharacters))
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must be less or equal to '
+                               f'{max_characters} and valid character are only alphanums and {valid_metacharacters}')
 
     @property
     def password(self):
@@ -135,8 +132,8 @@ class User(Entity):
         if all(conditions):
             self._update_values('first_name', value)
         else:
-            raise InvalidValue('{value} is invalid. Condition max_characters must be less or equal to  '
-                               '{max_characters}'.format(value=value, max_characters=max_characters))
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must be less or equal to '
+                               f'{max_characters}')
 
     @property
     def last_name(self):
@@ -186,8 +183,8 @@ class User(Entity):
         if all(conditions):
             self._update_values('email', value)
         else:
-            raise InvalidValue('{value} is invalid. Condition max_characters must be less or equal to '
-                               '{max_characters}'.format(value=value, max_characters=max_characters))
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must be less or equal to '
+                               f'{max_characters}')
 
     @property
     def is_superuser(self):
@@ -345,7 +342,7 @@ class User(Entity):
         payload = {'id': role_id}
         if disassociate:
             payload['disassociate'] = True
-        url = '{host}{url_}'.format(host=self._tower.host, url_=self._data.get('related', {}).get('roles'))
+        url = f"{self._tower.host}{self._data.get('related', {}).get('roles')}"
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error editing the role permissions for user "%s", response was :"%s"', self.username,

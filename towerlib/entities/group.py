@@ -86,8 +86,8 @@ class Group(Entity):
         if all(conditions):
             self._update_values('name', value)
         else:
-            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
-                               '{max_characters}'.format(value=value, max_characters=max_characters))
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must be less than or equal to '
+                               f'{max_characters}')
 
     @property
     def description(self):
@@ -141,7 +141,7 @@ class Group(Entity):
         if all(conditions):
             self._update_values('variables', value)
         else:
-            raise InvalidValue('{value} is not valid json.'.format(value=value))
+            raise InvalidValue(f'{value} is not valid json.')
 
     @property
     def has_active_failures(self):
@@ -224,7 +224,7 @@ class Group(Entity):
         return self._post_host(payload)
 
     def _post_host(self, payload):
-        url = '{api}/groups/{id}/hosts/'.format(api=self._tower.api, id=self.id)
+        url = f'{self._tower.api}/groups/{self.id}/hosts/'
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error posting to url "%s", response was "%s"', url, response.text)
@@ -240,7 +240,7 @@ class Group(Entity):
         return self._post_group(payload)
 
     def _post_group(self, payload):
-        url = '{api}/groups/{id}/children/'.format(api=self._tower.api, id=self.id)
+        url = f'{self._tower.api}/groups/{self.id}/children/'
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error posting to url "%s", response was "%s"', url, response.text)

@@ -97,8 +97,8 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         if all(conditions):
             self._update_values('name', value)
         else:
-            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
-                               '{max_characters}'.format(value=value, max_characters=max_characters))
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must be less than or equal to '
+                               f'{max_characters}')
 
     @property
     def description(self):
@@ -143,8 +143,8 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         if all(conditions):
             self._update_values('custom_virtualenv', value)
         else:
-            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
-                               '{max_characters}'.format(value=value, max_characters=max_characters))
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must be less than or equal to '
+                               f'{max_characters}')
 
     @property
     def created_by(self):
@@ -312,7 +312,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
 
         """
         # Credential Type 2 = SCM
-        url = '{api}/projects/'.format(api=self._tower.api)
+        url = f'{self._tower.api}/projects/'
         credential_ = self.get_credential_by_name_with_type_id(credential, credential_type_id=2)
         if not credential_:
             raise InvalidCredential(credential)
@@ -361,7 +361,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             EntityManager: EntityManager of the users of the organization.
 
         """
-        url = '{organization}users/'.format(organization=self.api_url)
+        url = f'{self.api_url}users/'
         return EntityManager(self._tower,
                              entity_object='User',
                              primary_match_field='username',
@@ -385,7 +385,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             EntityManager: EntityManager of the teams of the organization.
 
         """
-        url = '{organization}teams/'.format(organization=self.api_url)
+        url = f'{self.api_url}teams/'
         return EntityManager(self._tower,
                              entity_object='Team',
                              primary_match_field='name',
@@ -427,7 +427,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         payload = {'name': name,
                    'description': description,
                    'organization': self.id}
-        url = '{api}/teams/'.format(api=self._tower.api)
+        url = f'{self._tower.api}/teams/'
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating team "%s", response was : "%s"', name, response.text)
@@ -459,7 +459,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             EntityManager: EntityManager of the inventories of the organization.
 
         """
-        url = '{organization}inventories/'.format(organization=self.api_url)
+        url = f'{self.api_url}inventories/'
         return EntityManager(self._tower,
                              entity_object='Inventory',
                              primary_match_field='name',
@@ -508,7 +508,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                    'description': description,
                    'organization': self.id,
                    'variables': variables}
-        url = '{api}/inventories/'.format(api=self._tower.api)
+        url = f'{self._tower.api}/inventories/'
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating inventory "%s", response was "%s"', name, response.text)
@@ -548,7 +548,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             Inventory_script: The created inventory script is successful, None otherwise.
 
         """
-        url = '{api}/inventory_scripts/'.format(api=self._tower.api)
+        url = f'{self._tower.api}/inventory_scripts/'
         payload = {'name': name,
                    'description': description,
                    'script': script,
@@ -603,7 +603,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             EntityManager: EntityManager of the credentials of the organization.
 
         """
-        url = '{organization}credentials/'.format(organization=self.api_url)
+        url = f'{self.api_url}credentials/'
         return EntityManager(self._tower,
                              entity_object='Credential',
                              primary_match_field='name',

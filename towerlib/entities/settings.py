@@ -52,6 +52,7 @@ LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
 
 
+# pylint: disable=too-few-public-methods
 class Settings:
     """Models the settings entity of ansible tower."""
 
@@ -76,9 +77,9 @@ class Settings:
                          'tacacsplus',
                          'ui']
         if not setting_type.lower() in setting_types:
-            raise InvalidValue(('{value} is invalid. The following setting types are allowed:'
-                                '{setting_types}').format(value=setting_type, setting_types=setting_types))
-        url = '{api}/settings/{type_}/'.format(api=self._tower.api, type_=setting_type)
+            raise InvalidValue(f'{setting_type} is invalid. The following setting types are allowed:'
+                               f'{setting_types}')
+        url = f'{self._tower.api}/settings/{setting_type}/'
         response = self._tower.session.get(url)
         if not response.ok:
             LOGGER.error('Error getting setting type "%s", response was: "%s"', setting_type, response.text)
@@ -96,14 +97,14 @@ class Settings:
         data = self._get_settings_data(setting_type)
         return Saml(self._tower, data)
 
-    def configure_saml(self, payload):
-        """Function to set the whole saml configuration in one go.
-
-        Returns:
-            None:
-
-        """
-        return self.saml.configure(payload)
+    # def configure_saml(self, payload):
+    #     """Function to set the whole saml configuration in one go.
+    #
+    #     Returns:
+    #         None:
+    #
+    #     """
+    #     return self.saml.configure(payload)
 
 
 class Saml(Entity):
@@ -114,7 +115,7 @@ class Saml(Entity):
 
     @property
     def url(self):
-        return self._tower.host + '/api/v2/settings/saml/'
+        return f'{self._tower.host}/api/v2/settings/saml/'
 
     @property
     def callback_url(self):
@@ -418,11 +419,10 @@ class Saml(Entity):
         """
         self._update_values('SOCIAL_AUTH_SAML_TECHNICAL_CONTACT', value)
 
-    def configure(self, payload):
-        """Function to set the whole saml configuration in one go.
-
-        Returns:
-            None:
-
-        """
-        pass
+    # def configure(self, payload):
+    #     """Function to set the whole saml configuration in one go.
+    #
+    #     Returns:
+    #         None:
+    #
+    #     """
