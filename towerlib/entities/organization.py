@@ -293,7 +293,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         Args:
             name (str): The name of the project.
             description (str): The description of the project.
-            credential (str): The name of the credential to use for the project.
+            credential (str): The name of the credential to use for the project or '' if None.
             scm_url (str): The url of the scm.
             local_path (str): Local path (relative to PROJECTS_ROOT) containing playbooks and files for this project.
             custom_virtualenv (str): Local absolute file path containing a custom Python virtualenv to use.
@@ -313,9 +313,6 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         """
         # Credential Type 2 = SCM
         url = '{api}/projects/'.format(api=self._tower.api)
-        credential_ = self.get_credential_by_name_with_type_id(credential, credential_type_id=2)
-        if not credential_:
-            raise InvalidCredential(credential)
         payload = {'name': name,
                    'description': description,
                    'scm_type': scm_type,
@@ -325,11 +322,15 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                    'scm_branch': scm_branch,
                    'scm_clean': scm_clean,
                    'scm_delete_on_update': scm_delete_on_update,
-                   'credential': credential_.id,
                    'timeout': 0,
                    'organization': self.id,
                    'scm_update_on_launch': scm_update_on_launch,
                    'scm_update_cache_timeout': scm_update_cache_timeout}
+        if credential:
+            credential_ = self.get_credential_by_name_with_type_id(credential, credential_type_id=2)
+            if not credential_:
+                raise InvalidCredential(credential)
+            payload['credential'] = credential_.id
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating project, response was: "%s"', response.text)
