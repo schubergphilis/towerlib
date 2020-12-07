@@ -106,7 +106,7 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
 
         """
         playbook_url = self._data.get('related', {}).get('playbooks')
-        url = '{host}{playbook_url}'.format(host=self._tower.host, playbook_url=playbook_url)
+        url = f'{self._tower.host}{playbook_url}'
         response = self._tower.session.get(url)
         if not response.ok:
             self._logger.error('Error getting playbooks for project "%s", response was :"%s"', self.name,
@@ -162,8 +162,8 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         if all(conditions):
             self._update_values('name', value)
         else:
-            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
-                               '{max_characters}'.format(value=value, max_characters=max_characters))
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must be less than or equal to '
+                               f'{max_characters}')
 
     @property
     def description(self):
@@ -228,8 +228,8 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         if all(conditions):
             self._update_values('scm_url', value)
         else:
-            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
-                               '{max_characters}'.format(value=value, max_characters=max_characters))
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must be less than or equal to '
+                               f'{max_characters}')
 
     @property
     def scm_branch(self):
@@ -254,8 +254,8 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         if all(conditions):
             self._update_values('scm_branch', value)
         else:
-            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
-                               '{max_characters}'.format(value=value, max_characters=max_characters))
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must be less than or equal to '
+                               f'{max_characters}')
 
     @property
     def scm_clean(self):
@@ -345,9 +345,7 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         if all(conditions):
             self._update_values('timeout', value)
         else:
-            raise InvalidValue('{value} is invalid, must be between {minimum} and {maximum}'.format(value=value,
-                                                                                                    minimum=minimum,
-                                                                                                    maximum=maximum))
+            raise InvalidValue(f'{value} is invalid, must be between {minimum} and {maximum}')
 
     @property
     def last_job_run(self):
@@ -471,9 +469,7 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         if all(conditions):
             self._update_values('scm_update_cache_timeout', value)
         else:
-            raise InvalidValue('{value} is invalid, must be between {minimum} and {maximum}'.format(value=value,
-                                                                                                    minimum=minimum,
-                                                                                                    maximum=maximum))
+            raise InvalidValue(f'{value} is invalid, must be between {minimum} and {maximum}')
 
     @property
     def scm_revision(self):
@@ -532,5 +528,5 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         if all(conditions):
             self._update_values('custom_virtualenv', value)
         else:
-            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
-                               '{max_characters}'.format(value=value, max_characters=max_characters))
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must be less than or equal to '
+                               f'{max_characters}')

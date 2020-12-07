@@ -118,9 +118,7 @@ def validate_characters(value, alpha=True, numbers=True, extra_chars=None):
     alphas = "a-zA-Z" if alpha else ""
     nums = "0-9" if numbers else ""
     extra_characters = re.escape(extra_chars) if extra_chars else ""
-    valid_characters = '^[{alphas}{nums}{extra_characters}]+$'.format(alphas=alphas,
-                                                                      nums=nums,
-                                                                      extra_characters=extra_characters)
+    valid_characters = f'^[{alphas}{nums}{extra_characters}]+$'
     return bool(re.search(valid_characters, value))
 
 
@@ -161,7 +159,7 @@ class ClusterInstance(DateParserMixin):
 
     @cached(INSTANCE_STATE_CACHE)
     def _get_instance_data(self):
-        url = '{api}/instances/'.format(api=self._tower.api)
+        url = f'{self._tower.api}/instances/'
         results = self._tower.session.get(url)
         result_json = results.json()
         return next((instance for instance in result_json.get('results', [])
@@ -225,7 +223,7 @@ class ClusterInstance(DateParserMixin):
             None: If there is no entry for the creation.
 
         """
-        self._to_datetime(self._instance_data.get('created'))
+        return self._to_datetime(self._instance_data.get('created'))
 
     @property
     def modified_at(self):
@@ -236,16 +234,14 @@ class ClusterInstance(DateParserMixin):
             None: If there is no entry for the modification.
 
         """
-        self._to_datetime(self._instance_data.get('modified'))
+        return self._to_datetime(self._instance_data.get('modified'))
 
 
 class Entity(DateParserMixin):
     """The basic object that holds common responses across all entities."""
 
     def __init__(self, tower_instance, data):
-        logger_name = u'{base}.{suffix}'.format(base=LOGGER_BASENAME,
-                                                suffix=self.__class__.__name__)
-        self._logger = logging.getLogger(logger_name)
+        self._logger = logging.getLogger(f'{LOGGER_BASENAME}.{self.__class__.__name__}')
         self._tower = tower_instance
         self._data = data
 
@@ -347,7 +343,8 @@ class Entity(DateParserMixin):
 class EntityManager:
     """Manages entities by making them act like iterables but also implements contains and other useful stuff."""
 
-    def __init__(self, tower_instance, entity_object, primary_match_field, entity_name=None, url=None):  # pylint: disable=too-many-arguments
+    # pylint: disable=too-many-arguments
+    def __init__(self, tower_instance, entity_object, primary_match_field, entity_name=None, url=None):
         if not any([entity_name, url]):
             raise ValueError('Either entity_name or url needs to be provided, received none.')
         self._tower = tower_instance
@@ -355,10 +352,7 @@ class EntityManager:
         self._primary_match_field = primary_match_field
         self._name = entity_name
         self._next_state = None
-        if entity_name:
-            self._url = '{api}/{entity_name}'.format(api=self._tower.api, entity_name=entity_name)
-        else:
-            self._url = '{host}{url}'.format(host=self._tower.host, url=url)
+        self._url = f'{self._tower.api}/{entity_name}' if entity_name else f'{self._tower.host}{url}'
 
     @property
     def _objects(self):

@@ -86,8 +86,8 @@ class CredentialType(Entity):
         if all(conditions):
             self._update_values('name', value)
         else:
-            raise InvalidValue('{value} is invalid. Condition max_characters must be less or equal '
-                               '{max_characters}'.format(value=value, max_characters=max_characters))
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must be less or equal '
+                               f'{max_characters}')
 
     @property
     def description(self):
@@ -152,7 +152,7 @@ class CredentialType(Entity):
         if isinstance(value, dict):
             self._update_values('inputs', value)
         else:
-            raise InvalidValue('Value is not valid dictionary received: {value}'.format(value=value))
+            raise InvalidValue(f'Value is not valid dictionary received: {value}')
 
     @property
     def injectors(self):
@@ -175,7 +175,7 @@ class CredentialType(Entity):
         if isinstance(value, dict):
             self._update_values('injectors', value)
         else:
-            raise InvalidValue('Value is not valid dictionary received: {value}'.format(value=value))
+            raise InvalidValue(f'Value is not valid dictionary received: {value}')
 
 
 class Credential:  # pylint: disable=too-few-public-methods
@@ -185,10 +185,9 @@ class Credential:  # pylint: disable=too-few-public-methods
         try:
             credential_type_name = tower_instance.get_credential_type_by_id(data.get('credential_type')).name
             credential_type_name = ''.join(credential_type_name.split())
-            credential_type = '{credential_type}Credential'.format(credential_type=credential_type_name)
-            CredentialType_ = getattr(importlib.import_module('towerlib.entities.credential'),  # pylint: disable=invalid-name
-                                      credential_type)
-            credential = CredentialType_(tower_instance, data)
+            credential_type = f'{credential_type_name}Credential'
+            credential_type_obj = getattr(importlib.import_module('towerlib.entities.credential'), credential_type)
+            credential = credential_type_obj(tower_instance, data)
         except Exception:  # pylint: disable=broad-except
             LOGGER.warning('Could not dynamically load credential with type : "%s", trying a generic one.',
                            credential_type)
@@ -312,8 +311,8 @@ class GenericCredential(Entity):
         if all(conditions):
             self._update_values('name', value)
         else:
-            raise InvalidValue('{value} is invalid. Condition max_characters must be less or equal to '
-                               '{max_characters}'.format(value=value, max_characters=max_characters))
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must be less or equal to '
+                               f'{max_characters}')
 
     @property
     def description(self):
@@ -402,7 +401,7 @@ class GenericCredential(Entity):
         if isinstance(value, dict):
             self._update_values('inputs', value)
         else:
-            raise InvalidValue('Value is not valid json received: {value}'.format(value=value))
+            raise InvalidValue(f'Value is not valid json received: {value}')
 
 
 class MachineCredential(GenericCredential):

@@ -91,8 +91,8 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         if all(conditions):
             self._update_values('name', value)
         else:
-            raise InvalidValue('{value} is invalid. Condition max_characters must be less or equal to '
-                               '{max_characters}'.format(value=value, max_characters=max_characters))
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must be less or equal to '
+                               f'{max_characters}')
 
     @property
     def description(self):
@@ -293,8 +293,7 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         user = self._tower.get_user_by_username(username)
         if not user:
             raise InvalidUser(username)
-        url = '{api}/users/{id}/roles/'.format(api=self._tower.api,
-                                               id=user.id)
+        url = f'{self._tower.api}/users/{user.id}/roles/'
         payload = {'id': permission.id}
         if remove:
             roles_ids = [role.id for role in user.roles]
@@ -634,13 +633,11 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
     def _post_permission(self, roles, permission_name, remove=False):
         permission = self._get_permission(permission_name, roles)
         if remove:
-            url = '{api}/roles/{id}/teams/'.format(api=self._tower.api,
-                                                   id=permission.id)
+            url = '{self._tower.api}/roles/{permission.id}/teams/'
             payload = {'id': self.id,
                        'disassociate': True}
         else:
-            url = '{api}/teams/{id}/roles/'.format(api=self._tower.api,
-                                                   id=self.id)
+            url = f'{self._tower.api}/teams/{self.id}/roles/'
             payload = {'id': permission.id}
         response = self._tower.session.post(url, json=payload)
         if not response.ok:

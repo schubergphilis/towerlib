@@ -81,8 +81,8 @@ class Host(Entity):
         if all(conditions):
             self._update_values('name', value)
         else:
-            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
-                               '{max_characters}'.format(value=value, max_characters=max_characters))
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must be less than or equal to '
+                               f'{max_characters}')
 
     @property
     def description(self):
@@ -157,8 +157,8 @@ class Host(Entity):
         if all(conditions):
             self._update_values('instance_id', value)
         else:
-            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
-                               '{max_characters}'.format(value=value, max_characters=max_characters))
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must be less than or equal to '
+                               f'{max_characters}')
 
     @property
     def variables(self):
@@ -182,8 +182,7 @@ class Host(Entity):
         if all(conditions):
             self._update_values('variables', value)
         else:
-            raise InvalidValue(
-                '{value} is not valid json.'.format(value=value))
+            raise InvalidValue(f'{value} is not valid json.')
 
     @property
     def has_active_failures(self):
@@ -293,12 +292,10 @@ class Host(Entity):
         Raises: None
 
         """
-        url = '{api}/hosts/{id}/ansible_facts'.format(
-            api=self._tower.api, id=self.id)
+        url = f'{self._tower.api}/hosts/{self.id}/ansible_facts'
         response = self._tower.session.get(url)
         if not response.ok:
-            self._logger.error('Error finding ansible facts for {name}.'.format(
-                name=self._data.get('name')))
+            self._logger.error('Error finding ansible facts for %s.', self._data.get('name'))
         return response.json() if response.ok else '{}'
 
     def associate_with_groups(self, groups):

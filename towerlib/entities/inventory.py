@@ -128,8 +128,8 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         if all(conditions):
             self._update_values('name', value)
         else:
-            raise InvalidValue('{value} is invalid. Condition max_characters must be less or equal to '
-                               '{max_characters}.'.format(value=value, max_characters=max_characters))
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must be less or equal to '
+                               f'{max_characters}.')
 
     @property
     def description(self):
@@ -215,7 +215,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         if validate_json(value):
             self._update_values('variables', value)
         else:
-            raise InvalidValue('Value is not valid json received: {value}'.format(value=value))
+            raise InvalidValue(f'Value is not valid json received: {value}')
 
     @property
     def has_active_failures(self):
@@ -339,7 +339,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         """
         if not validate_json(variables):
             raise InvalidVariables(variables)
-        url = '{api}/hosts/'.format(api=self._tower.api)
+        url = f'{self._tower.api}/hosts/'
         payload = {'name': name,
                    'description': description,
                    'inventory': self.id,
@@ -431,7 +431,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         """
         if not validate_json(variables):
             raise InvalidVariables(variables)
-        url = '{api}/groups/'.format(api=self._tower.api)
+        url = f'{self._tower.api}/groups/'
         payload = {'name': name,
                    'description': description,
                    'inventory': self.id,
@@ -522,7 +522,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         project = self.organization.get_project_by_name(source_project)
         if not project:
             raise InvalidProject(source_project)
-        url = '{api}/inventory_sources/'.format(api=self._tower.api)
+        url = f'{self._tower.api}/inventory_sources/'
         payload = {'name': name,
                    'description': description,
                    'source': source,
@@ -595,7 +595,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         project = self.organization.get_project_by_name(source_project)
         if not project:
             raise InvalidProject(source_project)
-        url = '{api}/inventory_sources/'.format(api=self._tower.api)
+        url = f'{self._tower.api}/inventory_sources/'
         payload = {'name': name,
                    'description': description,
                    'source': source,
