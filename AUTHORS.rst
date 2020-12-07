@@ -14,4 +14,5 @@ Contributors
 * Anton Opgenoort <aopgenoort@schubergphilis.com>
 * Gareth Hawker <ghawker@schubergphilis.com>
 * Ilija Matoski <imatoski@schubergphilis.com>
-* Yorick Hoorneman <yhoorneman@schubergphilis.com
+* Yorick Hoorneman <yhoorneman@schubergphilis.com>
+* Howard Jones <howie@thingy.com>

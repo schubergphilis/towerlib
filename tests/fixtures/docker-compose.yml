@@ -67,6 +67,7 @@ services:
     image: postgres:9.6
     container_name: awx_postgres
     restart: unless-stopped
+    user: "1000:1000"
     volumes:
       - ./pgdocker:/var/lib/postgresql/data:Z
     environment:
