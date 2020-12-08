@@ -206,3 +206,21 @@ History
 ------------------
 
 * bump requests
+
+
+3.4.1 (16-10-2020)
+------------------
+
+* Bumped dependencies
+
+
+3.4.2 (06-11-2020)
+------------------
+
+* Added missing development dependency and bumped dependencies to latest patch versions.
+
+
+3.5.0 (02-12-2020)
+------------------
+
+* Changed the credential creation process to make team and Owner name optional

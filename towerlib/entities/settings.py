@@ -51,6 +51,7 @@ LOGGER_BASENAME = '''settings'''
 LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
 
+
 class Settings:
     """Models the settings entity of ansible tower."""
 
@@ -83,7 +84,6 @@ class Settings:
             LOGGER.error('Error getting setting type "%s", response was: "%s"', setting_type, response.text)
         return response.json() if response.ok else {}
 
-
     @property
     def saml(self):
         """The saml settings in tower.
@@ -104,6 +104,7 @@ class Settings:
 
         """
         return self.saml.configure(payload)
+
 
 class Saml(Entity):
     """Models the saml entity of ansible tower."""

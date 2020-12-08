@@ -36,10 +36,9 @@ import datetime
 
 from bs4 import BeautifulSoup as Bfs
 from dateutil.parser import parse
-
 from towerlib.towerlibexceptions import InvalidCredential, InvalidValue
-from .core import Entity, EntityManager
-from .inventory import Inventory
+from .core import Entity, EntityManager, validate_max_length
+
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -58,12 +57,14 @@ LOGGER.addHandler(logging.NullHandler())
 
 
 class Job:  # pylint: disable=too-few-public-methods
-    """Job factory to handle the different jod types returned."""
+    """Job factory to handle the different job types returned."""
 
     def __new__(cls, tower_instance, data):
         entity_type = data.get('type')
         if entity_type == 'job':
             obj = JobRun(tower_instance, data)
+        elif entity_type == 'workflow_job':
+            obj = WorkflowJobRun(tower_instance, data)
         elif entity_type == 'project_update':
             obj = ProjectUpdateJob(tower_instance, data)
         elif entity_type == 'system_job':
@@ -438,6 +439,16 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
         return response.ok
 
     @property
+    def extra_vars(self):
+        """The extra_vars of the job
+
+                Returns:
+                    extra_vars: The extra_vars of the job
+
+                """
+        return self._get_dynamic_value('extra_vars')
+
+    @property
     def modified_at(self):
         """The modification datetime of the job.
 
@@ -496,7 +507,6 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._get_dynamic_value('result_traceback')
-
 
     @property
     def inventory(self):
@@ -675,6 +685,25 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
         return self._data.get('job_type')
 
 
+class WorkflowJobRun(JobRun):
+    """Models the Workflow Job Run entity of ansible tower."""
+
+    def _get_dynamic_value(self, variable):
+        url = '{api}/workflow_jobs/{id}'.format(api=self._tower.api, id=self.id)
+        response = self._tower.session.get(url)
+        return response.json().get(variable) if response.ok else None
+
+    def cancel(self):
+        """Cancels the running or pending job.
+
+        Returns:
+            True on success, False otherwise.
+
+        """
+        url = '{api}/workflow_jobs/{id}/cancel/'.format(api=self._tower.api, id=self.id)
+        response = self._tower.session.post(url)
+        return response.ok
+
 class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
     """Models the Job Template entity of ansible tower."""
 
@@ -691,6 +720,23 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._data.get('name')
+
+    @name.setter
+    def name(self, value):
+        """Update the name of the template
+
+        Returns:
+            None:
+
+        """
+        max_characters = 512
+        conditions = [validate_max_length(value, max_characters)]
+        if all(conditions):
+            self._update_values('name', value)
+        else:
+            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
+                               '{max_characters}'.format(value=value, max_characters=max_characters))
+
 
     @property
     def description(self):
@@ -755,7 +801,6 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         """
         url = self._data.get('related', {}).get('project')
         return self._tower._get_object_by_url('Project', url)  # pylint: disable=protected-access
-
 
     @property
     def playbook(self):
@@ -831,7 +876,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
                              primary_match_field='name',
                              url=url)
 
-    def add_schedule(self, # pylint: disable=too-many-arguments
+    def add_schedule(self,  # pylint: disable=too-many-arguments
                      name,
                      start_date,
                      start_time,
@@ -859,10 +904,10 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
             raise InvalidValue
         schedule_datetime = f"20{datetime.datetime.combine(start_date,start_time).strftime('%y%m%dT%H%M%S')}"
         payload = {
-            'description':description,
-            'limit':limit,
-            'name':name,
-            'rrule':f'DTSTART;TZID={time_zone}:{schedule_datetime} RRULE:FREQ={repeat_frequency};INTERVAL={interval}'
+            'description': description,
+            'limit': limit,
+            'name': name,
+            'rrule': f'DTSTART;TZID={time_zone}:{schedule_datetime} RRULE:FREQ={repeat_frequency};INTERVAL={interval}'
         }
         url = '{api}/job_templates/{id}/schedules/'.format(api=self._tower.api,
                                                            id=self.id)
@@ -1209,7 +1254,9 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._data.get('allow_simultaneous')
 
-    def launch(self, extra_vars=None, job_tags=None, limit=None, inventory=None, credential=None):  # pylint: disable=unused-argument,too-many-arguments
+    def launch(self, extra_vars=None, job_tags=None, limit=None, inventory=None, credential=None, credentials=None):  #
+        # pylint:
+        # disable=unused-argument,too-many-arguments
         """Launches the job template.
 
         https://docs.ansible.com/ansible-tower/latest/html/towerapi/launch_jobtemplate.html.
@@ -1218,6 +1265,10 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
             Job: Job object of the running job on success, None otherwise.
 
         """
+
+        if type(credentials) is list and len(credentials) > 0 and  credential is None:
+            credential = credentials[0]
+
         payload = {key: value for key, value in locals().items() if value and key != 'self'}
         url = '{url}launch/'.format(url=self.url)
         response = self._tower.session.post(url, json=payload)

@@ -7,8 +7,8 @@
 #
 # Please use Pipfile to update the requirements.
 #
-requests~=2.24.0
-dateutils~=0.6.11
-beautifulsoup4~=4.8.2
+requests~=2.25.0
+dateutils~=0.6.12
+beautifulsoup4~=4.9.3
 cachetools~=3.1.1
 dataclasses~=0.6 ; python_version == '3.6'

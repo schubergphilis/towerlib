@@ -105,7 +105,8 @@ CONFIGURATION_STATE_CACHE = TTLCache(maxsize=1, ttl=CONFIGURATION_STATE_CACHING_
 class Tower:  # pylint: disable=too-many-public-methods
     """Models the api of ansible tower."""
 
-    def __init__(self, host, username, password, secure=False, ssl_verify=True):  # pylint: disable=too-many-arguments
+    def __init__(self, host, username, password, secure=False, ssl_verify=True, token=None):  # pylint:
+        # disable=too-many-arguments
         logger_name = u'{base}.{suffix}'.format(base=LOGGER_BASENAME,
                                                 suffix=self.__class__.__name__)
         self._logger = logging.getLogger(logger_name)
@@ -113,6 +114,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         self.api = '{host}/api/v2'.format(host=self.host)
         self.username = username
         self.password = password
+        self.token = token
         self.session = self._get_authenticated_session(secure, ssl_verify)
 
     @staticmethod
@@ -124,14 +126,17 @@ class Tower:  # pylint: disable=too-many-public-methods
         session = Session()
         if secure:
             session.verify = ssl_verify
-        return self._authenticate(session, self.host, self.username, self.password, self.api)
+        return self._authenticate(session, self.host, self.username, self.password, self.api, self.token)
 
     @staticmethod
-    def _authenticate(session, host, username, password, api_url):
+    def _authenticate(session, host, username, password, api_url, token):
         session.get(host)
-        session.auth = (username, password)
         session.headers.update({'content-type': 'application/json'})
         url = '{api}/me/'.format(api=api_url)
+        if token:
+            session.headers.update({"Authorization": "Bearer " + str(token)})
+        else:
+            session.auth = (username, password)
         response = session.get(url)
         if response.status_code == 401:
             raise AuthFailed(response.content)
@@ -514,7 +519,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.projects.filter({'id': id_}), None)
 
-    def create_project_in_organization(self,  # pylint: disable=too-many-locals,too-many-arguments
+    def create_project_in_organization(self,  # pylint: disable=too-many-arguments
                                        organization,
                                        name,
                                        description,
@@ -1379,9 +1384,9 @@ class Tower:  # pylint: disable=too-many-public-methods
                                           organization,
                                           name,
                                           description,
-                                          user,
-                                          team,
                                           credential_type,
+                                          user=None,
+                                          team=None,
                                           inputs_='{}'):
         """Creates a credential under an organization.
 
@@ -1399,21 +1404,27 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         Raises:
             InvalidOrganization: The organization provided as argument does not exist.
-            InvalidUser: The user provided as argument does not exist.
-            InvalidTeam: The team provided as argument does not exist.
             InvalidCredentialType: The credential type provided as argument does not exist.
             InvalidVariables: The inputs provided as argument is not valid json.
+            InvalidUser: The user provided as argument does not exist.
+            InvalidTeam: The team provided as argument does not exist.
 
         """
+        team_id = None
+        user_id = None
         organization_ = self.get_organization_by_name(organization)
         if not organization_:
             raise InvalidOrganization(organization)
-        user_ = self.get_user_by_username(user)
-        if not user_:
-            raise InvalidUser(user)
-        team_ = organization_.get_team_by_name(team)
-        if not team_:
-            raise InvalidTeam(team)
+        if user:
+            user_ = self.get_user_by_username(user)
+            if not user_:
+                raise InvalidUser(user)
+            user_id = user_.id
+        if team:
+            team_ = organization_.get_team_by_name(team)
+            if not team_:
+                raise InvalidTeam(team)
+            team_id = team_.id
         credential_type_ = self.get_credential_type_by_name(credential_type)
         if not credential_type_:
             raise InvalidCredentialType(credential_type)
@@ -1422,8 +1433,8 @@ class Tower:  # pylint: disable=too-many-public-methods
         return self.create_credential_with_credential_type_id(name,
                                                               credential_type_.id,
                                                               description=description,
-                                                              user_id=user_.id,
-                                                              team_id=team_.id,
+                                                              user_id=user_id,
+                                                              team_id=team_id,
                                                               organization_id=organization_.id,
                                                               inputs=inputs_
                                                               )
@@ -1585,7 +1596,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             UnifiedJob (Generator): A unified job generator.
 
         """
-        return self.unified_jobs.filter({'name__iexact': name})
+        return next(self.unified_jobs.filter({'name__iexact': name}), None)
 
     @property
     def unified_job_templates(self):
@@ -1635,7 +1646,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             UnifiedJob (Generator): A workflow job generator.
 
         """
-        return self.workflow_jobs.filter({'name__iexact': name})
+        return next(self.workflow_jobs.filter({'name__iexact': name}), None)
 
     @property
     def workflow_job_templates(self):
@@ -1649,6 +1660,30 @@ class Tower:  # pylint: disable=too-many-public-methods
                              entity_name='workflow_job_templates',
                              entity_object='JobTemplate',
                              primary_match_field='name')
+
+    def get_workflow_job_template_by_id(self, id_):
+        """Retrieves a workflow template job by id.
+
+        Args:
+            id_: The id of the workflow template job to retrieve.
+
+        Returns:
+            Host: The job if a match is found else None.
+
+        """
+        return next(self.workflow_job_templates.filter({'id': id_}), None)
+
+    def get_workflow_job_templates_by_name(self, name):
+        """Retrieves all workflow template jobs matching a certain name.
+
+        Args:
+            name: The name of the workflow template job(s) to retrieve.
+
+        Returns:
+            UnifiedJob (Generator): A workflow template job generator.
+
+        """
+        return next(self.workflow_job_templates.filter({'name__iexact': name}), None)
 
     @property
     def system_jobs(self):
@@ -1685,7 +1720,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             UnifiedJob (Generator): A system job generator.
 
         """
-        return self.system_jobs.filter({'name__iexact': name})
+        return next(self.system_jobs.filter({'name__iexact': name}), None)
 
     @property
     def job_templates(self):
@@ -1832,13 +1867,12 @@ class Tower:  # pylint: disable=too-many-public-methods
         if instance_groups:
             if not isinstance(instance_groups, (list, tuple)):
                 instance_groups = [instance_groups]
-            tower_instance_groups = [group_ for group_ in self.instance_groups]
-            tower_instance_groups_names = [group.name for group in tower_instance_groups]
+            tower_instance_groups_names = [group.name for group in self.instance_groups]
             invalid = set(instance_groups) - set(tower_instance_groups_names)
             if invalid:
                 raise InvalidInstanceGroup(invalid)
             for instance_group in set(instance_groups):
-                group = next((group for group in tower_instance_groups
+                group = next((group for group in self.instance_groups
                               if group.name == instance_group), None)
                 instance_group_ids.append(group.id)
         if job_type not in JOB_TYPES:
