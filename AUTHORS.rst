@@ -16,3 +16,4 @@ Contributors
 * Ilija Matoski <imatoski@schubergphilis.com>
 * Yorick Hoorneman <yhoorneman@schubergphilis.com>
 * Howard Jones <howie@thingy.com>
+* Octavian Balas <octavian.balas@gmail.com>
