@@ -1226,21 +1226,30 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
             return None
         return Job(self._tower, response.json())
 
-    @inventory.setter
-    def inventory(self, name):
-        """Inventory applied as a prompt, assuming job template prompts for inventory.
-        
+    def set_inventory(self, organization, name):
+        """Inventory from specified organization applied as a prompt, assuming job template prompts for inventory.
+
+       Args:
+            organization (str): The organization name the inventory belogs to
+            name (str): The inventory name to set. To reset the inventory set it to empty string.
+
         Returns:
             None.
-            
-        """
-        inventory = next(self._tower.get_inventories_by_name(name))  # pylint: disable=protected-access
-        if not inventory:
-            raise InvalidInventory(name)
-        self._update_values('inventory', inventory.id)
-        self._refresh_state()
-        
 
+        """
+
+        if name != '':
+            inventory = self._tower.get_organization_inventory_by_name(organization, name)  # pylint: disable=protected-access
+            if not inventory:
+                raise InvalidInventory(name)
+            value = inventory.id
+        else:
+            value = ''
+
+        self._update_values('inventory', value)
+        self._refresh_state()
+
+        
 class SystemJob(Entity):
     """Models the Job entity of ansible tower."""
 
