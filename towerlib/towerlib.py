@@ -1839,6 +1839,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             InvalidCredentialType: The credential type is invalid.
 
         """
+        credential_id = None
         inventory_ = self.get_organization_inventory_by_name(organization, inventory)
         if not inventory_:
             raise InvalidInventory(inventory)
@@ -1847,14 +1848,14 @@ class Tower:  # pylint: disable=too-many-public-methods
             raise InvalidProject(project)
         if playbook not in project_.playbooks:
             raise InvalidPlaybook(playbook)
+        if any([credential, credential_type]):
+            self._logger.error('Both credential and credential type should be provided.')
+            raise InvalidCredential(credential)
         if all([credential, credential_type]):
             credential_ = inventory_.organization.get_credential_by_name(credential, credential_type)
             if not credential_:
                 raise InvalidCredential(credential)
-            credential = credential_.id
-        elif any([credential, credential_type]):
-            self._logger.error('Both credential and credential type should be provided.')
-            raise InvalidCredential(credential)
+            credential_id = credential_.id
         instance_group_ids = []
         if instance_groups:
             if not isinstance(instance_groups, (list, tuple)):
@@ -1876,7 +1877,6 @@ class Tower:  # pylint: disable=too-many-public-methods
                    'inventory': inventory_.id,
                    'project': project_.id,
                    'playbook': playbook,
-                   'credential': credential,
                    'instance_groups': instance_group_ids,
                    'job_type': job_type,
                    'vault_credential': vault_credential,
@@ -1908,7 +1908,13 @@ class Tower:  # pylint: disable=too-many-public-methods
         response = self.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating job template, response was: "%s"', response.text)
-        return JobTemplate(self, response.json()) if response.ok else None
+            return None
+        job_template = JobTemplate(self, response.json())
+        if credential_id:
+            credential_added = job_template.add_credential_by_id(credential_id)
+            if not credential_added.ok:
+                return None
+        return job_template
 
     def delete_job_template(self, name):
         """Deletes a job template from tower.

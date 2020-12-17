@@ -842,17 +842,34 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
             credential_type (int): The type of the credential.
 
         """
-        # if not isinstance(credentials, (list, tuple)):
-        #     credentials = [credentials]
         extra_credential = self.inventory.organization.get_credential_by_name(credential,
                                                                               credential_type)
         if not extra_credential:
             raise InvalidCredential(credential)
-        payload = {'id': extra_credential.id}
+        return self._add_credential(extra_credential.id, f'Failed to add credential {credential}')
+
+    def add_credential_by_id(self, credential_id):
+        """Adds credential by name.
+
+        Args:
+            credential_id (int): The id of the credential.
+
+        """
+        return self._add_credential(credential_id, f'Failed to add credential id {credential_id}')
+
+    def _add_credential(self, credential, error_message):
+        """Adds credential helper function.
+
+        Args:
+            credential (str): A single string of a credential.
+            error_message (str): The message if no credential is added.
+
+        """
+        payload = {'id': credential}
         url = f'{self._tower.api}/job_templates/{self.id}/credentials/'
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
-            self._logger.error('Failed to add credential "%s"', credential)
+            self._logger.error(error_message)
         return response.ok
 
     @property
