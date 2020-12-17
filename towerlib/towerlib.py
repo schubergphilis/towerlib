@@ -1751,7 +1751,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.job_templates.filter({'id': id_}), None)
 
-    def create_job_template(self,  # pylint: disable=too-many-arguments, too-many-locals, too-many-branches
+    def create_job_template(self,  # pylint: disable=too-many-arguments, too-many-locals, too-many-branches  # noqa: C901
                             name,
                             description,
                             organization,
@@ -1848,7 +1848,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             raise InvalidProject(project)
         if playbook not in project_.playbooks:
             raise InvalidPlaybook(playbook)
-        if any([credential, credential_type]):
+        if not all([credential, credential_type]):
             self._logger.error('Both credential and credential type should be provided.')
             raise InvalidCredential(credential)
         if all([credential, credential_type]):
@@ -1912,7 +1912,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         job_template = JobTemplate(self, response.json())
         if credential_id:
             credential_added = job_template.add_credential_by_id(credential_id)
-            if not credential_added.ok:
+            if not credential_added:
                 return None
         return job_template
 

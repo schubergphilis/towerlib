@@ -846,7 +846,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
                                                                               credential_type)
         if not extra_credential:
             raise InvalidCredential(credential)
-        return self._add_credential(extra_credential.id, f'Failed to add credential {credential}')
+        return self._add_credential_by_id(extra_credential.id, f'Failed to add credential {credential}')
 
     def add_credential_by_id(self, credential_id):
         """Adds credential by name.
@@ -855,9 +855,9 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
             credential_id (int): The id of the credential.
 
         """
-        return self._add_credential(credential_id, f'Failed to add credential id {credential_id}')
+        return self._add_credential_by_id(credential_id, f'Failed to add credential id {credential_id}')
 
-    def _add_credential(self, credential, error_message):
+    def _add_credential_by_id(self, credential, error_message):
         """Adds credential helper function.
 
         Args:
