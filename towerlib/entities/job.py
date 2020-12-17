@@ -72,7 +72,7 @@ class Job:  # pylint: disable=too-few-public-methods
         elif entity_type == 'ad_hoc_command':
             obj = AdHocCommandJob(tower_instance, data)
         else:
-            LOGGER.error('Unknown entity type {}'.format(entity_type))
+            LOGGER.error('Unknown entity type %s', entity_type)
             LOGGER.debug(data)
             return None
         return obj
@@ -423,7 +423,7 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
     # TOFIX add labels, model them and implement them here
 
     def _get_dynamic_value(self, variable):
-        url = '{api}/jobs/{id}'.format(api=self._tower.api, id=self.id)
+        url = f'{self._tower.api}/jobs/{self.id}'
         response = self._tower.session.get(url)
         return response.json().get(variable) if response.ok else None
 
@@ -434,18 +434,18 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
             True on success, False otherwise.
 
         """
-        url = '{api}/jobs/{id}/cancel/'.format(api=self._tower.api, id=self.id)
+        url = f'{self._tower.api}/jobs/{self.id}/cancel/'
         response = self._tower.session.post(url)
         return response.ok
 
     @property
     def extra_vars(self):
-        """The extra_vars of the job
+        """The extra_vars of the job.
 
-                Returns:
-                    extra_vars: The extra_vars of the job
+        Returns:
+            extra_vars: The extra_vars of the job
 
-                """
+        """
         return self._get_dynamic_value('extra_vars')
 
     @property
@@ -577,8 +577,7 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
             basestring: The stdout of the job execution.
 
         """
-        stdout_url = self._data.get('related', {}).get('stdout')
-        url = '{host}{url}'.format(host=self._tower.host, url=stdout_url)
+        url = f"{self._tower.host}{self._data.get('related', {}).get('stdout')}"
         response = self._tower.session.get(url)
         soup = Bfs(response.text, 'html.parser')
         # get stdout div tag
@@ -689,7 +688,7 @@ class WorkflowJobRun(JobRun):
     """Models the Workflow Job Run entity of ansible tower."""
 
     def _get_dynamic_value(self, variable):
-        url = '{api}/workflow_jobs/{id}'.format(api=self._tower.api, id=self.id)
+        url = f'{self._tower.api}/workflow_jobs/{self.id}'
         response = self._tower.session.get(url)
         return response.json().get(variable) if response.ok else None
 
@@ -700,9 +699,10 @@ class WorkflowJobRun(JobRun):
             True on success, False otherwise.
 
         """
-        url = '{api}/workflow_jobs/{id}/cancel/'.format(api=self._tower.api, id=self.id)
+        url = f'{self._tower.api}/workflow_jobs/{self.id}/cancel/'
         response = self._tower.session.post(url)
         return response.ok
+
 
 class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
     """Models the Job Template entity of ansible tower."""
@@ -723,20 +723,14 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
 
     @name.setter
     def name(self, value):
-        """Update the name of the template
-
-        Returns:
-            None:
-
-        """
+        """Update the name of the template."""
         max_characters = 512
         conditions = [validate_max_length(value, max_characters)]
         if all(conditions):
             self._update_values('name', value)
         else:
-            raise InvalidValue('{value} is invalid. Condition max_characters must be less than or equal to '
-                               '{max_characters}'.format(value=value, max_characters=max_characters))
-
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must be less than or equal to '
+                               f'{max_characters}')
 
     @property
     def description(self):
@@ -855,11 +849,10 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         if not extra_credential:
             raise InvalidCredential(credential)
         payload = {'id': extra_credential.id}
-        url = '{api}/job_templates/{id}/credentials/'.format(api=self._tower.api,
-                                                             id=self.id)
+        url = f'{self._tower.api}/job_templates/{self.id}/credentials/'
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
-            self._logger.error('Failed to add credential {}'.format(credential))
+            self._logger.error('Failed to add credential "%s"', credential)
         return response.ok
 
     @property
@@ -909,11 +902,10 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
             'name': name,
             'rrule': f'DTSTART;TZID={time_zone}:{schedule_datetime} RRULE:FREQ={repeat_frequency};INTERVAL={interval}'
         }
-        url = '{api}/job_templates/{id}/schedules/'.format(api=self._tower.api,
-                                                           id=self.id)
+        url = f'{self._tower.api}/job_templates/{self.id}/schedules/'
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
-            self._logger.error('Failed to add schedule {name}. Error: {error}'.format(name=name, error=response.json()))
+            self._logger.error('Failed to add schedule %s. Error: %s', name, response.json())
         return response.ok
 
     @property
@@ -1232,9 +1224,8 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._data.get('allow_simultaneous')
 
-    def launch(self, extra_vars=None, job_tags=None, limit=None, inventory=None, credential=None, credentials=None):  #
-        # pylint:
-        # disable=unused-argument,too-many-arguments
+    # pylint: disable=unused-argument,too-many-arguments
+    def launch(self, extra_vars=None, job_tags=None, limit=None, inventory=None, credential=None, credentials=None):
         """Launches the job template.
 
         https://docs.ansible.com/ansible-tower/latest/html/towerapi/launch_jobtemplate.html.
@@ -1243,12 +1234,12 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
             Job: Job object of the running job on success, None otherwise.
 
         """
-
-        if type(credentials) is list and len(credentials) > 0 and  credential is None:
+        if all([isinstance(credentials, list),
+                bool(credentials),
+                credential is None]):
             credential = credentials[0]
-
         payload = {key: value for key, value in locals().items() if value and key != 'self'}
-        url = '{url}launch/'.format(url=self.url)
+        url = f'{self.url}launch/'
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error launching job %s, response was :%s', self.name, response.text)
@@ -1482,7 +1473,7 @@ class ProjectUpdateJob(Entity):  # pylint: disable=too-many-public-methods
 
         """
         stdout_url = self._data.get('related', {}).get('stdout')
-        url = '{host}{url}'.format(host=self._tower.host, url=stdout_url)
+        url = f'{self._tower.host}{stdout_url}'
         response = self._tower.session.get(url)
         soup = Bfs(response.text, 'html.parser')
         # get stdout div tag

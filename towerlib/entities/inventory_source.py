@@ -82,9 +82,8 @@ class InventorySource(Entity):
         if all(conditions):
             self._update_values('name', value)
         else:
-            raise InvalidValue(('{value} is invalid. Condition max_characters must be '
-                                'less or equal to {max_characters}').format(value=value,
-                                                                            max_characters=max_characters))
+            raise InvalidValue(f'{value} is invalid. Condition max_characters must be less or equal to '
+                               f'{max_characters}')
 
     @property
     def description(self):
