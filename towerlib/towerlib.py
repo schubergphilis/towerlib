@@ -1911,8 +1911,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             return None
         job_template = JobTemplate(self, response.json())
         if credential_id:
-            credential_added = job_template.add_credential_by_id(credential_id)
-            if not credential_added:
+            if not job_template.add_credential_by_id(credential_id):
                 return None
         return job_template
 
