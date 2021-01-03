@@ -1912,6 +1912,8 @@ class Tower:  # pylint: disable=too-many-public-methods
         job_template = JobTemplate(self, response.json())
         if credential_id:
             if not job_template.add_credential_by_id(credential_id):
+                self._logger.error('Error adding credentials, reverting the creation of the job template')
+                job_template.delete()
                 return None
         return job_template
 
