@@ -849,7 +849,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         return self._add_credential_by_id(extra_credential.id, f'Failed to add credential {credential}')
 
     def add_credential_by_id(self, credential_id):
-        """Adds credential by name.
+        """Adds credential by id.
 
         Args:
             credential_id (int): The id of the credential.
@@ -857,15 +857,15 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._add_credential_by_id(credential_id, f'Failed to add credential id {credential_id}')
 
-    def _add_credential_by_id(self, credential, error_message):
+    def _add_credential_by_id(self, credential_id, error_message):
         """Adds credential helper function.
 
         Args:
-            credential (str): A single string of a credential.
+            credential_id (int): The id of the credential.
             error_message (str): The message if no credential is added.
 
         """
-        payload = {'id': credential}
+        payload = {'id': credential_id}
         url = f'{self._tower.api}/job_templates/{self.id}/credentials/'
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
