@@ -1848,14 +1848,13 @@ class Tower:  # pylint: disable=too-many-public-methods
             raise InvalidProject(project)
         if playbook not in project_.playbooks:
             raise InvalidPlaybook(playbook)
-        if not all([credential, credential_type]):
-            self._logger.error('Both credential and credential type should be provided.')
-            raise InvalidCredential(credential)
         if all([credential, credential_type]):
             credential_ = inventory_.organization.get_credential_by_name(credential, credential_type)
             if not credential_:
                 raise InvalidCredential(credential)
             credential_id = credential_.id
+        elif any([credential, credential_type]):
+            self._logger.error('Both credential and credential type should be provided.')
         instance_group_ids = []
         if instance_groups:
             if not isinstance(instance_groups, (list, tuple)):
