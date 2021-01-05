@@ -72,7 +72,8 @@ from .towerlibexceptions import (AuthFailed,
                                  InvalidJobType,
                                  InvalidVerbosity,
                                  InvalidJobTemplate,
-                                 InvalidInventoryScript)
+                                 InvalidInventoryScript,
+                                 FailedToDeleteTemplate)
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -1913,7 +1914,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             if not job_template.add_credential_by_id(credential_id):
                 self._logger.error('Error adding credentials, reverting the creation of the job template')
                 if not job_template.delete():
-                    raise InvalidJobTemplate(name)
+                    raise FailedToDeleteTemplate(name)
                 return None
         return job_template
 
