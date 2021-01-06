@@ -369,7 +369,7 @@ class Schedule(Entity):
             None.
 
         """
-        self._update_values('enabled', value)
+        self._update_values('extra_data', value)
 
     @recurrence_rule.setter
     def recurrence_rule(self, value):
