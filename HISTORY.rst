@@ -230,3 +230,9 @@ History
 ------------------
 
 * Extended JobTemplate with some methods and made credential not required on job template creation.
+
+
+3.6.1 (06-01-2021)
+------------------
+
+* Loosened up dependencies.
