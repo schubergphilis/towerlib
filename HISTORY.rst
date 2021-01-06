@@ -224,3 +224,9 @@ History
 ------------------
 
 * Changed the credential creation process to make team and Owner name optional
+
+
+3.6.0 (06-01-2021)
+------------------
+
+* Extended JobTemplate with some methods and made credential not required on job template creation.
