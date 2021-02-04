@@ -236,3 +236,9 @@ History
 ------------------
 
 * Loosened up dependencies.
+
+
+3.6.2 (04-02-2021)
+------------------
+
+* Fix missing f-string.
