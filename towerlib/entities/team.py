@@ -633,7 +633,7 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
     def _post_permission(self, roles, permission_name, remove=False):
         permission = self._get_permission(permission_name, roles)
         if remove:
-            url = '{self._tower.api}/roles/{permission.id}/teams/'
+            url = f'{self._tower.api}/roles/{permission.id}/teams/'
             payload = {'id': self.id,
                        'disassociate': True}
         else:
