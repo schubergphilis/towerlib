@@ -242,3 +242,9 @@ History
 ------------------
 
 * Fix missing f-string.
+
+
+3.7.0 (09-03-2021)
+------------------
+
+* Implemented survey specification retrieval.
