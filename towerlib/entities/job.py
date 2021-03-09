@@ -1241,13 +1241,12 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
             dict: Dict that contains info about the linked survey if exists
 
         """
-        returned_dict = dict()
-        if self.survey_enabled:
-            url = f'{self.url}survey_spec/'
-            response = self._tower.session.get(url)
-            if response.ok:
-                returned_dict = response.json()
-        return returned_dict
+        if not self.survey_enabled:
+            return {}
+        response = self._tower.session.get(f'{self.url}survey_spec/')
+        if not response.ok:
+            return {}
+        return response.json()
 
     @property
     def become_enabled(self):
