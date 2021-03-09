@@ -1234,6 +1234,22 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         return self._data.get('survey_enabled')
 
     @property
+    def survey_spec(self):
+        """Survey specification.
+
+        Returns:
+            dict: Dict that contains info about the linked survey if exists
+
+        """
+        returned_dict = dict()
+        if self.survey_enabled:
+            url = f'{self.url}survey_spec/'
+            response = self._tower.session.get(url)
+            if response.ok:
+                returned_dict = response.json()
+        return returned_dict
+
+    @property
     def become_enabled(self):
         """Not really sure what this is.
 

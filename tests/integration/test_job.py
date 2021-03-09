@@ -176,6 +176,7 @@ class TestJobEntities(IntegrationTest):
             self.assertFalse(job_template.diff_mode)
             self.assertIsInstance(job_template.launch(), JobRun)
             self.assertIsNone(job_template.launch(inventory='Bogus'))
+            self.assertEquals(job_template.survey_spec, {})
 
     def test_jobs(self):
         with self.recorder:
