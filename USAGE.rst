@@ -83,6 +83,22 @@ To use towerlib in a project:
     # access teams
     for team in tower.teams:
         print(team.name)
+        
+    # access jobs
+    for team in tower.jobs:
+        print(job.name)
+        
+    # all of the above entities also support a dictionary of filters which are provided
+    # to the api, reducing query time. For filterable terms, see
+    # https://docs.ansible.com/ansible-tower/latest/html/towerapi/filtering.html
+    
+    # failed jobs
+    for team in tower.jobs.filter({"status":"failed"})
+        print(job.name)
+    # successful jobs
+    for job in tower.jobs.filter({"status": "successful"}):
+        print(job.name)       
+        
 
     # all the above entities support creation and deletion either from the core tower object
     # or from their respective parent object.
