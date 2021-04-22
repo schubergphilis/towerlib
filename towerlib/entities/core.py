@@ -241,7 +241,7 @@ class Entity(DateParserMixin):
     """The basic object that holds common responses across all entities."""
 
     def __init__(self, tower_instance, data):
-        self._logger = logging.getLogger(f'{LOGGER_BASENAME}.{self.__class__.__name__}')
+        self._logger = tower_instance._logger
         self._tower = tower_instance
         self._data = data
 
@@ -317,6 +317,8 @@ class Entity(DateParserMixin):
         response = self._tower.session.delete(self.url)
         if not response.ok:
             self._logger.error('Error deleting, response was: "%s"', response.text)
+        else:
+            self._logger.info("Delete request was successful.")
         return response.ok
 
     def _update_values(self, attribute, value, parent_attribute=None):
@@ -328,6 +330,7 @@ class Entity(DateParserMixin):
             payload = {attribute: value}
         response = self._tower.session.patch(self.url, json=payload)
         if response.ok:
+            self._logger.info("Update request was successful.")
             self._data.update(response.json())
         else:
             self._logger.error('Error updating variables, response was: %s', response.text)
@@ -335,6 +338,7 @@ class Entity(DateParserMixin):
     def _refresh_state(self):
         response = self._tower.session.get(self.url)
         if response.ok:
+            self._logger.info("Refresh request was successful.")
             self._data.update(response.json())
         else:
             self._logger.error('Error getting updated state, response was: %s', response.text)

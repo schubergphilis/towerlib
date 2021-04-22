@@ -349,7 +349,10 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating host "%s", response was "%s"', name, response.text)
-        return Host(self._tower, response.json()) if response.ok else None
+            return None
+        else:
+            self._logger.info("New host '{}' was created successfully.".format(payload['name']))
+            return Host(self._tower, response.json())
 
     def delete_host(self, name):
         """Deletes the host.
@@ -439,7 +442,10 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating group "%s", response was "%s"', name, response.text)
-        return Group(self._tower, response.json()) if response.ok else None
+            return None
+        else:
+            self._logger.info("New group '{}' was created successfully".format(payload['name']))
+            return Group(self._tower, response.json())
 
     def delete_group(self, name):
         """Deletes the group.
@@ -545,7 +551,10 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating source "%s", response was "%s"', name, response.text)
-        return InventorySource(self._tower, response.json()) if response.ok else None
+            return None
+        else:
+            self._logger.info("New source '{}' was created successfully".format(payload['name']))
+            return InventorySource(self._tower, response.json())
 
     def create_source_with_credential_id(self,  # pylint: disable=too-many-locals, too-many-arguments
                                          name,
@@ -618,4 +627,8 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating source "%s", response was "%s"', name, response.text)
-        return InventorySource(self._tower, response.json()) if response.ok else None
+            return None
+        else:
+            self._logger.info("New source '{}' was created successfully".format(payload['name']))
+            return InventorySource(self._tower, response.json())
+

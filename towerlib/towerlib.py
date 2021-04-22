@@ -100,9 +100,27 @@ CONFIGURATION_STATE_CACHE = TTLCache(maxsize=1, ttl=CONFIGURATION_STATE_CACHING_
 class Tower:  # pylint: disable=too-many-public-methods
     """Models the api of ansible tower."""
 
-    # pylint: disable=too-many-arguments
-    def __init__(self, host, username, password, secure=False, ssl_verify=True, token=None):
-        self._logger = logging.getLogger(f'{LOGGER_BASENAME}.{self.__class__.__name__}')
+    def __init__(self, host, username, password, secure=False, ssl_verify=True, token=None):  # pylint:
+        # disable=too-many-arguments
+        logger_name = u'{base}.{suffix}'.format(base=LOGGER_BASENAME,
+                                                suffix=self.__class__.__name__)
+        self._logger = logging.getLogger(logger_name)
+        self._logger.setLevel(logging.INFO)
+
+        # TODO: Decide about this part of logger configuration as this creates duplicate logger file when used
+        # with another script.
+        # Create the Handler for logging data to a file
+        logger_handler = logging.FileHandler('towerlib.log')
+        logger_handler.setLevel(logging.INFO)
+        # Create a Formatter for formatting the log messages
+        logger_formatter = logging.Formatter('%(asctime)s [%(filename)s:%(lineno)3s - %(funcName)27s()] '
+                                             '%(levelname)-7s %(message)s')
+        # Add the Formatter to the Handler
+        logger_handler.setFormatter(logger_formatter)
+        # Add the Handler to the Logger
+        self._logger.addHandler(logger_handler)
+        self._logger.info('Completed configuring logger()!')
+
         self.host = self._generate_host_name(host, secure)
         self.api = f'{self.host}/api/v2'
         self.username = username
@@ -112,7 +130,12 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     @staticmethod
     def _generate_host_name(host, secure):
-        return f'{"https" if secure else "http"}://{host}'
+        if host.startswith('https://'):
+            host = host.replace("https://", '')
+        if host.startswith('http://'):
+            host = host.replace("http://", '')
+        protocol = 'https' if secure else 'http'
+        return '{protocol}://{host}'.format(protocol=protocol, host=host)
 
     def _get_authenticated_session(self, secure, ssl_verify):
         session = Session()
@@ -243,7 +266,10 @@ class Tower:  # pylint: disable=too-many-public-methods
         response = self.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating organization, response was: "%s"', response.text)
-        return Organization(self, response.json()) if response.ok else None
+            return None
+        else:
+            self._logger.info("New organization '{}' was created successfully.".format(payload['name']))
+            return Organization(self, response.json())
 
     def delete_organization(self, name):
         """Deletes an organization from tower.
@@ -400,7 +426,10 @@ class Tower:  # pylint: disable=too-many-public-methods
         response = self.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating user, response was: "%s"', response.text)
-        return User(self, response.json()) if response.ok else None
+            return None
+        else:
+            self._logger.info("User '{}' was created successfully.".format(payload['name']))
+            return User(self, response.json())
 
     def delete_user(self, username):
         """Deletes a user by username.
@@ -1217,7 +1246,10 @@ class Tower:  # pylint: disable=too-many-public-methods
         response = self.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating credential type "%s", response was: "%s"', type_, response.text)
-        return CredentialType(self, response.json()) if response.ok else None
+            return None
+        else:
+            self._logger.info("New credential_type '{}' was created successfully".format(payload['name']))
+            return CredentialType(self, response.json())
 
     def delete_credential_type(self, name):
         """Deletes a credential_type from tower.
@@ -1371,7 +1403,10 @@ class Tower:  # pylint: disable=too-many-public-methods
         response = self.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating credential "%s", response was: "%s"', name, response.text)
-        return Credential(self, response.json()) if response.ok else None
+            return None
+        else:
+            self._logger.info("New credential '{}' was created successfully".format(payload['name']))
+            return Credential(self, response.json())
 
     def create_credential_in_organization(self,  # pylint: disable=too-many-arguments
                                           organization,
@@ -1483,7 +1518,10 @@ class Tower:  # pylint: disable=too-many-public-methods
         response = self.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating credential "%s", response was: "%s"', name, response.text)
-        return Credential(self, response.json()) if response.ok else None
+            return None
+        else:
+            self._logger.info("New credential '{}' was created successfully".format(payload['name']))
+            return Credential(self, response.json())
 
     def delete_organization_credential_by_name(self, organization, name, credential_type):
         """Deletes a credential from an organization.
@@ -1752,7 +1790,8 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.job_templates.filter({'id': id_}), None)
 
-    def create_job_template(self,  # pylint: disable=too-many-arguments, too-many-locals, too-many-branches  # noqa: C901
+    def create_job_template(self,
+                            # pylint: disable=too-many-arguments, too-many-locals, too-many-branches  # noqa: C901
                             name,
                             description,
                             organization,
@@ -1985,10 +2024,8 @@ class Tower:  # pylint: disable=too-many-public-methods
     @property
     def schedules(self):
         """The schedules configured in tower.
-
         Returns:
             EntityManager: The manager object for schedules.
-
         """
         return EntityManager(self,
                              entity_name='schedules',
@@ -1997,24 +2034,707 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     def get_schedule_by_id(self, id_):
         """Retrieves a schedule by id.
-
         Args:
             id_: The id of the schedule to retrieve.
-
         Returns:
             Schedule: The schedule if a match is found else None.
-
         """
         return next(self.schedules.filter({'id': id_}), None)
 
     def get_schedule_by_name(self, name):
         """Retrieves an schedule by name.
-
         Args:
             name: The name of the schedule to retrieve.
-
         Returns:
             Schedule: The schedule if a match is found else None.
-
         """
         return next(self.schedules.filter({'name__iexact': name}), None)
+
+    #    ****** High level methods for Spirit/21 ******    #
+
+    def get_all_projects(self):
+        """Get all the projects of the ansible tower.
+
+        Returns:
+            list: list of projects as EntityManager object.
+
+        """
+        projects = []
+        for item in self.projects:
+            projects.append(item)
+        return projects
+
+    def update_all_projects(self):
+        """Update all the projects in ansible tower one by one.
+
+        """
+        projects = self.get_all_projects()
+        for project in projects:
+            self.update_project_by_id(project.id)
+        logging.info("Updated {} projects".format(len(projects)))
+
+    def update_project_by_id(self, project_id):
+        """Update the ansible tower project with given project id.
+
+        Args:
+            project_id: The id of the project, which is to be updated.
+
+        Returns:
+            list: List of response of api request as json on success, False otherwise.
+
+        """
+        update_url = '{api}/projects/{id}/update/'.format(api=self.api, id=project_id)
+        project = self.get_project_by_id(project_id)
+        response = self.session.post(update_url)
+        if not response.ok:
+            self._logger.error("Error updating the project '{}'. response was: {})".format(project.name, response.text))
+            return None
+        else:
+            self._logger.info("The project '{}' was successfully updated with the latest scm version."
+                              .format(project.name))
+            return response.json()
+
+    def update_project_by_name(self, organization, project_name):
+        """Update the ansible tower project with given project name.
+
+        Args:
+            organization: The name of the organization.
+            project_name: The name of the project, which is to be updated.
+
+        Returns:
+            dict: dict of response of api request as json on success, None otherwise.
+
+        """
+
+        project = self.get_organization_project_by_name(organization, project_name)
+        updated_project = self.update_project_by_id(project.id)
+        return updated_project
+
+    def update_project_by_scm_url(self, scm_url):
+        """Send update request to update project for a given git repository (scm_url).
+
+        Args:
+            scm_url: the http url of the required repository.
+
+        """
+        projects = self.get_all_projects()
+        matching_projects = [project for project in projects if project.scm_url == scm_url]
+        if matching_projects:  # Check if length of list is greater than zero
+            for project in matching_projects:
+                self.update_project_by_id(project.id)
+            self._logger.debug("Updated {} projects with given url '{}'".format(len(matching_projects), scm_url))
+        else:
+            self._logger.debug("No project was updated. Reason: no tower project found with "
+                               "the given url '{}'".format(scm_url))
+
+    def update_project_by_branch_name(self, scm_url, branch_name):
+        """Update an ansible tower project or list of projects based on their branch name.
+
+        A scm_branch can only be identified correctly with a corresponding scm_url.
+
+        Args:
+            scm_url: the URL of the relevant repository configured in the project.
+            branch_name: the name of the branch, which is selected as scm_branch parameter of the project.
+
+        Returns:
+            list: List of project update ids on success, otherwise empty list.
+
+        """
+        projects = self.get_all_projects()
+        project_update_id_list = []
+        matching_projects = [project for project in projects if
+                             project.scm_url == scm_url and project.scm_branch == branch_name]
+        if len(matching_projects) > 0:
+            for project in matching_projects:
+                self._logger.info("Updating the project: {}".format(project.name))
+                project_update = self.update_project_by_id(project.id)
+                project_update_id_list.append(project_update['id'])
+            self._logger.info("Updated {} project(s) with the url '{}' and branch name '{}'".
+                              format(len(matching_projects), scm_url, branch_name))
+            return project_update_id_list
+        else:
+            self._logger.warning("No project was updated. Reason: no tower project found with the given "
+                                 "git url '{}' and branch '{}'".format(scm_url, branch_name))
+            return []
+
+    def get_all_job_templates(self):
+        """Get all the job templates of the ansible tower.
+
+        Returns:
+            list: the list of all job templates as EntityManager object.
+
+        """
+        job_templates = [item for item in self.job_templates]
+        return job_templates
+
+    def get_job_templates_by_project(self, project_name):
+        """Get all the job templates for a given project name.
+
+        Args:
+            project_name: the complete api url of the project.
+
+        Returns:
+            list: a list of all the job templates object for the given project name.
+
+        """
+        required_job_templates = []
+        job_templates = self.get_all_job_templates()
+        for job_template in job_templates:
+            if job_template.project.name == project_name:
+                required_job_templates.append(job_template)
+        return required_job_templates
+
+    def change_job_template_data(self, job_template_data):
+        """Send API PATCH request to update the job template information with the given data.
+        https://docs.ansible.com/ansible-tower/3.6.1/html/towerapi/api_ref.html#/Authentication/Authentication_applications_partial_update_0
+
+        Args:
+            job_template_data: updated data of the job template as dictionary
+
+        Returns:
+            list: List of response of api request as json on success, False otherwise.
+
+        """
+        job_template_id = job_template_data['id']
+        job_url = '{api}/job_templates/{id}/'.format(api=self.api, id=job_template_id)
+        response = self.session.patch(job_url, data=json.dumps(job_template_data))
+        if not response.ok:
+            self._logger.error("Error updating the job template with the given data '{}'".format(job_template_data))
+            return None
+        else:
+            self._logger.info("Job template with the name '{}' is updated successfully.".format(job_template_data['name']))
+            return response.json()
+
+    def change_project_of_job_template(self, job_template, project_id):
+        """A job template in the ansible tower has to have a project from the list of projects.
+
+        This function helps to change the project name of a job template in ansible tower for a given job template.
+
+        Args:
+            job_template: given job template object
+            project_id: given project's id
+
+        Returns:
+            Object: The updated job_template object
+
+        """
+
+        project_obj = self.get_project_by_id(project_id)
+        project_playbooks = self.get_playbooks_by_branch_name(project_obj.scm_url, project_obj.scm_branch)
+        new_playbook = job_template.playbook
+        if new_playbook not in project_playbooks:
+            self._logger.warning("Job template's playbook '{}' is not found in the given project's playbook"
+                                 "list. Now changing the playbook to '{}'. Please select a playbook manually."
+                                 .format(new_playbook, project_playbooks[0]))
+            new_playbook = project_playbooks[0]
+
+        new_data = {
+            "id": job_template.id,
+            "project": project_obj.id,
+            "playbook": new_playbook,
+            "name": job_template.name,
+            "description": job_template.description
+        }
+        response = self.change_job_template_data(new_data)
+        if response is not None:
+            self._logger.info("The project for the job template '{}' is changed from '{}' to '{}'".
+                              format(job_template.name, job_template.project.name, project_obj.name))
+        else:
+            self._logger.error("Error updating the job template's project.")
+        return response
+
+    def change_project_of_job_template_to_prod_branch_project(self, job_template, scm_url):
+        """A job template in the ansible tower has to have a project from the list of projects.
+
+        This function helps to change the project name of a job template in ansible tower for a given job template.
+
+        Args:
+            job_template: given job template object
+            scm_url: the scm url of the projects.
+
+        Returns:
+            Object: The updated job_template object
+
+        """
+        prod_branch_project_id = self.get_production_branch_project_id(scm_url)
+        response = self.change_project_of_job_template(job_template, prod_branch_project_id)
+        return response
+
+    def change_job_type(self, given_labels, new_job_type):
+        """Change the job template type in the given Ansible Tower, which means whether a job should run in 'Run' or
+        'Check' mode.
+
+        Args:
+            given_labels: ist of labels which need to match
+            new_job_type: the updated job type.
+
+        Returns:
+
+        """
+        count = 0
+        job_templates = self.get_all_job_templates()
+        if job_templates is None:
+            self._logger.error("Error finding job templates.")
+        else:
+            for job_template in job_templates:
+                if job_template.labels['count'] > 0:
+                    label_results = job_template.labels['results']
+                    job_labels = [item['name'] for item in label_results]
+                    if set(given_labels) == set(job_labels):
+                        count += 1
+                        self._logger.info("Equal labels found for the job template '{}'".format(job_template.name))
+                        existing_job_type = job_template.job_type
+                        if existing_job_type.lower() == new_job_type.lower():
+                            self._logger.info(
+                                "Existing job-type is already: '{}'. Change is not required for this job template.".
+                                    format(existing_job_type))
+                        else:
+                            self._logger.debug("Changing job type from '{}' to '{}'"
+                                               .format(existing_job_type, new_job_type))
+                            job_template_data = {
+                                "id": job_template.id,
+                                "job_type": new_job_type,
+                                "name": job_template.name,
+                                "playbook": job_template.playbook
+                            }
+                            self.change_job_template_data(job_template_data)
+            if count < 1:
+                self._logger.debug("No job template, which matched all the labels in the config file.")
+
+    def project_exists(self, project_name):
+        """Check if a project with given name exists in the project list.
+
+        Args:
+            project_name: the name of the given project.
+
+        Returns:
+            bool: True or False whether a project exists.
+
+            """
+        project_exists = False
+        projects = self.get_all_projects()
+        for project in projects:
+            if project.name == project_name:
+                project_exists = True
+        return project_exists
+
+    def get_all_credential_types(self):
+        """Get all the credential types of the ansible tower.
+
+        Returns:
+            list: list of credential types.
+
+        """
+        credential_types = []
+        for item in self.credential_types:
+            credential_types.append(item)
+        return credential_types
+
+    def get_credential_id_from_existing_project(self, scm_url):
+        """This function gets credential id from an existing project, which has the same credential id.
+
+        This function is for additional convenience. If there is already a project with the same scm url configured,
+        then we will find it with this function. This function also makes sure that the user does not have to specify a
+        credential id in the config file .
+        This function will only be called if no credential id is given in the config file. Anyway, if no credential is
+        given by config file and no credential id is found with this function, the script will continue and create
+        projects, because projects can be created in Ansible Tower without credentials (but in that case, the scm
+        update job will fail.)
+
+        Args:
+            scm_url: the scm_url of the corresponding project.
+
+        Returns:
+            id of a credential if corresponding project exists, else None.
+
+        """
+        scm_credential_type_ids = []
+        credential_types = self.get_all_credential_types()
+        for credential_type in credential_types:
+            if credential_type.kind == 'scm':
+                scm_credential_type_ids.append(credential_type.id)
+        credential_id = None
+        all_projects = self.get_all_projects()
+        for scm_credential_type_id in scm_credential_type_ids:
+            for project in all_projects:
+                if project.scm_url == scm_url:
+                    self._logger.debug("Project found with the scm credential.")
+                    if project.credential.credential_type.id == scm_credential_type_id:
+                        credential_id = project.credential.id
+                        if credential_id:
+                            self._logger.debug("Credential ID found from the existing project '{}' and the id is '{}'"
+                                               .format(project.name, credential_id))
+                            return credential_id
+        return credential_id
+
+    def get_project_id_by_branch_name(self, scm_url, scm_branch):
+        """Get the ids of the ansible tower project with given scm_url and branch name.
+
+        Args:
+            scm_url: given scm url.
+            scm_branch: given scm branch.
+
+        Returns:
+            list: list of project ids
+
+        """
+        project_ids = []
+        projects = self.get_all_projects()
+        for project in projects:
+            if project.scm_type == 'git':
+                if project.scm_url == scm_url and project.scm_branch == scm_branch:
+                    project_ids.append(project.id)
+        return project_ids
+
+    def get_production_branch_project_id(self, scm_url):
+        """Get the id of the ansible tower project, which has the branch production as scm branch.
+
+        Args:
+            scm_url: the scm url of the production branch project.
+
+        Returns:
+            The id of the production branch project.
+
+        """
+        project_id = None
+        projects = self.get_all_projects()
+        for project in projects:
+            if project.scm_type == 'git':
+                if project.scm_url == scm_url and project.scm_branch == 'production':
+                    project_id = project.id
+                    break
+        return project_id
+
+    def get_playbooks_by_branch_name(self, scm_url, scm_branch):
+        """Get all the playbooks of the project with the given scm_url and branch name.
+
+        Args:
+            scm_url: the given scm url.
+            scm_branch: the given scm branch
+
+        Returns:
+            list: a list with the names of all the playbooks for the matching project.
+
+        """
+        playbooks = None
+        projects = self.get_all_projects()
+        for project in projects:
+            if project.scm_url == scm_url and project.scm_branch == scm_branch:
+                playbooks = project.playbooks
+                break
+        return playbooks
+
+    def get_production_branch_playbooks(self, scm_url):
+        """Get all the playbooks of the project, which has the branch production as scm branch.
+
+        Args:
+            scm_url: given scm url
+
+        Returns:
+            list: a list with the names of all the playbooks of production branch project.
+
+        """
+        projects = self.get_all_projects()
+        for project in projects:
+            if project.scm_url == scm_url and project.scm_branch == 'production':
+                playbooks = project.playbooks
+                return playbooks
+
+    def get_ansible_facts_by_host_id(self, host_id):
+        """Get the ansible_facts of the given host.
+
+        Args:
+            host_id: id of the host for which the method will return the ansible_facts.
+
+        Returns:
+            dict: ansible_facts as dictionary.
+
+        """
+        host = self.get_host_by_id(host_id)
+        return host.ansible_facts()
+
+    def get_all_inventories(self):
+        """
+        Get all the inventories of the ansible tower.
+
+        Returns:
+            list: list of inventories as EntityManager object.
+        """
+        inventories = [item for item in self.inventories]
+        return inventories
+
+    def get_all_hosts(self):
+        """Get all the hosts of the given ansible tower.
+
+        Returns:
+            list: list of all the hosts as EntityManager object.
+
+        """
+        hosts = [item for item in self.hosts]
+        return hosts
+
+    def get_all_credentials(self):
+        """Get all the credentials of the ansible tower.
+
+        Returns:
+            list: the list of credentials as EntityManager object.
+
+        """
+        credentials = [item for item in self.credentials]
+        return credentials
+
+    def get_hosts_by_inventory_id(self, inventory_id):
+        """Get filtered list of hosts for a given inventory id.
+
+        Args:
+             inventory_id: the given inventory id.
+
+        Returns:
+            list: the list of filtered host as EntityManger object.
+
+        """
+        hosts = [item for item in self.hosts if item.inventory.id == inventory_id]
+        return hosts
+
+    def get_all_jobs(self):
+        """Get all the jobs of the ansible tower.
+
+        Returns:
+            list: list of all the jobs as EntityManager object
+
+        """
+        jobs = [item for item in self.jobs]
+        return jobs
+
+    def get_jobs_by_name(self, given_job_name):
+        """Get filtered list of jobs for a given name.
+
+        Args:
+            given_job_name: the given job name.
+
+        Returns:
+             list: the filtered list of jobs.
+
+        """
+        job_list = [item for item in self.jobs if item.name == given_job_name]
+        return job_list
+
+    def get_project_updates(self):
+        """Get all the project updates for the ansible tower.
+
+        Returns:
+            list: list of all the project updates.
+
+        """
+        project_updates_url = '{api}/project_updates/'.format(api=self.api)
+        response = self.session.get(project_updates_url)
+        if not response.ok:
+            self._logger.error("Error getting the project updates. response was: {})".format(response.text))
+            return None
+        else:
+            return response.json().get('results', [])
+
+    def get_project_updates_by_project_name(self, given_project_name):
+        """Get project update with the given project name.
+
+        Args:
+            given_project_name: the name of the project.
+
+        Returns:
+            dict: the project with all the information.
+
+        """
+        project_update_list = self.get_project_updates()
+        project_updates = [item for item in project_update_list if item['name'] == given_project_name]
+        return project_updates
+
+    def get_project_updates_by_project_id(self, given_project_id):
+        """Get project update with the given project id.
+
+        Args:
+            given_project_id: the id of the project.
+
+        Returns:
+            dict: the project with all the information.
+
+        """
+
+        project_update_list = self.get_project_updates()
+        project_updates = [item for item in project_update_list if item['project'] == given_project_id]
+        return project_updates
+
+    def get_project_update_by_id(self, project_update_id):
+        """Get project update with the given project_update id.
+
+        Args:
+            project_update_id: the id of the project_update.
+
+        Returns:
+            dict: the project_update with all the information.
+
+        """
+
+        project_updates_url = '{api}/project_updates/{id}'.format(api=self.api, id=project_update_id)
+        response = self.session.get(project_updates_url)
+        if not response.ok:
+            self._logger.error("Error getting the project updates. response was: {})".format(response.text))
+            return None
+        else:
+            return response.json()
+
+    def get_all_hosts_from_non_smart_inventories(self):
+        """Get all the hosts from provided that the inventory of the host is not a smart inventory.
+
+        Returns:
+            list: filtered host list.
+
+        """
+        inventory_hosts = [item for item in self.hosts if item.inventory.kind != 'smart']
+        return inventory_hosts
+
+    def get_job_events_by_host(self, host):
+        """Get all the job_events for host.
+
+        Args:
+            host: host EntityManager object.
+
+        Returns:
+            list: list of all the job events for the given host.
+
+        """
+        response = self.session.get('{}/hosts/{}/job_events/'.format(self.api, host.id))
+        if not response.ok:
+            self._logger.error("Error getting the job events. response was: {})".format(response.text))
+            return None
+        else:
+            return response.json().get('results', [])
+
+    def get_job_dates_by_host(self, host):
+        """Get job dates from ansible tower for a given host id when the job event was created.
+
+        Args:
+            host: the host object of tower instance.
+
+        Returns:
+            list: a list containing the formatted datetime objects.
+
+        """
+        self._logger.debug("Start getting job events for the host '{}'".format(host.name))
+        job_events = self.get_job_events_by_host(host)
+        self._logger.debug("Finished getting job events for the host '{}'".format(host.name))
+        if job_events is None:
+            self._logger.error("No job events found.")
+            return None
+        else:
+            self._logger.debug("job events found")
+            job_dates = []
+            for job_event in job_events:
+                job_event_time = job_event['created']
+                job_dates.append(job_event_time)
+            return job_dates
+
+    def get_groups_by_host(self, host):
+        """Get groups for a particular host, which are directly connected.
+
+        Args:
+            host: the host object.
+
+        Returns:
+            list: list of custom groups.
+
+        """
+        url = "{api}/hosts/{id}/groups/".format(api=self.api, id=host.id)
+        response = self.session.get(url)
+        if not response.ok:
+            self._logger.error("Error getting the project updates. response was: {})".format(response.text))
+            return None
+        else:
+            results = response.json().get('results', [])
+            groups = []
+            for group in results:
+                groups.append(group)
+            return groups
+
+    def get_all_groups_by_host(self, host):
+        """Get groups for a particular host, which are directly and indirectly connected.
+
+        Args:
+            host: the host object.
+
+        Returns:
+            list: list of custom groups.
+
+        """
+        url = "{api}/hosts/{id}/all_groups/".format(api=self.api, id=host.id)
+        response = self.session.get(url)
+        if not response.ok:
+            self._logger.error("Error getting the project updates. response was: {})".format(response.text))
+            return None
+        else:
+            results = response.json().get('results', [])
+            groups = []
+            for group in results:
+                groups.append(group)
+            return groups
+
+    def get_all_groups(self):
+        """Get all the groups of the given ansible tower.
+
+        Returns:
+            list: list of all the groups as EntityManager object.
+
+        """
+        groups = [item for item in self.groups]
+        return groups
+
+
+    def disable_scm_update_on_launch_for_all_projects(self):
+        """Set update_on_launch option for all projects to false.
+
+        """
+        projects = self.get_all_projects()
+        i = 0
+        for project in projects:
+            if project.scm_update_on_launch is True:
+                i += 1
+                project.scm_update_on_launch = False
+        self._logger.debug("{} pojrect(s)'s scm_update_on_lanuch set to False out of total {} projects."
+                           .format(i, len(projects)))
+
+    def search_generic_item_by_keyword(self, generic_item_name_plural, keyword=''):
+        """
+        Search query string parameter to perform a case-insensitive search within all designated text fields of a model
+        or item. Model/item means projects, jobs, inventories etc.
+        https://docs.ansible.com/ansible-tower/latest/html/towerapi/searching.html
+
+        Args:
+            generic_item_name_plural: the plural name of the model/item e.g. projects, jobs, job_templates, users etc.
+            keyword: case insensitive search string.
+
+        Returns:
+            list: list of matching item objects.
+
+        """
+        results = []
+        url = "{api}/{item}/?search={keyword}".format(api=self.api, item=generic_item_name_plural, keyword=keyword)
+        response = self.session.get(url)
+        if not response.ok:
+            self._logger.error("Error getting the search result. Response was: {})".format(response.text))
+            return None
+        else:
+            page_id = 1
+            while True:
+                page_id += 1
+                results = results + response.json().get('results', [])
+                if response.json().get('next', []) is None:
+                    break
+                else:
+                    url = "{api}/{item}/?page={page_id}&search={keyword}".format(api=self.api,
+                                                                                 item=generic_item_name_plural,
+                                                                                 page_id=page_id,
+                                                                                 keyword=keyword)
+                    response = self.session.get(url)
+                    if not response.ok:
+                        self._logger.error("Error getting search result for the api page '{page}'. Response was: "
+                                           "{response})".format(page=page_id, response=response.text))
+            return results

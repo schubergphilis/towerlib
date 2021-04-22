@@ -527,8 +527,7 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
             Project: The project this job belongs to.
 
         """
-        url = self._data.get('related', {}).get('project')
-        return self._tower._get_object_by_url('Project', url)  # pylint: disable=protected-access
+        return self._tower.get_project_by_id(self._data.get('project'))  # pylint: disable=protected-access
 
     @property
     def credentials(self):
@@ -819,6 +818,16 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
                              entity_object='Credential',
                              primary_match_field='name',
                              url=url)
+
+    @property
+    def labels(self):
+        """The labels of the job template.
+
+        Returns:
+            dict: The dictionary of the list of the job template labels.
+
+        """
+        return self._data.get('summary_fields', {}).get('labels')
 
     @property
     def extra_credentials(self):
@@ -1570,8 +1579,7 @@ class ProjectUpdateJob(Entity):  # pylint: disable=too-many-public-methods
             Project: The project of the update.
 
         """
-        url = self._data.get('related', {}).get('project')
-        return self._tower._get_object_by_url('Project', url)  # pylint: disable=protected-access
+        return self._tower.get_project_by_id(self._data.get('project'))  # pylint: disable=protected-access
 
     @property
     def summary_fields(self):
@@ -1910,3 +1918,4 @@ class AdHocCommandJob(SystemJob):
 #              u'notifications': u'/api/v2/ad_hoc_commands/4979/notifications/',
 #              u'relaunch': u'/api/v2/ad_hoc_commands/4979/relaunch/',
 #              u'stdout': u'/api/v2/ad_hoc_commands/4979/stdout/'},
+

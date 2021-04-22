@@ -334,7 +334,10 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating project, response was: "%s"', response.text)
-        return Project(self._tower, response.json()) if response.ok else None
+            return None
+        else:
+            self._logger.info("New project '{}' was created successfully".format(payload['name']))
+            return Project(self._tower, response.json())
 
     def delete_project(self, name):
         """Deletes a project by username.
@@ -432,7 +435,10 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating team "%s", response was : "%s"', name, response.text)
-        return Team(self._tower, response.json()) if response.ok else None
+            return None
+        else:
+            self._logger.info("New team '{}' was created successfully".format(payload['name']))
+            return Team(self._tower, response.json())
 
     def delete_team(self, name):
         """Deletes a team by name.
@@ -513,7 +519,10 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating inventory "%s", response was "%s"', name, response.text)
-        return Inventory(self._tower, response.json()) if response.ok else None
+            return None
+        else:
+            self._logger.info("New inventory '{}' was created successfully".format(payload['name']))
+            return Inventory(self._tower, response.json())
 
     @property
     def inventory_scripts(self):
@@ -557,8 +566,11 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                    }
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
-            self._logger.error('Error creating host "%s", response was "%s"', name, response.text)
-        return InventoryScript(self._tower, response.json()) if response.ok else None
+            self._logger.error('Error creating inventory script "%s", response was "%s"', name, response.text)
+            return None
+        else:
+            self._logger.info("New inventory script '{}' was created successfully".format(payload['name']))
+            return InventoryScript(self._tower, response.json())
 
     def delete_inventory_script(self, name):
         """Deletes a custom inventory script.
@@ -657,3 +669,4 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return next(self.credentials.filter({'id': id_}), None)
+

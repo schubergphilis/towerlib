@@ -16,3 +16,6 @@ recursive-exclude * *.py[co]
 
 recursive-include docs *.rst conf.py Makefile
 recursive-include towerlib *
+
+include RELEASE-VERSION
+include version.py
