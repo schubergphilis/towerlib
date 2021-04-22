@@ -53,7 +53,7 @@ LOGGER.addHandler(logging.NullHandler())
 class Package:
     def __init__(self,
                  name: str,
-                 version: str,
+                 full_version: str,
                  index: str = '',
                  markers: str = '',
                  hashes: list = field(default=list)) -> None:
@@ -61,7 +61,7 @@ class Package:
         self.index = index
         self.markers = markers
         self.hashes = hashes
-        self.comparator, self.version = self._decompose_full_version(version)
+        self.comparator, self.version = self._decompose_full_version(full_version)
 
     @staticmethod
     def _decompose_full_version(full_version: str) -> (str, str):
@@ -592,3 +592,4 @@ def update_pipfile(stdout: bool):
             writer.write(toml.dumps(pipfile))
 
     return True
+

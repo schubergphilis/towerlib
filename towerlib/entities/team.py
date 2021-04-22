@@ -643,3 +643,4 @@ class Team(Entity):  # pylint: disable=too-many-public-methods
         if not response.ok:
             self._logger.error('Error posting to url "%s", response was "%s"', url, response.text)
         return response.ok
+

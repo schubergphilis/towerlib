@@ -111,7 +111,10 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         if not response.ok:
             self._logger.error('Error getting playbooks for project "%s", response was :"%s"', self.name,
                                response.text)
-        return response.json() if response.ok else None
+            return None
+        else:
+            self._logger.info("Playbooks retrieved successfully")
+            return response.json()
 
     @property
     def object_roles(self):

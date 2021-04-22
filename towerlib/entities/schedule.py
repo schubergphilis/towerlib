@@ -380,3 +380,4 @@ class Schedule(Entity):
 
         """
         self._update_values('rrule', value)
+

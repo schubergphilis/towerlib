@@ -281,8 +281,22 @@ class Host(Entity):
         return self._data.get('summary_fields', {}).get('recent_jobs')
 
     @property
+    def job_events(self):
+        """The most job events run on the host.
+
+        Returns:
+            list if dict: The job events run on the host.
+
+        """
+        url = self._data.get('related', {}).get('job_events')
+        return EntityManager(self._tower,
+                             entity_object='JobEvent',
+                             primary_match_field='job',
+                             url=url)
+
+    @property
     def ansible_facts(self):
-        """Ansible facts gathered about the host in json.
+        """Returns ansible facts gathered about the host in json.
 
         Args: None
 
@@ -290,7 +304,6 @@ class Host(Entity):
             json: Json representation of ansible facts
 
         Raises: None
-
         """
         url = f'{self._tower.api}/hosts/{self.id}/ansible_facts'
         response = self._tower.session.get(url)
@@ -351,3 +364,4 @@ class Host(Entity):
                             if group.name.lower() in lower_group_names]
         return all([group._remove_host_by_id(self.id)  # pylint: disable=protected-access
                     for group in inventory_groups])
+
