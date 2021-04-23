@@ -1,13 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from version import get_git_version
 from setuptools import setup, find_packages
-
-try:
-    import multiprocessing
-except ImportError:
-    pass
-
 try:
     from pipenv.project import Project
     from pipenv.utils import convert_deps_to_pip
@@ -34,7 +27,7 @@ version = open('.VERSION').read()
 
 setup(
     name='''towerlib''',
-    version=get_git_version(),
+    version=version,
     description='''A python library to interface with ansible tower's (awx) api.''',
     long_description=readme + '\n\n' + history,
     author='''Costas Tyfoxylos''',
@@ -58,4 +51,3 @@ setup(
     test_suite='tests',
     tests_require=test_requirements
 )
-
