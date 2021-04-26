@@ -254,3 +254,9 @@ History
 ------------------
 
 * Bumped dependencies.
+
+
+3.7.2 (26-04-2021)
+------------------
+
+* Bumped dependencies.
