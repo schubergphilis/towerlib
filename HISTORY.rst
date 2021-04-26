@@ -248,3 +248,9 @@ History
 ------------------
 
 * Implemented survey specification retrieval.
+
+
+3.7.1 (26-04-2021)
+------------------
+
+* Bumped dependencies.
