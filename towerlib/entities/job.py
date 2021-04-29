@@ -792,8 +792,10 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
             Inventory: The project that the job template is part of.
 
         """
-        url = self._data.get('related', {}).get('project')
-        return self._tower._get_object_by_url('Project', url)  # pylint: disable=protected-access
+        if self._data.get('related', {}).get('project'):
+            url = self._data.get('related', {}).get('project')
+            return self._tower._get_object_by_url('Project', url)
+        return None # pylint: disable=protected-access
 
     @property
     def playbook(self):
