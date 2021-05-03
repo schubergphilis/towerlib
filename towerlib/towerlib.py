@@ -2045,16 +2045,8 @@ class Tower:  # pylint: disable=too-many-public-methods
             list: List of response of api request as json on success, False otherwise.
 
         """
-        update_url = '{api}/projects/{id}/update/'.format(api=self.api, id=project_id)
         project = self.get_project_by_id(project_id)
-        response = self.session.post(update_url)
-        if not response.ok:
-            self._logger.error("Error updating the project '{}'. response was: {})".format(project.name, response.text))
-            return None
-        else:
-            self._logger.info("The project '{}' was successfully updated with the latest scm version."
-                              .format(project.name))
-            return response.json()
+        return project.update()
 
     def update_project_by_name(self, organization, project_name):
         """Update the ansible tower project with given project name.
@@ -2079,15 +2071,12 @@ class Tower:  # pylint: disable=too-many-public-methods
             scm_url: the http url of the required repository.
 
         """
-        projects = self.get_all_projects()
-        matching_projects = [project for project in projects if project.scm_url == scm_url]
-        if matching_projects:  # Check if length of list is greater than zero
-            for project in matching_projects:
-                self.update_project_by_id(project.id)
-            self._logger.debug("Updated {} projects with given url '{}'".format(len(matching_projects), scm_url))
-        else:
-            self._logger.debug("No project was updated. Reason: no tower project found with "
-                               "the given url '{}'".format(scm_url))
+
+        matching_projects = [project for project in self.projects if project.scm_url == scm_url]
+        for project in matching_projects:
+            self._logger.debug("A request is being sent to update the project with the name '{}' and with scm url '{}'"
+                               .format(project.name, scm_url))
+            project.update()
 
     def update_project_by_branch_name(self, scm_url, branch_name):
         """Update an ansible tower project or list of projects based on their branch name.
@@ -2098,36 +2087,14 @@ class Tower:  # pylint: disable=too-many-public-methods
             scm_url: the URL of the relevant repository configured in the project.
             branch_name: the name of the branch, which is selected as scm_branch parameter of the project.
 
-        Returns:
-            list: List of project update ids on success, otherwise empty list.
-
         """
-        projects = self.get_all_projects()
-        project_update_id_list = []
-        matching_projects = [project for project in projects if
+
+        matching_projects = [project for project in self.projects if
                              project.scm_url == scm_url and project.scm_branch == branch_name]
-        if len(matching_projects) > 0:
-            for project in matching_projects:
-                self._logger.info("Updating the project: {}".format(project.name))
-                project_update = self.update_project_by_id(project.id)
-                project_update_id_list.append(project_update['id'])
-            self._logger.info("Updated {} project(s) with the url '{}' and branch name '{}'".
-                              format(len(matching_projects), scm_url, branch_name))
-            return project_update_id_list
-        else:
-            self._logger.warning("No project was updated. Reason: no tower project found with the given "
-                                 "git url '{}' and branch '{}'".format(scm_url, branch_name))
-            return []
-
-    def get_all_job_templates(self):
-        """Get all the job templates of the ansible tower.
-
-        Returns:
-            list: the list of all job templates as EntityManager object.
-
-        """
-        job_templates = [item for item in self.job_templates]
-        return job_templates
+        for project in matching_projects:
+            self._logger.debug("A request is being sent to update the project with the name '{}' and with scm url '{}' "
+                               "and branch name '{}'".format(project.name, scm_url, branch_name))
+            project.update()
 
     def get_job_templates_by_project(self, project_name):
         """Get all the job templates for a given project name.
