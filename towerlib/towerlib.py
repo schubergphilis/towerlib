@@ -2029,26 +2029,11 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     #    ****** High level methods for Spirit/21 ******    #
 
-    def get_all_projects(self):
-        """Get all the projects of the ansible tower.
-
-        Returns:
-            list: list of projects as EntityManager object.
-
-        """
-        projects = []
-        for item in self.projects:
-            projects.append(item)
-        return projects
-
     def update_all_projects(self):
         """Update all the projects in ansible tower one by one.
-
         """
-        projects = self.get_all_projects()
-        for project in projects:
-            self.update_project_by_id(project.id)
-        logging.info("Updated {} projects".format(len(projects)))
+        for project in self.projects:
+            project.update()
 
     def update_project_by_id(self, project_id):
         """Update the ansible tower project with given project id.
@@ -2278,36 +2263,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             if count < 1:
                 self._logger.debug("No job template, which matched all the labels in the config file.")
 
-    def project_exists(self, project_name):
-        """Check if a project with given name exists in the project list.
-
-        Args:
-            project_name: the name of the given project.
-
-        Returns:
-            bool: True or False whether a project exists.
-
-            """
-        project_exists = False
-        projects = self.get_all_projects()
-        for project in projects:
-            if project.name == project_name:
-                project_exists = True
-        return project_exists
-
-    def get_all_credential_types(self):
-        """Get all the credential types of the ansible tower.
-
-        Returns:
-            list: list of credential types.
-
-        """
-        credential_types = []
-        for item in self.credential_types:
-            credential_types.append(item)
-        return credential_types
-
-    def get_credential_id_from_existing_project(self, scm_url):
+    def get_credential_id_from_existing_project_by_scm_url(self, scm_url):
         """This function gets credential id from an existing project, which has the same credential id.
 
         This function is for additional convenience. If there is already a project with the same scm url configured,
@@ -2430,36 +2386,6 @@ class Tower:  # pylint: disable=too-many-public-methods
         host = self.get_host_by_id(host_id)
         return host.ansible_facts()
 
-    def get_all_inventories(self):
-        """
-        Get all the inventories of the ansible tower.
-
-        Returns:
-            list: list of inventories as EntityManager object.
-        """
-        inventories = [item for item in self.inventories]
-        return inventories
-
-    def get_all_hosts(self):
-        """Get all the hosts of the given ansible tower.
-
-        Returns:
-            list: list of all the hosts as EntityManager object.
-
-        """
-        hosts = [item for item in self.hosts]
-        return hosts
-
-    def get_all_credentials(self):
-        """Get all the credentials of the ansible tower.
-
-        Returns:
-            list: the list of credentials as EntityManager object.
-
-        """
-        credentials = [item for item in self.credentials]
-        return credentials
-
     def get_hosts_by_inventory_id(self, inventory_id):
         """Get filtered list of hosts for a given inventory id.
 
@@ -2472,16 +2398,6 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         hosts = [item for item in self.hosts if item.inventory.id == inventory_id]
         return hosts
-
-    def get_all_jobs(self):
-        """Get all the jobs of the ansible tower.
-
-        Returns:
-            list: list of all the jobs as EntityManager object
-
-        """
-        jobs = [item for item in self.jobs]
-        return jobs
 
     def get_jobs_by_name(self, given_job_name):
         """Get filtered list of jobs for a given name.
@@ -2654,22 +2570,12 @@ class Tower:  # pylint: disable=too-many-public-methods
                 groups.append(group)
             return groups
 
-    def get_all_groups(self):
-        """Get all the groups of the given ansible tower.
-
-        Returns:
-            list: list of all the groups as EntityManager object.
-
-        """
-        groups = [item for item in self.groups]
-        return groups
-
 
     def disable_scm_update_on_launch_for_all_projects(self):
         """Set update_on_launch option for all projects to false.
 
         """
-        projects = self.get_all_projects()
+        projects = list(self.projects)
         i = 0
         for project in projects:
             if project.scm_update_on_launch is True:
