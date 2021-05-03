@@ -547,3 +547,23 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         else:
             raise InvalidValue(f'{value} is invalid. Condition max_characters must be less than or equal to '
                                f'{max_characters}')
+
+    @property
+    def update(self):
+        """Update the ansible tower project with given project id.
+
+        Returns:
+            list: List of response of api request as json on success, False otherwise.
+
+        """
+        update_url = '{api}/projects/{id}/update/'.format(api=self._tower.api, id=self.id)
+        response = self.session.post(update_url)
+        if not response.ok:
+            self._logger.error(
+                "Error updating the project '{}'. response was: {})".format(self.name, response.text))
+            return None
+        else:
+            self._logger.info("The project '{}' was successfully updated with the latest scm version."
+                              .format(self.name))
+            return response.json()
+
