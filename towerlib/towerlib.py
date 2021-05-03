@@ -100,27 +100,9 @@ CONFIGURATION_STATE_CACHE = TTLCache(maxsize=1, ttl=CONFIGURATION_STATE_CACHING_
 class Tower:  # pylint: disable=too-many-public-methods
     """Models the api of ansible tower."""
 
-    def __init__(self, host, username, password, secure=False, ssl_verify=True, token=None):  # pylint:
-        # disable=too-many-arguments
-        logger_name = u'{base}.{suffix}'.format(base=LOGGER_BASENAME,
-                                                suffix=self.__class__.__name__)
-        self._logger = logging.getLogger(logger_name)
-        self._logger.setLevel(logging.INFO)
-
-        # TODO: Decide about this part of logger configuration as this creates duplicate logger file when used
-        # with another script.
-        # Create the Handler for logging data to a file
-        logger_handler = logging.FileHandler('towerlib.log')
-        logger_handler.setLevel(logging.INFO)
-        # Create a Formatter for formatting the log messages
-        logger_formatter = logging.Formatter('%(asctime)s [%(filename)s:%(lineno)3s - %(funcName)27s()] '
-                                             '%(levelname)-7s %(message)s')
-        # Add the Formatter to the Handler
-        logger_handler.setFormatter(logger_formatter)
-        # Add the Handler to the Logger
-        self._logger.addHandler(logger_handler)
-        self._logger.info('Completed configuring logger()!')
-
+    # pylint: disable=too-many-arguments
+    def __init__(self, host, username, password, secure=False, ssl_verify=True, token=None):
+        self._logger = logging.getLogger(f'{LOGGER_BASENAME}.{self.__class__.__name__}')
         self.host = self._generate_host_name(host, secure)
         self.api = f'{self.host}/api/v2'
         self.username = username
@@ -130,12 +112,7 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     @staticmethod
     def _generate_host_name(host, secure):
-        if host.startswith('https://'):
-            host = host.replace("https://", '')
-        if host.startswith('http://'):
-            host = host.replace("http://", '')
-        protocol = 'https' if secure else 'http'
-        return '{protocol}://{host}'.format(protocol=protocol, host=host)
+        return f'{"https" if secure else "http"}://{host}'
 
     def _get_authenticated_session(self, secure, ssl_verify):
         session = Session()
