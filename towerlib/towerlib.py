@@ -2107,7 +2107,7 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         """
         required_job_templates = []
-        job_templates = self.get_all_job_templates()
+        job_templates = list(self.job_templates)
         for job_template in job_templates:
             if job_template.project.name == project_name:
                 required_job_templates.append(job_template)
@@ -2201,7 +2201,7 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         """
         count = 0
-        job_templates = self.get_all_job_templates()
+        job_templates = list(self.job_templates)
         if job_templates is None:
             self._logger.error("Error finding job templates.")
         else:
@@ -2249,14 +2249,14 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         """
         scm_credential_type_ids = []
-        credential_types = self.get_all_credential_types()
+        credential_types = list(self.credential_types)
         for credential_type in credential_types:
             if credential_type.kind == 'scm':
                 scm_credential_type_ids.append(credential_type.id)
         credential_id = None
-        all_projects = self.get_all_projects()
+        projects = list(self.projects)
         for scm_credential_type_id in scm_credential_type_ids:
-            for project in all_projects:
+            for project in projects:
                 if project.scm_url == scm_url:
                     self._logger.debug("Project found with the scm credential.")
                     if project.credential.credential_type.id == scm_credential_type_id:
@@ -2267,27 +2267,27 @@ class Tower:  # pylint: disable=too-many-public-methods
                             return credential_id
         return credential_id
 
-    def get_project_id_by_branch_name(self, scm_url, scm_branch):
-        """Get the ids of the ansible tower project with given scm_url and branch name.
+    def get_projects_by_scm_url_and_branch(self, scm_url, scm_branch):
+        """Get the ansible tower projects with given scm_url and branch name.
 
         Args:
             scm_url: given scm url.
             scm_branch: given scm branch.
 
         Returns:
-            list: list of project ids
+            list: list of matching projects
 
         """
-        project_ids = []
-        projects = self.get_all_projects()
+        matching_projects = []
+        projects = list(self.projects)
         for project in projects:
             if project.scm_type == 'git':
                 if project.scm_url == scm_url and project.scm_branch == scm_branch:
-                    project_ids.append(project.id)
-        return project_ids
+                    matching_projects.append(project)
+        return matching_projects
 
-    def get_production_branch_project_id(self, scm_url):
-        """Get the id of the ansible tower project, which has the branch production as scm branch.
+    def get_projects_by_scm_url(self, scm_url):
+        """Get the ansible tower projects with given scm_url.
 
         Args:
             scm_url: the scm url of the production branch project.
@@ -2296,16 +2296,15 @@ class Tower:  # pylint: disable=too-many-public-methods
             The id of the production branch project.
 
         """
-        project_id = None
-        projects = self.get_all_projects()
+        matching_projects = []
+        projects = list(self.projects)
         for project in projects:
             if project.scm_type == 'git':
-                if project.scm_url == scm_url and project.scm_branch == 'production':
-                    project_id = project.id
-                    break
-        return project_id
+                if project.scm_url == scm_url:
+                    matching_projects.append(project)
+        return matching_projects
 
-    def get_playbooks_by_branch_name(self, scm_url, scm_branch):
+    def get_playbooks_by_scm_url_and_branch(self, scm_url, scm_branch):
         """Get all the playbooks of the project with the given scm_url and branch name.
 
         Args:
@@ -2317,7 +2316,7 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         """
         playbooks = None
-        projects = self.get_all_projects()
+        projects = list(self.projects)
         for project in projects:
             if project.scm_url == scm_url and project.scm_branch == scm_branch:
                 playbooks = project.playbooks
@@ -2334,7 +2333,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             list: a list with the names of all the playbooks of production branch project.
 
         """
-        projects = self.get_all_projects()
+        projects = list(self.projects)
         for project in projects:
             if project.scm_url == scm_url and project.scm_branch == 'production':
                 playbooks = project.playbooks
