@@ -241,7 +241,7 @@ class Entity(DateParserMixin):
     """The basic object that holds common responses across all entities."""
 
     def __init__(self, tower_instance, data):
-        self._logger = tower_instance._logger
+        self._logger = logging.getLogger(f'{LOGGER_BASENAME}.{self.__class__.__name__}')
         self._tower = tower_instance
         self._data = data
 
