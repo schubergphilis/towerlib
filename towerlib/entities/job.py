@@ -97,13 +97,13 @@ class JobEvent(Entity):  # pylint: disable=too-many-public-methods
 
     @property
     def event(self):
-        """The name of the host.
+        """The name of the event.
 
         Returns:
-            string: The name of the host.
+            string: The name of the event.
 
         """
-        return self._data.get('name')
+        return self._data.get('event')
 
     @property
     def counter(self):
