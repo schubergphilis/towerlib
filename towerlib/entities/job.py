@@ -143,7 +143,7 @@ class JobEvent(Entity):  # pylint: disable=too-many-public-methods
             integer: The level of the event.
 
         """
-        return self._data.get('event_data')
+        return self._data.get('event_level')
 
     @property
     def is_failed(self):
