@@ -527,7 +527,8 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
             Project: The project this job belongs to.
 
         """
-        return self._tower.get_project_by_id(self._data.get('project'))  # pylint: disable=protected-access
+        url = self._data.get('related', {}).get('project')
+        return self._tower._get_object_by_url('Project', url)  # pylint: disable=protected-access
 
     @property
     def credentials(self):
