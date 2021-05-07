@@ -2033,7 +2033,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         """Update all the projects in ansible tower one by one.
         """
         for project in self.projects:
-            project.update()
+            project.update
 
     def update_project_by_id(self, project_id):
         """Update the ansible tower project with given project id.
@@ -2042,11 +2042,11 @@ class Tower:  # pylint: disable=too-many-public-methods
             project_id: The id of the project, which is to be updated.
 
         Returns:
-            list: List of response of api request as json on success, False otherwise.
+            list: List of response of api request as json on success, None otherwise.
 
         """
         project = self.get_project_by_id(project_id)
-        return project.update()
+        return project.update
 
     def update_project_by_name(self, organization, project_name):
         """Update the ansible tower project with given project name.
@@ -2076,7 +2076,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         for project in matching_projects:
             self._logger.debug("A request is being sent to update the project with the name '{}' and with scm url '{}'"
                                .format(project.name, scm_url))
-            project.update()
+            project.update
 
     def update_project_by_branch_name(self, scm_url, branch_name):
         """Update an ansible tower project or list of projects based on their branch name.
@@ -2094,7 +2094,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         for project in matching_projects:
             self._logger.debug("A request is being sent to update the project with the name '{}' and with scm url '{}' "
                                "and branch name '{}'".format(project.name, scm_url, branch_name))
-            project.update()
+            project.update
 
     def get_job_templates_by_project(self, project_name):
         """Get all the job templates for a given project name.
