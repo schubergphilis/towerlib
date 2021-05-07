@@ -793,10 +793,11 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
             Inventory: The project that the job template is part of.
 
         """
-        if self._data.get('related', {}).get('project'):
+        if not self._data.get('related', {}).get('project'):
+            return None
+        else:
             url = self._data.get('related', {}).get('project')
-            return self._tower._get_object_by_url('Project', url)
-        return None # pylint: disable=protected-access
+            return self._tower._get_object_by_url('Project', url)   # pylint: disable=protected-access
 
     @property
     def playbook(self):
@@ -1576,13 +1577,14 @@ class ProjectUpdateJob(Entity):  # pylint: disable=too-many-public-methods
 
     @property
     def project(self):
-        """The project of the update.
+        """Get the project thie job_update.
 
         Returns:
-            Project: The project of the update.
+            Project: The project the job_update.
 
         """
-        return self._tower.get_project_by_id(self._data.get('project'))  # pylint: disable=protected-access
+        url = self._data.get('related', {}).get('project')
+        return self._tower._get_object_by_url('Project', url)  # pylint: disable=protected-access
 
     @property
     def summary_fields(self):
