@@ -550,20 +550,19 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
 
     @property
     def update(self):
-        """Update the ansible tower project with given project id.
+        """Update the ansible tower project.
 
         Returns:
-            list: List of response of api request as json on success, False otherwise.
+            list: List of response of api request as json on success, None otherwise.
 
         """
+
         update_url = '{api}/projects/{id}/update/'.format(api=self._tower.api, id=self.id)
-        response = self.session.post(update_url)
+        response = self._tower.session.post(update_url)
+
         if not response.ok:
             self._logger.error(
                 "Error updating the project '{}'. response was: {})".format(self.name, response.text))
-            return None
         else:
-            self._logger.info("The project '{}' was successfully updated with the latest scm version."
-                              .format(self.name))
-            return response.json()
+            return response.json() if response.ok else None
 
