@@ -2468,19 +2468,6 @@ class Tower:  # pylint: disable=too-many-public-methods
             return groups
 
 
-    def disable_scm_update_on_launch_for_all_projects(self):
-        """Set update_on_launch option for all projects to false.
-
-        """
-        projects = list(self.projects)
-        i = 0
-        for project in projects:
-            if project.scm_update_on_launch is True:
-                i += 1
-                project.scm_update_on_launch = False
-        self._logger.debug("{} pojrect(s)'s scm_update_on_lanuch set to False out of total {} projects."
-                           .format(i, len(projects)))
-
     def search_generic_item_by_keyword(self, generic_item_name_plural, keyword=''):
         """
         Search query string parameter to perform a case-insensitive search within all designated text fields of a model
