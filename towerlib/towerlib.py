@@ -2350,6 +2350,8 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         """
         host = self.get_host_by_id(host_id)
+        if not host:
+            raise InvalidHost(host_id)
         return host.ansible_facts()
 
     def get_hosts_by_inventory_id(self, inventory_id):
