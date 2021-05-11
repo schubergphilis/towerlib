@@ -2488,20 +2488,17 @@ class Tower:  # pylint: disable=too-many-public-methods
         if not response.ok:
             self._logger.error("Error getting the search result. Response was: {})".format(response.text))
             return None
-        else:
-            page_id = 1
-            while True:
-                page_id += 1
-                results = results + response.json().get('results', [])
-                if response.json().get('next', []) is None:
-                    break
-                else:
-                    url = "{api}/{item}/?page={page_id}&search={keyword}".format(api=self.api,
-                                                                                 item=generic_item_name_plural,
-                                                                                 page_id=page_id,
-                                                                                 keyword=keyword)
-                    response = self.session.get(url)
-                    if not response.ok:
-                        self._logger.error("Error getting search result for the api page '{page}'. Response was: "
-                                           "{response})".format(page=page_id, response=response.text))
-            return results
+        page_id = 2
+        results = response.json().get('results', [])
+        while response.json().get('next'):
+            url = "{api}/{item}/?page={page_id}&search={keyword}".format(api=self.api,
+                                                                         item=generic_item_name_plural,
+                                                                         page_id=page_id,
+                                                                         keyword=keyword)
+            response = self.session.get(url)
+            results.extend(response.json().get('results', []))
+            if not response.ok:
+                self._logger.error("Error getting search result for the api page '{page}'. Response was: "
+                                   "{response})".format(page=page_id, response=response.text))
+            page_id += 1
+        return results
