@@ -111,9 +111,7 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         if not response.ok:
             self._logger.error('Error getting playbooks for project "%s", response was :"%s"', self.name,
                                response.text)
-            return None
-        else:
-            return response.json()
+        return response.json()
 
     @property
     def object_roles(self):
@@ -562,6 +560,6 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         if not response.ok:
             self._logger.error(
                 "Error updating the project '{}'. response was: {})".format(self.name, response.text))
-        else:
-            return response.json()
+        return response.json()
+
 
