@@ -336,7 +336,6 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             self._logger.error('Error creating project, response was: "%s"', response.text)
             return None
         else:
-            self._logger.info("New project '{}' was created successfully".format(payload['name']))
             return Project(self._tower, response.json())
 
     def delete_project(self, name):
@@ -437,7 +436,6 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             self._logger.error('Error creating team "%s", response was : "%s"', name, response.text)
             return None
         else:
-            self._logger.info("New team '{}' was created successfully".format(payload['name']))
             return Team(self._tower, response.json())
 
     def delete_team(self, name):
@@ -521,7 +519,6 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             self._logger.error('Error creating inventory "%s", response was "%s"', name, response.text)
             return None
         else:
-            self._logger.info("New inventory '{}' was created successfully".format(payload['name']))
             return Inventory(self._tower, response.json())
 
     @property
@@ -569,7 +566,6 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             self._logger.error('Error creating inventory script "%s", response was "%s"', name, response.text)
             return None
         else:
-            self._logger.info("New inventory script '{}' was created successfully".format(payload['name']))
             return InventoryScript(self._tower, response.json())
 
     def delete_inventory_script(self, name):

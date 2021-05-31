@@ -113,7 +113,6 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
                                response.text)
             return None
         else:
-            self._logger.info("Playbooks retrieved successfully")
             return response.json()
 
     @property
