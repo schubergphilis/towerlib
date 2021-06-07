@@ -2106,8 +2106,7 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         """
         required_job_templates = []
-        job_templates = list(self.job_templates)
-        for job_template in job_templates:
+        for job_template in self.job_templates:
             if job_template.project.name == project_name:
                 required_job_templates.append(job_template)
         return required_job_templates
@@ -2200,34 +2199,30 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         """
         count = 0
-        job_templates = list(self.job_templates)
-        if job_templates is None:
-            self._logger.error("Error finding job templates.")
-        else:
-            for job_template in job_templates:
-                if job_template.labels['count'] > 0:
-                    label_results = job_template.labels['results']
-                    job_labels = [item['name'] for item in label_results]
-                    if set(given_labels) == set(job_labels):
-                        count += 1
-                        self._logger.info("Equal labels found for the job template '{}'".format(job_template.name))
-                        existing_job_type = job_template.job_type
-                        if existing_job_type.lower() == new_job_type.lower():
-                            self._logger.info(
-                                "Existing job-type is already: '{}'. Change is not required for this job template.".
-                                    format(existing_job_type))
-                        else:
-                            self._logger.debug("Changing job type from '{}' to '{}'"
-                                               .format(existing_job_type, new_job_type))
-                            job_template_data = {
-                                "id": job_template.id,
-                                "job_type": new_job_type,
-                                "name": job_template.name,
-                                "playbook": job_template.playbook
-                            }
-                            self.change_job_template_data(job_template_data)
-            if count < 1:
-                self._logger.debug("No job template, which matched all the labels in the config file.")
+        for job_template in self.job_templates:
+            if job_template.labels['count'] > 0:
+                label_results = job_template.labels['results']
+                job_labels = [item['name'] for item in label_results]
+                if set(given_labels) == set(job_labels):
+                    count += 1
+                    self._logger.info("Equal labels found for the job template '{}'".format(job_template.name))
+                    existing_job_type = job_template.job_type
+                    if existing_job_type.lower() == new_job_type.lower():
+                        self._logger.info(
+                            "Existing job-type is already: '{}'. Change is not required for this job template.".
+                                format(existing_job_type))
+                    else:
+                        self._logger.debug("Changing job type from '{}' to '{}'"
+                                           .format(existing_job_type, new_job_type))
+                        job_template_data = {
+                            "id": job_template.id,
+                            "job_type": new_job_type,
+                            "name": job_template.name,
+                            "playbook": job_template.playbook
+                        }
+                        self.change_job_template_data(job_template_data)
+        if count < 1:
+            self._logger.debug("No job template, which matched all the labels in the config file.")
 
     def get_credential_id_from_existing_project_by_scm_url(self, scm_url):
         """This function gets credential id from an existing project, which has the same credential id.
