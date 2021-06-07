@@ -2061,8 +2061,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
 
         project = self.get_organization_project_by_name(organization, project_name)
-        updated_project = self.update_project_by_id(project.id)
-        return updated_project
+        return project.update
 
     def update_project_by_scm_url(self, scm_url):
         """Send update request to update project for a given git repository (scm_url).
