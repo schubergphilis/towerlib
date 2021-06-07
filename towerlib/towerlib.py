@@ -2048,7 +2048,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         project = self.get_project_by_id(project_id)
         return project.update
 
-    def update_project_by_name(self, organization, project_name):
+    def update_organization_project_by_name(self, organization, project_name):
         """Update the ansible tower project with given project name.
 
         Args:
