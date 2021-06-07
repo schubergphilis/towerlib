@@ -2170,23 +2170,6 @@ class Tower:  # pylint: disable=too-many-public-methods
             self._logger.error("Error updating the job template's project.")
         return response
 
-    def change_project_of_job_template_to_prod_branch_project(self, job_template, scm_url):
-        """A job template in the ansible tower has to have a project from the list of projects.
-
-        This function helps to change the project name of a job template in ansible tower for a given job template.
-
-        Args:
-            job_template: given job template object
-            scm_url: the scm url of the projects.
-
-        Returns:
-            Object: The updated job_template object
-
-        """
-        prod_branch_project_id = self.get_production_branch_project_id(scm_url)
-        response = self.change_project_of_job_template(job_template, prod_branch_project_id)
-        return response
-
     def change_job_type(self, given_labels, new_job_type):
         """Change the job template type in the given Ansible Tower, which means whether a job should run in 'Run' or
         'Check' mode.
