@@ -2244,7 +2244,6 @@ class Tower:  # pylint: disable=too-many-public-methods
                             return credential_id
         return credential_id
 
-
     def get_ansible_facts_by_host_id(self, host_id):
         """Get the ansible_facts of the given host.
 
@@ -2273,18 +2272,30 @@ class Tower:  # pylint: disable=too-many-public-methods
         hosts = [item for item in self.hosts if item.inventory.id == inventory_id]
         return hosts
 
-    def get_jobs_by_name(self, given_job_name):
+    def get_jobs_by_name(self, name):
         """Get filtered list of jobs for a given name.
 
         Args:
-            given_job_name: the given job name.
+            name: the given job name.
 
         Returns:
              list: the filtered list of jobs.
 
         """
-        job_list = [item for item in self.jobs if item.name == given_job_name]
-        return job_list
+
+        return self.jobs.filter({'name__iexact': name})
+
+    def get_job_by_id(self, id_):
+        """Retrieves a job by id.
+
+        Args:
+            id_: The id of the job to retrieve.
+
+        Returns:
+            Host: The host if a match is found else None.
+
+        """
+        return next(self.jobs.filter({'id': id_}), None)
 
     def get_project_updates(self):
         """Get all the project updates for the ansible tower.
