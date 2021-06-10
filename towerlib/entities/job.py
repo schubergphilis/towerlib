@@ -33,6 +33,7 @@ Main code for jobs.
 
 import logging
 import datetime
+import json
 
 from bs4 import BeautifulSoup as Bfs
 from dateutil.parser import parse
@@ -774,6 +775,41 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._data.get('job_type')
 
+    @property.setter
+    def job_type(self, value):
+        """Update the job_type e.g. run, check.
+
+        Returns:
+            string: The type of the job.
+
+        """
+
+        """Send API PATCH request to update the job template information with the given data.
+        https://docs.ansible.com/ansible-tower/3.6.1/html/towerapi/api_ref.html#/Authentication/Authentication_applications_partial_update_0
+
+        Args:
+            value: job_type to be changed to. e.g. 'run', 'check'
+        }
+
+        Returns:
+            list: List of response of api request as json on success, False otherwise.
+
+        """
+        job_template = {
+            "id": self.id,
+            "project": self.project.id,
+            "playbook": self.playbook,
+            "name": self.name,
+            "description": self.description,
+            "job_type": value
+        }
+
+        job_url = '{api}/job_templates/{id}/'.format(api=self._tower.api, id=self.id)
+        response = self._tower.session.patch(job_url, data=json.dumps(job_template))
+        if not response.ok:
+            self._logger.error("Error updating the job template with the given data '{}'".format(value))
+        return response.json()
+
     @property
     def inventory(self):
         """The inventory that the job template is part of.
@@ -784,6 +820,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         """
         url = self._data.get('related', {}).get('inventory')
         return self._tower._get_object_by_url('Inventory', url)  # pylint: disable=protected-access
+
 
     @property
     def project(self):
@@ -798,6 +835,33 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         else:
             url = self._data.get('related', {}).get('project')
             return self._tower._get_object_by_url('Project', url)   # pylint: disable=protected-access
+
+    @project.setter
+    def project(self, value):
+        """A job template in the ansible tower has to have a project from the list of projects.
+
+        This function helps to change the project data of a job template in ansible tower for a given job template.
+
+        Args:
+            value: given project object
+
+        Returns:
+            Object: The updated job_template object
+
+        """
+        job_template = {
+            "id": self.id,
+            "project": value.id,
+            "playbook": self.playbook,
+            "name": self.name,
+            "description": self.description,
+        }
+
+        job_url = '{api}/job_templates/{id}/'.format(api=self._tower.api, id=self.id)
+        response = self._tower.session.patch(job_url, data=json.dumps(job_template))
+        if not response.ok:
+            self._logger.error("Error updating the job template with the given data '{}'".format(value))
+        return response.json()
 
     @property
     def playbook(self):
