@@ -775,7 +775,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._data.get('job_type')
 
-    @property.setter
+    @job_type.setter
     def job_type(self, value):
         """Update the job_type e.g. run, check.
 
