@@ -2350,7 +2350,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             Host: The project_update if a match is found else None.
 
         """
-        return next(self.jobs.filter({'id': id_}), None)
+        return next(self.project_updates.filter({'id': id_}), None)
 
     def get_project_updates_by_name(self, name):
         """Retrieves project_updates matching a certain name.
