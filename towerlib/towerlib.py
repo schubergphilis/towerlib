@@ -2364,16 +2364,6 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return self.project_updates.filter({'name__iexact': name})
 
-    def get_all_hosts_from_non_smart_inventories(self):
-        """Get all the hosts from provided that the inventory of the host is not a smart inventory.
-
-        Returns:
-            list: filtered host list.
-
-        """
-        inventory_hosts = [item for item in self.hosts if item.inventory.kind != 'smart']
-        return inventory_hosts
-
     def get_job_events_by_host(self, host):
         """Get all the job_events for host.
 
