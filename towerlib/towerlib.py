@@ -2320,8 +2320,9 @@ class Tower:  # pylint: disable=too-many-public-methods
             dict: the project with all the information.
 
         """
-        project_update_list = self.get_project_updates()
-        project_updates = [item for item in project_update_list if item['name'] == given_project_name]
+
+        project_update_list = self.project_updates
+        project_updates = [item for item in project_update_list if item.project.name == given_project_name]
         return project_updates
 
     def get_project_updates_by_project_id(self, given_project_id):
@@ -2335,8 +2336,8 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         """
 
-        project_update_list = self.get_project_updates()
-        project_updates = [item for item in project_update_list if item['project'] == given_project_id]
+        project_update_list = self.project_updates
+        project_updates = [item for item in project_update_list if item.project.id == given_project_id]
         return project_updates
 
     def get_project_update_by_id(self, project_update_id):
