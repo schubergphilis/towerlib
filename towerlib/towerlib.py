@@ -95,6 +95,9 @@ CLUSTER_STATE_CACHING_SECONDS = 10
 CONFIGURATION_STATE_CACHING_SECONDS = 60
 CLUSTER_STATE_CACHE = TTLCache(maxsize=1, ttl=CLUSTER_STATE_CACHING_SECONDS)
 CONFIGURATION_STATE_CACHE = TTLCache(maxsize=1, ttl=CONFIGURATION_STATE_CACHING_SECONDS)
+GENERIC_SEARCH_ITEMS = ['credentials', 'groups', 'hosts', 'instances', 'inventories', 'inventory_scripts',
+                         'inventory_sources', 'jobs', 'job_templates', 'notifications', 'organizations', 'projects',
+                         'project_updates', 'roles', 'schedules', 'teams', 'users']
 
 
 class Tower:  # pylint: disable=too-many-public-methods
@@ -2460,10 +2463,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             list: list of matching item objects.
 
         """
-        generic_items = ['credentials', 'groups', 'hosts', 'instances', 'inventories', 'inventory_scripts',
-                         'inventory_sources', 'jobs', 'job_templates', 'notifications', 'organizations', 'projects',
-                         'project_updates', 'roles', 'schedules', 'teams', 'users']
-        if not generic_item_name_plural.upper() in (name.upper() for name in generic_items):
+        if not generic_item_name_plural.upper() in (name.upper() for name in GENERIC_SEARCH_ITEMS):
             self._logger.error("The generic search item '{}' not found.".format(generic_item_name_plural))
             return None
         url = "{api}/{item}/?search={keyword}".format(api=self.api, item=generic_item_name_plural, keyword=keyword)
