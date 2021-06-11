@@ -1999,6 +1999,19 @@ class Tower:  # pylint: disable=too-many-public-methods
                              primary_match_field='name')
 
     @property
+    def project_updates(self):
+        """A manager object for the project_updates in tower.
+
+        Returns:
+            EntityManager: The manager object for project_updates.
+
+        """
+        return EntityManager(self,
+                             entity_name='project_updates',
+                             entity_object='ProjectUpdateJob',
+                             primary_match_field='name')
+
+    @property
     def schedules(self):
         """The schedules configured in tower.
         Returns:
@@ -2296,21 +2309,6 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         """
         return next(self.jobs.filter({'id': id_}), None)
-
-    def get_project_updates(self):
-        """Get all the project updates for the ansible tower.
-
-        Returns:
-            list: list of all the project updates.
-
-        """
-        project_updates_url = '{api}/project_updates/'.format(api=self.api)
-        response = self.session.get(project_updates_url)
-        if not response.ok:
-            self._logger.error("Error getting the project updates. response was: {})".format(response.text))
-            return None
-        else:
-            return response.json().get('results', [])
 
     def get_project_updates_by_project_name(self, given_project_name):
         """Get project update with the given project name.
