@@ -2340,24 +2340,29 @@ class Tower:  # pylint: disable=too-many-public-methods
         project_updates = [item for item in project_update_list if item.project.id == given_project_id]
         return project_updates
 
-    def get_project_update_by_id(self, project_update_id):
-        """Get project update with the given project_update id.
+    def get_project_update_by_id(self, id_):
+        """Retrieves a project_update by id.
 
         Args:
-            project_update_id: the id of the project_update.
+            id_: The id of the project_update to retrieve.
 
         Returns:
-            dict: the project_update with all the information.
+            Host: The project_update if a match is found else None.
 
         """
+        return next(self.jobs.filter({'id': id_}), None)
 
-        project_updates_url = '{api}/project_updates/{id}'.format(api=self.api, id=project_update_id)
-        response = self.session.get(project_updates_url)
-        if not response.ok:
-            self._logger.error("Error getting the project updates. response was: {})".format(response.text))
-            return None
-        else:
-            return response.json()
+    def get_project_updates_by_name(self, name):
+        """Retrieves project_updates matching a certain name.
+
+        Args:
+            name: the given job_update name.
+
+        Returns:
+             list: the filtered list of project update jobs.
+
+        """
+        return self.project_updates.filter({'name__iexact': name})
 
     def get_all_hosts_from_non_smart_inventories(self):
         """Get all the hosts from provided that the inventory of the host is not a smart inventory.
