@@ -777,38 +777,12 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
 
     @job_type.setter
     def job_type(self, value):
-        """Update the job_type e.g. run, check.
-
-        Returns:
-            string: The type of the job.
-
-        """
-
-        """Send API PATCH request to update the job template information with the given data.
-        https://docs.ansible.com/ansible-tower/3.6.1/html/towerapi/api_ref.html#/Authentication/Authentication_applications_partial_update_0
-
-        Args:
-            value: job_type to be changed to. e.g. 'run', 'check'
-        }
-
-        Returns:
-            list: List of response of api request as json on success, False otherwise.
-
-        """
-        job_template = {
-            "id": self.id,
-            "project": self.project.id,
-            "playbook": self.playbook,
-            "name": self.name,
-            "description": self.description,
-            "job_type": value
-        }
-
-        job_url = '{api}/job_templates/{id}/'.format(api=self._tower.api, id=self.id)
-        response = self._tower.session.patch(job_url, data=json.dumps(job_template))
-        if not response.ok:
-            self._logger.error("Error updating the job template with the given data '{}'".format(value))
-        return response.json()
+        """Update the job_type of the template."""
+        accepted_values = ['run', 'check']
+        if value in accepted_values:
+            self._update_values('job_type', value)
+        else:
+            raise InvalidValue(f'{value} is invalid. Given value must be either "run" or "check"')
 
     @property
     def inventory(self):
@@ -838,30 +812,11 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
 
     @project.setter
     def project(self, value):
-        """A job template in the ansible tower has to have a project from the list of projects.
-
-        This function helps to change the project data of a job template in ansible tower for a given job template.
-
-        Args:
-            value: given project object
-
-        Returns:
-            Object: The updated job_template object
-
-        """
-        job_template = {
-            "id": self.id,
-            "project": value.id,
-            "playbook": self.playbook,
-            "name": self.name,
-            "description": self.description,
-        }
-
-        job_url = '{api}/job_templates/{id}/'.format(api=self._tower.api, id=self.id)
-        response = self._tower.session.patch(job_url, data=json.dumps(job_template))
-        if not response.ok:
-            self._logger.error("Error updating the job template with the given data '{}'".format(value))
-        return response.json()
+        """Update the project of the template by project id."""
+        if isinstance(value, int):
+            self._update_values('project', value)
+        else:
+            raise InvalidValue(f'{value} is invalid. Given value must be the ID (integer) of the project')
 
     @property
     def playbook(self):
