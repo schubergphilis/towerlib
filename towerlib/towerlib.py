@@ -2363,6 +2363,19 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return self.project_updates.filter({'name__iexact': name})
 
+    @property
+    def job_events(self):
+        """The job templates configured in tower.
+
+        Returns:
+            EntityManager: The manager object for job templates.
+
+        """
+        return EntityManager(self,
+                             entity_name='job_events',
+                             entity_object='JobEvent',
+                             primary_match_field='name')
+
     def get_job_events_by_host(self, host):
         """Get all the job_events for host.
 
@@ -2373,12 +2386,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             list: list of all the job events for the given host.
 
         """
-        response = self.session.get('{}/hosts/{}/job_events/'.format(self.api, host.id))
-        if not response.ok:
-            self._logger.error("Error getting the job events. response was: {})".format(response.text))
-            return None
-        else:
-            return response.json().get('results', [])
+        return [item for item in self.job_events if item.host == host]
 
     def get_job_dates_by_host(self, host):
         """Get job dates from ansible tower for a given host id when the job event was created.
