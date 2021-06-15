@@ -281,20 +281,6 @@ class Host(Entity):
         return self._data.get('summary_fields', {}).get('recent_jobs')
 
     @property
-    def job_events(self):
-        """The most job events run on the host.
-
-        Returns:
-            list if dict: The job events run on the host.
-
-        """
-        url = self._data.get('related', {}).get('job_events')
-        return EntityManager(self._tower,
-                             entity_object='JobEvent',
-                             primary_match_field='job',
-                             url=url)
-
-    @property
     def ansible_facts(self):
         """Returns ansible facts gathered about the host in json.
 
