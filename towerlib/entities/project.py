@@ -561,5 +561,31 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
             self._logger.error(
                 "Error updating the project '{}'. response was: {})".format(self.name, response.text))
         return response.json()
+    
+    @property
+    def job_events(self):
+        """The job templates configured in tower.
+
+        Returns:
+            EntityManager: The manager object for job templates.
+
+        """
+        return EntityManager(self,
+                             entity_name='job_events',
+                             entity_object='JobEvent',
+                             primary_match_field='name')
+
+    def get_job_events_by_host(self, host):
+        """Get all the job_events for host.
+
+        Args:
+            host: host EntityManager object.
+
+        Returns:
+            list: list of all the job events for the given host.
+
+        """
+        return [item for item in self.job_events if item.host == host]
+
 
 
