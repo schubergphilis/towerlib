@@ -17,3 +17,5 @@ Contributors
 * Yorick Hoorneman <yhoorneman@schubergphilis.com>
 * Howard Jones <howie@thingy.com>
 * Octavian Balas <octavian.balas@gmail.com>
+* Philipp Hoffmann <phoffmann@spirit21.com>
+* Iqbal Nazir <iqbalnazirsumon@gmail.com>
