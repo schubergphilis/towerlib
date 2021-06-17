@@ -2471,7 +2471,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             list: list of matching item objects.
 
         """
-        if not generic_item_name_plural.upper() in (name.upper() for name in GENERIC_SEARCH_ITEMS):
+        if not generic_item_name_plural.lower() in GENERIC_SEARCH_ITEMS:
             self._logger.error("The generic search item '{}' not found.".format(generic_item_name_plural))
             return None
         url = "{api}/{item}/?search={keyword}".format(api=self.api, item=generic_item_name_plural, keyword=keyword)
