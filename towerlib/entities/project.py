@@ -193,10 +193,7 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
             list: a list of all the job templates object for the given project name.
 
         """
-        job_templates = list(self._tower.job_templates)
-        required_job_templates = [job_template for job_template in job_templates if job_template.project
-                                  if job_template.project.id == self.id]
-        return required_job_templates
+        return self._tower.job_templates.filter({'project__exact':self.id})
 
 
     @property

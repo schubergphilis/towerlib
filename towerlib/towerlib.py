@@ -2111,22 +2111,6 @@ class Tower:  # pylint: disable=too-many-public-methods
                                "and branch name '{}'".format(project.name, scm_url, branch_name))
             project.update
 
-    def get_job_templates_by_project(self, project_name):
-        """Get all the job templates for a given project name.
-
-        Args:
-            project_name: the complete api url of the project.
-
-        Returns:
-            list: a list of all the job templates object for the given project name.
-
-        """
-        required_job_templates = []
-        for job_template in self.job_templates:
-            if job_template.project.name == project_name:
-                required_job_templates.append(job_template)
-        return required_job_templates
-
     def change_job_template_data(self, job_template_data):
         """Send API PATCH request to update the job template information with the given data.
         https://docs.ansible.com/ansible-tower/3.6.1/html/towerapi/api_ref.html#/Authentication/Authentication_applications_partial_update_0
