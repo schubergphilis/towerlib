@@ -61,6 +61,3 @@ env
 
 # Docker files
 .docker/
-
-# Log files
-*.log
