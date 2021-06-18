@@ -2078,15 +2078,15 @@ class Tower:  # pylint: disable=too-many-public-methods
         project = self.get_organization_project_by_name(organization, project_name)
         return project.update
 
-    def update_project_by_scm_url(self, scm_url):
-        """Send update request to update project for a given git repository (scm_url).
+    def update_organization_projects_by_scm_url(self, scm_url, organization_name):
+        """Send update request to update project for a given git repository (scm_url) withing an organization.
 
         Args:
             scm_url: the http url of the required repository.
 
         """
-
-        matching_projects = [project for project in self.projects if project.scm_url == scm_url]
+        organization = self.get_organization_by_name(organization_name)
+        matching_projects = [project for project in organization.projects if project.scm_url == scm_url]
         for project in matching_projects:
             self._logger.debug("A request is being sent to update the project with the name '{}' and with scm url '{}'"
                                .format(project.name, scm_url))
