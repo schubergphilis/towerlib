@@ -349,7 +349,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating host "%s", response was "%s"', name, response.text)
-        return Host(self._tower, response.json())
+        return Host(self._tower, response.json()) if response.ok else None
 
     def delete_host(self, name):
         """Deletes the host.
@@ -439,7 +439,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating group "%s", response was "%s"', name, response.text)
-        return Group(self._tower, response.json())
+        return Group(self._tower, response.json()) if response.ok else None
 
     def delete_group(self, name):
         """Deletes the group.
@@ -545,7 +545,7 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating source "%s", response was "%s"', name, response.text)
-        return InventorySource(self._tower, response.json())
+        return InventorySource(self._tower, response.json()) if response.ok else None
 
     def create_source_with_credential_id(self,  # pylint: disable=too-many-locals, too-many-arguments
                                          name,
@@ -618,5 +618,5 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating source "%s", response was "%s"', name, response.text)
-        return InventorySource(self._tower, response.json())
+        return InventorySource(self._tower, response.json()) if response.ok else None
 

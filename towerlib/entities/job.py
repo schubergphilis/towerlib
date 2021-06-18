@@ -1616,7 +1616,7 @@ class ProjectUpdateJob(Entity):  # pylint: disable=too-many-public-methods
 
     @property
     def project(self):
-        """Get the project thie job_update.
+        """Get the project the job_update.
 
         Returns:
             Project: The project the job_update.

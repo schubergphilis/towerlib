@@ -334,9 +334,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating project, response was: "%s"', response.text)
-            return None
-        else:
-            return Project(self._tower, response.json())
+        return Project(self._tower, response.json()) if response.ok else None
 
     def delete_project(self, name):
         """Deletes a project by username.
@@ -434,9 +432,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating team "%s", response was : "%s"', name, response.text)
-            return None
-        else:
-            return Team(self._tower, response.json())
+        return Team(self._tower, response.json()) if response.ok else None
 
     def delete_team(self, name):
         """Deletes a team by name.
@@ -517,9 +513,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating inventory "%s", response was "%s"', name, response.text)
-            return None
-        else:
-            return Inventory(self._tower, response.json())
+        return Inventory(self._tower, response.json()) if response.ok else None
 
     @property
     def inventory_scripts(self):
@@ -563,10 +557,8 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
                    }
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
-            self._logger.error('Error creating inventory script "%s", response was "%s"', name, response.text)
-            return None
-        else:
-            return InventoryScript(self._tower, response.json())
+            self._logger.error('Error creating host "%s", response was "%s"', name, response.text)
+        return InventoryScript(self._tower, response.json()) if response.ok else None
 
     def delete_inventory_script(self, name):
         """Deletes a custom inventory script.

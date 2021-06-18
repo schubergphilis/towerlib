@@ -246,10 +246,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         response = self.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating organization, response was: "%s"', response.text)
-            return None
-        else:
-            self._logger.info("New organization '{}' was created successfully.".format(payload['name']))
-            return Organization(self, response.json())
+        return Organization(self, response.json()) if response.ok else None
 
     def delete_organization(self, name):
         """Deletes an organization from tower.
@@ -406,10 +403,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         response = self.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating user, response was: "%s"', response.text)
-            return None
-        else:
-            self._logger.info("User '{}' was created successfully.".format(payload['name']))
-            return User(self, response.json())
+        return User(self, response.json()) if response.ok else None
 
     def delete_user(self, username):
         """Deletes a user by username.
@@ -1226,10 +1220,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         response = self.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating credential type "%s", response was: "%s"', type_, response.text)
-            return None
-        else:
-            self._logger.info("New credential_type '{}' was created successfully".format(payload['name']))
-            return CredentialType(self, response.json())
+        return CredentialType(self, response.json()) if response.ok else None
 
     def delete_credential_type(self, name):
         """Deletes a credential_type from tower.
@@ -1383,10 +1374,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         response = self.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating credential "%s", response was: "%s"', name, response.text)
-            return None
-        else:
-            self._logger.info("New credential '{}' was created successfully".format(payload['name']))
-            return Credential(self, response.json())
+        return Credential(self, response.json()) if response.ok else None
 
     def create_credential_in_organization(self,  # pylint: disable=too-many-arguments
                                           organization,
@@ -1770,8 +1758,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.job_templates.filter({'id': id_}), None)
 
-    def create_job_template(self,
-                            # pylint: disable=too-many-arguments, too-many-locals, too-many-branches  # noqa: C901
+    def create_job_template(self, # pylint: disable=too-many-arguments, too-many-locals, too-many-branches  # noqa: C901
                             name,
                             description,
                             organization,
