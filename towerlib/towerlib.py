@@ -2258,19 +2258,6 @@ class Tower:  # pylint: disable=too-many-public-methods
             raise InvalidHost(host_id)
         return host.ansible_facts()
 
-    def get_hosts_by_inventory_id(self, inventory_id):
-        """Get filtered list of hosts for a given inventory id.
-
-        Args:
-             inventory_id: the given inventory id.
-
-        Returns:
-            list: the list of filtered host as EntityManger object.
-
-        """
-        hosts = [item for item in self.hosts if item.inventory.id == inventory_id]
-        return hosts
-
     def get_jobs_by_name(self, name):
         """Get filtered list of jobs for a given name.
 
