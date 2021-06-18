@@ -107,7 +107,7 @@ class JobEvent(Entity):  # pylint: disable=too-many-public-methods
         return self._data.get('name')
 
     @property
-    def created(self):
+    def created_at(self):
         """The created date of the event.
 
         Returns:
@@ -117,7 +117,7 @@ class JobEvent(Entity):  # pylint: disable=too-many-public-methods
         return self._data.get('created')
 
     @property
-    def modified(self):
+    def modified_at(self):
         """The modified date of the event.
 
         Returns:
