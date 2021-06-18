@@ -2043,12 +2043,11 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.schedules.filter({'name__iexact': name}), None)
 
-    #    ****** High level methods for Spirit/21 ******    #
-
-    def update_all_projects(self):
-        """Update all the projects in ansible tower one by one.
+    def update_all_organization_projects(self, organization_name):
+        """Update all the projects in ansible tower for a given organization.
         """
-        for project in self.projects:
+        organization = self.get_organization_by_name(organization_name)
+        for project in organization.projects:
             project.update
 
     def update_project_by_id(self, project_id):
