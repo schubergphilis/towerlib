@@ -2092,8 +2092,8 @@ class Tower:  # pylint: disable=too-many-public-methods
                                .format(project.name, scm_url))
             project.update
 
-    def update_project_by_branch_name(self, scm_url, branch_name):
-        """Update an ansible tower project or list of projects based on their branch name.
+    def update_organization_projects_by_branch_name(self, scm_url, branch_name, organization_name):
+        """Update an ansible tower project or list of projects for an organization based on their branch name.
 
         A scm_branch can only be identified correctly with a corresponding scm_url.
 
@@ -2102,8 +2102,8 @@ class Tower:  # pylint: disable=too-many-public-methods
             branch_name: the name of the branch, which is selected as scm_branch parameter of the project.
 
         """
-
-        matching_projects = [project for project in self.projects if
+        organization = self.get_organization_by_name(organization_name)
+        matching_projects = [project for project in organization.projects if
                              project.scm_url == scm_url and project.scm_branch == branch_name]
         for project in matching_projects:
             self._logger.debug("A request is being sent to update the project with the name '{}' and with scm url '{}' "
