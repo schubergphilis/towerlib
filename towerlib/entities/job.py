@@ -107,6 +107,26 @@ class JobEvent(Entity):  # pylint: disable=too-many-public-methods
         return self._data.get('name')
 
     @property
+    def created(self):
+        """The created date of the event.
+
+        Returns:
+            basestring: The string formatted datetime of the event creation.
+
+        """
+        return self._data.get('created')
+
+    @property
+    def modified(self):
+        """The modified date of the event.
+
+        Returns:
+            basestring: The string formatted datetime of the event's last modification.
+
+        """
+        return self._data.get('modified')
+
+    @property
     def counter(self):
         """The counter of the event.
 
