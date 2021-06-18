@@ -2360,8 +2360,8 @@ class Tower:  # pylint: disable=too-many-public-methods
                              entity_object='JobEvent',
                              primary_match_field='name')
 
-    def get_job_dates_by_host(self, host):
-        """Get job dates from ansible tower for a given host id when the job event was created.
+    def get_job_creation_dates_by_host(self, host):
+        """Get job creation dates from ansible tower for a given host
 
         Args:
             host: the host object of tower instance.
@@ -2370,19 +2370,15 @@ class Tower:  # pylint: disable=too-many-public-methods
             list: a list containing the formatted datetime objects.
 
         """
-        self._logger.debug("Start getting job events for the host '{}'".format(host.name))
-        job_events = self.get_job_events_by_host(host)
-        self._logger.debug("Finished getting job events for the host '{}'".format(host.name))
+        job_events = host.job_events
         if job_events is None:
             self._logger.error("No job events found.")
             return None
-        else:
-            self._logger.debug("job events found")
-            job_dates = []
-            for job_event in job_events:
-                job_event_time = job_event['created']
-                job_dates.append(job_event_time)
-            return job_dates
+        job_dates = []
+        for job_event in job_events:
+            job_event_time = job_event.created_at
+            job_dates.append(job_event_time)
+        return job_dates
 
     def get_groups_by_host(self, host):
         """Get groups for a particular host, which are directly connected.
