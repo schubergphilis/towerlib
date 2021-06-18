@@ -2360,18 +2360,6 @@ class Tower:  # pylint: disable=too-many-public-methods
                              entity_object='JobEvent',
                              primary_match_field='name')
 
-    def get_job_events_by_host(self, host):
-        """Get all the job_events for host.
-
-        Args:
-            host: host EntityManager object.
-
-        Returns:
-            list: list of all the job events for the given host.
-
-        """
-        return [item for item in self.job_events if item.host == host]
-
     def get_job_dates_by_host(self, host):
         """Get job dates from ansible tower for a given host id when the job event was created.
 
