@@ -351,3 +351,12 @@ class Host(Entity):
         return all([group._remove_host_by_id(self.id)  # pylint: disable=protected-access
                     for group in inventory_groups])
 
+    @property
+    def job_events(self):
+        """Get all the job_events for host.
+
+        Returns:
+            list: list of all the job events for the host.
+
+        """
+        return self._tower.job_events.filter({'host': self.id})
