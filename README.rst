@@ -2,7 +2,6 @@
 towerlib
 ========
 
-
 A python library to interface with ansible tower's (awx) api.
 
 

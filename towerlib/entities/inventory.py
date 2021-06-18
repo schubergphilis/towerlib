@@ -619,4 +619,3 @@ class Inventory(Entity):  # pylint: disable=too-many-public-methods
         if not response.ok:
             self._logger.error('Error creating source "%s", response was "%s"', name, response.text)
         return InventorySource(self._tower, response.json()) if response.ok else None
-

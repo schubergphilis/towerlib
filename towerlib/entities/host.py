@@ -290,6 +290,7 @@ class Host(Entity):
             json: Json representation of ansible facts
 
         Raises: None
+
         """
         url = f'{self._tower.api}/hosts/{self.id}/ansible_facts'
         response = self._tower.session.get(url)
