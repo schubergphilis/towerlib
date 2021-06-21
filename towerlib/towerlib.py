@@ -1486,10 +1486,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         response = self.session.post(url, json=payload)
         if not response.ok:
             self._logger.error('Error creating credential "%s", response was: "%s"', name, response.text)
-            return None
-        else:
-            self._logger.info("New credential '{}' was created successfully".format(payload['name']))
-            return Credential(self, response.json())
+        return Credential(self, response.json()) if response.ok else None
 
     def delete_organization_credential_by_name(self, organization, name, credential_type):
         """Deletes a credential from an organization.
