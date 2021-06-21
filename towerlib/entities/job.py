@@ -1619,7 +1619,7 @@ class ProjectUpdateJob(Entity):  # pylint: disable=too-many-public-methods
         """Get the project the job_update.
 
         Returns:
-            Project: The project the job_update.
+            Project: The project of the job_update.
 
         """
         url = self._data.get('related', {}).get('project')
