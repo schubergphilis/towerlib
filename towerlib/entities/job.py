@@ -815,7 +815,6 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         url = self._data.get('related', {}).get('inventory')
         return self._tower._get_object_by_url('Inventory', url)  # pylint: disable=protected-access
 
-
     @property
     def project(self):
         """The project that the job template is part of.

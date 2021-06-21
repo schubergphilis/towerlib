@@ -657,4 +657,3 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return next(self.credentials.filter({'id': id_}), None)
-
