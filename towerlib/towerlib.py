@@ -2118,10 +2118,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         response = self.session.patch(job_url, data=json.dumps(job_template_data))
         if not response.ok:
             self._logger.error("Error updating the job template with the given data '{}'".format(job_template_data))
-            return None
-        else:
-            self._logger.info("Job template with the name '{}' is updated successfully.".format(job_template_data['name']))
-            return response.json()
+        return response.json() if response.ok else {}
 
     def get_credential_id_from_existing_project_by_scm_url(self, scm_url):
         """This function gets credential id from an existing project, which has the same credential id.
