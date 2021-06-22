@@ -2245,15 +2245,11 @@ class Tower:  # pylint: disable=too-many-public-methods
             list: a list containing the formatted datetime objects.
 
         """
-        job_events = host.job_events
+        job_events = list(host.job_events)
         if job_events is None:
             self._logger.error("No job events found.")
             return None
-        job_dates = []
-        for job_event in job_events:
-            job_event_time = job_event.created_at
-            job_dates.append(job_event_time)
-        return job_dates
+        return [job_event.created_at for job_event in job_events]
 
     def get_groups_by_host(self, host):
         """Get groups for a particular host, which are directly connected.
