@@ -2197,31 +2197,6 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.jobs.filter({'id': id_}), None)
 
-    def get_project_updates_by_project_name(self, given_project_name):
-        """Get project update with the given project name.
-
-        Args:
-            given_project_name: the name of the project.
-
-        Returns:
-            dict: the project with all the information.
-
-        """
-
-        return [item for item in self.project_updates if item.project.name == given_project_name]
-
-    def get_project_updates_by_project_id(self, given_project_id):
-        """Get project update with the given project id.
-
-        Args:
-            given_project_id: the id of the project.
-
-        Returns:
-            dict: the project with all the information.
-
-        """
-
-        return [item for item in self.project_updates if item.project.id == given_project_id]
 
     def get_project_update_by_id(self, id_):
         """Retrieves a project_update by id.
@@ -2323,7 +2298,6 @@ class Tower:  # pylint: disable=too-many-public-methods
             for group in results:
                 groups.append(group)
             return groups
-
 
     def search_generic_item_by_keyword(self, generic_item_name_plural, keyword=''):
         """

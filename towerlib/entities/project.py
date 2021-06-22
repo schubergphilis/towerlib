@@ -558,3 +558,13 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
             self._logger.error(
                 "Error updating the project '{}'. response was: {})".format(self.name, response.text))
         return response.json() if response.ok else {}
+
+    @property
+    def project_updates(self):
+        """Get all the job_events for host.
+
+        Returns:
+            list: list of all the job events for the host.
+
+        """
+        return self._tower.project_updates.filter({'project': self.id})
