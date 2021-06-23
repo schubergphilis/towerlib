@@ -55,6 +55,7 @@ __status__ = '''Development'''  # "Prototype", "Development", "Production".
 LOGGER_BASENAME = '''jobs'''
 LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
+JOB_TYPE_ACCEPTED_VALUES = ['run', 'check']
 
 
 class Job:  # pylint: disable=too-few-public-methods
@@ -798,11 +799,10 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
     @job_type.setter
     def job_type(self, value):
         """Update the job_type of the template."""
-        accepted_values = ['run', 'check']
-        if value in accepted_values:
+        if value in JOB_TYPE_ACCEPTED_VALUES:
             self._update_values('job_type', value)
         else:
-            raise InvalidValue(f'{value} is invalid. Given value must be either "run" or "check"')
+            raise InvalidValue(f'{value} is invalid. Given value must be one of these: {JOB_TYPE_ACCEPTED_VALUES}')
 
     @property
     def inventory(self):
