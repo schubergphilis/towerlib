@@ -825,9 +825,8 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         """
         if not self._data.get('related', {}).get('project'):
             return None
-        else:
-            url = self._data.get('related', {}).get('project')
-            return self._tower._get_object_by_url('Project', url)   # pylint: disable=protected-access
+        url = self._data.get('related', {}).get('project')
+        return self._tower._get_object_by_url('Project', url)   # pylint: disable=protected-access
 
     @project.setter
     def project(self, value):
