@@ -867,7 +867,8 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
             dict: The dictionary of the list of the job template labels.
 
         """
-        return self._data.get('summary_fields', {}).get('labels')
+        labels = self._data.get('summary_fields', {}).get('labels')
+        return labels if labels else {}
 
     @property
     def extra_credentials(self):
