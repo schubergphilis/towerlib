@@ -101,10 +101,10 @@ class JobEvent(Entity):  # pylint: disable=too-many-public-methods
         """The name of the host.
 
         Returns:
-            string: The name of the host.
+            string: The name of the event.
 
         """
-        return self._data.get('name')
+        return self._data.get('event')
 
     @property
     def created_at(self):
@@ -164,7 +164,7 @@ class JobEvent(Entity):  # pylint: disable=too-many-public-methods
             integer: The level of the event.
 
         """
-        return self._data.get('event_data')
+        return self._data.get('event_level')
 
     @property
     def is_failed(self):
@@ -1155,6 +1155,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
     @property
     def last_job_run_id(self):
         """The id of most recent job run on the template.
+
         Returns:
             int/None: The id of the most recent job run on the template
 
@@ -1354,7 +1355,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
     def set_inventory(self, organization, name):
         """Inventory from specified organization applied as a prompt, assuming job template prompts for inventory.
 
-       Args:
+        Args:
             organization (str): The organization name the inventory belongs to
             name (str): The inventory name to set. To reset the inventory set it to empty string.
 
@@ -1364,7 +1365,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         """
         value = ''
         if name:
-            inventory = self._tower.get_organization_inventory_by_name(organization, name)  # pylint: disable=protected-access
+            inventory = self._tower.get_organization_inventory_by_name(organization, name)
             if not inventory:
                 raise InvalidInventory(name)
             value = inventory.id

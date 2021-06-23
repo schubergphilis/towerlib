@@ -248,3 +248,21 @@ History
 ------------------
 
 * Implemented survey specification retrieval.
+
+
+3.7.1 (26-04-2021)
+------------------
+
+* Bumped dependencies.
+
+
+3.7.2 (26-04-2021)
+------------------
+
+* Bumped dependencies.
+
+
+3.7.3 (02-06-2021)
+------------------
+
+* Bumped dependencies and fixed a couple of bugs on job attribute retrieval.
