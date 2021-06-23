@@ -2177,28 +2177,6 @@ class Tower:  # pylint: disable=too-many-public-methods
                              entity_object='JobEvent',
                              primary_match_field='name')
 
-    def get_groups_by_host(self, host):
-        """Get groups for a particular host, which are directly connected.
-
-        Args:
-            host: the host object.
-
-        Returns:
-            list: list of custom groups.
-
-        """
-        url = "{api}/hosts/{id}/groups/".format(api=self.api, id=host.id)
-        response = self.session.get(url)
-        if not response.ok:
-            self._logger.error("Error getting the project updates. response was: {})".format(response.text))
-            return None
-        else:
-            results = response.json().get('results', [])
-            groups = []
-            for group in results:
-                groups.append(group)
-            return groups
-
     def get_all_groups_by_host(self, host):
         """Get groups for a particular host, which are directly and indirectly connected.
 
