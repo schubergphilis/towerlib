@@ -2115,76 +2115,6 @@ class Tower:  # pylint: disable=too-many-public-methods
                                "and branch name '{}'".format(project.name, scm_url, branch_name))
             project.update()
 
-    def change_job_template_data(self, job_template_data):
-        """Send API PATCH request to update the job template information with the given data.
-        https://docs.ansible.com/ansible-tower/3.6.1/html/towerapi/api_ref.html#/Authentication/Authentication_applications_partial_update_0
-
-        Args:
-            job_template_data: updated data of the job template as dictionary
-
-        Returns:
-            list: List of response of api request as json on success, False otherwise.
-
-        """
-        job_template_id = job_template_data['id']
-        job_url = '{api}/job_templates/{id}/'.format(api=self.api, id=job_template_id)
-        response = self.session.patch(job_url, data=json.dumps(job_template_data))
-        if not response.ok:
-            self._logger.error("Error updating the job template with the given data '{}'".format(job_template_data))
-        return response.json() if response.ok else {}
-
-    def get_credential_id_from_existing_project_by_scm_url(self, scm_url):
-        """This function gets credential id from an existing project, which has the same credential id.
-
-        This function is for additional convenience. If there is already a project with the same scm url configured,
-        then we will find it with this function. This function also makes sure that the user does not have to specify a
-        credential id in the config file .
-        This function will only be called if no credential id is given in the config file. Anyway, if no credential is
-        given by config file and no credential id is found with this function, the script will continue and create
-        projects, because projects can be created in Ansible Tower without credentials (but in that case, the scm
-        update job will fail.)
-
-        Args:
-            scm_url: the scm_url of the corresponding project.
-
-        Returns:
-            id of a credential if corresponding project exists, else None.
-
-        """
-        scm_credential_type_ids = []
-        credential_types = list(self.credential_types)
-        for credential_type in credential_types:
-            if credential_type.kind == 'scm':
-                scm_credential_type_ids.append(credential_type.id)
-        credential_id = None
-        projects = list(self.projects)
-        for scm_credential_type_id in scm_credential_type_ids:
-            for project in projects:
-                if project.scm_url == scm_url:
-                    self._logger.debug("Project found with the scm credential.")
-                    if project.credential.credential_type.id == scm_credential_type_id:
-                        credential_id = project.credential.id
-                        if credential_id:
-                            self._logger.debug("Credential ID found from the existing project '{}' and the id is '{}'"
-                                               .format(project.name, credential_id))
-                            return credential_id
-        return credential_id
-
-    def get_ansible_facts_by_host_id(self, host_id):
-        """Get the ansible_facts of the given host.
-
-        Args:
-            host_id: id of the host for which the method will return the ansible_facts.
-
-        Returns:
-            dict: ansible_facts as dictionary.
-
-        """
-        host = self.get_host_by_id(host_id)
-        if not host:
-            raise InvalidHost(host_id)
-        return host.ansible_facts()
-
     def get_jobs_by_name(self, name):
         """Get filtered list of jobs for a given name.
 
@@ -2209,7 +2139,6 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         """
         return next(self.jobs.filter({'id': id_}), None)
-
 
     def get_project_update_by_id(self, id_):
         """Retrieves a project_update by id.
@@ -2247,22 +2176,6 @@ class Tower:  # pylint: disable=too-many-public-methods
                              entity_name='job_events',
                              entity_object='JobEvent',
                              primary_match_field='name')
-
-    def get_job_creation_dates_by_host(self, host):
-        """Get job creation dates from ansible tower for a given host
-
-        Args:
-            host: the host object of tower instance.
-
-        Returns:
-            list: a list containing the formatted datetime objects.
-
-        """
-        job_events = list(host.job_events)
-        if job_events is None:
-            self._logger.error("No job events found.")
-            return None
-        return [job_event.created_at for job_event in job_events]
 
     def get_groups_by_host(self, host):
         """Get groups for a particular host, which are directly connected.
