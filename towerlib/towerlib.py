@@ -2071,6 +2071,9 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         """
 
+        organization = self.get_organization_by_name(organization_name)
+        if not organization:
+            raise InvalidOrganization(organization_name)
         project = self.get_organization_project_by_name(organization, project_name)
         return project.update()
 
@@ -2078,11 +2081,14 @@ class Tower:  # pylint: disable=too-many-public-methods
         """Send update request to update project for a given git repository (scm_url) withing an organization.
 
         Args:
+            organization_name: the name of the organization.
             scm_url: the http url of the required repository.
 
         """
         organization = self.get_organization_by_name(organization_name)
-        matching_projects = [project for project in organization.projects if project.scm_url == scm_url]
+        if not organization:
+            raise InvalidOrganization(organization_name)
+        matching_projects = (project for project in organization.projects if project.scm_url == scm_url)
         for project in matching_projects:
             self._logger.debug("A request is being sent to update the project with the name '{}' and with scm url '{}'"
                                .format(project.name, scm_url))
@@ -2096,11 +2102,14 @@ class Tower:  # pylint: disable=too-many-public-methods
         Args:
             scm_url: the URL of the relevant repository configured in the project.
             branch_name: the name of the branch, which is selected as scm_branch parameter of the project.
+            organization_name: the name of the organization.
 
         """
         organization = self.get_organization_by_name(organization_name)
-        matching_projects = [project for project in organization.projects if
-                             project.scm_url == scm_url and project.scm_branch == branch_name]
+        if not organization:
+            raise InvalidOrganization(organization_name)
+        matching_projects = (project for project in organization.projects if
+                             project.scm_url == scm_url and project.scm_branch == branch_name)
         for project in matching_projects:
             self._logger.debug("A request is being sent to update the project with the name '{}' and with scm url '{}' "
                                "and branch name '{}'".format(project.name, scm_url, branch_name))
