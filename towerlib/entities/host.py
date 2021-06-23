@@ -354,10 +354,10 @@ class Host(Entity):
 
     @property
     def job_events(self):
-        """Get all the job_events for host.
+        """The job_events for the host.
 
         Returns:
-            list: list of all the job events for the host.
+            job_events (list): All job events of the host
 
         """
         return self._tower.job_events.filter({'host': self.id})

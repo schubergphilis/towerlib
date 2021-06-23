@@ -1990,7 +1990,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         """A manager object for the project_updates in tower.
 
         Returns:
-            EntityManager: The manager object for project_updates.
+            project_updates (EntityManager): A generator of project updates.
 
         """
         return EntityManager(self,
@@ -2037,6 +2037,10 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     def update_all_organization_projects(self, organization_name):
         """Update all the projects in ansible tower for a given organization.
+
+        Args:
+            organization_name: The name of the organization.
+
         """
         organization = self.get_organization_by_name(organization_name)
         for project in organization.projects:
@@ -2055,11 +2059,11 @@ class Tower:  # pylint: disable=too-many-public-methods
         project = self.get_project_by_id(project_id)
         return project.update()
 
-    def update_organization_project_by_name(self, organization, project_name):
+    def update_organization_project_by_name(self, organization_name, project_name):
         """Update the ansible tower project with given project name.
 
         Args:
-            organization: The name of the organization.
+            organization_name: The name of the organization.
             project_name: The name of the project, which is to be updated.
 
         Returns:

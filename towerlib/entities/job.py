@@ -112,7 +112,7 @@ class JobEvent(Entity):  # pylint: disable=too-many-public-methods
         """The created date of the event.
 
         Returns:
-            basestring: The string formatted datetime of the event creation.
+            date_time (string): The string formatted datetime of the event creation.
 
         """
         return self._data.get('created')
@@ -1616,10 +1616,10 @@ class ProjectUpdateJob(Entity):  # pylint: disable=too-many-public-methods
 
     @property
     def project(self):
-        """Get the project the job_update.
+        """The project of the ProjectUpdateJob.
 
         Returns:
-            Project: The project of the job_update.
+            Project: The project of the project update.
 
         """
         url = self._data.get('related', {}).get('project')
