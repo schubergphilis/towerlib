@@ -2040,7 +2040,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         organization = self.get_organization_by_name(organization_name)
         for project in organization.projects:
-            project.update
+            project.update()
 
     def update_project_by_id(self, project_id):
         """Update the ansible tower project with given project id.
@@ -2053,7 +2053,7 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         """
         project = self.get_project_by_id(project_id)
-        return project.update
+        return project.update()
 
     def update_organization_project_by_name(self, organization, project_name):
         """Update the ansible tower project with given project name.
@@ -2063,12 +2063,12 @@ class Tower:  # pylint: disable=too-many-public-methods
             project_name: The name of the project, which is to be updated.
 
         Returns:
-            dict: dict of response of api request as json on success, None otherwise.
+            API Response (dict): dict of response of api request as json on success, None otherwise.
 
         """
 
         project = self.get_organization_project_by_name(organization, project_name)
-        return project.update
+        return project.update()
 
     def update_organization_projects_by_scm_url(self, scm_url, organization_name):
         """Send update request to update project for a given git repository (scm_url) withing an organization.
@@ -2082,7 +2082,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         for project in matching_projects:
             self._logger.debug("A request is being sent to update the project with the name '{}' and with scm url '{}'"
                                .format(project.name, scm_url))
-            project.update
+            project.update()
 
     def update_organization_projects_by_branch_name(self, scm_url, branch_name, organization_name):
         """Update an ansible tower project or list of projects for an organization based on their branch name.
@@ -2100,7 +2100,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         for project in matching_projects:
             self._logger.debug("A request is being sent to update the project with the name '{}' and with scm url '{}' "
                                "and branch name '{}'".format(project.name, scm_url, branch_name))
-            project.update
+            project.update()
 
     def change_job_template_data(self, job_template_data):
         """Send API PATCH request to update the job template information with the given data.

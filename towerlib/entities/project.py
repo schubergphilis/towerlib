@@ -542,12 +542,11 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
             raise InvalidValue(f'{value} is invalid. Condition max_characters must be less than or equal to '
                                f'{max_characters}')
 
-    @property
     def update(self):
-        """Update the ansible tower project.
+        """Send an SCM update request to the project.
 
         Returns:
-            list: List of response of api request as json on success, None otherwise.
+            dict: Response of api request as json on success, None otherwise.
 
         """
 
