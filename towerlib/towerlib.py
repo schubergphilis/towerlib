@@ -2042,9 +2042,13 @@ class Tower:  # pylint: disable=too-many-public-methods
         organization = self.get_organization_by_name(organization_name)
         if not organization:
             raise InvalidOrganization(organization_name)
-        projects = all([project.update() for project in organization.projects])
+        outputs = []
         for project in organization.projects:
-            project.update()
+            output = project.update()
+            if not output:
+                self._logger.error(f'{project.name} failed to update')
+            outputs.append(output)
+        return all(outputs)
 
     def update_project_by_id(self, project_id):
         """Update the ansible tower project with given project id.
@@ -2089,10 +2093,13 @@ class Tower:  # pylint: disable=too-many-public-methods
         if not organization:
             raise InvalidOrganization(organization_name)
         matching_projects = (project for project in organization.projects if project.scm_url == scm_url)
+        outputs = []
         for project in matching_projects:
-            self._logger.debug("A request is being sent to update the project with the name '{}' and with scm url '{}'"
-                               .format(project.name, scm_url))
-            project.update()
+            output = project.update()
+            if not output:
+                self._logger.error(f'{project.name} failed to update')
+            outputs.append(output)
+        return all(outputs)
 
     def update_organization_projects_by_branch_name(self, scm_url, branch_name, organization_name):
         """Update an ansible tower project or list of projects for an organization based on their branch name.
@@ -2108,12 +2115,15 @@ class Tower:  # pylint: disable=too-many-public-methods
         organization = self.get_organization_by_name(organization_name)
         if not organization:
             raise InvalidOrganization(organization_name)
-        matching_projects = (project for project in organization.projects if
-                             project.scm_url == scm_url and project.scm_branch == branch_name)
+        matching_projects = (project for project in organization.projects if all([project.scm.url == scm_url,
+                                                                                  project.scm_branch == branch_name]))
+        outputs = []
         for project in matching_projects:
-            self._logger.debug("A request is being sent to update the project with the name '{}' and with scm url '{}' "
-                               "and branch name '{}'".format(project.name, scm_url, branch_name))
-            project.update()
+            output = project.update()
+            if not output:
+                self.logger.error(f'{project.name} failed to update')
+            outputs.append(output)
+        return all(outputs)
 
     def get_jobs_by_name(self, name):
         """Get filtered list of jobs for a given name.
