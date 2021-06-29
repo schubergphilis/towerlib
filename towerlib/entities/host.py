@@ -271,6 +271,20 @@ class Host(Entity):
                              url=url)
 
     @property
+    def all_groups(self):
+        """The groups that the host is directly and indirectly part of.
+
+        Returns:
+            EntityManager: EntityManager of the groups of the host.
+
+        """
+        url = self._data.get('related', {}).get('all_groups')
+        return EntityManager(self._tower,
+                             entity_object='Group',
+                             primary_match_field='name',
+                             url=url)
+
+    @property
     def recent_jobs(self):
         """The most recent jobs run on the host.
 
