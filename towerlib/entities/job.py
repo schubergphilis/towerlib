@@ -36,6 +36,8 @@ import datetime
 
 from bs4 import BeautifulSoup as Bfs
 from dateutil.parser import parse
+from dataclasses import dataclass
+
 from towerlib.towerlibexceptions import InvalidCredential, InvalidValue, InvalidInventory
 from .core import Entity, EntityManager, validate_max_length
 
@@ -862,11 +864,9 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         """The labels of the job template.
 
         Returns:
-            dict: Dict of the list of the job template labels. Actual labels can then be accessed as labels['results'].
-
+            list: List of the job template labels (only id and name can be retrieved.)
         """
-        labels = self._data.get('summary_fields', {}).get('labels')
-        return labels if labels else {}
+        return [Label(**data) for data in self._data.get('summary_fields', {}).get('labels', {}).get('results', [])]
 
     @property
     def extra_credentials(self):
@@ -1960,3 +1960,7 @@ class AdHocCommandJob(SystemJob):
 #              u'relaunch': u'/api/v2/ad_hoc_commands/4979/relaunch/',
 #              u'stdout': u'/api/v2/ad_hoc_commands/4979/stdout/'},
 
+@dataclass
+class Label:
+    id: int
+    name: str
