@@ -798,10 +798,9 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
     @job_type.setter
     def job_type(self, value):
         """Update the job_type of the template."""
-        if value in JOB_TYPE_ACCEPTED_VALUES:
-            self._update_values('job_type', value)
-        else:
+        if value not in JOB_TYPE_ACCEPTED_VALUES:
             raise InvalidValue(f'{value} is invalid. Given value must be one of these: {JOB_TYPE_ACCEPTED_VALUES}')
+        self._update_values('job_type', value)
 
     @property
     def inventory(self):
