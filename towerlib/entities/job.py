@@ -33,7 +33,6 @@ Main code for jobs.
 
 import logging
 import datetime
-import json
 
 from bs4 import BeautifulSoup as Bfs
 from dateutil.parser import parse
