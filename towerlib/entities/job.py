@@ -830,7 +830,12 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
 
     @project.setter
     def project(self, value):
-        """Update the project of the job template by project name."""
+        """Update the project of the job template by project name.
+
+        Args:
+            value: The name of the project to be updated.
+
+        """
         if not isinstance(value, str):
             raise InvalidValue(f'{value} is invalid. Given value must be the name of the project')
         self._update_values('project', value)
@@ -1102,6 +1107,9 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
     @use_fact_cache.setter
     def use_fact_cache(self, value):
         """Set or unset the "user fact cache flag".
+
+        Args:
+            value: bool value of the flag: use_fact_cache for the job_template.
 
         Returns:
             None.
