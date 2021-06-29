@@ -2040,6 +2040,9 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         """
         organization = self.get_organization_by_name(organization_name)
+        if not organization:
+            raise InvalidOrganization(organization_name)
+        projects = all([project.update() for project in organization.projects])
         for project in organization.projects:
             project.update()
 
