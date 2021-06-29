@@ -862,7 +862,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         """The labels of the job template.
 
         Returns:
-            dict: The dictionary of the list of the job template labels.
+            dict: Dict of the list of the job template labels. Actual labels can then be accessed as labels['results'].
 
         """
         labels = self._data.get('summary_fields', {}).get('labels')
@@ -1616,7 +1616,7 @@ class ProjectUpdateJob(Entity):  # pylint: disable=too-many-public-methods
         """The project of the ProjectUpdateJob.
 
         Returns:
-            Project: The project of the project update.
+            Project: The Project that this project_update belongs to.
 
         """
         url = self._data.get('related', {}).get('project')
