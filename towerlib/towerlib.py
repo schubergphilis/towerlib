@@ -95,9 +95,6 @@ CLUSTER_STATE_CACHING_SECONDS = 10
 CONFIGURATION_STATE_CACHING_SECONDS = 60
 CLUSTER_STATE_CACHE = TTLCache(maxsize=1, ttl=CLUSTER_STATE_CACHING_SECONDS)
 CONFIGURATION_STATE_CACHE = TTLCache(maxsize=1, ttl=CONFIGURATION_STATE_CACHING_SECONDS)
-GENERIC_SEARCH_ITEMS = ['credentials', 'groups', 'hosts', 'instances', 'inventories', 'inventory_scripts',
-                         'inventory_sources', 'jobs', 'job_templates', 'notifications', 'organizations', 'projects',
-                         'project_updates', 'roles', 'schedules', 'teams', 'users']
 
 
 class Tower:  # pylint: disable=too-many-public-methods
@@ -2198,40 +2195,3 @@ class Tower:  # pylint: disable=too-many-public-methods
             for group in results:
                 groups.append(group)
             return groups
-
-    def search_generic_item_by_keyword(self, generic_item_name_plural, keyword=''):
-        """
-        Search query string parameter to perform a case-insensitive search within all designated text fields of a model
-        or item. Model/item means projects, jobs, inventories etc.
-        https://docs.ansible.com/ansible-tower/latest/html/towerapi/searching.html
-
-        Args:
-            generic_item_name_plural: the plural name of the model/item e.g. projects, jobs, job_templates, users etc.
-            keyword: case insensitive search string.
-
-        Returns:
-            list: list of matching item objects.
-
-        """
-        if not generic_item_name_plural.lower() in GENERIC_SEARCH_ITEMS:
-            self._logger.error("The generic search item '{}' not found.".format(generic_item_name_plural))
-            return None
-        url = "{api}/{item}/?search={keyword}".format(api=self.api, item=generic_item_name_plural, keyword=keyword)
-        response = self.session.get(url)
-        if not response.ok:
-            self._logger.error("Error getting the search result. Response was: {})".format(response.text))
-            return None
-        page_id = 2
-        results = response.json().get('results', [])
-        while response.json().get('next'):
-            url = "{api}/{item}/?page={page_id}&search={keyword}".format(api=self.api,
-                                                                         item=generic_item_name_plural,
-                                                                         page_id=page_id,
-                                                                         keyword=keyword)
-            response = self.session.get(url)
-            results.extend(response.json().get('results', []))
-            if not response.ok:
-                self._logger.error("Error getting search result for the api page '{page}'. Response was: "
-                                   "{response})".format(page=page_id, response=response.text))
-            page_id += 1
-        return results
