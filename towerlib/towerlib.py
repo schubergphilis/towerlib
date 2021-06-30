@@ -2077,10 +2077,7 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         """
 
-        organization = self.get_organization_by_name(organization_name)
-        if not organization:
-            raise InvalidOrganization(organization_name)
-        project = self.get_organization_project_by_name(organization, project_name)
+        project = self.get_organization_project_by_name(organization_name, project_name)
         if not project:
             raise InvalidProject(project_name)
         return project.update()
