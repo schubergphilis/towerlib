@@ -36,6 +36,7 @@ import datetime
 
 from bs4 import BeautifulSoup as Bfs
 from dateutil.parser import parse
+from towerlib.entities.core import Label
 
 from towerlib.towerlibexceptions import InvalidCredential, InvalidValue, InvalidInventory
 from .core import Entity, EntityManager, validate_max_length
