@@ -823,10 +823,10 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
             Inventory: The project that the job template is part of.
 
         """
-        if not self._data.get('related', {}).get('project'):
-            return None
         url = self._data.get('related', {}).get('project')
-        return self._tower._get_object_by_url('Project', url)   # pylint: disable=protected-access
+        if not url:
+            return None
+        return self._tower._get_object_by_url('Project', url) # pylint: disable=protected-access
 
     @project.setter
     def project(self, value):

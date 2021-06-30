@@ -2061,6 +2061,8 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         """
         project = self.get_project_by_id(project_id)
+        if not project:
+            raise InvalidProject(project_id)
         return project.update()
 
     def update_organization_project_by_name(self, organization_name, project_name):
@@ -2079,6 +2081,8 @@ class Tower:  # pylint: disable=too-many-public-methods
         if not organization:
             raise InvalidOrganization(organization_name)
         project = self.get_organization_project_by_name(organization, project_name)
+        if not project:
+            raise InvalidProject(project_name)
         return project.update()
 
     def update_organization_projects_by_scm_url(self, scm_url, organization_name):
@@ -2115,7 +2119,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         organization = self.get_organization_by_name(organization_name)
         if not organization:
             raise InvalidOrganization(organization_name)
-        matching_projects = (project for project in organization.projects if all([project.scm.url == scm_url,
+        matching_projects = (project for project in organization.projects if all([project.scm_url == scm_url,
                                                                                   project.scm_branch == branch_name]))
         outputs = []
         for project in matching_projects:
@@ -2201,6 +2205,4 @@ class Tower:  # pylint: disable=too-many-public-methods
         response = self.session.get(url)
         if not response.ok:
             self._logger.error("Error getting the project updates. response was: {})".format(response.text))
-            return None
-        results = response.json().get('results', [])
-        return [group for group in results]
+        return response.json().get('results', []) if response.ok else []
