@@ -36,7 +36,6 @@ import datetime
 
 from bs4 import BeautifulSoup as Bfs
 from dateutil.parser import parse
-from dataclasses import dataclass
 
 from towerlib.towerlibexceptions import InvalidCredential, InvalidValue, InvalidInventory
 from .core import Entity, EntityManager, validate_max_length
@@ -1967,8 +1966,3 @@ class AdHocCommandJob(SystemJob):
 #              u'notifications': u'/api/v2/ad_hoc_commands/4979/notifications/',
 #              u'relaunch': u'/api/v2/ad_hoc_commands/4979/relaunch/',
 #              u'stdout': u'/api/v2/ad_hoc_commands/4979/stdout/'},
-
-@dataclass
-class Label:
-    id: int
-    name: str
