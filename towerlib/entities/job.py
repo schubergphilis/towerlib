@@ -830,14 +830,12 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
 
     @project.setter
     def project(self, value):
-        """Update the project of the job template by project name.
+        """Update the project of the job template by project id.
 
         Args:
-            value: The name of the project to be updated.
+            value: The new project id, to which the project will be updated.
 
         """
-        if not isinstance(value, str):
-            raise InvalidValue(f'{value} is invalid. Given value must be the name of the project')
         self._update_values('project', value)
 
     @property
