@@ -2198,8 +2198,7 @@ class Tower:  # pylint: disable=too-many-public-methods
             list: list of custom groups.
 
         """
-        url = "{api}/hosts/{id}/all_groups/".format(api=self.api, id=host_id)
-        response = self.session.get(url)
-        if not response.ok:
-            self._logger.error("Error getting the project updates. response was: {})".format(response.text))
-        return response.json().get('results', []) if response.ok else []
+        host = self.get_host_by_id(host_id)
+        if not host:
+            return []
+        return host.all_groups
