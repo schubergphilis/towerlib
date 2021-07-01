@@ -272,3 +272,9 @@ History
 ------------------
 
 * Features implemented by spirit21.
+
+
+3.9.0 (01-07-2021)
+------------------
+
+* Features implemented by spirit21.
