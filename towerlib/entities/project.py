@@ -193,8 +193,7 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
             job_templates (list): list of all the job templates object for the project.
 
         """
-        return self._tower.job_templates.filter({'project__exact':self.id})
-
+        return self._tower.job_templates.filter({'project__exact': self.id})
 
     @property
     def local_path(self):
@@ -549,7 +548,6 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
             dict: Response of api request as json on success, None otherwise.
 
         """
-
         update_url = '{api}/projects/{id}/update/'.format(api=self._tower.api, id=self.id)
         response = self._tower.session.post(update_url)
 

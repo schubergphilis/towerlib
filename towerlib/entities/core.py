@@ -109,6 +109,14 @@ INSTANCE_STATE_CACHING_SECONDS = 60
 INSTANCE_STATE_CACHE = TTLCache(maxsize=1, ttl=INSTANCE_STATE_CACHING_SECONDS)
 
 
+@dataclass
+class Label:
+    """Models a label."""
+
+    id: int  # pylint: disable=invalid-name
+    name: str
+
+
 def validate_max_length(value, max_length):
     """Validates the maximum length of a value."""
     return len(value) <= max_length
@@ -383,8 +391,3 @@ class EntityManager:
 
         """
         return self._get_entity_objects(params)
-
-@dataclass
-class Label:
-    id: int
-    name: str

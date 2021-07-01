@@ -140,3 +140,4 @@ assert InventoryScript
 assert Schedule
 assert Settings
 assert Saml
+assert Label

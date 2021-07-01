@@ -2076,7 +2076,6 @@ class Tower:  # pylint: disable=too-many-public-methods
             API Response (dict): dict of response of api request as json on success, None otherwise.
 
         """
-
         project = self.get_organization_project_by_name(organization_name, project_name)
         if not project:
             raise InvalidProject(project_name)
@@ -2122,7 +2121,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         for project in matching_projects:
             output = project.update()
             if not output:
-                self.logger.error(f'{project.name} failed to update')
+                self._logger.error(f'{project.name} failed to update')
             outputs.append(output)
         return all(outputs)
 
@@ -2136,7 +2135,6 @@ class Tower:  # pylint: disable=too-many-public-methods
              list: the filtered list of jobs.
 
         """
-
         return self.jobs.filter({'name__iexact': name})
 
     def get_job_by_id(self, id_):

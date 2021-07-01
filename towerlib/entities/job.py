@@ -826,7 +826,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         url = self._data.get('related', {}).get('project')
         if not url:
             return None
-        return self._tower._get_object_by_url('Project', url) # pylint: disable=protected-access
+        return self._tower._get_object_by_url('Project', url)  # pylint: disable=protected-access
 
     @project.setter
     def project(self, value):
@@ -870,7 +870,8 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         """The labels of the job template.
 
         Returns:
-            list: List of the job template labels (only id and name can be retrieved.)
+            labels (list): The job template labels (only id and name can be retrieved).
+
         """
         return [Label(**data) for data in self._data.get('summary_fields', {}).get('labels', {}).get('results', [])]
 

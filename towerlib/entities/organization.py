@@ -272,8 +272,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
             project (Project): project on success else None.
 
         """
-        return next(self._tower.projects.filter({'organization': self.id, 'name__iexact': name}), None)\
-
+        return next(self._tower.projects.filter({'organization': self.id, 'name__iexact': name}), None)
 
     def create_project(self,  # pylint: disable=too-many-arguments, too-many-locals
                        name,
