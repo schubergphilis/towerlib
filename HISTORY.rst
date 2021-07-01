@@ -266,3 +266,9 @@ History
 ------------------
 
 * Bumped dependencies and fixed a couple of bugs on job attribute retrieval.
+
+
+3.8.0 (01-07-2021)
+------------------
+
+* Features implemented by spirit21.
