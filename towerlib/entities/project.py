@@ -186,6 +186,17 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         self._update_values('description', value)
 
     @property
+    def job_templates(self):
+        """The job templates for the project entity.
+
+        Returns:
+            job_templates (list): list of all the job templates object for the project.
+
+        """
+        return self._tower.job_templates.filter({'project__exact':self.id})
+
+
+    @property
     def local_path(self):
         """The internal local path of the project.
 
@@ -530,3 +541,29 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         else:
             raise InvalidValue(f'{value} is invalid. Condition max_characters must be less than or equal to '
                                f'{max_characters}')
+
+    def update(self):
+        """Send an SCM update request to the project.
+
+        Returns:
+            dict: Response of api request as json on success, None otherwise.
+
+        """
+
+        update_url = '{api}/projects/{id}/update/'.format(api=self._tower.api, id=self.id)
+        response = self._tower.session.post(update_url)
+
+        if not response.ok:
+            self._logger.error(
+                "Error updating the project '{}'. response was: {})".format(self.name, response.text))
+        return response.json() if response.ok else {}
+
+    @property
+    def project_updates(self):
+        """Get all the job_events for host.
+
+        Returns:
+            list: list of all the job events for the host.
+
+        """
+        return self._tower.project_updates.filter({'project': self.id})

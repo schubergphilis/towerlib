@@ -36,7 +36,9 @@ import datetime
 
 from bs4 import BeautifulSoup as Bfs
 from dateutil.parser import parse
-from towerlib.towerlibexceptions import InvalidCredential, InvalidValue, InvalidInventory
+from towerlib.entities.core import Label
+
+from towerlib.towerlibexceptions import InvalidCredential, InvalidValue, InvalidInventory, InvalidProject
 from .core import Entity, EntityManager, validate_max_length
 
 
@@ -54,6 +56,7 @@ __status__ = '''Development'''  # "Prototype", "Development", "Production".
 LOGGER_BASENAME = '''jobs'''
 LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
+JOB_TYPE_ACCEPTED_VALUES = ['run', 'check']
 
 
 class Job:  # pylint: disable=too-few-public-methods
@@ -104,6 +107,26 @@ class JobEvent(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._data.get('event')
+
+    @property
+    def created_at(self):
+        """The created date of the event.
+
+        Returns:
+            date_time (string): The string formatted datetime of the event creation.
+
+        """
+        return self._data.get('created')
+
+    @property
+    def modified_at(self):
+        """The modified date of the event.
+
+        Returns:
+            basestring: The string formatted datetime of the event's last modification.
+
+        """
+        return self._data.get('modified')
 
     @property
     def counter(self):
@@ -774,6 +797,13 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._data.get('job_type')
 
+    @job_type.setter
+    def job_type(self, value):
+        """Update the job_type of the template."""
+        if value not in JOB_TYPE_ACCEPTED_VALUES:
+            raise InvalidValue(f'{value} is invalid. Given value must be one of these: {JOB_TYPE_ACCEPTED_VALUES}')
+        self._update_values('job_type', value)
+
     @property
     def inventory(self):
         """The inventory that the job template is part of.
@@ -794,7 +824,22 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
 
         """
         url = self._data.get('related', {}).get('project')
-        return self._tower._get_object_by_url('Project', url)  # pylint: disable=protected-access
+        if not url:
+            return None
+        return self._tower._get_object_by_url('Project', url) # pylint: disable=protected-access
+
+    @project.setter
+    def project(self, value):
+        """Update the project of the job template by project id.
+
+        Args:
+            value: The new project id, to which the project will be updated.
+
+        """
+        project = self._tower.get_project_by_id(value)
+        if not project:
+            raise InvalidProject(value)
+        self._update_values('project', value)
 
     @property
     def playbook(self):
@@ -819,6 +864,15 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
                              entity_object='Credential',
                              primary_match_field='name',
                              url=url)
+
+    @property
+    def labels(self):
+        """The labels of the job template.
+
+        Returns:
+            list: List of the job template labels (only id and name can be retrieved.)
+        """
+        return [Label(**data) for data in self._data.get('summary_fields', {}).get('labels', {}).get('results', [])]
 
     @property
     def extra_credentials(self):
@@ -1054,6 +1108,9 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
     @use_fact_cache.setter
     def use_fact_cache(self, value):
         """Set or unset the "user fact cache flag".
+
+        Args:
+            value: bool value of the flag: use_fact_cache for the job_template.
 
         Returns:
             None.
@@ -1565,10 +1622,10 @@ class ProjectUpdateJob(Entity):  # pylint: disable=too-many-public-methods
 
     @property
     def project(self):
-        """The project of the update.
+        """The project of the ProjectUpdateJob.
 
         Returns:
-            Project: The project of the update.
+            Project: The Project that this project_update belongs to.
 
         """
         url = self._data.get('related', {}).get('project')

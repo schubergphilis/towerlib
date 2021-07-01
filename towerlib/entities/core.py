@@ -35,6 +35,7 @@ import logging
 import re
 import json
 from collections import namedtuple
+from dataclasses import dataclass
 
 from dateutil.parser import parse
 from cachetools import TTLCache, cached
@@ -382,3 +383,8 @@ class EntityManager:
 
         """
         return self._get_entity_objects(params)
+
+@dataclass
+class Label:
+    id: int
+    name: str

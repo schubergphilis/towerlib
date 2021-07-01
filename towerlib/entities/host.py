@@ -271,6 +271,20 @@ class Host(Entity):
                              url=url)
 
     @property
+    def all_groups(self):
+        """The groups that the host is directly and indirectly part of.
+
+        Returns:
+            EntityManager: EntityManager of the groups of the host.
+
+        """
+        url = self._data.get('related', {}).get('all_groups')
+        return EntityManager(self._tower,
+                             entity_object='Group',
+                             primary_match_field='name',
+                             url=url)
+
+    @property
     def recent_jobs(self):
         """The most recent jobs run on the host.
 
@@ -282,7 +296,7 @@ class Host(Entity):
 
     @property
     def ansible_facts(self):
-        """Ansible facts gathered about the host in json.
+        """Returns ansible facts gathered about the host in json.
 
         Args: None
 
@@ -351,3 +365,13 @@ class Host(Entity):
                             if group.name.lower() in lower_group_names]
         return all([group._remove_host_by_id(self.id)  # pylint: disable=protected-access
                     for group in inventory_groups])
+
+    @property
+    def job_events(self):
+        """The job_events for the host.
+
+        Returns:
+            job_events (list): All job events of the host
+
+        """
+        return self._tower.job_events.filter({'host': self.id})

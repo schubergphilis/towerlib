@@ -1752,7 +1752,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.job_templates.filter({'id': id_}), None)
 
-    def create_job_template(self,  # pylint: disable=too-many-arguments, too-many-locals, too-many-branches  # noqa: C901
+    def create_job_template(self, # pylint: disable=too-many-arguments, too-many-locals, too-many-branches  # noqa: C901
                             name,
                             description,
                             organization,
@@ -1983,6 +1983,19 @@ class Tower:  # pylint: disable=too-many-public-methods
                              primary_match_field='name')
 
     @property
+    def project_updates(self):
+        """A manager object for the project_updates in tower.
+
+        Returns:
+            project_updates (EntityManager): A generator of project updates.
+
+        """
+        return EntityManager(self,
+                             entity_name='project_updates',
+                             entity_object='ProjectUpdateJob',
+                             primary_match_field='name')
+
+    @property
     def schedules(self):
         """The schedules configured in tower.
 
@@ -2018,3 +2031,174 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         """
         return next(self.schedules.filter({'name__iexact': name}), None)
+
+    def update_all_organization_projects(self, organization_name):
+        """Update all the projects in ansible tower for a given organization.
+
+        Args:
+            organization_name: The name of the organization.
+
+        """
+        organization = self.get_organization_by_name(organization_name)
+        if not organization:
+            raise InvalidOrganization(organization_name)
+        outputs = []
+        for project in organization.projects:
+            output = project.update()
+            if not output:
+                self._logger.error(f'{project.name} failed to update')
+            outputs.append(output)
+        return all(outputs)
+
+    def update_project_by_id(self, project_id):
+        """Update the ansible tower project with given project id.
+
+        Args:
+            project_id: The id of the project, which is to be updated.
+
+        Returns:
+            list: List of response of api request as json on success, None otherwise.
+
+        """
+        project = self.get_project_by_id(project_id)
+        if not project:
+            raise InvalidProject(project_id)
+        return project.update()
+
+    def update_organization_project_by_name(self, organization_name, project_name):
+        """Update the ansible tower project with given project name.
+
+        Args:
+            organization_name: The name of the organization.
+            project_name: The name of the project, which is to be updated.
+
+        Returns:
+            API Response (dict): dict of response of api request as json on success, None otherwise.
+
+        """
+
+        project = self.get_organization_project_by_name(organization_name, project_name)
+        if not project:
+            raise InvalidProject(project_name)
+        return project.update()
+
+    def update_organization_projects_by_scm_url(self, scm_url, organization_name):
+        """Send update request to update project for a given git repository (scm_url) withing an organization.
+
+        Args:
+            organization_name: the name of the organization.
+            scm_url: the http url of the required repository.
+
+        """
+        organization = self.get_organization_by_name(organization_name)
+        if not organization:
+            raise InvalidOrganization(organization_name)
+        matching_projects = (project for project in organization.projects if project.scm_url == scm_url)
+        outputs = []
+        for project in matching_projects:
+            output = project.update()
+            if not output:
+                self._logger.error(f'{project.name} failed to update')
+            outputs.append(output)
+        return all(outputs)
+
+    def update_organization_projects_by_branch_name(self, scm_url, branch_name, organization_name):
+        """Update an ansible tower project or list of projects for an organization based on their branch name.
+
+        A scm_branch can only be identified correctly with a corresponding scm_url.
+
+        Args:
+            scm_url: the URL of the relevant repository configured in the project.
+            branch_name: the name of the branch, which is selected as scm_branch parameter of the project.
+            organization_name: the name of the organization.
+
+        """
+        organization = self.get_organization_by_name(organization_name)
+        if not organization:
+            raise InvalidOrganization(organization_name)
+        matching_projects = (project for project in organization.projects if all([project.scm_url == scm_url,
+                                                                                  project.scm_branch == branch_name]))
+        outputs = []
+        for project in matching_projects:
+            output = project.update()
+            if not output:
+                self.logger.error(f'{project.name} failed to update')
+            outputs.append(output)
+        return all(outputs)
+
+    def get_jobs_by_name(self, name):
+        """Get filtered list of jobs for a given name.
+
+        Args:
+            name: the given job name.
+
+        Returns:
+             list: the filtered list of jobs.
+
+        """
+
+        return self.jobs.filter({'name__iexact': name})
+
+    def get_job_by_id(self, id_):
+        """Retrieves a job by id.
+
+        Args:
+            id_: The id of the job to retrieve.
+
+        Returns:
+            Host: The host if a match is found else None.
+
+        """
+        return next(self.jobs.filter({'id': id_}), None)
+
+    def get_project_update_by_id(self, id_):
+        """Retrieves a project_update by id.
+
+        Args:
+            id_: The id of the project_update to retrieve.
+
+        Returns:
+            Host: The project_update if a match is found else None.
+
+        """
+        return next(self.project_updates.filter({'id': id_}), None)
+
+    def get_project_updates_by_name(self, name):
+        """Retrieves project_updates matching a certain name.
+
+        Args:
+            name: the given job_update name.
+
+        Returns:
+             list: the filtered list of project update jobs.
+
+        """
+        return self.project_updates.filter({'name__iexact': name})
+
+    @property
+    def job_events(self):
+        """The job templates configured in tower.
+
+        Returns:
+            EntityManager: The manager object for job templates.
+
+        """
+        return EntityManager(self,
+                             entity_name='job_events',
+                             entity_object='JobEvent',
+                             primary_match_field='name')
+
+    def get_all_groups_by_host_id(self, host_id):
+        """Get groups for a particular host, which are directly and indirectly connected.
+
+        Args:
+            host_id: the id of the given host..
+
+        Returns:
+            list: list of custom groups.
+
+        """
+        host = self.get_host_by_id(host_id)
+        if not host:
+            return []
+        return host.all_groups
