@@ -316,6 +316,18 @@ class Entity(DateParserMixin):
         """
         return self._to_datetime(self._data.get('modified'))
 
+    def patch(self, data):
+        """Patch the entity on tower.
+
+        Returns:
+            bool: True on success, False otherwise.
+
+        """
+        response = self._tower.session.patch(self.url, data=json.dumps(data))
+        if not response.ok:
+            self._logger.error('Error updating, response was: "%s"', response.text)
+        return response.ok
+
     def delete(self):
         """Deletes the entity from tower.
 
