@@ -278,3 +278,9 @@ History
 ------------------
 
 * Features implemented by spirit21.
+
+
+3.9.1 (10-09-2021)
+------------------
+
+* Added the capability to launch a job template with non-default SCM branches.
