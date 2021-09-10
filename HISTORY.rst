@@ -284,3 +284,9 @@ History
 ------------------
 
 * Added the capability to launch a job template with non-default SCM branches.
+
+
+3.9.2 (10-09-2021)
+------------------
+
+* Linted.
