@@ -678,7 +678,7 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
             next_line = self._fetch(next_line)
 
             time.sleep(interval)
-            if self._get_dynamic_value('event_processing_finished') is True or self.status in ("error", "cancelled"):
+            if self.event_processing_finished is True or self.status in ("error", "cancelled"):
                 self._fetch(next_line)
                 break
 
@@ -708,6 +708,15 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
         return next_line
 
     # TOFIX model activity streams and implement them here.
+    
+    @property
+    def event_processing_finished(self):
+        """Fetches the current status of event processing
+
+        Returns:
+            bool: True/False for job processing finished
+        """
+        return self._get_dynamic_value('event_processing_finished')
 
     @property
     def job_template(self):
