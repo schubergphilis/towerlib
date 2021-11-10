@@ -362,6 +362,7 @@ class EntityManager:
         self._name = entity_name
         self._next_state = None
         self._url = f'{self._tower.api}/{entity_name}' if entity_name else f'{self._tower.host}{url}'
+        logging.debug(self._url)
 
     @property
     def _objects(self):

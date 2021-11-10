@@ -715,6 +715,17 @@ class WorkflowJobRun(JobRun):
         response = self._tower.session.get(url)
         return response.json().get(variable) if response.ok else None
 
+    @property
+    def workflow_nodes(self):
+        """Workflow nodes executed in the workflow
+        
+        Returns:
+
+        """
+        url = f'{self._tower.api}/workflow_jobs/{self.id}/workflow_nodes'
+        response = self._tower.session.get(url)
+        return response.json().get('results', {}) if response.ok else None
+
     def cancel(self):
         """Cancels the running or pending job.
 
@@ -1648,6 +1659,42 @@ class ProjectUpdateJob(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._data.get('summary_fields')
+
+    @property
+    def related(self):
+        """The related fields of the job.
+
+        Returns:
+            dict: The related fields of the job.
+
+        """
+        return self._data.get('related')
+
+    @property
+    def events(self):
+        """The events of the job.
+
+        Returns:
+            dict: The events of the job.
+
+        """
+        url = self._data.get('related', {}).get('events')
+        return EntityManager(self._tower,
+                             entity_object='JobEvent',
+                             primary_match_field='id',
+                             url=url)
+
+    @property
+    def event_processing_finished(self):
+        """The event_processing_finished field of the job.
+
+        Returns:
+            bool: The event_processing_finished field of the job.
+
+        """
+        url = f'{self._tower.api}/project_updates/{self.id}/'
+        response = self._tower.session.get(url)
+        return response.json().get('event_processing_finished', {}) if response.ok else None
 
     @property
     def name(self):
