@@ -691,12 +691,7 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
         Returns:
             int: The next line
 
-        """
-        def to_str(obj):
-            if isinstance(obj, bytes):
-                return obj.decode('utf-8')
-            return obj
-            
+        """           
         for job_event in self.job_events:
             if job_event.start_line != next_line:
                 # If this event is a line from _later_ in the stdout,
