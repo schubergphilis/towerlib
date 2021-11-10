@@ -59,6 +59,10 @@ LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
 JOB_TYPE_ACCEPTED_VALUES = ['run', 'check']
 
+def to_str(obj):
+  if isinstance(obj, bytes):
+    return obj.decode('utf-8')
+  return obj
 
 class Job:  # pylint: disable=too-few-public-methods
     """Job factory to handle the different job types returned."""
@@ -1740,6 +1744,53 @@ class ProjectUpdateJob(Entity):  # pylint: disable=too-many-public-methods
     # TOFIX use, model and implement notifications.
 
     # TOFIX use, model and implement scm_inventory_updates.
+
+    def monitor(self, update_id, timeout=None, interval=0.25):
+        """Monitors the project update status based on response id of the update call
+
+        Returns:
+            string: Job status of the update
+        
+        """
+        started = time.time()
+        next_line = 0
+        
+        project_update = self.ansible_tower.get_project_update_by_id(update_id)
+        while True:
+            if timeout and time.time() - started > timeout:
+                logging.error("Monitoring aborted due to timeout.")
+                break
+
+            next_line = self._fetch(project_update, next_line)
+
+            time.sleep(interval)
+            if project_update.event_processing_finished is True or project_update.status in ("error", "cancelled"):
+                self._fetch(project_update, next_line)
+                break   
+        
+        return project_update.status
+
+    def _fetch(self, job, next_line):
+        """Fetches job events and prints them to stdout
+
+        Returns:
+            int: next_line number
+        
+        """
+        for job_event in job.events:
+            if job_event.start_line != next_line:
+                # If this event is a line from _later_ in the stdout,
+                # it means that the events didn't arrive in order;
+                # skip it for now and wait until the prior lines arrive and are
+                # printed
+                continue
+            stdout = to_str(job_event.stdout)
+            if len(stdout) > 0:
+                logging.log(stdout)
+
+            next_line = job_event.end_line
+
+        return next_line
 
     @property
     def project(self):
