@@ -701,7 +701,7 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
                 continue
             stdout = to_str(job_event.stdout)
             if len(stdout) > 0:
-                logging.log(stdout)
+                print(stdout)
 
             next_line = job_event.end_line
 
@@ -1781,7 +1781,7 @@ class ProjectUpdateJob(Entity):  # pylint: disable=too-many-public-methods
                 continue
             stdout = to_str(job_event.stdout)
             if len(stdout) > 0:
-                logging.log(stdout)
+                print(stdout)
 
             next_line = job_event.end_line
 
