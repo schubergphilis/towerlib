@@ -33,6 +33,7 @@ Main code for jobs.
 
 import logging
 import datetime
+import time
 
 from bs4 import BeautifulSoup as Bfs
 from dateutil.parser import parse
@@ -107,6 +108,7 @@ class JobEvent(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._data.get('event')
+    
 
     @property
     def created_at(self):
@@ -649,6 +651,63 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
                              primary_match_field='name',
                              url=url)
 
+    def monitor(self, timeout=None, interval=0.25):
+        """Monitor the job execution events
+
+        Returns:
+            string: The job status of the job
+        
+        """
+        next_line = 0
+        started = time.time()
+        ### Wait for job to start
+        while self.status not in ["running"]:
+            time.sleep(interval)
+            logging.info(f"... {self.status}")
+
+        logging.info("Starting Job Output Stream")
+        while True:
+            if timeout and time.time() - started > timeout:
+                logging.error("Monitoring aborted due to timeout.")
+                break
+
+            next_line = self._fetch(next_line)
+
+            time.sleep(interval)
+            if self._get_dynamic_value('event_processing_finished') is True or self.status in ("error", "cancelled"):
+                self._fetch(next_line)
+                break
+
+        return self.status
+
+
+    def _fetch(self, next_line):
+        """Fetches the current job event line and prints it
+
+        Returns:
+            int: The next line
+
+        """
+        def to_str(obj):
+            if isinstance(obj, bytes):
+                return obj.decode('utf-8')
+            return obj
+            
+        for job_event in self.job_events:
+            if job_event.start_line != next_line:
+                # If this event is a line from _later_ in the stdout,
+                # it means that the events didn't arrive in order;
+                # skip it for now and wait until the prior lines arrive and are
+                # printed
+                continue
+            stdout = to_str(job_event.stdout)
+            if len(stdout) > 0:
+                logging.log(stdout)
+
+            next_line = job_event.end_line
+
+        return next_line
+
     # TOFIX model activity streams and implement them here.
 
     @property
@@ -737,6 +796,49 @@ class WorkflowJobRun(JobRun):
         response = self._tower.session.post(url)
         return response.ok
 
+    def _fetch(self, printed_nodes):
+        """Fetches and prints the current running job name
+
+        Returns:
+            None
+        
+        """
+        _job_updates_found = False
+        for workflow_node in self.workflow_nodes:
+            _job = workflow_node.get('summary_fields', {}).get('job')
+            if _job is not None:
+                _id = _job.get('id')
+                _status = _job.get('status')
+                # Check if the current job ID has been printed
+                if _id not in printed_nodes:
+                    printed_nodes[_id] = _status
+                    logging.info(f"{_job.get('name')} ({_job.get('id')}) - {_job.get('status')}")
+                    _job_updates_found = True
+                # If the current id has been printed, but the status has updated.. print it
+                if _id in printed_nodes and printed_nodes[_id] != _status:
+                    printed_nodes[_id] = _status
+                    logging.info(f"{_job.get('name')} ({_job.get('id')}) - {_job.get('status')}")
+                    _job_updates_found = True
+
+        # Print running so the user knows the job is still going if no state change above
+        if not _job_updates_found:
+            logging.info("... Running")
+
+    def monitor(self, interval=1.0):
+        """Monitors the workflow job and outputs the running jobs
+
+        Returns:
+            string: job status
+        
+        """
+        printed_nodes = {}
+        ### Wait for job to start
+        while self.status not in ["successful", "failed", "error", "canceled"]:
+            time.sleep(interval)
+            self._fetch(printed_nodes=printed_nodes)
+        
+        self._fetch(printed_nodes=printed_nodes)
+        return self.status
 
 class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
     """Models the Job Template entity of ansible tower."""
