@@ -59,10 +59,13 @@ LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
 JOB_TYPE_ACCEPTED_VALUES = ['run', 'check']
 
+
 def to_str(obj):
-  if isinstance(obj, bytes):
-    return obj.decode('utf-8')
-  return obj
+    """Decodes a byte object."""
+    if isinstance(obj, bytes):
+        return obj.decode('utf-8')
+    return obj
+
 
 class Job:  # pylint: disable=too-few-public-methods
     """Job factory to handle the different job types returned."""
@@ -112,7 +115,6 @@ class JobEvent(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._data.get('event')
-    
 
     @property
     def created_at(self):
@@ -656,15 +658,14 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
                              url=url)
 
     def monitor(self, timeout=None, interval=0.25):
-        """Monitor the job execution events
+        """Monitor the job execution events.
 
         Returns:
             string: The job status of the job
-        
+
         """
         next_line = 0
         started = time.time()
-        ### Wait for job to start
         while self.status not in ["running"]:
             time.sleep(interval)
             logging.info(f"... {self.status}")
@@ -684,14 +685,13 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
 
         return self.status
 
-
     def _fetch(self, next_line):
-        """Fetches the current job event line and prints it
+        """Fetches the current job event line and prints it.
 
         Returns:
             int: The next line
 
-        """           
+        """
         for job_event in self.job_events:
             if job_event.start_line != next_line:
                 # If this event is a line from _later_ in the stdout,
@@ -708,13 +708,14 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
         return next_line
 
     # TOFIX model activity streams and implement them here.
-    
+
     @property
     def event_processing_finished(self):
-        """Fetches the current status of event processing
+        """Fetches the current status of event processing.
 
         Returns:
             bool: True/False for job processing finished
+
         """
         return self._get_dynamic_value('event_processing_finished')
 
@@ -784,9 +785,10 @@ class WorkflowJobRun(JobRun):
 
     @property
     def workflow_nodes(self):
-        """Workflow nodes executed in the workflow
-        
+        """Workflow nodes executed in the workflow.
+
         Returns:
+          JSON Results on success, None otherwise.
 
         """
         url = f'{self._tower.api}/workflow_jobs/{self.id}/workflow_nodes'
@@ -805,11 +807,14 @@ class WorkflowJobRun(JobRun):
         return response.ok
 
     def _fetch(self, printed_nodes):
-        """Fetches and prints the current running job name
+        """Fetches and prints the current running job name.
+
+        Args:
+            printed_nodes: The list of previously printed nodes.
 
         Returns:
             None
-        
+
         """
         _job_updates_found = False
         for workflow_node in self.workflow_nodes:
@@ -833,20 +838,24 @@ class WorkflowJobRun(JobRun):
             logging.info("... Running")
 
     def monitor(self, interval=1.0):
-        """Monitors the workflow job and outputs the running jobs
+        """Monitors the workflow job and outputs the running jobs.
+
+        Args:
+            interval: The interval to poll for status changes.
 
         Returns:
-            string: job status
-        
+            String: job status
+
         """
         printed_nodes = {}
-        ### Wait for job to start
+        # Wait for job to start
         while self.status not in ["successful", "failed", "error", "canceled"]:
             time.sleep(interval)
             self._fetch(printed_nodes=printed_nodes)
-        
+
         self._fetch(printed_nodes=printed_nodes)
         return self.status
+
 
 class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
     """Models the Job Template entity of ansible tower."""
@@ -1750,16 +1759,16 @@ class ProjectUpdateJob(Entity):  # pylint: disable=too-many-public-methods
     # TOFIX use, model and implement scm_inventory_updates.
 
     def monitor(self, update_id, timeout=None, interval=0.25):
-        """Monitors the project update status based on response id of the update call
+        """Monitors the project update status based on response id of the update call.
 
         Returns:
             string: Job status of the update
-        
+
         """
         started = time.time()
         next_line = 0
-        
-        project_update = self.ansible_tower.get_project_update_by_id(update_id)
+
+        project_update = self._tower.get_project_update_by_id(update_id)
         while True:
             if timeout and time.time() - started > timeout:
                 logging.error("Monitoring aborted due to timeout.")
@@ -1770,16 +1779,16 @@ class ProjectUpdateJob(Entity):  # pylint: disable=too-many-public-methods
             time.sleep(interval)
             if project_update.event_processing_finished is True or project_update.status in ("error", "cancelled"):
                 self._fetch(project_update, next_line)
-                break   
-        
+                break
+
         return project_update.status
 
     def _fetch(self, job, next_line):
-        """Fetches job events and prints them to stdout
+        """Fetches job events and prints them to stdout.
 
         Returns:
             int: next_line number
-        
+
         """
         for job_event in job.events:
             if job_event.start_line != next_line:
