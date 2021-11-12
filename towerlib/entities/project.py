@@ -554,7 +554,7 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
         if not response.ok:
             self._logger.error(
                 "Error updating the project '{}'. response was: {})".format(self.name, response.text))
-        return response.json() if response.ok else {}
+        return self._tower.get_project_update_by_id(response.json().get('id')) if response.ok else None
 
     @property
     def project_updates(self):
