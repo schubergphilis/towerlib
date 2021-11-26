@@ -1861,7 +1861,10 @@ class ProjectUpdateJob(Entity):  # pylint: disable=too-many-public-methods
         """
         url = f'{self._tower.api}/project_updates/{self.id}/'
         response = self._tower.session.get(url)
-        return response.json().get('event_processing_finished', {}) if response.ok else None
+        if not response.ok:
+            self._logger.error('Error retrieving event processing status for project update (id=%s), response was :%s', self.id, response.text)
+            return None
+        return response.json().get('event_processing_finished') if response.ok else None
 
     @property
     def name(self):
