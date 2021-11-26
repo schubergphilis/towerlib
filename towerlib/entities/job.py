@@ -666,7 +666,7 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
         """
         next_line = 0
         started = time.time()
-        while self.status not in ["running"]:
+        while self.status not in ("error", "cancelled", "running"):
             time.sleep(interval)
             logging.info(f"... {self.status}")
 
@@ -793,7 +793,7 @@ class WorkflowJobRun(JobRun):
         """
         url = f'{self._tower.api}/workflow_jobs/{self.id}/workflow_nodes'
         response = self._tower.session.get(url)
-        return response.json().get('results', {}) if response.ok else None
+        return response.json().get('results', {}) if response.ok else {}
 
     def cancel(self):
         """Cancels the running or pending job.
@@ -816,25 +816,26 @@ class WorkflowJobRun(JobRun):
             None
 
         """
-        _job_updates_found = False
+        job_updates_found = False
         for workflow_node in self.workflow_nodes:
-            _job = workflow_node.get('summary_fields', {}).get('job')
-            if _job is not None:
-                _id = _job.get('id')
-                _status = _job.get('status')
+            job = workflow_node.get('summary_fields', {}).get('job')
+            if job is not None:
+                job_id = job.get('id')
+                job_status = job.get('status')
+                job_name = job.get('name')
                 # Check if the current job ID has been printed
-                if _id not in printed_nodes:
-                    printed_nodes[_id] = _status
-                    logging.info(f"{_job.get('name')} ({_job.get('id')}) - {_job.get('status')}")
-                    _job_updates_found = True
+                if job_id not in printed_nodes:
+                    printed_nodes[job_id] = job_status
+                    logging.info(f"{job_name} ({job_id}) - {job_status}")
+                    job_updates_found = True
                 # If the current id has been printed, but the status has updated.. print it
-                if _id in printed_nodes and printed_nodes[_id] != _status:
-                    printed_nodes[_id] = _status
-                    logging.info(f"{_job.get('name')} ({_job.get('id')}) - {_job.get('status')}")
-                    _job_updates_found = True
+                if job_id in printed_nodes and printed_nodes[job_id] != job_status:
+                    printed_nodes[job_id] = job_status
+                    logging.info(f"{job_name} ({job_id}) - {job_status}")
+                    job_updates_found = True
 
         # Print running so the user knows the job is still going if no state change above
-        if not _job_updates_found:
+        if not job_updates_found:
             logging.info("... Running")
 
     def monitor(self, interval=1.0):
