@@ -91,7 +91,8 @@ LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
 
 # Max size for the URLlib pool, used during threaded paginated response gathering
-POOL_MAX_SIZE = 25
+HTTP_POOL_MAX_SIZE = 25
+HTTP_POOL_CONNECTIONS = 10
 PAGINATION_LIMIT = 25
 CLUSTER_STATE_CACHING_SECONDS = 10
 CONFIGURATION_STATE_CACHING_SECONDS = 60
@@ -102,26 +103,16 @@ CONFIGURATION_STATE_CACHE = TTLCache(maxsize=1, ttl=CONFIGURATION_STATE_CACHING_
 class Tower:  # pylint: disable=too-many-public-methods
     """Models the api of ansible tower."""
 
-    # pylint: disable=too-many-arguments,too-many-instance-attributes
-    def __init__(
-            self,
-            host,
-            username,
-            password,
-            secure=False,
-            ssl_verify=True,
-            token=None,
-            pool_connections=10,
-            pool_maxsize=POOL_MAX_SIZE
-    ):
+    # pylint: disable=too-many-arguments
+    def __init__(self, host, username, password, secure=False, ssl_verify=True, token=None, pool_connections=HTTP_POOL_CONNECTIONS, pool_maxsize=HTTP_POOL_MAX_SIZE):
         self._logger = logging.getLogger(f'{LOGGER_BASENAME}.{self.__class__.__name__}')
         self.host = self._generate_host_name(host, secure)
         self.api = f'{self.host}/api/v2'
         self.username = username
         self.password = password
         self.token = token
-        self.pool_maxsize = pool_maxsize
-        self.pool_connections = pool_connections
+        self.http_pool_maxsize = pool_maxsize
+        self.http_pool_connections = pool_connections
         self.session = self._get_authenticated_session(secure, ssl_verify)
 
     @staticmethod
@@ -130,7 +121,7 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     def _get_authenticated_session(self, secure, ssl_verify):
         session = Session()
-        http_adapter = adapters.HTTPAdapter(pool_connections=self.pool_connections, pool_maxsize=self.pool_maxsize)
+        http_adapter = adapters.HTTPAdapter(pool_connections=self.http_pool_connections, pool_maxsize=self.http_pool_maxsize)
         session.mount('http://', http_adapter)
         session.mount('https://', http_adapter)
         if secure:
@@ -306,7 +297,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         self._logger.debug('Calculated that there are %s pages to get', page_count)
         yield from response_data.get('results', [])
         if page_count:
-            with concurrent.futures.ThreadPoolExecutor(max_workers=POOL_MAX_SIZE) as executor:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=self.http_pool_maxsize) as executor:
                 futures = []
                 if not params:
                     params = {}

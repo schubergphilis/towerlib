@@ -33,7 +33,6 @@ Main code for jobs.
 
 import logging
 import datetime
-import time
 
 from bs4 import BeautifulSoup as Bfs
 from dateutil.parser import parse
@@ -58,13 +57,6 @@ LOGGER_BASENAME = '''jobs'''
 LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
 JOB_TYPE_ACCEPTED_VALUES = ['run', 'check']
-
-
-def to_str(obj):
-    """Decodes a byte object."""
-    if isinstance(obj, bytes):
-        return obj.decode('utf-8')
-    return obj
 
 
 class Job:  # pylint: disable=too-few-public-methods
@@ -657,67 +649,7 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
                              primary_match_field='name',
                              url=url)
 
-    def monitor(self, timeout=None, interval=0.25):
-        """Monitor the job execution events.
-
-        Returns:
-            string: The job status of the job
-
-        """
-        next_line = 0
-        started = time.time()
-        while self.status not in ("error", "cancelled", "running"):
-            time.sleep(interval)
-            logging.info(f"... {self.status}")
-
-        logging.info("Starting Job Output Stream")
-        while True:
-            if timeout and time.time() - started > timeout:
-                logging.error("Monitoring aborted due to timeout.")
-                break
-
-            next_line = self._fetch(next_line)
-
-            time.sleep(interval)
-            if self.event_processing_finished is True or self.status in ("error", "cancelled"):
-                self._fetch(next_line)
-                break
-
-        return self.status
-
-    def _fetch(self, next_line):
-        """Fetches the current job event line and prints it.
-
-        Returns:
-            int: The next line
-
-        """
-        for job_event in self.job_events:
-            if job_event.start_line != next_line:
-                # If this event is a line from _later_ in the stdout,
-                # it means that the events didn't arrive in order;
-                # skip it for now and wait until the prior lines arrive and are
-                # printed
-                continue
-            stdout = to_str(job_event.stdout)
-            if len(stdout) > 0:
-                print(stdout)
-
-            next_line = job_event.end_line
-
-        return next_line
-
     # TOFIX model activity streams and implement them here.
-
-    @property
-    def event_processing_finished(self):
-        """Fetches the current status of event processing.
-
-        Returns:
-            bool: True/False for job processing finished
-
-        """
-        return self._get_dynamic_value('event_processing_finished')
 
     @property
     def job_template(self):
@@ -783,18 +715,6 @@ class WorkflowJobRun(JobRun):
         response = self._tower.session.get(url)
         return response.json().get(variable) if response.ok else None
 
-    @property
-    def workflow_nodes(self):
-        """Workflow nodes executed in the workflow.
-
-        Returns:
-          JSON Results on success, None otherwise.
-
-        """
-        url = f'{self._tower.api}/workflow_jobs/{self.id}/workflow_nodes'
-        response = self._tower.session.get(url)
-        return response.json().get('results', {}) if response.ok else {}
-
     def cancel(self):
         """Cancels the running or pending job.
 
@@ -805,57 +725,6 @@ class WorkflowJobRun(JobRun):
         url = f'{self._tower.api}/workflow_jobs/{self.id}/cancel/'
         response = self._tower.session.post(url)
         return response.ok
-
-    def _fetch(self, printed_nodes):
-        """Fetches and prints the current running job name.
-
-        Args:
-            printed_nodes: The list of previously printed nodes.
-
-        Returns:
-            None
-
-        """
-        job_updates_found = False
-        for workflow_node in self.workflow_nodes:
-            job = workflow_node.get('summary_fields', {}).get('job')
-            if job is not None:
-                job_id = job.get('id')
-                job_status = job.get('status')
-                job_name = job.get('name')
-                # Check if the current job ID has been printed
-                if job_id not in printed_nodes:
-                    printed_nodes[job_id] = job_status
-                    logging.info(f"{job_name} ({job_id}) - {job_status}")
-                    job_updates_found = True
-                # If the current id has been printed, but the status has updated.. print it
-                if job_id in printed_nodes and printed_nodes[job_id] != job_status:
-                    printed_nodes[job_id] = job_status
-                    logging.info(f"{job_name} ({job_id}) - {job_status}")
-                    job_updates_found = True
-
-        # Print running so the user knows the job is still going if no state change above
-        if not job_updates_found:
-            logging.info("... Running")
-
-    def monitor(self, interval=1.0):
-        """Monitors the workflow job and outputs the running jobs.
-
-        Args:
-            interval: The interval to poll for status changes.
-
-        Returns:
-            String: job status
-
-        """
-        printed_nodes = {}
-        # Wait for job to start
-        while self.status not in ["successful", "failed", "error", "canceled"]:
-            time.sleep(interval)
-            self._fetch(printed_nodes=printed_nodes)
-
-        self._fetch(printed_nodes=printed_nodes)
-        return self.status
 
 
 class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
@@ -1759,53 +1628,6 @@ class ProjectUpdateJob(Entity):  # pylint: disable=too-many-public-methods
 
     # TOFIX use, model and implement scm_inventory_updates.
 
-    def monitor(self, update_id, timeout=None, interval=0.25):
-        """Monitors the project update status based on response id of the update call.
-
-        Returns:
-            string: Job status of the update
-
-        """
-        started = time.time()
-        next_line = 0
-
-        project_update = self._tower.get_project_update_by_id(update_id)
-        while True:
-            if timeout and time.time() - started > timeout:
-                logging.error("Monitoring aborted due to timeout.")
-                break
-
-            next_line = self._fetch(project_update, next_line)
-
-            time.sleep(interval)
-            if project_update.event_processing_finished is True or project_update.status in ("error", "cancelled"):
-                self._fetch(project_update, next_line)
-                break
-
-        return project_update.status
-
-    def _fetch(self, job, next_line):
-        """Fetches job events and prints them to stdout.
-
-        Returns:
-            int: next_line number
-
-        """
-        for job_event in job.events:
-            if job_event.start_line != next_line:
-                # If this event is a line from _later_ in the stdout,
-                # it means that the events didn't arrive in order;
-                # skip it for now and wait until the prior lines arrive and are
-                # printed
-                continue
-            stdout = to_str(job_event.stdout)
-            if len(stdout) > 0:
-                print(stdout)
-
-            next_line = job_event.end_line
-
-        return next_line
-
     @property
     def project(self):
         """The project of the ProjectUpdateJob.
@@ -1826,45 +1648,6 @@ class ProjectUpdateJob(Entity):  # pylint: disable=too-many-public-methods
 
         """
         return self._data.get('summary_fields')
-
-    @property
-    def related(self):
-        """The related fields of the job.
-
-        Returns:
-            dict: The related fields of the job.
-
-        """
-        return self._data.get('related')
-
-    @property
-    def events(self):
-        """The events of the job.
-
-        Returns:
-            dict: The events of the job.
-
-        """
-        url = self._data.get('related', {}).get('events')
-        return EntityManager(self._tower,
-                             entity_object='JobEvent',
-                             primary_match_field='id',
-                             url=url)
-
-    @property
-    def event_processing_finished(self):
-        """The event_processing_finished field of the job.
-
-        Returns:
-            bool: The event_processing_finished field of the job.
-
-        """
-        url = f'{self._tower.api}/project_updates/{self.id}/'
-        response = self._tower.session.get(url)
-        if not response.ok:
-            self._logger.error('Error retrieving event processing status for project update (id=%s), response was :%s', self.id, response.text)
-            return None
-        return response.json().get('event_processing_finished') if response.ok else None
 
     @property
     def name(self):
