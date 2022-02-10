@@ -949,7 +949,8 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
                      description='',
                      time_zone='Europe/Berlin',
                      repeat_frequency='DAILY',
-                     interval=1):
+                     interval=1
+                     extar_vars: dict = None):
         """Adds a schedule to a job template.
 
         Args:
@@ -961,6 +962,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
             time_zone (str): The time zone assigned to the schedule
             repeat_frequency (str): How frequently the job will be run
             interval (int): Interval of the Job
+            extra_vars (dict): Variables of the schedule
 
         """
         if not isinstance(start_date, datetime.date):
@@ -974,6 +976,10 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
             'name': name,
             'rrule': f'DTSTART;TZID={time_zone}:{schedule_datetime} RRULE:FREQ={repeat_frequency};INTERVAL={interval}'
         }
+
+        if extra_vars:
+            payload["extra_vars"] = extra_vars
+
         url = f'{self._tower.api}/job_templates/{self.id}/schedules/'
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
