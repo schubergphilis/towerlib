@@ -38,7 +38,7 @@ import math
 import sys
 
 from cachetools import TTLCache, cached
-from requests import Session
+from requests import Session, adapters
 
 from towerlib.entities.core import validate_json
 from .entities import (Config,
@@ -90,6 +90,9 @@ LOGGER_BASENAME = 'towerlib'
 LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
 
+# Max size for the URLlib pool, used during threaded paginated response gathering
+HTTP_POOL_MAX_SIZE = 25
+HTTP_POOL_CONNECTIONS = 10
 PAGINATION_LIMIT = 25
 CLUSTER_STATE_CACHING_SECONDS = 10
 CONFIGURATION_STATE_CACHING_SECONDS = 60
@@ -101,13 +104,15 @@ class Tower:  # pylint: disable=too-many-public-methods
     """Models the api of ansible tower."""
 
     # pylint: disable=too-many-arguments
-    def __init__(self, host, username, password, secure=False, ssl_verify=True, token=None):
+    def __init__(self, host, username, password, secure=False, ssl_verify=True, token=None, pool_connections=HTTP_POOL_CONNECTIONS, pool_maxsize=HTTP_POOL_MAX_SIZE):
         self._logger = logging.getLogger(f'{LOGGER_BASENAME}.{self.__class__.__name__}')
         self.host = self._generate_host_name(host, secure)
         self.api = f'{self.host}/api/v2'
         self.username = username
         self.password = password
         self.token = token
+        self.http_pool_maxsize = pool_maxsize
+        self.http_pool_connections = pool_connections
         self.session = self._get_authenticated_session(secure, ssl_verify)
 
     @staticmethod
@@ -116,6 +121,9 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     def _get_authenticated_session(self, secure, ssl_verify):
         session = Session()
+        http_adapter = adapters.HTTPAdapter(pool_connections=self.http_pool_connections, pool_maxsize=self.http_pool_maxsize)
+        session.mount('http://', http_adapter)
+        session.mount('https://', http_adapter)
         if secure:
             session.verify = ssl_verify
         return self._authenticate(session, self.host, self.username, self.password, self.api, self.token)
@@ -287,10 +295,9 @@ class Tower:  # pylint: disable=too-many-public-methods
         count = response_data.get('count', 0)
         page_count = int(math.ceil(float(count) / PAGINATION_LIMIT))
         self._logger.debug('Calculated that there are %s pages to get', page_count)
-        for result in response_data.get('results', []):
-            yield result
+        yield from response_data.get('results', [])
         if page_count:
-            with concurrent.futures.ThreadPoolExecutor(max_workers=25) as executor:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=self.http_pool_maxsize) as executor:
                 futures = []
                 if not params:
                     params = {}
@@ -302,8 +309,7 @@ class Tower:  # pylint: disable=too-many-public-methods
                         response = future.result()
                         response_data = response.json()
                         response.close()
-                        for result in response_data.get('results'):
-                            yield result
+                        yield from response_data.get('results')
                     except Exception:  # pylint: disable=broad-except
                         self._logger.exception('Future failed...')
 
