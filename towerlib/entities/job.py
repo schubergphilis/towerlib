@@ -949,7 +949,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
                      description='',
                      time_zone='Europe/Berlin',
                      repeat_frequency='DAILY',
-                     interval=1
+                     interval=1,
                      extar_vars: dict = None):
         """Adds a schedule to a job template.
 
