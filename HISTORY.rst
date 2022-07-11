@@ -290,3 +290,9 @@ History
 ------------------
 
 * Linted.
+
+
+3.9.3 (11-07-2022)
+------------------
+
+* Fixed bug with job execution.
