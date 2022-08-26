@@ -446,7 +446,7 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
     # TOFIX add labels, model them and implement them here
 
     def _get_dynamic_value(self, variable):
-        url = f'{self._tower.api}/jobs/{self.id}'
+        url = f'{self._tower.api}/jobs/{self.id}/'
         response = self._tower.session.get(url)
         return response.json().get(variable) if response.ok else None
 
@@ -711,7 +711,7 @@ class WorkflowJobRun(JobRun):
     """Models the Workflow Job Run entity of ansible tower."""
 
     def _get_dynamic_value(self, variable):
-        url = f'{self._tower.api}/workflow_jobs/{self.id}'
+        url = f'{self._tower.api}/workflow_jobs/{self.id}/'
         response = self._tower.session.get(url)
         return response.json().get(variable) if response.ok else None
 
