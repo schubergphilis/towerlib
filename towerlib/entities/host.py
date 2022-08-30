@@ -306,7 +306,7 @@ class Host(Entity):
         Raises: None
 
         """
-        url = f'{self._tower.api}/hosts/{self.id}/ansible_facts'
+        url = f'{self._tower.api}/hosts/{self.id}/ansible_facts/'
         response = self._tower.session.get(url)
         if not response.ok:
             self._logger.error('Error finding ansible facts for %s.', self._data.get('name'))
