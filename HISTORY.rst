@@ -296,3 +296,9 @@ History
 ------------------
 
 * Fixed bug with job execution.
+
+
+3.9.4 (01-09-2022)
+------------------
+
+* Fixed some redirects, bumped dependencies.
