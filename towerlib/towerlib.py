@@ -100,11 +100,19 @@ CLUSTER_STATE_CACHE = TTLCache(maxsize=1, ttl=CLUSTER_STATE_CACHING_SECONDS)
 CONFIGURATION_STATE_CACHE = TTLCache(maxsize=1, ttl=CONFIGURATION_STATE_CACHING_SECONDS)
 
 
-class Tower:  # pylint: disable=too-many-public-methods
+class Tower:  # pylint: disable=too-many-public-methods, too-many-instance-attributes
     """Models the api of ansible tower."""
 
     # pylint: disable=too-many-arguments
-    def __init__(self, host, username, password, secure=False, ssl_verify=True, token=None, pool_connections=HTTP_POOL_CONNECTIONS, pool_maxsize=HTTP_POOL_MAX_SIZE):
+    def __init__(self,
+                 host,
+                 username,
+                 password,
+                 secure=False,
+                 ssl_verify=True,
+                 token=None,
+                 pool_connections=HTTP_POOL_CONNECTIONS,
+                 pool_maxsize=HTTP_POOL_MAX_SIZE):
         self._logger = logging.getLogger(f'{LOGGER_BASENAME}.{self.__class__.__name__}')
         self.host = self._generate_host_name(host, secure)
         self.api = f'{self.host}/api/v2'
@@ -121,7 +129,8 @@ class Tower:  # pylint: disable=too-many-public-methods
 
     def _get_authenticated_session(self, secure, ssl_verify):
         session = Session()
-        http_adapter = adapters.HTTPAdapter(pool_connections=self.http_pool_connections, pool_maxsize=self.http_pool_maxsize)
+        http_adapter = adapters.HTTPAdapter(pool_connections=self.http_pool_connections,
+                                            pool_maxsize=self.http_pool_maxsize)
         session.mount('http://', http_adapter)
         session.mount('https://', http_adapter)
         if secure:
