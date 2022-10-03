@@ -1368,7 +1368,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
                 bool(credentials),
                 credential is None]):
             credential = credentials[0]
-        payload = {key: value for key, value in locals().items() if value and key != 'self'}
+        payload = {key: value for key, value in locals().items() if value is not None and key != 'self'}
         url = f'{self.url}launch/'
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
