@@ -1351,7 +1351,11 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
                inventory=None,
                credential=None,
                credentials=None,
-               scm_branch=None):
+               scm_branch=None,
+               verbosity=None,
+               skip_tags=None,
+               job_type=None,
+               diff_mode=None):
         """Launches the job template.
 
         https://docs.ansible.com/ansible-tower/latest/html/towerapi/launch_jobtemplate.html.
