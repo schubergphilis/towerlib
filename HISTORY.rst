@@ -302,3 +302,9 @@ History
 ------------------
 
 * Fixed some redirects, bumped dependencies.
+
+
+3.10.0 (04-10-2022)
+-------------------
+
+* Allows unsetting of default values in launch job courtesy of https://github.com/EliasBoulharts
