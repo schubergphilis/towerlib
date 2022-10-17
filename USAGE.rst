@@ -85,7 +85,7 @@ To use towerlib in a project:
         print(team.name)
         
     # access jobs
-    for team in tower.jobs:
+    for job in tower.jobs:
         print(job.name)
         
     # all of the above entities also support a dictionary of filters which are provided
@@ -93,7 +93,7 @@ To use towerlib in a project:
     # https://docs.ansible.com/ansible-tower/latest/html/towerapi/filtering.html
     
     # failed jobs
-    for team in tower.jobs.filter({"status":"failed"})
+    for job in tower.jobs.filter({"status":"failed"}):
         print(job.name)
     # successful jobs
     for job in tower.jobs.filter({"status": "successful"}):
