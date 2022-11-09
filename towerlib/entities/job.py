@@ -735,6 +735,16 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         self._object_roles = None
 
     @property
+    def summary_fields(self):
+        """The summary fields of the job template.
+
+        Returns:
+            dict: The summary fields of the job template.
+
+        """
+        return self._data.get('summary_fields')
+
+    @property
     def name(self):
         """The name of the job template.
 
