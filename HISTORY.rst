@@ -308,3 +308,9 @@ History
 -------------------
 
 * Allows unsetting of default values in launch job courtesy of https://github.com/EliasBoulharts
+
+
+3.11.0 (11-11-2022)
+-------------------
+
+* added summary_fields in JobTemplate
