@@ -177,6 +177,19 @@ class CredentialType(Entity):
         else:
             raise InvalidValue(f'Value is not valid dictionary received: {value}')
 
+    @property
+    def input_sources(self):
+        """The input sources of the credential.
+
+        Returns:
+            dictionary: A structure of the credential input sources.
+
+        """
+        response = self._tower.session.get(f'{self.url}input_sources')
+        if not response.ok:
+            self._logger.exception(f'Could not retrieve the input sources for credential {self.name}')
+            response.raise_for_status()
+        return next(iter(response.json()['results'] or []), None)
 
 class Credential:  # pylint: disable=too-few-public-methods
     """Credential factory to handle the different credential types returned."""
