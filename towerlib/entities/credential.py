@@ -34,12 +34,10 @@ Main code for credentials.
 import importlib
 import logging
 
-from towerlib.towerlibexceptions import (InvalidOrganization,
-                                         InvalidValue,
-                                         InvalidCredentialType)
-from .core import (Entity,
-                   EntityManager,
-                   validate_max_length)
+from towerlib.towerlibexceptions import (InvalidCredentialType,
+                                         InvalidOrganization, InvalidValue)
+
+from .core import Entity, EntityManager, validate_max_length
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -189,7 +187,7 @@ class CredentialType(Entity):
         if not response.ok:
             self._logger.exception(f'Could not retrieve the input sources for credential {self.name}')
             response.raise_for_status()
-        return next(iter(response.json()['results'] or []), None)
+        return next(iter(response.json().get('results', [])), None)
 
 class Credential:  # pylint: disable=too-few-public-methods
     """Credential factory to handle the different credential types returned."""
