@@ -189,6 +189,7 @@ class CredentialType(Entity):
             response.raise_for_status()
         return next(iter(response.json().get('results', [])), None)
 
+
 class Credential:
     """Credential factory to handle the different credential types returned."""
 
