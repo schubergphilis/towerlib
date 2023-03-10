@@ -59,7 +59,7 @@ LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
 
 
-class Project(Entity):  # pylint: disable=too-many-public-methods
+class Project(Entity):
     """Models the project entity of ansible tower."""
 
     def __init__(self, tower_instance, data):
@@ -548,12 +548,10 @@ class Project(Entity):  # pylint: disable=too-many-public-methods
             dict: Response of api request as json on success, None otherwise.
 
         """
-        update_url = '{api}/projects/{id}/update/'.format(api=self._tower.api, id=self.id)
+        update_url = f'{self._tower.api}/projects/{self.id}/update/'
         response = self._tower.session.post(update_url)
-
         if not response.ok:
-            self._logger.error(
-                "Error updating the project '{}'. response was: {})".format(self.name, response.text))
+            self._logger.error(f"Error updating the project '{self.name}'. response was: {response.text})")
         return response.json() if response.ok else {}
 
     @property

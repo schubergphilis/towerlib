@@ -59,7 +59,7 @@ LOGGER.addHandler(logging.NullHandler())
 JOB_TYPE_ACCEPTED_VALUES = ['run', 'check']
 
 
-class Job:  # pylint: disable=too-few-public-methods
+class Job:
     """Job factory to handle the different job types returned."""
 
     def __new__(cls, tower_instance, data):
@@ -81,7 +81,7 @@ class Job:  # pylint: disable=too-few-public-methods
         return obj
 
 
-class JobEvent(Entity):  # pylint: disable=too-many-public-methods
+class JobEvent(Entity):
     """Models the job event entity of ansible tower."""
 
     def __init__(self, tower_instance, data):
@@ -426,7 +426,7 @@ class JobSummary(Entity):
         return self._data.get('failed')
 
 
-class JobRun(Entity):  # pylint: disable=too-many-public-methods
+class JobRun(Entity):
     """Models the Job entity of ansible tower."""
 
     def __init__(self, tower_instance, data):
@@ -727,7 +727,7 @@ class WorkflowJobRun(JobRun):
         return response.ok
 
 
-class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
+class JobTemplate(Entity):
     """Models the Job Template entity of ansible tower."""
 
     def __init__(self, tower_instance, data):
@@ -1604,7 +1604,7 @@ class SystemJob(Entity):
         return self._data.get('extra_vars')
 
 
-class ProjectUpdateJob(Entity):  # pylint: disable=too-many-public-methods
+class ProjectUpdateJob(Entity):
     """Models the project update entity of ansible tower."""
 
     def __init__(self, tower_instance, data):

@@ -100,7 +100,7 @@ CLUSTER_STATE_CACHE = TTLCache(maxsize=1, ttl=CLUSTER_STATE_CACHING_SECONDS)
 CONFIGURATION_STATE_CACHE = TTLCache(maxsize=1, ttl=CONFIGURATION_STATE_CACHING_SECONDS)
 
 
-class Tower:  # pylint: disable=too-many-public-methods, too-many-instance-attributes
+class Tower:
     """Models the api of ansible tower."""
 
     # pylint: disable=too-many-arguments

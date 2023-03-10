@@ -48,7 +48,7 @@ def test():
     clean_up('test-output')
     os.mkdir('test-output')
     save_requirements()
-    success = execute_command('tox')
+    success = execute_command('tox4')
     try:
         open_file(os.path.join('test-output', 'coverage', 'index.html'))
         sleep(0.5)

@@ -60,7 +60,7 @@ def build():
     success = execute_command('python setup.py sdist bdist_egg bdist_wheel')
     if success:
         LOGGER.info('%s Successfully built artifact %s',
-                    emojize(':white_heavy_check_mark:'),
+                    emojize(':check_mark_button:'),
                     emojize(':thumbs_up:'))
     else:
         LOGGER.error('%s Errors building artifact! %s',

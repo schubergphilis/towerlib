@@ -61,7 +61,7 @@ LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
 
 
-class Team(Entity):  # pylint: disable=too-many-public-methods
+class Team(Entity):
     """Models the team entity of ansible tower."""
 
     def __init__(self, tower_instance, data):
