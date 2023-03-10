@@ -518,3 +518,50 @@ class HashicorpVaultCredential(GenericCredential):
         if value.lower() not in ['no', 'yes']:
             raise ValueError('Value should be either no/yes')
         self._update_values('hashi_vault_pre_python_279_cahostverify', value, parent_attribute='inputs')
+
+
+class AmazonWebServicesCredential(GenericCredential):
+    """Models the Amazon Web Services credential."""
+
+    def __init__(self, tower_instance, data):
+        GenericCredential.__init__(self, tower_instance, data)
+
+    @property
+    def access_key(self):
+        """The access_key that is set in the credential.
+
+        Returns:
+            basestring: The access_key that is set in the credential.
+
+        """
+        return self._data.get('inputs', {}).get('username')
+
+    @access_key.setter
+    def access_key(self, value):
+        """Set the access_key of the credential.
+
+        Returns:
+            None.
+
+        """
+        self._update_values('username', value, parent_attribute='inputs')
+
+    @property
+    def secret_key(self):
+        """The secret_key that is set in the credential.
+
+        Returns:
+            basestring: The secret_key that is set in the credential.
+
+        """
+        return self._data.get('inputs', {}).get('password')
+
+    @secret_key.setter
+    def secret_key(self, value):
+        """Set the secret_key of the credential.
+
+        Returns:
+            None.
+
+        """
+        self._update_values('password', value, parent_attribute='inputs')
