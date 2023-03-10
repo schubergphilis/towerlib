@@ -1,5 +1,6 @@
 # Packages
 *.egg
+*.eggs
 *.egg-info
 /dist/
 /build/
@@ -61,3 +62,7 @@ env
 
 # Docker files
 .docker/
+
+
+# cruft file
+.cruft.json

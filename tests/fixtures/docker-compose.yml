@@ -64,7 +64,7 @@ services:
       no_proxy:
 
   postgres:
-    image: postgres:9.6
+    image: postgres:10.21
     container_name: awx_postgres
     restart: unless-stopped
     user: "1000:1000"

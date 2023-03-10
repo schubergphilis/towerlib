@@ -52,7 +52,6 @@ LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
 
 
-# pylint: disable=too-few-public-methods
 class Settings:
     """Models the settings entity of ansible tower."""
 

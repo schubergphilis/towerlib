@@ -1451,6 +1451,130 @@
         },
         "url": "http://localhost:8052/api/v2/users/?page_size=25&username__iexact=new_user"
       }
+    },
+    {
+      "recorded_at": "2022-10-05T08:26:38",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": "{\"username\": \"new_user\", \"first_name\": \"first_name\", \"last_name\": \"last_name\", \"email\": \"new@user.com\", \"password\": \"password\", \"is_superuser\": false, \"is_system_auditor\": false}"
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic YWRtaW46dllqQ0xIQlRjT1BVdHdFd0hhZ0o="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "178"
+          ],
+          "User-Agent": [
+            "python-requests/2.28.1"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "POST",
+        "uri": "http://localhost:8043/api/v2/users/"
+      },
+      "response": {
+        "body": {
+          "encoding": "ISO-8859-1",
+          "string": "<html>\r\n<head><title>400 The plain HTTP request was sent to HTTPS port</title></head>\r\n<body>\r\n<center><h1>400 Bad Request</h1></center>\r\n<center>The plain HTTP request was sent to HTTPS port</center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+        },
+        "headers": {
+          "Connection": [
+            "close"
+          ],
+          "Content-Length": [
+            "248"
+          ],
+          "Content-Type": [
+            "text/html"
+          ],
+          "Date": [
+            "Wed, 05 Oct 2022 08:26:36 GMT"
+          ],
+          "Server": [
+            "nginx"
+          ]
+        },
+        "status": {
+          "code": 400,
+          "message": "Bad Request"
+        },
+        "url": "http://localhost:8043/api/v2/users/"
+      }
+    },
+    {
+      "recorded_at": "2022-10-05T08:28:41",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": "{\"username\": \"new_user\", \"first_name\": \"first_name\", \"last_name\": \"last_name\", \"email\": \"new@user.com\", \"password\": \"password\", \"is_superuser\": false, \"is_system_auditor\": false}"
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic YWRtaW46dllqQ0xIQlRjT1BVdHdFd0hhZ0o="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "Content-Length": [
+            "178"
+          ],
+          "User-Agent": [
+            "python-requests/2.28.1"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "POST",
+        "uri": "http://localhost:8043/api/v2/users/"
+      },
+      "response": {
+        "body": {
+          "encoding": "ISO-8859-1",
+          "string": "<html>\r\n<head><title>400 The plain HTTP request was sent to HTTPS port</title></head>\r\n<body>\r\n<center><h1>400 Bad Request</h1></center>\r\n<center>The plain HTTP request was sent to HTTPS port</center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+        },
+        "headers": {
+          "Connection": [
+            "close"
+          ],
+          "Content-Length": [
+            "248"
+          ],
+          "Content-Type": [
+            "text/html"
+          ],
+          "Date": [
+            "Wed, 05 Oct 2022 08:28:39 GMT"
+          ],
+          "Server": [
+            "nginx"
+          ]
+        },
+        "status": {
+          "code": 400,
+          "message": "Bad Request"
+        },
+        "url": "http://localhost:8043/api/v2/users/"
+      }
     }
   ],
   "recorded_with": "betamax/0.8.1"

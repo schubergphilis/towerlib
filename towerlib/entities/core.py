@@ -55,9 +55,9 @@ LOGGER_BASENAME = '''core'''
 LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
 
-USER_LEVELS = (u'standard', u'system_auditor', u'system_administrator')
-VALID_CREDENTIAL_TYPES = (u'net', u'cloud')
-JOB_TYPES = (u'run', u'check')
+USER_LEVELS = ('standard', 'system_auditor', 'system_administrator')
+VALID_CREDENTIAL_TYPES = ('net', 'cloud')
+JOB_TYPES = ('run', 'check')
 VERBOSITY_LEVELS = (0, 1, 2, 3, 4, 5)
 
 Config = namedtuple('Config', ['eula',
@@ -145,7 +145,7 @@ def validate_json(value):
         return False
 
 
-class DateParserMixin:  # pylint: disable=too-few-public-methods
+class DateParserMixin:
     """Implements a string to datetime parsing to be inherited by all needed objects."""
 
     @staticmethod

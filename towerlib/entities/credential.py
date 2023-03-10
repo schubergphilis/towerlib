@@ -178,7 +178,7 @@ class CredentialType(Entity):
             raise InvalidValue(f'Value is not valid dictionary received: {value}')
 
 
-class Credential:  # pylint: disable=too-few-public-methods
+class Credential:
     """Credential factory to handle the different credential types returned."""
 
     def __new__(cls, tower_instance, data):

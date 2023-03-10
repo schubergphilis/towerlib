@@ -66,7 +66,7 @@ LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
 
 
-class Organization(Entity):  # pylint: disable=too-many-public-methods
+class Organization(Entity):
     """Models the organization entity of ansible tower."""
 
     DEFAULT_MEMBER_ROLE = 'Member'
@@ -311,7 +311,7 @@ class Organization(Entity):  # pylint: disable=too-many-public-methods
 
         """
         # Credential Type 2 = SCM
-        url = '{api}/projects/'.format(api=self._tower.api)
+        url = f'{self._tower.api}/projects/'
         payload = {'name': name,
                    'description': description,
                    'scm_type': scm_type,

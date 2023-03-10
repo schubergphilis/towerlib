@@ -337,8 +337,8 @@ class Host(Entity):
         lower_group_names = [name.lower() for name in groups]
         final_groups = [group for group in self.inventory.groups
                         if group.name.lower() in lower_group_names]
-        return all([group._add_host_by_id(self.id)  # pylint: disable=protected-access
-                    for group in final_groups])
+        return all(group._add_host_by_id(self.id)  # pylint: disable=protected-access
+                   for group in final_groups)
 
     def disassociate_with_groups(self, groups):
         """Disassociate the host from the provided groups.
@@ -363,8 +363,8 @@ class Host(Entity):
         lower_group_names = [name.lower() for name in groups]
         inventory_groups = [group for group in self.inventory.groups
                             if group.name.lower() in lower_group_names]
-        return all([group._remove_host_by_id(self.id)  # pylint: disable=protected-access
-                    for group in inventory_groups])
+        return all(group._remove_host_by_id(self.id)  # pylint: disable=protected-access
+                   for group in inventory_groups)
 
     @property
     def job_events(self):
