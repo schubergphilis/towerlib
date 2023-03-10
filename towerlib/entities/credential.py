@@ -34,12 +34,10 @@ Main code for credentials.
 import importlib
 import logging
 
-from towerlib.towerlibexceptions import (InvalidOrganization,
-                                         InvalidValue,
-                                         InvalidCredentialType)
-from .core import (Entity,
-                   EntityManager,
-                   validate_max_length)
+from towerlib.towerlibexceptions import (InvalidCredentialType,
+                                         InvalidOrganization, InvalidValue)
+
+from .core import Entity, EntityManager, validate_max_length
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -177,6 +175,19 @@ class CredentialType(Entity):
         else:
             raise InvalidValue(f'Value is not valid dictionary received: {value}')
 
+    @property
+    def input_sources(self):
+        """The input sources of the credential.
+
+        Returns:
+            dictionary: A structure of the credential input sources.
+
+        """
+        response = self._tower.session.get(f'{self.url}input_sources')
+        if not response.ok:
+            self._logger.exception(f'Could not retrieve the input sources for credential {self.name}')
+            response.raise_for_status()
+        return next(iter(response.json().get('results', [])), None)
 
 class Credential:
     """Credential factory to handle the different credential types returned."""
