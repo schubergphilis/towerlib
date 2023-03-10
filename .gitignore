@@ -62,3 +62,7 @@ env
 
 # Docker files
 .docker/
+
+
+# cruft file
+.cruft.json
