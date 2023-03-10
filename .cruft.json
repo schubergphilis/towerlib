@@ -1,6 +1,6 @@
 {
   "template": "git@github.com:costastf/python_project.git",
-  "commit": "8840f4391c534a448759cf848b57cc77e9e292e1",
+  "commit": "fa0da94f0bd02fed0d0672554328f2b6431b68d1",
   "checkout": null,
   "context": {
     "cookiecutter": {
