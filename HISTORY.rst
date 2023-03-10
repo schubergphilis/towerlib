@@ -314,3 +314,9 @@ History
 -------------------
 
 * added summary_fields in JobTemplate
+
+
+3.12.0 (10-03-2023)
+-------------------
+
+* Implement aws credentials and expose input sources.
