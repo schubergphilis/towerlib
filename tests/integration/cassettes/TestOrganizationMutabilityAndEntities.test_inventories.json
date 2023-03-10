@@ -800,6 +800,124 @@
         },
         "url": "http://localhost:8052/api/v2/inventories/?page_size=25&organization=2&name__iexact=non_Test+Inventory"
       }
+    },
+    {
+      "recorded_at": "2022-10-05T08:26:32",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic YWRtaW46dllqQ0xIQlRjT1BVdHdFd0hhZ0o="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.28.1"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8043/api/v2/organizations/?page_size=25&name__iexact=workflow"
+      },
+      "response": {
+        "body": {
+          "encoding": "ISO-8859-1",
+          "string": "<html>\r\n<head><title>400 The plain HTTP request was sent to HTTPS port</title></head>\r\n<body>\r\n<center><h1>400 Bad Request</h1></center>\r\n<center>The plain HTTP request was sent to HTTPS port</center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+        },
+        "headers": {
+          "Connection": [
+            "close"
+          ],
+          "Content-Length": [
+            "248"
+          ],
+          "Content-Type": [
+            "text/html"
+          ],
+          "Date": [
+            "Wed, 05 Oct 2022 08:26:30 GMT"
+          ],
+          "Server": [
+            "nginx"
+          ]
+        },
+        "status": {
+          "code": 400,
+          "message": "Bad Request"
+        },
+        "url": "http://localhost:8043/api/v2/organizations/?page_size=25&name__iexact=workflow"
+      }
+    },
+    {
+      "recorded_at": "2022-10-05T08:28:32",
+      "request": {
+        "body": {
+          "encoding": "utf-8",
+          "string": ""
+        },
+        "headers": {
+          "Accept": [
+            "*/*"
+          ],
+          "Accept-Encoding": [
+            "gzip, deflate"
+          ],
+          "Authorization": [
+            "Basic YWRtaW46dllqQ0xIQlRjT1BVdHdFd0hhZ0o="
+          ],
+          "Connection": [
+            "keep-alive"
+          ],
+          "User-Agent": [
+            "python-requests/2.28.1"
+          ],
+          "content-type": [
+            "application/json"
+          ]
+        },
+        "method": "GET",
+        "uri": "http://localhost:8043/api/v2/organizations/?page_size=25&name__iexact=workflow"
+      },
+      "response": {
+        "body": {
+          "encoding": "ISO-8859-1",
+          "string": "<html>\r\n<head><title>400 The plain HTTP request was sent to HTTPS port</title></head>\r\n<body>\r\n<center><h1>400 Bad Request</h1></center>\r\n<center>The plain HTTP request was sent to HTTPS port</center>\r\n<hr><center>nginx</center>\r\n</body>\r\n</html>\r\n"
+        },
+        "headers": {
+          "Connection": [
+            "close"
+          ],
+          "Content-Length": [
+            "248"
+          ],
+          "Content-Type": [
+            "text/html"
+          ],
+          "Date": [
+            "Wed, 05 Oct 2022 08:28:30 GMT"
+          ],
+          "Server": [
+            "nginx"
+          ]
+        },
+        "status": {
+          "code": 400,
+          "message": "Bad Request"
+        },
+        "url": "http://localhost:8043/api/v2/organizations/?page_size=25&name__iexact=workflow"
+      }
     }
   ],
   "recorded_with": "betamax/0.8.1"

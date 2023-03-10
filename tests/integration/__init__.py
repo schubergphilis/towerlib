@@ -35,6 +35,7 @@ from requests import Session
 import logging
 
 from towerlib import Tower
+from towerlib.towerlibexceptions import AuthFailed
 from .. import placeholders
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
@@ -49,7 +50,7 @@ __status__ = '''Development'''  # "Prototype", "Development", "Production".
 
 class TowerMock(Tower):
 
-    def __init__(self, host, username, password, secure=False, ssl_verify=True):
+    def __init__(self, host, username, password, secure=True, ssl_verify=False):
         self._logger = logging.getLogger("TowerMock")
         protocol = 'https' if secure else 'http'
         self.host = '{protocol}://{host}'.format(protocol=protocol, host=host.lower())
@@ -82,8 +83,10 @@ class IntegrationTest(unittest.BetamaxTestCase):
         host = placeholders.get('hostname')
         username = placeholders.get('username')
         password = placeholders.get('password')
+        secure = True if placeholders.get('secure', '').lower() in ['true', '1', 't'] else False
+        ssl_verify = True if placeholders.get('ssl_verify', '').lower() in ['true', '1', 't'] else False
         try:
-            tower = Tower(host, username, password)
-        except Exception:
-            tower = TowerMock(host, username, password)
+            tower = Tower(host, username, password, secure, ssl_verify)
+        except AuthFailed:
+            tower = TowerMock(host, username, password, secure, ssl_verify)
         return tower
