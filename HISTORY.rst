@@ -320,3 +320,9 @@ History
 -------------------
 
 * Implement aws credentials and expose input sources.
+
+
+3.12.1 (29-03-2023)
+-------------------
+
+* Testing release process.
