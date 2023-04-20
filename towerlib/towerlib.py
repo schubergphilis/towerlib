@@ -32,6 +32,7 @@ Main code for towerlib.
 """
 
 import concurrent.futures
+import functools
 import json
 import logging
 import math
@@ -110,6 +111,7 @@ class Tower:
                  password,
                  secure=False,
                  ssl_verify=True,
+                 timeout=5,
                  token=None,
                  pool_connections=HTTP_POOL_CONNECTIONS,
                  pool_maxsize=HTTP_POOL_MAX_SIZE):
@@ -121,18 +123,19 @@ class Tower:
         self.token = token
         self.http_pool_maxsize = pool_maxsize
         self.http_pool_connections = pool_connections
-        self.session = self._get_authenticated_session(secure, ssl_verify)
+        self.session = self._get_authenticated_session(secure, ssl_verify, timeout)
 
     @staticmethod
     def _generate_host_name(host, secure):
         return f'{"https" if secure else "http"}://{host}'
 
-    def _get_authenticated_session(self, secure, ssl_verify):
+    def _get_authenticated_session(self, secure, ssl_verify, timeout):
         session = Session()
         http_adapter = adapters.HTTPAdapter(pool_connections=self.http_pool_connections,
                                             pool_maxsize=self.http_pool_maxsize)
         session.mount('http://', http_adapter)
         session.mount('https://', http_adapter)
+        session.request = functools.partial(session.request, timeout=timeout)
         if secure:
             session.verify = ssl_verify
         return self._authenticate(session, self.host, self.username, self.password, self.api, self.token)
