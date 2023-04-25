@@ -111,10 +111,10 @@ class Tower:
                  password,
                  secure=False,
                  ssl_verify=True,
-                 timeout=5,
                  token=None,
                  pool_connections=HTTP_POOL_CONNECTIONS,
-                 pool_maxsize=HTTP_POOL_MAX_SIZE):
+                 pool_maxsize=HTTP_POOL_MAX_SIZE,
+                 timeout=5):
         self._logger = logging.getLogger(f'{LOGGER_BASENAME}.{self.__class__.__name__}')
         self.host = self._generate_host_name(host, secure)
         self.api = f'{self.host}/api/v2'
