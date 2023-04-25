@@ -320,3 +320,9 @@ History
 -------------------
 
 * Implement aws credentials and expose input sources.
+
+
+3.13.0 (25-04-2023)
+-------------------
+
+* Add default timeout.
