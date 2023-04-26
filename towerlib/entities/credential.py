@@ -194,15 +194,19 @@ class Credential:
     """Credential factory to handle the different credential types returned."""
 
     def __new__(cls, tower_instance, data):
+        type_ = data.get('credential_type', 'UnknownCredentialType')
         try:
-            credential_type_name = tower_instance.get_credential_type_by_id(data.get('credential_type')).name
-            credential_type_name = ''.join(credential_type_name.split())
-            credential_type = f'{credential_type_name}Credential'
-            credential_type_obj = getattr(importlib.import_module('towerlib.entities.credential'), credential_type)
-            credential = credential_type_obj(tower_instance, data)
-        except Exception:  # pylint: disable=broad-except
+            credential_type = tower_instance.get_credential_type_by_id(type_)
+            if not credential_type:
+                LOGGER.warning('Could not dynamically load credential with type : "%s", trying a generic one.',
+                               type_)
+                return GenericCredential(tower_instance, data)
+            credential_type_name = f'{"".join(credential_type.name.split())}Credential'
+            credential_class = getattr(importlib.import_module('towerlib.entities.credential'), credential_type_name)
+            credential = credential_class(tower_instance, data)
+        except (AttributeError, ImportError):
             LOGGER.warning('Could not dynamically load credential with type : "%s", trying a generic one.',
-                           credential_type)
+                           type_)
             credential = GenericCredential(tower_instance, data)
         return credential
 
