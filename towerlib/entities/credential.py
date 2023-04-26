@@ -198,7 +198,7 @@ class Credential:
         try:
             credential_type = tower_instance.get_credential_type_by_id(type_)
             if not credential_type:
-                LOGGER.warning('Could not dynamically load credential with type : "%s", trying a generic one.',
+                LOGGER.warning('Could not get credential with type "%s" from tower, trying a generic one.',
                                type_)
                 return GenericCredential(tower_instance, data)
             credential_type_name = f'{"".join(credential_type.name.split())}Credential'
