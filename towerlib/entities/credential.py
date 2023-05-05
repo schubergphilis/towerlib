@@ -198,15 +198,13 @@ class Credential:
         try:
             credential_type = tower_instance.get_credential_type_by_id(type_)
             if not credential_type:
-                LOGGER.warning('Could not get credential with type "%s" from tower, trying a generic one.',
-                               type_)
+                LOGGER.warning(f'Could not get credential with type "{type_}" from tower, trying a generic one.')
                 return GenericCredential(tower_instance, data)
             credential_type_name = f'{"".join(credential_type.name.split())}Credential'
             credential_class = getattr(importlib.import_module('towerlib.entities.credential'), credential_type_name)
             credential = credential_class(tower_instance, data)
         except (AttributeError, ImportError):
-            LOGGER.warning('Could not dynamically load credential with type : "%s", trying a generic one.',
-                           type_)
+            LOGGER.warning(f'Could not dynamically load credential with type : "{type_}", trying a generic one.')
             credential = GenericCredential(tower_instance, data)
         return credential
 
