@@ -326,3 +326,9 @@ History
 -------------------
 
 * Add default timeout.
+
+
+3.13.1 (05-05-2023)
+-------------------
+
+* Fix for unbound local error.
