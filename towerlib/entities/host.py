@@ -271,6 +271,20 @@ class Host(Entity):
                              url=url)
 
     @property
+    def all_groups(self):
+        """The groups that the host is directly and indirectly part of.
+
+        Returns:
+            EntityManager: EntityManager of the groups of the host.
+
+        """
+        url = self._data.get('related', {}).get('all_groups')
+        return EntityManager(self._tower,
+                             entity_object='Group',
+                             primary_match_field='name',
+                             url=url)
+
+    @property
     def recent_jobs(self):
         """The most recent jobs run on the host.
 
@@ -282,7 +296,7 @@ class Host(Entity):
 
     @property
     def ansible_facts(self):
-        """Ansible facts gathered about the host in json.
+        """Returns ansible facts gathered about the host in json.
 
         Args: None
 
@@ -292,7 +306,7 @@ class Host(Entity):
         Raises: None
 
         """
-        url = f'{self._tower.api}/hosts/{self.id}/ansible_facts'
+        url = f'{self._tower.api}/hosts/{self.id}/ansible_facts/'
         response = self._tower.session.get(url)
         if not response.ok:
             self._logger.error('Error finding ansible facts for %s.', self._data.get('name'))
@@ -323,8 +337,8 @@ class Host(Entity):
         lower_group_names = [name.lower() for name in groups]
         final_groups = [group for group in self.inventory.groups
                         if group.name.lower() in lower_group_names]
-        return all([group._add_host_by_id(self.id)  # pylint: disable=protected-access
-                    for group in final_groups])
+        return all(group._add_host_by_id(self.id)  # pylint: disable=protected-access
+                   for group in final_groups)
 
     def disassociate_with_groups(self, groups):
         """Disassociate the host from the provided groups.
@@ -349,5 +363,15 @@ class Host(Entity):
         lower_group_names = [name.lower() for name in groups]
         inventory_groups = [group for group in self.inventory.groups
                             if group.name.lower() in lower_group_names]
-        return all([group._remove_host_by_id(self.id)  # pylint: disable=protected-access
-                    for group in inventory_groups])
+        return all(group._remove_host_by_id(self.id)  # pylint: disable=protected-access
+                   for group in inventory_groups)
+
+    @property
+    def job_events(self):
+        """The job_events for the host.
+
+        Returns:
+            job_events (list): All job events of the host
+
+        """
+        return self._tower.job_events.filter({'host': self.id})

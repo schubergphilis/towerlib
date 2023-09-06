@@ -27,18 +27,19 @@
 Main code for towerlib.
 
 .. _Google Python Style Guide:
-   http://google.github.io/styleguide/pyguide.html
+   https://google.github.io/styleguide/pyguide.html
 
 """
 
 import concurrent.futures
+import functools
 import json
 import logging
 import math
 import sys
 
 from cachetools import TTLCache, cached
-from requests import Session
+from requests import Session, adapters
 
 from towerlib.entities.core import validate_json
 from .entities import (Config,
@@ -90,6 +91,9 @@ LOGGER_BASENAME = 'towerlib'
 LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
 
+# Max size for the URLlib pool, used during threaded paginated response gathering
+HTTP_POOL_MAX_SIZE = 25
+HTTP_POOL_CONNECTIONS = 10
 PAGINATION_LIMIT = 25
 CLUSTER_STATE_CACHING_SECONDS = 10
 CONFIGURATION_STATE_CACHING_SECONDS = 60
@@ -97,25 +101,41 @@ CLUSTER_STATE_CACHE = TTLCache(maxsize=1, ttl=CLUSTER_STATE_CACHING_SECONDS)
 CONFIGURATION_STATE_CACHE = TTLCache(maxsize=1, ttl=CONFIGURATION_STATE_CACHING_SECONDS)
 
 
-class Tower:  # pylint: disable=too-many-public-methods
+class Tower:
     """Models the api of ansible tower."""
 
     # pylint: disable=too-many-arguments
-    def __init__(self, host, username, password, secure=False, ssl_verify=True, token=None):
+    def __init__(self,
+                 host,
+                 username,
+                 password,
+                 secure=False,
+                 ssl_verify=True,
+                 token=None,
+                 pool_connections=HTTP_POOL_CONNECTIONS,
+                 pool_maxsize=HTTP_POOL_MAX_SIZE,
+                 timeout=5):
         self._logger = logging.getLogger(f'{LOGGER_BASENAME}.{self.__class__.__name__}')
         self.host = self._generate_host_name(host, secure)
         self.api = f'{self.host}/api/v2'
         self.username = username
         self.password = password
         self.token = token
-        self.session = self._get_authenticated_session(secure, ssl_verify)
+        self.http_pool_maxsize = pool_maxsize
+        self.http_pool_connections = pool_connections
+        self.session = self._get_authenticated_session(secure, ssl_verify, timeout)
 
     @staticmethod
     def _generate_host_name(host, secure):
         return f'{"https" if secure else "http"}://{host}'
 
-    def _get_authenticated_session(self, secure, ssl_verify):
+    def _get_authenticated_session(self, secure, ssl_verify, timeout):
         session = Session()
+        http_adapter = adapters.HTTPAdapter(pool_connections=self.http_pool_connections,
+                                            pool_maxsize=self.http_pool_maxsize)
+        session.mount('http://', http_adapter)
+        session.mount('https://', http_adapter)
+        session.request = functools.partial(session.request, timeout=timeout)
         if secure:
             session.verify = ssl_verify
         return self._authenticate(session, self.host, self.username, self.password, self.api, self.token)
@@ -287,10 +307,9 @@ class Tower:  # pylint: disable=too-many-public-methods
         count = response_data.get('count', 0)
         page_count = int(math.ceil(float(count) / PAGINATION_LIMIT))
         self._logger.debug('Calculated that there are %s pages to get', page_count)
-        for result in response_data.get('results', []):
-            yield result
+        yield from response_data.get('results', [])
         if page_count:
-            with concurrent.futures.ThreadPoolExecutor(max_workers=25) as executor:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=self.http_pool_maxsize) as executor:
                 futures = []
                 if not params:
                     params = {}
@@ -302,8 +321,7 @@ class Tower:  # pylint: disable=too-many-public-methods
                         response = future.result()
                         response_data = response.json()
                         response.close()
-                        for result in response_data.get('results'):
-                            yield result
+                        yield from response_data.get('results')
                     except Exception:  # pylint: disable=broad-except
                         self._logger.exception('Future failed...')
 
@@ -1752,7 +1770,7 @@ class Tower:  # pylint: disable=too-many-public-methods
         """
         return next(self.job_templates.filter({'id': id_}), None)
 
-    def create_job_template(self,  # pylint: disable=too-many-arguments, too-many-locals, too-many-branches  # noqa: C901
+    def create_job_template(self, # pylint: disable=too-many-arguments, too-many-locals, too-many-branches  # noqa: C901
                             name,
                             description,
                             organization,
@@ -1983,6 +2001,19 @@ class Tower:  # pylint: disable=too-many-public-methods
                              primary_match_field='name')
 
     @property
+    def project_updates(self):
+        """A manager object for the project_updates in tower.
+
+        Returns:
+            project_updates (EntityManager): A generator of project updates.
+
+        """
+        return EntityManager(self,
+                             entity_name='project_updates',
+                             entity_object='ProjectUpdateJob',
+                             primary_match_field='name')
+
+    @property
     def schedules(self):
         """The schedules configured in tower.
 
@@ -2018,3 +2049,172 @@ class Tower:  # pylint: disable=too-many-public-methods
 
         """
         return next(self.schedules.filter({'name__iexact': name}), None)
+
+    def update_all_organization_projects(self, organization_name):
+        """Update all the projects in ansible tower for a given organization.
+
+        Args:
+            organization_name: The name of the organization.
+
+        """
+        organization = self.get_organization_by_name(organization_name)
+        if not organization:
+            raise InvalidOrganization(organization_name)
+        outputs = []
+        for project in organization.projects:
+            output = project.update()
+            if not output:
+                self._logger.error(f'{project.name} failed to update')
+            outputs.append(output)
+        return all(outputs)
+
+    def update_project_by_id(self, project_id):
+        """Update the ansible tower project with given project id.
+
+        Args:
+            project_id: The id of the project, which is to be updated.
+
+        Returns:
+            list: List of response of api request as json on success, None otherwise.
+
+        """
+        project = self.get_project_by_id(project_id)
+        if not project:
+            raise InvalidProject(project_id)
+        return project.update()
+
+    def update_organization_project_by_name(self, organization_name, project_name):
+        """Update the ansible tower project with given project name.
+
+        Args:
+            organization_name: The name of the organization.
+            project_name: The name of the project, which is to be updated.
+
+        Returns:
+            API Response (dict): dict of response of api request as json on success, None otherwise.
+
+        """
+        project = self.get_organization_project_by_name(organization_name, project_name)
+        if not project:
+            raise InvalidProject(project_name)
+        return project.update()
+
+    def update_organization_projects_by_scm_url(self, scm_url, organization_name):
+        """Send update request to update project for a given git repository (scm_url) withing an organization.
+
+        Args:
+            organization_name: the name of the organization.
+            scm_url: the http url of the required repository.
+
+        """
+        organization = self.get_organization_by_name(organization_name)
+        if not organization:
+            raise InvalidOrganization(organization_name)
+        matching_projects = (project for project in organization.projects if project.scm_url == scm_url)
+        outputs = []
+        for project in matching_projects:
+            output = project.update()
+            if not output:
+                self._logger.error(f'{project.name} failed to update')
+            outputs.append(output)
+        return all(outputs)
+
+    def update_organization_projects_by_branch_name(self, scm_url, branch_name, organization_name):
+        """Update an ansible tower project or list of projects for an organization based on their branch name.
+
+        A scm_branch can only be identified correctly with a corresponding scm_url.
+
+        Args:
+            scm_url: the URL of the relevant repository configured in the project.
+            branch_name: the name of the branch, which is selected as scm_branch parameter of the project.
+            organization_name: the name of the organization.
+
+        """
+        organization = self.get_organization_by_name(organization_name)
+        if not organization:
+            raise InvalidOrganization(organization_name)
+        matching_projects = (project for project in organization.projects if all([project.scm_url == scm_url,
+                                                                                  project.scm_branch == branch_name]))
+        outputs = []
+        for project in matching_projects:
+            output = project.update()
+            if not output:
+                self._logger.error(f'{project.name} failed to update')
+            outputs.append(output)
+        return all(outputs)
+
+    def get_jobs_by_name(self, name):
+        """Get filtered list of jobs for a given name.
+
+        Args:
+            name: the given job name.
+
+        Returns:
+             list: the filtered list of jobs.
+
+        """
+        return self.jobs.filter({'name__iexact': name})
+
+    def get_job_by_id(self, id_):
+        """Retrieves a job by id.
+
+        Args:
+            id_: The id of the job to retrieve.
+
+        Returns:
+            Host: The host if a match is found else None.
+
+        """
+        return next(self.jobs.filter({'id': id_}), None)
+
+    def get_project_update_by_id(self, id_):
+        """Retrieves a project_update by id.
+
+        Args:
+            id_: The id of the project_update to retrieve.
+
+        Returns:
+            Host: The project_update if a match is found else None.
+
+        """
+        return next(self.project_updates.filter({'id': id_}), None)
+
+    def get_project_updates_by_name(self, name):
+        """Retrieves project_updates matching a certain name.
+
+        Args:
+            name: the given job_update name.
+
+        Returns:
+             list: the filtered list of project update jobs.
+
+        """
+        return self.project_updates.filter({'name__iexact': name})
+
+    @property
+    def job_events(self):
+        """The job templates configured in tower.
+
+        Returns:
+            EntityManager: The manager object for job templates.
+
+        """
+        return EntityManager(self,
+                             entity_name='job_events',
+                             entity_object='JobEvent',
+                             primary_match_field='name')
+
+    def get_all_groups_by_host_id(self, host_id):
+        """Get groups for a particular host, which are directly and indirectly connected.
+
+        Args:
+            host_id: the id of the given host..
+
+        Returns:
+            list: list of custom groups.
+
+        """
+        host = self.get_host_by_id(host_id)
+        if not host:
+            return []
+        return host.all_groups

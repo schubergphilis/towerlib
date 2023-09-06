@@ -34,12 +34,10 @@ Main code for credentials.
 import importlib
 import logging
 
-from towerlib.towerlibexceptions import (InvalidOrganization,
-                                         InvalidValue,
-                                         InvalidCredentialType)
-from .core import (Entity,
-                   EntityManager,
-                   validate_max_length)
+from towerlib.towerlibexceptions import (InvalidCredentialType,
+                                         InvalidOrganization, InvalidValue)
+
+from .core import Entity, EntityManager, validate_max_length
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -177,20 +175,38 @@ class CredentialType(Entity):
         else:
             raise InvalidValue(f'Value is not valid dictionary received: {value}')
 
+    @property
+    def input_sources(self):
+        """The input sources of the credential.
 
-class Credential:  # pylint: disable=too-few-public-methods
+        Returns:
+            dictionary: A structure of the credential input sources.
+
+        """
+        response = self._tower.session.get(f'{self.url}input_sources')
+        if not response.ok:
+            self._logger.exception(f'Could not retrieve the input sources for credential {self.name}')
+            response.raise_for_status()
+        return next(iter(response.json().get('results', [])), None)
+
+
+class Credential:
     """Credential factory to handle the different credential types returned."""
 
     def __new__(cls, tower_instance, data):
+        type_id = data.get('credential_type')
+        if not type_id:
+            raise InvalidCredentialType(f'Could not get credential type from the data provided: {data}.')
         try:
-            credential_type_name = tower_instance.get_credential_type_by_id(data.get('credential_type')).name
-            credential_type_name = ''.join(credential_type_name.split())
-            credential_type = f'{credential_type_name}Credential'
-            credential_type_obj = getattr(importlib.import_module('towerlib.entities.credential'), credential_type)
-            credential = credential_type_obj(tower_instance, data)
-        except Exception:  # pylint: disable=broad-except
-            LOGGER.warning('Could not dynamically load credential with type : "%s", trying a generic one.',
-                           credential_type)
+            credential_type = tower_instance.get_credential_type_by_id(type_id)
+            if not credential_type:
+                LOGGER.warning(f'Could not get credential with type "{type_id}" from tower, trying a generic one.')
+                return GenericCredential(tower_instance, data)
+            credential_type_name = f'{"".join(credential_type.name.split())}Credential'
+            credential_class = getattr(importlib.import_module('towerlib.entities.credential'), credential_type_name)
+            credential = credential_class(tower_instance, data)
+        except (AttributeError, ImportError):
+            LOGGER.warning(f'Could not dynamically load credential with type : "{type_id}", trying a generic one.')
             credential = GenericCredential(tower_instance, data)
         return credential
 
@@ -518,3 +534,50 @@ class HashicorpVaultCredential(GenericCredential):
         if value.lower() not in ['no', 'yes']:
             raise ValueError('Value should be either no/yes')
         self._update_values('hashi_vault_pre_python_279_cahostverify', value, parent_attribute='inputs')
+
+
+class AmazonWebServicesCredential(GenericCredential):
+    """Models the Amazon Web Services credential."""
+
+    def __init__(self, tower_instance, data):
+        GenericCredential.__init__(self, tower_instance, data)
+
+    @property
+    def access_key(self):
+        """The access_key that is set in the credential.
+
+        Returns:
+            basestring: The access_key that is set in the credential.
+
+        """
+        return self._data.get('inputs', {}).get('username')
+
+    @access_key.setter
+    def access_key(self, value):
+        """Set the access_key of the credential.
+
+        Returns:
+            None.
+
+        """
+        self._update_values('username', value, parent_attribute='inputs')
+
+    @property
+    def secret_key(self):
+        """The secret_key that is set in the credential.
+
+        Returns:
+            basestring: The secret_key that is set in the credential.
+
+        """
+        return self._data.get('inputs', {}).get('password')
+
+    @secret_key.setter
+    def secret_key(self, value):
+        """Set the secret_key of the credential.
+
+        Returns:
+            None.
+
+        """
+        self._update_values('password', value, parent_attribute='inputs')

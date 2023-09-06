@@ -36,7 +36,9 @@ import datetime
 
 from bs4 import BeautifulSoup as Bfs
 from dateutil.parser import parse
-from towerlib.towerlibexceptions import InvalidCredential, InvalidValue, InvalidInventory
+from towerlib.entities.core import Label
+
+from towerlib.towerlibexceptions import InvalidCredential, InvalidValue, InvalidInventory, InvalidProject
 from .core import Entity, EntityManager, validate_max_length
 
 
@@ -54,9 +56,10 @@ __status__ = '''Development'''  # "Prototype", "Development", "Production".
 LOGGER_BASENAME = '''jobs'''
 LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
+JOB_TYPE_ACCEPTED_VALUES = ['run', 'check']
 
 
-class Job:  # pylint: disable=too-few-public-methods
+class Job:
     """Job factory to handle the different job types returned."""
 
     def __new__(cls, tower_instance, data):
@@ -78,7 +81,7 @@ class Job:  # pylint: disable=too-few-public-methods
         return obj
 
 
-class JobEvent(Entity):  # pylint: disable=too-many-public-methods
+class JobEvent(Entity):
     """Models the job event entity of ansible tower."""
 
     def __init__(self, tower_instance, data):
@@ -97,13 +100,33 @@ class JobEvent(Entity):  # pylint: disable=too-many-public-methods
 
     @property
     def event(self):
-        """The name of the event.
+        """The name of the host.
 
         Returns:
             string: The name of the event.
 
         """
         return self._data.get('event')
+
+    @property
+    def created_at(self):
+        """The created date of the event.
+
+        Returns:
+            date_time (string): The string formatted datetime of the event creation.
+
+        """
+        return self._data.get('created')
+
+    @property
+    def modified_at(self):
+        """The modified date of the event.
+
+        Returns:
+            basestring: The string formatted datetime of the event's last modification.
+
+        """
+        return self._data.get('modified')
 
     @property
     def counter(self):
@@ -403,7 +426,7 @@ class JobSummary(Entity):
         return self._data.get('failed')
 
 
-class JobRun(Entity):  # pylint: disable=too-many-public-methods
+class JobRun(Entity):
     """Models the Job entity of ansible tower."""
 
     def __init__(self, tower_instance, data):
@@ -423,7 +446,7 @@ class JobRun(Entity):  # pylint: disable=too-many-public-methods
     # TOFIX add labels, model them and implement them here
 
     def _get_dynamic_value(self, variable):
-        url = f'{self._tower.api}/jobs/{self.id}'
+        url = f'{self._tower.api}/jobs/{self.id}/'
         response = self._tower.session.get(url)
         return response.json().get(variable) if response.ok else None
 
@@ -688,7 +711,7 @@ class WorkflowJobRun(JobRun):
     """Models the Workflow Job Run entity of ansible tower."""
 
     def _get_dynamic_value(self, variable):
-        url = f'{self._tower.api}/workflow_jobs/{self.id}'
+        url = f'{self._tower.api}/workflow_jobs/{self.id}/'
         response = self._tower.session.get(url)
         return response.json().get(variable) if response.ok else None
 
@@ -715,12 +738,22 @@ class WorkflowJobRun(JobRun):
         return response.ok
 
 
-class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
+class JobTemplate(Entity):
     """Models the Job Template entity of ansible tower."""
 
     def __init__(self, tower_instance, data):
         Entity.__init__(self, tower_instance, data)
         self._object_roles = None
+
+    @property
+    def summary_fields(self):
+        """The summary fields of the job template.
+
+        Returns:
+            dict: The summary fields of the job template.
+
+        """
+        return self._data.get('summary_fields')
 
     @property
     def name(self):
@@ -785,6 +818,13 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         """
         return self._data.get('job_type')
 
+    @job_type.setter
+    def job_type(self, value):
+        """Update the job_type of the template."""
+        if value not in JOB_TYPE_ACCEPTED_VALUES:
+            raise InvalidValue(f'{value} is invalid. Given value must be one of these: {JOB_TYPE_ACCEPTED_VALUES}')
+        self._update_values('job_type', value)
+
     @property
     def inventory(self):
         """The inventory that the job template is part of.
@@ -805,7 +845,22 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
 
         """
         url = self._data.get('related', {}).get('project')
+        if not url:
+            return None
         return self._tower._get_object_by_url('Project', url)  # pylint: disable=protected-access
+
+    @project.setter
+    def project(self, value):
+        """Update the project of the job template by project id.
+
+        Args:
+            value: The new project id, to which the project will be updated.
+
+        """
+        project = self._tower.get_project_by_id(value)
+        if not project:
+            raise InvalidProject(value)
+        self._update_values('project', value)
 
     @property
     def playbook(self):
@@ -830,6 +885,16 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
                              entity_object='Credential',
                              primary_match_field='name',
                              url=url)
+
+    @property
+    def labels(self):
+        """The labels of the job template.
+
+        Returns:
+            labels (list): The job template labels (only id and name can be retrieved).
+
+        """
+        return [Label(**data) for data in self._data.get('summary_fields', {}).get('labels', {}).get('results', [])]
 
     @property
     def extra_credentials(self):
@@ -905,7 +970,8 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
                      description='',
                      time_zone='Europe/Berlin',
                      repeat_frequency='DAILY',
-                     interval=1):
+                     interval=1,
+                     extra_vars: dict = None):
         """Adds a schedule to a job template.
 
         Args:
@@ -917,6 +983,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
             time_zone (str): The time zone assigned to the schedule
             repeat_frequency (str): How frequently the job will be run
             interval (int): Interval of the Job
+            extra_vars (dict): Variables of the schedule
 
         """
         if not isinstance(start_date, datetime.date):
@@ -930,6 +997,10 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
             'name': name,
             'rrule': f'DTSTART;TZID={time_zone}:{schedule_datetime} RRULE:FREQ={repeat_frequency};INTERVAL={interval}'
         }
+
+        if extra_vars:
+            payload["extra_vars"] = extra_vars
+
         url = f'{self._tower.api}/job_templates/{self.id}/schedules/'
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
@@ -1066,6 +1137,9 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
     def use_fact_cache(self, value):
         """Set or unset the "user fact cache flag".
 
+        Args:
+            value: bool value of the flag: use_fact_cache for the job_template.
+
         Returns:
             None.
 
@@ -1115,6 +1189,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
     @property
     def last_job_run_id(self):
         """The id of most recent job run on the template.
+
         Returns:
             int/None: The id of the most recent job run on the template
 
@@ -1290,7 +1365,18 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         return self._data.get('allow_simultaneous')
 
     # pylint: disable=unused-argument,too-many-arguments
-    def launch(self, extra_vars=None, job_tags=None, limit=None, inventory=None, credential=None, credentials=None):
+    def launch(self,
+               extra_vars=None,
+               job_tags=None,
+               limit=None,
+               inventory=None,
+               credential=None,
+               credentials=None,
+               scm_branch=None,
+               verbosity=None,
+               skip_tags=None,
+               job_type=None,
+               diff_mode=None):
         """Launches the job template.
 
         https://docs.ansible.com/ansible-tower/latest/html/towerapi/launch_jobtemplate.html.
@@ -1303,7 +1389,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
                 bool(credentials),
                 credential is None]):
             credential = credentials[0]
-        payload = {key: value for key, value in locals().items() if value and key != 'self'}
+        payload = {key: value for key, value in locals().items() if value is not None and key != 'self'}
         url = f'{self.url}launch/'
         response = self._tower.session.post(url, json=payload)
         if not response.ok:
@@ -1314,7 +1400,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
     def set_inventory(self, organization, name):
         """Inventory from specified organization applied as a prompt, assuming job template prompts for inventory.
 
-       Args:
+        Args:
             organization (str): The organization name the inventory belongs to
             name (str): The inventory name to set. To reset the inventory set it to empty string.
 
@@ -1324,7 +1410,7 @@ class JobTemplate(Entity):  # pylint: disable=too-many-public-methods
         """
         value = ''
         if name:
-            inventory = self._tower.get_organization_inventory_by_name(organization, name)  # pylint: disable=protected-access
+            inventory = self._tower.get_organization_inventory_by_name(organization, name)
             if not inventory:
                 raise InvalidInventory(name)
             value = inventory.id
@@ -1529,7 +1615,7 @@ class SystemJob(Entity):
         return self._data.get('extra_vars')
 
 
-class ProjectUpdateJob(Entity):  # pylint: disable=too-many-public-methods
+class ProjectUpdateJob(Entity):
     """Models the project update entity of ansible tower."""
 
     def __init__(self, tower_instance, data):
@@ -1575,10 +1661,10 @@ class ProjectUpdateJob(Entity):  # pylint: disable=too-many-public-methods
 
     @property
     def project(self):
-        """The project of the update.
+        """The project of the ProjectUpdateJob.
 
         Returns:
-            Project: The project of the update.
+            Project: The Project that this project_update belongs to.
 
         """
         url = self._data.get('related', {}).get('project')

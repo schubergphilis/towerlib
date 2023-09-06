@@ -35,6 +35,7 @@ import logging
 import re
 import json
 from collections import namedtuple
+from dataclasses import dataclass
 
 from dateutil.parser import parse
 from cachetools import TTLCache, cached
@@ -54,9 +55,9 @@ LOGGER_BASENAME = '''core'''
 LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
 
-USER_LEVELS = (u'standard', u'system_auditor', u'system_administrator')
-VALID_CREDENTIAL_TYPES = (u'net', u'cloud')
-JOB_TYPES = (u'run', u'check')
+USER_LEVELS = ('standard', 'system_auditor', 'system_administrator')
+VALID_CREDENTIAL_TYPES = ('net', 'cloud')
+JOB_TYPES = ('run', 'check')
 VERBOSITY_LEVELS = (0, 1, 2, 3, 4, 5)
 
 Config = namedtuple('Config', ['eula',
@@ -108,6 +109,14 @@ INSTANCE_STATE_CACHING_SECONDS = 60
 INSTANCE_STATE_CACHE = TTLCache(maxsize=1, ttl=INSTANCE_STATE_CACHING_SECONDS)
 
 
+@dataclass
+class Label:
+    """Models a label."""
+
+    id: int  # pylint: disable=invalid-name
+    name: str
+
+
 def validate_max_length(value, max_length):
     """Validates the maximum length of a value."""
     return len(value) <= max_length
@@ -136,7 +145,7 @@ def validate_json(value):
         return False
 
 
-class DateParserMixin:  # pylint: disable=too-few-public-methods
+class DateParserMixin:
     """Implements a string to datetime parsing to be inherited by all needed objects."""
 
     @staticmethod

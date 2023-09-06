@@ -58,7 +58,7 @@ def get_environment_variable(key):
 
 
 placeholders = {value: get_environment_variable(value)
-                for value in ['username', 'password', 'hostname', 'install_uuid']}
+                for value in ['username', 'password', 'hostname', 'install_uuid', 'secure', 'ssl_verify']}
 
 placeholders['basic_auth'] = b64_string('{}:{}'.format(placeholders['username'], placeholders['password']))
 

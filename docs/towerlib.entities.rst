@@ -52,10 +52,34 @@ towerlib.entities.inventory module
    :undoc-members:
    :show-inheritance:
 
+towerlib.entities.inventory\_script module
+------------------------------------------
+
+.. automodule:: towerlib.entities.inventory_script
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+towerlib.entities.inventory\_source module
+------------------------------------------
+
+.. automodule:: towerlib.entities.inventory_source
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 towerlib.entities.job module
 ----------------------------
 
 .. automodule:: towerlib.entities.job
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+towerlib.entities.notification module
+-------------------------------------
+
+.. automodule:: towerlib.entities.notification
    :members:
    :undoc-members:
    :show-inheritance:
@@ -80,6 +104,22 @@ towerlib.entities.role module
 -----------------------------
 
 .. automodule:: towerlib.entities.role
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+towerlib.entities.schedule module
+---------------------------------
+
+.. automodule:: towerlib.entities.schedule
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+towerlib.entities.settings module
+---------------------------------
+
+.. automodule:: towerlib.entities.settings
    :members:
    :undoc-members:
    :show-inheritance:

@@ -260,3 +260,75 @@ History
 ------------------
 
 * Bumped dependencies.
+
+
+3.7.3 (02-06-2021)
+------------------
+
+* Bumped dependencies and fixed a couple of bugs on job attribute retrieval.
+
+
+3.8.0 (01-07-2021)
+------------------
+
+* Features implemented by spirit21.
+
+
+3.9.0 (01-07-2021)
+------------------
+
+* Features implemented by spirit21.
+
+
+3.9.1 (10-09-2021)
+------------------
+
+* Added the capability to launch a job template with non-default SCM branches.
+
+
+3.9.2 (10-09-2021)
+------------------
+
+* Linted.
+
+
+3.9.3 (11-07-2022)
+------------------
+
+* Fixed bug with job execution.
+
+
+3.9.4 (01-09-2022)
+------------------
+
+* Fixed some redirects, bumped dependencies.
+
+
+3.10.0 (04-10-2022)
+-------------------
+
+* Allows unsetting of default values in launch job courtesy of https://github.com/EliasBoulharts
+
+
+3.11.0 (11-11-2022)
+-------------------
+
+* added summary_fields in JobTemplate
+
+
+3.12.0 (10-03-2023)
+-------------------
+
+* Implement aws credentials and expose input sources.
+
+
+3.13.0 (25-04-2023)
+-------------------
+
+* Add default timeout.
+
+
+3.13.1 (05-05-2023)
+-------------------
+
+* Fix for unbound local error.

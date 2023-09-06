@@ -64,7 +64,7 @@ LOGGER = logging.getLogger(LOGGER_BASENAME)
 LOGGER.addHandler(logging.NullHandler())
 
 
-class Inventory(Entity):  # pylint: disable=too-many-public-methods
+class Inventory(Entity):
     """Models the inventory entity of ansible tower."""
 
     def __init__(self, tower_instance, data):

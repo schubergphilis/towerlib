@@ -27,7 +27,7 @@
 Custom exception code for towerlib.
 
 .. _Google Python Style Guide:
-   http://google.github.io/styleguide/pyguide.html
+   https://google.github.io/styleguide/pyguide.html
 
 """
 
@@ -131,6 +131,7 @@ class InvalidRole(Exception):
 
 class InvalidSchedule(Exception):
     """The schedule is not valid for this job template."""
+
 
 class FailedToDeleteTemplate(Exception):
     """The deletion of the job template failed."""

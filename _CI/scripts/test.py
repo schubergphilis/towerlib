@@ -48,7 +48,7 @@ def test():
     clean_up('test-output')
     os.mkdir('test-output')
     save_requirements()
-    success = execute_command('tox')
+    success = execute_command('tox4')
     try:
         open_file(os.path.join('test-output', 'coverage', 'index.html'))
         sleep(0.5)
@@ -57,7 +57,7 @@ def test():
         LOGGER.warning('Could not execute UI portion. Maybe running headless?')
     if success:
         LOGGER.info('%s No testing errors found! %s',
-                    emojize(':white_heavy_check_mark:'),
+                    emojize(':check_mark_button:'),
                     emojize(':thumbs_up:'))
     else:
         LOGGER.error('%s Testing errors found! %s',
