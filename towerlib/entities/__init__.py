@@ -77,6 +77,7 @@ from towerlib.entities.notification import (Notification,
                                             NotificationTwilio,
                                             NotificationEmail,
                                             NotificationSlack)
+from towerlib.entities.workflow_nodes import WorkflowNodes
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -139,3 +140,5 @@ assert InventoryScript
 assert Schedule
 assert Settings
 assert Saml
+assert Label
+assert WorkflowNodes

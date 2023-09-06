@@ -692,6 +692,17 @@ class WorkflowJobRun(JobRun):
         response = self._tower.session.get(url)
         return response.json().get(variable) if response.ok else None
 
+    @property
+    def workflow_nodes(self):
+        """The WorkflowNodes this event belongs to.
+
+        Returns:
+            WorkflowNodes: The WorkflowNodes this event belongs to.
+
+        """
+        url = self._data.get('related', {}).get('workflow_nodes')
+        return self._tower._get_object_by_url('WorkflowNodes', url)  # pylint: disable=protected-access
+
     def cancel(self):
         """Cancels the running or pending job.
 
