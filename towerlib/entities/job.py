@@ -1997,6 +1997,53 @@ class AdHocCommandJob(SystemJob):
         """
         return self._data.get('module_name')
 
+
+class WorkflowNodes(Entity):
+    """Models the user entity of ansible tower."""
+
+    def __init__(self, tower_instance, data):
+        Entity.__init__(self, tower_instance, data)
+
+    @property
+    def count(self):
+        """The job this event belongs to.
+
+        Returns:
+            Job: The job this event belongs to.
+
+        """
+        return self._data.get('count')
+
+    @property
+    def next(self):
+        """The job this event belongs to.
+
+        Returns:
+            Job: The job this event belongs to.
+
+        """
+        return self._data.get('next')
+
+    @property
+    def previous(self):
+        """The job this event belongs to.
+
+        Returns:
+            Job: The job this event belongs to.
+
+        """
+        return self._data.get('previous')
+
+    @property
+    def results(self):
+        """The job this event belongs to.
+
+        Returns:
+            Job: The job this event belongs to.
+
+        """
+        return self._data.get('results')
+
 #
 # u'related': {u'activity_stream': u'/api/v2/ad_hoc_commands/4979/activity_stream/',
 #              u'cancel': u'/api/v2/ad_hoc_commands/4979/cancel/',

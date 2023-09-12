@@ -45,7 +45,8 @@ from towerlib.entities.job import (JobRun,
                                    SystemJob,
                                    ProjectUpdateJob,
                                    AdHocCommandJob,
-                                   Job)
+                                   Job,
+                                   WorkflowNodes)
 from towerlib.entities.role import Role, ObjectRole
 from towerlib.entities.core import (Entity,
                                     Config,
@@ -78,7 +79,6 @@ from towerlib.entities.notification import (Notification,
                                             NotificationTwilio,
                                             NotificationEmail,
                                             NotificationSlack)
-from towerlib.entities.workflow_nodes import WorkflowNodes
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
