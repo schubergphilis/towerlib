@@ -717,10 +717,10 @@ class WorkflowJobRun(JobRun):
 
     @property
     def workflow_nodes(self):
-        """The WorkflowNodes this event belongs to.
+        """Workflow nodes is resouce belonging to a Workflow job.
 
         Returns:
-            WorkflowNodes: The WorkflowNodes this event belongs to.
+            WorkflowNodes: This resouce belonging to a Workflow job.
 
         """
         url = self._data.get('related', {}).get('workflow_nodes')
@@ -1999,47 +1999,50 @@ class AdHocCommandJob(SystemJob):
 
 
 class WorkflowNodes(Entity):
-    """Models the user entity of ansible tower."""
+    """Models the Workflow nodes entity of ansible tower."""
+
 
     def __init__(self, tower_instance, data):
         Entity.__init__(self, tower_instance, data)
 
     @property
     def count(self):
-        """The job this event belongs to.
+        """Number of workflow nodes.
 
         Returns:
-            Job: The job this event belongs to.
+            integer: Number of workflow nodes.
 
         """
         return self._data.get('count')
 
     @property
     def next(self):
-        """The job this event belongs to.
+        """The `next` and `previous` fields provides links to
+        additional results if there are more than will fit on a single page.
 
         Returns:
-            Job: The job this event belongs to.
+            string: url of next page.
 
         """
         return self._data.get('next')
 
     @property
     def previous(self):
-        """The job this event belongs to.
+        """The `next` and `previous` fields provides links to
+        additional results if there are more than will fit on a single page.
 
         Returns:
-            Job: The job this event belongs to.
+            string: url of previous page.
 
         """
         return self._data.get('previous')
 
     @property
     def results(self):
-        """The job this event belongs to.
+        """Results for workflow nodes.
 
         Returns:
-            Job: The job this event belongs to.
+            list: Results for workflow nodes.
 
         """
         return self._data.get('results')
