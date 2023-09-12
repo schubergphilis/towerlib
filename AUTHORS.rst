@@ -20,3 +20,4 @@ Contributors
 * Philipp Hoffmann <phoffmann@spirit21.com>
 * Iqbal Nazir <iqbalnazirsumon@gmail.com>
 * Jeremy Shade <jeremy.shade@outlook.com>
+* Yuki Yamashita <kono@ms1.kononet.jp>
