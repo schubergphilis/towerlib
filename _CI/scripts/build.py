@@ -57,7 +57,7 @@ def build():
     save_requirements()
     for file in BUILD_REQUIRED_FILES:
         shutil.copy(file, os.path.join(f'{PROJECT_SLUG}', file))
-    success = execute_command('python setup.py sdist bdist_egg bdist_wheel')
+    success = execute_command('python setup.py sdist bdist_wheel')
     if success:
         LOGGER.info('%s Successfully built artifact %s',
                     emojize(':check_mark_button:'),
