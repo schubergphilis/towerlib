@@ -46,7 +46,7 @@ __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
 __date__ = '''2018-01-03'''
 __copyright__ = '''Copyright 2018, Costas Tyfoxylos'''
-__credits__ = ["Costas Tyfoxylos"]
+__credits__ = ["Costas Tyfoxylos", "Yuki Yamashita"]
 __license__ = '''MIT'''
 __maintainer__ = '''Costas Tyfoxylos'''
 __email__ = '''<ctyfoxylos@schubergphilis.com>'''
@@ -714,6 +714,17 @@ class WorkflowJobRun(JobRun):
         url = f'{self._tower.api}/workflow_jobs/{self.id}/'
         response = self._tower.session.get(url)
         return response.json().get(variable) if response.ok else None
+
+    @property
+    def workflow_nodes(self):
+        """Workflow nodes is resouce belonging to a Workflow job.
+
+        Returns:
+            WorkflowNodes: This resouce belonging to a Workflow job.
+
+        """
+        url = self._data.get('related', {}).get('workflow_nodes')
+        return self._tower._get_object_by_url('WorkflowNodes', url)  # pylint: disable=protected-access
 
     def cancel(self):
         """Cancels the running or pending job.
@@ -1985,6 +1996,56 @@ class AdHocCommandJob(SystemJob):
 
         """
         return self._data.get('module_name')
+
+
+class WorkflowNodes(Entity):
+    """Models the Workflow nodes entity of ansible tower."""
+
+
+    def __init__(self, tower_instance, data):
+        Entity.__init__(self, tower_instance, data)
+
+    @property
+    def count(self):
+        """Number of workflow nodes.
+
+        Returns:
+            integer: Number of workflow nodes.
+
+        """
+        return self._data.get('count')
+
+    @property
+    def next(self):
+        """The `next` and `previous` fields provides links to
+        additional results if there are more than will fit on a single page.
+
+        Returns:
+            string: url of next page.
+
+        """
+        return self._data.get('next')
+
+    @property
+    def previous(self):
+        """The `next` and `previous` fields provides links to
+        additional results if there are more than will fit on a single page.
+
+        Returns:
+            string: url of previous page.
+
+        """
+        return self._data.get('previous')
+
+    @property
+    def results(self):
+        """Results for workflow nodes.
+
+        Returns:
+            list: Results for workflow nodes.
+
+        """
+        return self._data.get('results')
 
 #
 # u'related': {u'activity_stream': u'/api/v2/ad_hoc_commands/4979/activity_stream/',

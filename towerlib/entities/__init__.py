@@ -45,7 +45,8 @@ from towerlib.entities.job import (JobRun,
                                    SystemJob,
                                    ProjectUpdateJob,
                                    AdHocCommandJob,
-                                   Job)
+                                   Job,
+                                   WorkflowNodes)
 from towerlib.entities.role import Role, ObjectRole
 from towerlib.entities.core import (Entity,
                                     Config,
@@ -141,3 +142,4 @@ assert Schedule
 assert Settings
 assert Saml
 assert Label
+assert WorkflowNodes
