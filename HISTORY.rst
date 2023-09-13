@@ -332,3 +332,9 @@ History
 -------------------
 
 * Fix for unbound local error.
+
+
+3.14.0 (13-09-2023)
+-------------------
+
+* Implement workflow nodes curtesy of Yuki Yamashita <kono@ms1.kononet.jp>.
