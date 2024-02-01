@@ -2027,8 +2027,9 @@ class WorkflowNodes(Entity):
     @property
     def next(self):
         """Next page URL for paging.
-        
-        The `next` and `previous` fields provides links to additional results if there are more than will fit on a single page.
+
+        The `next` and `previous` fields provides links to additional results if there are more 
+        than will fit on a single page.
 
         Returns:
             string: url of next page.
@@ -2039,8 +2040,9 @@ class WorkflowNodes(Entity):
     @property
     def previous(self):
         """Previous page URL for paging.
-        
-        The `next` and `previous` fields provides links to additional results if there are more than will fit on a single page.
+
+        The `next` and `previous` fields provides links to additional results if there are more
+        than will fit on a single page.
 
         Returns:
             string: url of previous page.
