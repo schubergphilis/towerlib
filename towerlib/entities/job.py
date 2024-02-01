@@ -2028,7 +2028,7 @@ class WorkflowNodes(Entity):
     def next(self):
         """Next page URL for paging.
 
-        The `next` and `previous` fields provides links to additional results if there are more 
+        The `next` and `previous` fields provides links to additional results if there are more
         than will fit on a single page.
 
         Returns:
