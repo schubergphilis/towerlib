@@ -1308,7 +1308,7 @@ class JobTemplate(Entity):
 
         """
         return self._data.get('ask_credential_on_launch')
-    
+
     @property
     def ask_scm_branch_on_launch(self):
         """Flag about whether to ask for SCM branch on launch.
