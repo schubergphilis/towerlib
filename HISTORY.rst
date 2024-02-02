@@ -338,3 +338,9 @@ History
 -------------------
 
 * Implement workflow nodes curtesy of Yuki Yamashita <kono@ms1.kononet.jp>.
+
+
+3.15.0 (02-02-2024)
+-------------------
+
+* Implement ask_scm_branch_on_launch on job template.
