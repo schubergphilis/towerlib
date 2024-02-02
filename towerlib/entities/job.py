@@ -1310,6 +1310,16 @@ class JobTemplate(Entity):
         return self._data.get('ask_credential_on_launch')
 
     @property
+    def ask_scm_branch_on_launch(self):
+        """Flag about whether to ask for SCM branch on launch.
+
+        Returns:
+            bool: True if set to ask for SCM branch on launch, False otherwise.
+
+        """
+        return self._data.get('ask_scm_branch_on_launch')
+
+    @property
     def survey_enabled(self):
         """Flag about whether the survey mode is enabled.
 
@@ -2001,7 +2011,6 @@ class AdHocCommandJob(SystemJob):
 class WorkflowNodes(Entity):
     """Models the Workflow nodes entity of ansible tower."""
 
-
     def __init__(self, tower_instance, data):
         Entity.__init__(self, tower_instance, data)
 
@@ -2017,8 +2026,10 @@ class WorkflowNodes(Entity):
 
     @property
     def next(self):
-        """The `next` and `previous` fields provides links to
-        additional results if there are more than will fit on a single page.
+        """Next page URL for paging.
+
+        The `next` and `previous` fields provides links to additional results if there are more
+        than will fit on a single page.
 
         Returns:
             string: url of next page.
@@ -2028,8 +2039,10 @@ class WorkflowNodes(Entity):
 
     @property
     def previous(self):
-        """The `next` and `previous` fields provides links to
-        additional results if there are more than will fit on a single page.
+        """Previous page URL for paging.
+
+        The `next` and `previous` fields provides links to additional results if there are more
+        than will fit on a single page.
 
         Returns:
             string: url of previous page.
