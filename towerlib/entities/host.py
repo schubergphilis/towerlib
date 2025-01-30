@@ -34,7 +34,8 @@ Main code for host.
 import logging
 
 from towerlib.towerlibexceptions import InvalidGroup, InvalidValue
-from .core import Entity, EntityManager, validate_max_length, validate_json
+
+from .core import Entity, EntityManager, validate_json, validate_max_length
 
 __author__ = '''Costas Tyfoxylos <ctyfoxylos@schubergphilis.com>'''
 __docformat__ = '''google'''
@@ -310,7 +311,7 @@ class Host(Entity):
         response = self._tower.session.get(url)
         if not response.ok:
             self._logger.error('Error finding ansible facts for %s.', self._data.get('name'))
-        return response.json() if response.ok else '{}'
+        return response.json() if response.ok else {}
 
     def associate_with_groups(self, groups):
         """Associate the host with the provided groups.
