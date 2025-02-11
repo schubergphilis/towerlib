@@ -344,3 +344,9 @@ History
 -------------------
 
 * Implement ask_scm_branch_on_launch on job template.
+
+
+3.15.1 (11-02-2025)
+-------------------
+
+* Fix for inconsistent return type by <https://github.com/mason3k>
