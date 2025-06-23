@@ -114,10 +114,11 @@ class Tower:
                  token=None,
                  pool_connections=HTTP_POOL_CONNECTIONS,
                  pool_maxsize=HTTP_POOL_MAX_SIZE,
-                 timeout=5):
+                 timeout=5,
+                 aap_environment=False):
         self._logger = logging.getLogger(f'{LOGGER_BASENAME}.{self.__class__.__name__}')
         self.host = self._generate_host_name(host, secure)
-        self.api = f'{self.host}/api/v2'
+        self.api = f'{self.host}/api/controller/v2' if aap_environment else f'{self.host}/api/v2'
         self.username = username
         self.password = password
         self.token = token
