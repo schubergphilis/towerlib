@@ -350,3 +350,9 @@ History
 -------------------
 
 * Fix for inconsistent return type by <https://github.com/mason3k>
+
+
+3.16.0 (23-06-2025)
+-------------------
+
+* Add support for aap environment by contribution of Montes-L <https://github.com/Montes-L>
