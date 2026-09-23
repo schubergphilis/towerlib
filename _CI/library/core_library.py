@@ -507,7 +507,7 @@ def bump(segment=None, version_file=None):
         if segment not in ('major', 'minor', 'patch'):
             LOGGER.error('Invalid segment "%s" was provided for semantic versioning, exiting...')
             raise SystemExit(1)
-        new_version = getattr(old_version, f'next_{segment}').text
+        new_version = str(getattr(old_version, f'bump_{segment}')())
         with open(version_file, 'w') as vfile:
             vfile.write(new_version)
             return new_version

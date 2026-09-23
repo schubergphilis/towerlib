@@ -1771,7 +1771,7 @@ class Tower:
         """
         return next(self.job_templates.filter({'id': id_}), None)
 
-    def create_job_template(self, # pylint: disable=too-many-arguments, too-many-locals, too-many-branches  # noqa: C901
+    def create_job_template(self,  # pylint: disable=too-many-arguments, too-many-locals, too-many-branches  # noqa: C901
                             name,
                             description,
                             organization,
