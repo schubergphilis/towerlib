@@ -362,3 +362,9 @@ History
 -------------------
 
 * Bump dependencies. Update tooling.
+
+
+3.16.2 (23-09-2026)
+-------------------
+
+* Bump dependencies. Update tooling. Drop 3.9 support.
