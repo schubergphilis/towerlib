@@ -140,7 +140,6 @@ towerlib.entities.user module
    :undoc-members:
    :show-inheritance:
 
-
 Module contents
 ---------------
 

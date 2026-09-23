@@ -5,6 +5,7 @@ Subpackages
 -----------
 
 .. toctree::
+   :maxdepth: 4
 
    towerlib.entities
 
@@ -26,7 +27,6 @@ towerlib.towerlibexceptions module
    :members:
    :undoc-members:
    :show-inheritance:
-
 
 Module contents
 ---------------
