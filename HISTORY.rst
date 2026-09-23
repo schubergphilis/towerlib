@@ -356,3 +356,9 @@ History
 -------------------
 
 * Add support for aap environment by contribution of Montes-L <https://github.com/Montes-L>
+
+
+3.16.1 (23-09-2026)
+-------------------
+
+* Bump dependencies. Update tooling.
